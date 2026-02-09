@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from jsonpath_ng import parse
 from monitors.monitor import Monitor
 from bm_utils import ensure_exists
-from utils.logger import bm_log
+from utils.logger import bm_log, LogType
 
 
 # TODO: generate other user plots
@@ -136,13 +136,17 @@ class SystemStats(Monitor):
             try:
                 # Try time format observed in Ubuntu
                 df["time"] = pd.to_datetime(df["time"], format="%I:%M:%S %p")
-            except RaiseError:
+            except ValueError:
                 try:
                     # Try time format observed in openEuler
                     df["time"] = pd.to_datetime(df["time"], format="ISO8601")
-                except RaiseError:
+                except ValueError:
                     bm_log("mpstat does follow observed formats. Attempt to automatically discover datatime format.", LogType.WARNING)
                     df["time"] = pd.to_datetime(df["time"], format="mixed")
+                else:
+                    bm_log("mpstat follows ISO 8601 format.", LogType.DEBUG)
+            else:
+                bm_log("mpstat follows yyyy:mm:dd am/pm format", LogType.DEBUG)
 
             # calc seconds elapsed
             df["time"] = (df["time"] - df["time"].iloc[0]).dt.total_seconds()
