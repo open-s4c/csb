@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 import os
+import sys
 import subprocess
 import json
 import signal
@@ -137,13 +138,13 @@ class SystemStats(Monitor):
             df = pd.DataFrame(filtered_stats)
             # convert to datetime column
             try:
-                # This format has been observed in Ubuntu
                 df["time"] = pd.to_datetime(df["time"], format="%I:%M:%S %p")
             except ValueError:
                 bm_log(
                     "mpstat does not follow format yyyy:mm:dd am/pm. Make sure that en_US.UTF-8 locale package is installed (on openEuler, install package glibc-all-languages).",
                     LogType.ERROR,
                 )
+                sys.exit(1)
 
             # calc seconds elapsed
             df["time"] = (df["time"] - df["time"].iloc[0]).dt.total_seconds()
