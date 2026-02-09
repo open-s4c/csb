@@ -1,0 +1,75 @@
+# SPDX-License-Identifier: GPL-2.0
+name: CSB on openEuler
+on: [workflow_dispatch, push, pull_request]
+
+jobs:
+  #
+  # Build the image once, reuse it in all later jobs
+  #
+  build-image:
+    name: openeuler-csb image
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [ amd64, aarch64 ]
+    outputs:
+      image-ref: ${{ steps.build.outputs.image }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: .github/workflows/openeuler/Dockerfile
+          tags: ghcr.io/${{ github.repository_owner }}/openeuler-csb:${{ matrix.arch }}
+          push: true
+          # openEuler Image to use: 24.03-SP3 LTS
+          build-args:
+            BASE_IMAGE=openeuler/openeuler:24.03-lts-sp3
+
+  #
+  # Run tests on openEuler via openeuler-csb image
+  #
+  openEuler:
+    name: OpenEuler Tests
+    needs: build-image
+    runs-on: ubuntu-latest
+    env:
+      LC_ALL: en_US.utf8
+      LANG: en_US.utf8
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [ aarch64 ]
+        test: [ min_mysql_close_dup_0_0, min_mysql_getdents64_close_0_0, min_mysql_lseek_read_1_0, min_mysql_newfstatat_0_1, min_mysql_newfstatat_openat_0_1, min_mysql_openat_fsync_0_2, min_mysql_pread64_faccessat2_0_5, min_mysql_read_close_0_0, min_mysql_read_write_0_1 ]
+
+    container:
+      image: ghcr.io/${{ github.repository_owner }}/openeuler-csb:${{ matrix.arch }}
+      volumes:
+        # Some scripts require /sys, /proc, but sharing it is problematic
+        # - /sys:/sys
+        # - /proc:/proc
+
+        # Allow seeing kernel configuration
+        - /boot:/boot
+        - /lib/modules:/lib/modules
+
+        # Allow using bare metal docker to create a sub-container
+        - /var/run/docker.sock:/var/run/docker.sock
+        # Allow accessing cgroups
+        - /sys/fs/cgroup:/sys/fs/cgroup:ro
+
+    steps:
+      - name: Test ${{ matrix.test }}
+        run: |
+          cd /root/csb
+          scripts/fg-diff/run-single.sh config/${{ matrix.test }}.json
