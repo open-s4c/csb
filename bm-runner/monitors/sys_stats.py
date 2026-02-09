@@ -133,7 +133,7 @@ class SystemStats(Monitor):
             filtered_stats = list(filter(lambda e: e["cpu"] == core, stats))
             df = pd.DataFrame(filtered_stats)
             # convert to datetime column
-            df["time"] = pd.to_datetime(df["time"], format="%I:%M:%S %p")
+            df["time"] = pd.to_datetime(df["time"], format="ISO8601")
             # calc seconds elapsed
             df["time"] = (df["time"] - df["time"].iloc[0]).dt.total_seconds()
             # If some offsets are negative due to wraparound at midnight, add number of seconds in
