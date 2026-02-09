@@ -133,7 +133,17 @@ class SystemStats(Monitor):
             filtered_stats = list(filter(lambda e: e["cpu"] == core, stats))
             df = pd.DataFrame(filtered_stats)
             # convert to datetime column
-            df["time"] = pd.to_datetime(df["time"], format="ISO8601")
+            try:
+                # Try time format observed in Ubuntu
+                df["time"] = pd.to_datetime(df["time"], format="%I:%M:%S %p")
+            except RaiseError:
+                try:
+                    # Try time format observed in openEuler
+                    df["time"] = pd.to_datetime(df["time"], format="ISO8601")
+                except RaiseError:
+                    bm_log("mpstat does follow observed formats. Attempt to automatically discover datatime format.", LogType.WARNING)
+                    df["time"] = pd.to_datetime(df["time"], format="mixed")
+
             # calc seconds elapsed
             df["time"] = (df["time"] - df["time"].iloc[0]).dt.total_seconds()
             # If some offsets are negative due to wraparound at midnight, add number of seconds in
