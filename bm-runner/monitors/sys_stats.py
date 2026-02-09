@@ -141,7 +141,10 @@ class SystemStats(Monitor):
                     # Try time format observed in openEuler
                     df["time"] = pd.to_datetime(df["time"], format="ISO8601")
                 except ValueError:
-                    bm_log("mpstat does follow observed formats. Attempt to automatically discover datatime format.", LogType.WARNING)
+                    bm_log(
+                        "mpstat does not follow observed formats. Attempt to automatically discover datatime format.",
+                        LogType.WARNING,
+                    )
                     df["time"] = pd.to_datetime(df["time"], format="mixed")
                 else:
                     bm_log("mpstat follows ISO 8601 format.", LogType.DEBUG)
