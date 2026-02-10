@@ -143,7 +143,8 @@ $_begin(NN = [[1; 2]]);
         fd_trunc = 0;
     }
 
-    ctx->mmap_offsets_NN_prog = (uintptr_t)(void*) mmap(NULL, MMAP_LENGTH, PROT_WRITE|PROT_READ|PROT_EXEC, MAP_ANONYMOUS|MAP_PRIVATE, (intptr_t)-1, 0ul);
+    // TODO: when syzkaller is updated use MMAP_LENGTH
+    ctx->mmap_offsets_NN_prog = (uintptr_t)(void*) mmap(NULL, 0x1000000ul , PROT_WRITE|PROT_READ|PROT_EXEC, MAP_ANONYMOUS|MAP_PRIVATE, (intptr_t)-1, 0ul);
     if( ctx->mmap_offsets_NN_prog == -1) {
         perror("mmap from syzkaller failed");
         assert(0 && "mmap from syzkaller failed");

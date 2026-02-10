@@ -41,7 +41,7 @@ jobs:
         run: |
           cmake -Sbench -Bbuild
           cmake --build build -j
-          ctest --test-dir build --output-on-failure -R min_ls.*
+          ctest --test-dir build --output-on-failure -R min_ls_*
 
   # Checks if cmake and C files are properly formatted
   Check-Format:
