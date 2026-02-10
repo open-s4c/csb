@@ -134,20 +134,22 @@ class SystemStats(Monitor):
             df = pd.DataFrame(filtered_stats)
             # convert to datetime column
             try:
-                # Try time format observed in Ubuntu
+                # This format has been observed in Ubuntu
                 df["time"] = pd.to_datetime(df["time"], format="%I:%M:%S %p")
             except ValueError:
                 try:
-                    # Try time format observed in openEuler
-                    df["time"] = pd.to_datetime(df["time"], format="ISO8601")
+                    # This format observed in openEuler
+                    df["time"] = pd.to_datetime(df["time"], format="%I:%M:%S")
                 except ValueError:
+                    # If neither format works, uses automatic detection with `mixed`
+                    # Note: This is somewhat risky, so it's kept as last option 
                     bm_log(
                         "mpstat does not follow observed formats. Attempt to automatically discover datatime format.",
                         LogType.WARNING,
                     )
-                    df["time"] = pd.to_datetime(df["time"], format="mixed")
+                    df["time"] = pd.to_datetime(df["time"], format="mixed", dayfirst=False)
                 else:
-                    bm_log("mpstat follows ISO 8601 format.", LogType.DEBUG)
+                    bm_log("mpstat follows yyyy:mm:dd format.", LogType.DEBUG)
             else:
                 bm_log("mpstat follows yyyy:mm:dd am/pm format", LogType.DEBUG)
 
