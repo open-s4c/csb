@@ -20,11 +20,9 @@ info() {
 }
 
 ### Configure the env
-if test -d venv; then
-    info "benchmark environment already configured"
-else
-    info "configuring benchmark environment"
-    ./scripts/configure.sh
+if [ ! -d venv ]; then
+    info "venv not found. running prepare.sh"
+    ./scripts/prepare.sh
 fi
 . ./venv/bin/activate
 
