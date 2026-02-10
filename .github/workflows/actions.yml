@@ -31,6 +31,8 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: '1.25'
+      - name: Install tmplr
+        run: cd bm-generator/templates/ && ./tmplr.sh
       - name: Test bm-generator
         run: |
           go env -w GOBIN=$HOME/.local/bin
