@@ -142,7 +142,7 @@ class SystemStats(Monitor):
                     df["time"] = pd.to_datetime(df["time"], format="%I:%M:%S")
                 except ValueError:
                     # If neither format works, uses automatic detection with `mixed`
-                    # Note: This is somewhat risky, so it's kept as last option 
+                    # Note: This is somewhat risky, so it's kept as last option
                     bm_log(
                         "mpstat does not follow observed formats. Attempt to automatically discover datatime format.",
                         LogType.WARNING,
