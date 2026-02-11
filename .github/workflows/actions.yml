@@ -155,6 +155,7 @@ jobs:
       - name: Run Benchmark ${{ matrix.benchmark }}
         run: ./scripts/configure.sh && . ./venv/bin/activate && cd bm-runner && python3 main.py --title "dummy benchmark" --config ../config/${{ matrix.benchmark }}.json
       - name: Fix artifact permissions
+        if: always()
         run: sudo chmod -R a+r results/
       - name: Upload results
         uses: actions/upload-artifact@v4
