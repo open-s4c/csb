@@ -1,0 +1,7 @@
+*~
+bench/build/
+**/__pycache__
+.vscode/
+build/
+venv/
+results/
