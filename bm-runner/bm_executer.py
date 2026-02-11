@@ -20,7 +20,9 @@ from bm_utils import resolve_path
 
 class ExecutionUnit:
     START_FILE = f"{Application.BUILTIN_APP_DIR}/start"
-    CMD_WHILE_NOT_START = f"while [ ! -e {START_FILE} ]; do sleep 0.1; done;"
+    # Wait until RETRY_COUNT * 100ms
+    RETRY_COUNT = 1000
+    CMD_WHILE_NOT_START = f"for i in $(seq 1 {RETRY_COUNT}); do if [ -e {START_FILE} ]; then break; fi; sleep 0.1; done;"
 
     def __init__(self, idx, home_dir, app: Application, type: ExecutionType):
         self.app = app
