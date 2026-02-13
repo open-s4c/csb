@@ -1,3 +1,6 @@
+# Copyright (C) Huawei Technologies Co., Ltd. 2026. All rights reserved.
+# SPDX-License-Identifier: MIT
+
 include(tmplr.cmake)
 # TMPLR with default arguments
 set(TMPLR_PROGRAM ${TMPLR_PROGRAM} -l 4096)

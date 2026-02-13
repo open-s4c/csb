@@ -1,3 +1,6 @@
+# Copyright (C) Huawei Technologies Co., Ltd. 2026. All rights reserved.
+# SPDX-License-Identifier: MIT
+
 include(ExternalProject)
 set(OPENS4C_URL "https://github.com/open-s4c")
 set(TMPLR_VERSION "1.4.2")
