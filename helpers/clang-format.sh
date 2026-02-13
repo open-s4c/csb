@@ -22,14 +22,9 @@ if [ "${STYLE}" != "" ]; then
     STYLE=":${STYLE}"
 fi
 
-# Apply clang-format to all *.h and *.c files in src folder.
-find "$@" \( -name '*.h' -o -name '*.c' -o -name '*.cpp' -o -name '*.hpp' -o -name '*.cxx' \) \
-    -not -path '*/build/*' \
-    -not -path '*/deps/*' \
-    -not -path '*/syzkaller/*' \
-    -not -path '*/bench/targets/syz/*' \
-    -type f \
-    -exec clang-format -style=file${STYLE} -i {} +
+git ls-files '*.h' '*.c' | grep -v 'deps' | grep -v 'bench/targets/syz/' |
+    xargs -I {} clang-format -style=file${STYLE} -i "$(pwd)/{}"
+
 
 if [ "${SILENT}" != "true" ]; then
     # Display changed files and exit with 1 if there were differences.
