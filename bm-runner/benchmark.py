@@ -11,6 +11,7 @@ from benchkit.benchmark import (
     RecordResult,
 )
 import sys
+import os
 from benchkit.dependencies.packages import PackageDependency
 from benchkit.utils.dir import parentdir
 from typing import Iterable, Optional, Dict, Any, List
@@ -43,6 +44,7 @@ class ScalabilityBenchmark(Benchmark):
         self._bench_src_path = parentdir(build_dir)
         self._build_dir = build_dir
         self._bench_subdir = bench_subdir
+        self._home_dir = os.path.join(self._build_dir, self._bench_subdir)
         self.multi_app = False
 
     def dependencies(self) -> list[PackageDependency]:
@@ -104,14 +106,14 @@ class ScalabilityBenchmark(Benchmark):
                 executer = Containers(
                     config=container_cfg,
                     count=container_cnt,
-                    home_dir=f"{self._build_dir}",
+                    home_dir=f"{self._home_dir}",
                     apps=apps,
                     record_data_dir=record_data_dir,
                 )
             case ExecutionType.NATIVE:
                 # TODO: add app name in process/container name
                 executer = Processes(
-                    home_dir=self._build_dir,
+                    home_dir=self._home_dir,
                     count=container_cnt,
                     cpus_per_proc=container_cfg.core_count,
                     record_data_dir=record_data_dir,

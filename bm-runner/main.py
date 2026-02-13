@@ -114,10 +114,8 @@ if __name__ == "__main__":
 
     # find the arguments
     script_path = get_curdir(__file__)
-    # ../bench
-    bm_project_path = os.path.join(parentdir(script_path), "bench")
-    # ../bench/build
-    bm_build_path = os.path.join(bm_project_path, "build")
+    # ../bench/
+    bm_build_path = os.path.join(parentdir(script_path), "build")
 
     # Campaign Parameters
     assert bm_config.g_config is not None
@@ -136,7 +134,7 @@ if __name__ == "__main__":
         nb_runs=benchmark_config.repeat,
         continuing=arg_continue,
         enable_data_dir=True,
-        bench_subdir="",
+        bench_subdir="bench",
     )
 
     campaign_suite = CampaignSuite(campaigns=[campaign])
