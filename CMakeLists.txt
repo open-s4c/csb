@@ -1,3 +1,6 @@
+# Copyright (C) Huawei Technologies Co., Ltd. 2026. All rights reserved.
+# SPDX-License-Identifier: MIT
+
 cmake_minimum_required(VERSION 3.22)
 
 project(
@@ -12,16 +15,27 @@ add_subdirectory(bm-generator)
 
 set(HELPERS ${CMAKE_SOURCE_DIR}/helpers)
 
-# Add clang-format target
+###########################################
+# Add license-check target
+###########################################
+add_custom_target(license-check
+                    COMMAND ${HELPERS}/license-check.sh
+                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+###########################################
+# Add clang-format-apply target
+###########################################
 set(CLANG_STYLE_FILE ${HELPERS}/.clang-format)
+set(CLANG_FMT_CMD ${HELPERS}/clang-format.sh)
 
-set(CLANG_FMT_CMD ${HELPERS}/clang-format.sh ${CMAKE_SOURCE_DIR})
+add_custom_target(clang-format-apply
+                    COMMAND env STYLE=${CLANG_STYLE_FILE}
+                            SILENT=true ${CLANG_FMT_CMD}
+                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
-add_custom_target(clang-format-apply COMMAND env STYLE=${CLANG_STYLE_FILE}
-                                             SILENT=true ${CLANG_FMT_CMD}
-                                    WORKING_DIRECTORY  ${CMAKE_SOURCE_DIR}
-                                             )
-
+#add_dependencies(clang-format-apply license-check)
+###########################################
+# Add cmake-format-apply target
+###########################################
 set(CMAKE_FMT_CMD ${HELPERS}/cmake-format.sh ${CMAKE_SOURCE_DIR})
 
 set(CMAKE_STYLE_FILE ${HELPERS}/.cmake-format)
