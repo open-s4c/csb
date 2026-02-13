@@ -5,21 +5,7 @@ set -e
 
 # Adds copyright notice if missing and fix the year range if necessary
 
-if [ -f "$1" ]; then
-    FILES=$1
-else
-    DIR=$1
-    if [ -z "$DIR" ]; then
-        DIR=.
-    fi
-    FILES=$(find $DIR\
-        -name '*.h' -o \
-        -name '*.c' -o \
-        -name '*.py' -o \
-        -name 'CMake*.txt' -o \
-        -name '*.sh' -o \
-        -name '*.cmake' | grep -v "build" | grep -v "deps" | grep -v "syzkaller/" | grep -v "venv" | grep -v "results")
-fi
+FILES=$(git ls-files '*.h' '*.c' '*.py' '*CMakeLists.txt' '*.sh' '*.cmake' | grep -v 'deps')
 
 # we use GNU sed
 SED=sed

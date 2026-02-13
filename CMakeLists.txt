@@ -32,7 +32,7 @@ add_custom_target(clang-format-apply
                             SILENT=true ${CLANG_FMT_CMD}
                     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
-#add_dependencies(clang-format-apply license-check)
+add_dependencies(clang-format-apply license-check)
 ###########################################
 # Add cmake-format-apply target
 ###########################################
