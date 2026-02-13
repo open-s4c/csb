@@ -70,7 +70,7 @@ list(LENGTH HEADERS FILES_NUM)
 
 # Translate file names into application names
 set(APPLICATIONS "")
-foreach(HEADER IN LISTS HEADERS)
+foreach(HEADER ${HEADERS})
     get_filename_component(APP "${HEADER}" NAME_WE)
     list(APPEND APPLICATIONS "${APP}")
 endforeach()
