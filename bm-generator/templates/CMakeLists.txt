@@ -20,16 +20,15 @@ foreach(HEADER ${HEADERS})
         if(EXTENSION STREQUAL ".json")
             set(TARGET ${HEADER_NAME}_json)
             set(CMD -DPROBAVG="" -DPROBEND="1024" -DBINNAME="${HEADER_NAME}")
-            set(OUTPUT_FILE ${CONFIG_DIR}/${TEMPLATE_NAME})
+            set(OUTPUT_FILE "${CONFIG_DIR}/${HEADER_NAME}.json")
         elseif(EXTENSION STREQUAL ".h")
             set(TARGET ${HEADER_NAME})
             set(CMD -DNCALLS="1" -DNNOPS="1" -DNN="${HEADER_NAME}")
-            set(OUTPUT_FILE ${HEADER_DIR}/${TEMPLATE_NAME} )
+            set(OUTPUT_FILE "${HEADER_DIR}/${HEADER_NAME}.h")
         else()
             message(FATAL_ERROR "Unsupported extension ${EXTENSION}")
         endif()
 
-        message("Target ${TARGET}")
         add_custom_target(
             ${TARGET} COMMAND ${TMPLR_PROGRAM} ${CMD} ${TEMPLATE} > ${OUTPUT_FILE})
 
