@@ -17,8 +17,8 @@ set(CONFIG_DIR "${CMAKE_SOURCE_DIR}/config")
 # Output dir for header files
 set(HEADER_DIR "${CMAKE_SOURCE_DIR}/bench/targets")
 
-# For each header input we want to generate
-# a JSON config files and a matching header
+# For each header input we want to generate a JSON config files and a matching
+# header
 foreach(HEADER ${HEADERS})
     # get header name without dir and extension
     get_filename_component(HEADER_NAME ${HEADER} NAME_WE)
@@ -28,13 +28,12 @@ foreach(HEADER ${HEADERS})
         get_filename_component(TEMPLATE_NAME ${TEMPLATE} NAME_WLE)
         # find the real extension .h or .json
         get_filename_component(EXTENSION ${TEMPLATE_NAME} LAST_EXT)
-        # based on the extension decide
-        # target name
-        # parameters to tmplr
-        # output file name and path
+        # based on the extension decide target name parameters to tmplr output
+        # file name and path
         if(EXTENSION STREQUAL ".json")
             set(TARGET ${HEADER_NAME}_json)
-            set(TMPLR_PARAMS -DPROBAVG="" -DPROBEND="1024" -DBINNAME="${HEADER_NAME}")
+            set(TMPLR_PARAMS -DPROBAVG="" -DPROBEND="1024"
+                             -DBINNAME="${HEADER_NAME}")
             set(OUTPUT_FILE "${CONFIG_DIR}/${HEADER_NAME}.json")
         elseif(EXTENSION STREQUAL ".h")
             set(TARGET ${HEADER_NAME}_h)
@@ -44,11 +43,8 @@ foreach(HEADER ${HEADERS})
             message(FATAL_ERROR "Unsupported extension ${EXTENSION}")
         endif()
 
-        add_custom_target(
-            ${TARGET}
-            COMMAND ${TMPLR_PROGRAM}
-                ${TMPLR_PARAMS}
-                ${TEMPLATE} > ${OUTPUT_FILE})
+        add_custom_target(${TARGET} COMMAND ${TMPLR_PROGRAM} ${TMPLR_PARAMS}
+                                            ${TEMPLATE} > ${OUTPUT_FILE})
         # this target requires tmplr
         add_dependencies(${TARGET} ${TMPLR_TARGET})
         # the main target require this target
@@ -56,11 +52,9 @@ foreach(HEADER ${HEADERS})
     endforeach()
 endforeach(HEADER)
 
-
-##################################################
-# Generate aggregated benchmark config
-# multi-app configuration file
-##################################################
+# ##############################################################################
+# Generate aggregated benchmark config multi-app configuration file
+# ##############################################################################
 set(AGGREGATE_TARGET csb-gen-agg)
 set(INPUT_TEMPLATE ${CMAKE_CURRENT_SOURCE_DIR}/syz_bm.json.in)
 set(OUTPUT_FILE ${CONFIG_DIR}/aggregated.json)
@@ -74,14 +68,10 @@ foreach(HEADER ${HEADERS})
     get_filename_component(APP "${HEADER}" NAME_WE)
     list(APPEND APPLICATIONS "${APP}")
 endforeach()
-# Escape ; in order to be able to pass APPLICATIONS to
-# tmplr
+# Escape ; in order to be able to pass APPLICATIONS to tmplr
 string(REPLACE ";" "\\;" APPLICATIONS "${APPLICATIONS}")
 add_custom_target(
     ${AGGREGATE_TARGET}
-    COMMAND ${TMPLR_PROGRAM}
-            -DNN="${APPLICATIONS}"
-            -DNPROCS="${FILES_NUM}"
-            ${INPUT_TEMPLATE} > ${OUTPUT_FILE}
-)
+    COMMAND ${TMPLR_PROGRAM} -DNN="${APPLICATIONS}" -DNPROCS="${FILES_NUM}"
+            ${INPUT_TEMPLATE} > ${OUTPUT_FILE})
 add_dependencies(${AGGREGATE_TARGET} ${TMPLR_TARGET})
