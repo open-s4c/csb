@@ -27,7 +27,7 @@ RUN dnf install -y glibc-all-langpacks
 #
 # Dependencies from doc/bm-runner.md
 #
-RUN dnf install -y cmake perf sysstat sudo gcc docker-engine hiredis-devel jq
+RUN dnf install -y cmake perf sysstat sudo gcc moby-engine moby-client hiredis-devel jq
 
 #
 # Currently undocumented dependencies
