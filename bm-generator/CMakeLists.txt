@@ -5,7 +5,6 @@ include(FetchContent)
 
 message(STATUS "Fetching syzkaller ...")
 
-
 set(SYZKALLER syzkaller)
 add_custom_target(${SYZKALLER})
 
