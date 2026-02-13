@@ -3,20 +3,27 @@
 # SPDX-License-Identifier: MIT
 set -e
 
-CONFIG="$1"
+SCRIPT_DIR="$(readlink -f $(dirname "$0")/../..)"
+cd $SCRIPT_DIR
 
-if [ -z "$CONFIG" ]; then
+if [ -z "$1" ]; then
     exit 1
 fi
+
+CONFIG="$(readlink -f $1)"
+shift
+
 TITLE=$(basename "$CONFIG" .json)
 
 ## this script is to be embedded in other scripts
 HOSTNAME=$(hostname)
 
 # Infer the important dirs
-SCRIPT_DIR=$( cd -- "$( dirname -- "$0" )" &> /dev/null && pwd)
-export FLAMEGRAPH="${SCRIPT_DIR}/../../deps/FlameGraph"
-export SHE_HULK_ADAPTERS="${SCRIPT_DIR}/../../scripts/adapters"
+export FLAMEGRAPH="${SCRIPT_DIR}/deps/FlameGraph"
+export SHE_HULK_ADAPTERS="${SCRIPT_DIR}/scripts/adapters"
+export CSB_ADAPTERS="${SCRIPT_DIR}/scripts/adapters"
+export CSB_PLUGINS="${SCRIPT_DIR}/scripts/plugins"
+
 BM_DIR=bm-runner
 
 info() {
@@ -24,16 +31,12 @@ info() {
 }
 
 ### Configure the env
-if test -d venv; then
-    info "benchmark environment already configured"
-else
-    info "configuring benchmark environment"
-    ./scripts/configure.sh
-fi
+${SCRIPT_DIR}/scripts/prepare.sh
 . ./venv/bin/activate
 
 ### change dir to bm-runner
 cd ${BM_DIR}
 
 info "running $TITLE on $CONFIG"
-python3 main.py --title "$TITLE" --config "$CONFIG"
+
+python3 main.py --title "$TITLE" --config "$CONFIG" $*
