@@ -1,5 +1,5 @@
 include(tmplr.cmake)
-set(TMPLR_PROGRAM ${TMPLR_PROGRAM} -P_tmpl -l 4096)
+set(TMPLR_PROGRAM ${TMPLR_PROGRAM} -l 4096)
 set(CONFIG_ARGS )
 
 add_custom_target(csb-generate)
