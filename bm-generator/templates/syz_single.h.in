@@ -4,20 +4,27 @@
  *
  */
 
-#include <CSB/bm_target.h>
 #include <CSB/bm_helper.h>
+#include <CSB/bm_target.h>
+#include <arpa/inet.h>
+#include <dirent.h>
+#include <endian.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <netinet/in.h>
+#include <pthread.h>
 #include <stddef.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <pthread.h>
-#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/socket.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <dirent.h>
-#include <errno.h>
-#include <sys/mman.h>
 
 #define BM_CTX_TID (ctx->tid)
+#define BASE_PORT_CONNECT 36721
+#define BASE_PORT_BIND 46721
 
 $_begin(NNOPS = [[1]]);
 #define NOP_PER_OP NNOPS
@@ -25,20 +32,22 @@ $_end();
 #define MAX_NAME_LEN 20U
 #define NUM_SYSCALLS 1
 
-const char* op_name_tbl[1];
+const char *op_name_tbl[1];
 
 struct thread_ctx_s {
-    size_t tid;
-    size_t iteration;
-    bool aggregation_threads;
-$_begin(NN = [[1; 2]]);
-    char* tmpdir_NN_prog;
-    int   dirfd_NN_prog;
-    int   num_succeeded_NN_prog;
-    int   num_failed_NN_prog;
-    uintptr_t mmap_offsets_NN_prog;
-    char* writeBuffer_NN_prog;
-$_end();
+  size_t tid;
+  size_t iteration;
+  bool aggregation_threads;
+  $_begin(NN = [[1; 2]]);
+  char *tmpdir_NN_prog;
+  int dirfd_NN_prog;
+  int num_succeeded_NN_prog;
+  int num_failed_NN_prog;
+  uintptr_t mmap_offsets_NN_prog;
+  char *writeBuffer_NN_prog;
+  struct sockaddr_in *connect_arg_NN_prog;
+  struct sockaddr_in *bind_arg_NN_prog;
+  $_end();
 };
 
 #define REPEAT_NUM 1
@@ -51,159 +60,184 @@ $_end();
 
 $_begin(NN = [[1; 2]]);
 static inline void _mkdir_NN_prog(thread_ctx_t *ctx, const char *dir) {
-    char tmp[256];
-    char *p = NULL;
-    size_t len;
+  char tmp[256];
+  char *p = NULL;
+  size_t len;
 
-    snprintf(tmp, sizeof(tmp),"%s",dir);
-    len = strlen(tmp);
-    if (tmp[len - 1] == '/')
-        tmp[len - 1] = 0;
-    for (p = tmp + 1; *p; p++)
-        if (*p == '/') {
-            *p = 0;
-            mkdirat(ctx->dirfd_NN_prog, tmp, S_IRWXU);
-            *p = '/';
-        }
-    mkdirat(ctx->dirfd_NN_prog, tmp, S_IRWXU);
+  snprintf(tmp, sizeof(tmp), "%s", dir);
+  len = strlen(tmp);
+  if (tmp[len - 1] == '/')
+    tmp[len - 1] = 0;
+  for (p = tmp + 1; *p; p++)
+    if (*p == '/') {
+      *p = 0;
+      mkdirat(ctx->dirfd_NN_prog, tmp, S_IRWXU);
+      *p = '/';
+    }
+  mkdirat(ctx->dirfd_NN_prog, tmp, S_IRWXU);
 }
 
 static inline void init_subdirs_NN_prog(thread_ctx_t *ctx) {
-	for(int i=0; i<num_subdirs_NN_prog; i++) {
-		_mkdir_NN_prog(ctx, subdirs_NN_prog[i]);
-	}
+  for (int i = 0; i < num_subdirs_NN_prog; i++) {
+    _mkdir_NN_prog(ctx, subdirs_NN_prog[i]);
+  }
 }
 
-static void __attribute__((noinline)) remove_tmp_dir_NN_prog(const char* dir);
+static void __attribute__((noinline)) remove_tmp_dir_NN_prog(const char *dir);
 static inline void rm_tmpdir_NN_prog(thread_ctx_t *ctx) {
-	remove_tmp_dir_NN_prog(ctx->tmpdir_NN_prog);
+  remove_tmp_dir_NN_prog(ctx->tmpdir_NN_prog);
 }
 $_end();
 
-static inline char *
-bm_target_get_name(void)
-{
-$_begin(NN = [[1; 2]]);
-    return "NN";
-$_end();
+static inline char *bm_target_get_name(void) {
+  $_begin(NN = [[1; 2]]);
+  return "NN";
+  $_end();
 }
 
-static inline size_t
-bm_target_op_count(void)
-{
-    return NUM_SYSCALLS;
+static inline size_t bm_target_op_count(void) { return NUM_SYSCALLS; }
+
+static inline void bm_target_get_op_name(char *out_str, const size_t len,
+                                         size_t op_id) {
+  assert(len >= MAX_NAME_LEN && "output buffer too small");
+  assert(op_id == 0);
+  snprintf(out_str, len, "%s", op_name_tbl[op_id]);
+  // V_UNUSED(len, op_id);
 }
 
-static inline void
-bm_target_get_op_name(char *out_str, const size_t len, size_t op_id)
-{
-    assert(len >= MAX_NAME_LEN && "output buffer too small");
-    assert(op_id == 0);
-    snprintf(out_str, len, "%s", op_name_tbl[op_id]);
-    // V_UNUSED(len, op_id);
+static inline void bm_target_init(size_t init_size, size_t num_threads) {
+  V_UNUSED(init_size, num_threads);
+  int numNetOps = 0;
+  char *netOpsArgs[1024];
+  int netOpsArgsIdx = 0;
+  $_begin(NN = [[1; 2]]);
+  op_name_tbl[0] = "NN";
+
+  numNetOps = sizeof(netops_NN_prog) / sizeof(char *);
+  for (int i = 0; i < numNetOps; i++) {
+    netOpsArgs[netOpsArgsIdx] = (char *)netops_NN_prog[i];
+    netOpsArgsIdx++;
+  }
+  $_end();
+  char pattern_args[4096];
+  int pattern_args_idx = 0;
+  for (int i = 0; i < netOpsArgsIdx; i++) {
+    pattern_args_idx += snprintf(pattern_args + pattern_args_idx,
+                                 sizeof(pattern_args) - pattern_args_idx,
+                                 "-P%s ", netOpsArgs[i]);
+  }
+  pattern_args[pattern_args_idx] = '\0';
+
+  char server_command[4096];
+  int server_command_len =
+      snprintf(server_command, 4096, "server -p36721 -w1024 -r1024 -W1024 %s",
+               pattern_args);
+  server_command[server_command_len] = '\0';
+  if (netOpsArgsIdx > 0) {
+    fprintf(stderr, "Server command: %s\n", server_command);
+  }
 }
 
-static inline void
-bm_target_init(size_t init_size, size_t num_threads)
-{
-    V_UNUSED(init_size, num_threads);
-$_begin(NN = [[1; 2]]);
-    op_name_tbl[0] = "NN";
-$_end();
+static inline void bm_target_reg(thread_ctx_t *ctx, size_t tid) {
+  assert(ctx);
+  ctx->tid = tid;
+  ctx->aggregation_threads = false;
+
+  char *tmpdir_template = NULL;
+
+  int fd_trunc = 0;
+  $_begin(NN = [[1; 2]]);
+  tmpdir_template = strdup("./syzkaller_NN.XXXXXX");
+  ctx->tmpdir_NN_prog = mkdtemp(tmpdir_template);
+  chmod(ctx->tmpdir_NN_prog, S_IRWXU | S_IRWXG | S_IRWXO);
+  ctx->dirfd_NN_prog = open(ctx->tmpdir_NN_prog, O_DIRECTORY | O_PATH);
+  init_subdirs_NN_prog(ctx);
+  ctx->num_succeeded_NN_prog = 0;
+  ctx->num_failed_NN_prog = 0;
+
+  assert(num_filenames_NN_prog == num_filesizes_NN_prog);
+
+  for (int i = 0; i < num_filenames_NN_prog; i++) {
+    fd_trunc = openat(ctx->dirfd_NN_prog, filenames_NN_prog[i],
+                      O_RDWR | O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO);
+    // assert(fd_trunc > 0 && "Could not open file at thread registration");
+    if (fd_trunc < 0)
+      continue;
+    int ret_ft = ftruncate(fd_trunc, filesizes_NN_prog[i]);
+    (void)ret_ft;
+    assert(ret_ft == 0);
+    close(fd_trunc);
+    fd_trunc = 0;
+  }
+
+  ctx->mmap_offsets_NN_prog = (uintptr_t)(void *)mmap(
+      NULL, MMAP_LENGTH, PROT_WRITE | PROT_READ | PROT_EXEC,
+      MAP_ANONYMOUS | MAP_PRIVATE, (intptr_t)-1, 0ul);
+  if (ctx->mmap_offsets_NN_prog == -1) {
+    perror("mmap from syzkaller failed");
+    assert(0 && "mmap from syzkaller failed");
+  }
+
+  assert(ctx->mmap_offsets_NN_prog);
+
+  // allocate and fill write buffer
+  ctx->writeBuffer_NN_prog = (char *)malloc(maxWriteBufferSize_NN_prog);
+  struct sockaddr_in *saddr_con =
+      (struct sockaddr_in *)malloc(sizeof(struct sockaddr_in));
+  ctx->connect_arg_NN_prog = saddr_con;
+  saddr_con->sin_family = AF_INET;
+  saddr_con->sin_port = htons(BASE_PORT_CONNECT);
+  inet_aton("127.0.0.1", &saddr_con->sin_addr);
+
+  struct sockaddr_in *saddr_bind =
+      (struct sockaddr_in *)malloc(sizeof(struct sockaddr_in));
+  ctx->bind_arg_NN_prog = saddr_bind;
+  saddr_bind->sin_family = AF_INET;
+  saddr_bind->sin_port = htons(BASE_PORT_BIND);
+  inet_aton("0.0.0.0", &saddr_bind->sin_addr);
+
+  // EVERYTHING MUT BE INITIALIZED BEFORE
+  // do one warmup iteration to allocate memory in mmap
+  bm_dispatch_operation_NN_prog(ctx, 0);
+
+  // reset statistics
+  ctx->num_succeeded_NN_prog = 0;
+  ctx->num_failed_NN_prog = 0;
+  $_end();
 }
 
-static inline void
-bm_target_reg(thread_ctx_t *ctx, size_t tid)
-{
-    assert(ctx);
-    ctx->tid = tid;
-    ctx->aggregation_threads = false;
+static inline void bm_target_dereg(thread_ctx_t *ctx, size_t tid) {
+  $_begin(NN = [[1; 2]]);
+  free(ctx->tmpdir_NN_prog);
+  // free(ctx->connect_arg_NN_prog);
+  ctx->tmpdir_NN_prog = NULL;
 
-    char* tmpdir_template = NULL;
+  // free write buffer
+  free(ctx->writeBuffer_NN_prog);
+  ctx->writeBuffer_NN_prog = NULL;
+  $_end();
 
-    int fd_trunc = 0;
-$_begin(NN = [[1; 2]]);
-	tmpdir_template = strdup("./syzkaller_NN.XXXXXX");
-    ctx->tmpdir_NN_prog = mkdtemp(tmpdir_template);
-    chmod(ctx->tmpdir_NN_prog, S_IRWXU|S_IRWXG|S_IRWXO);
-    ctx->dirfd_NN_prog = open(ctx->tmpdir_NN_prog, O_DIRECTORY | O_PATH);
-    init_subdirs_NN_prog(ctx);
-    ctx->num_succeeded_NN_prog = 0;
-    ctx->num_failed_NN_prog = 0;
-
-    assert(num_filenames_NN_prog == num_filesizes_NN_prog);
-
-    for(int i=0; i<num_filenames_NN_prog; i++) {
-        fd_trunc = openat(ctx->dirfd_NN_prog, filenames_NN_prog[i], O_RDWR | O_CREAT, S_IRWXU|S_IRWXG|S_IRWXO);
-        // assert(fd_trunc > 0 && "Could not open file at thread registration");
-        if (fd_trunc < 0) continue;
-        int ret_ft = ftruncate(fd_trunc, filesizes_NN_prog[i]);
-        (void)ret_ft;
-        assert(ret_ft == 0);
-        close(fd_trunc);
-        fd_trunc = 0;
-    }
-
-    ctx->mmap_offsets_NN_prog = (uintptr_t)(void*) mmap(NULL, MMAP_LENGTH, PROT_WRITE|PROT_READ|PROT_EXEC, MAP_ANONYMOUS|MAP_PRIVATE, (intptr_t)-1, 0ul);
-    if( ctx->mmap_offsets_NN_prog == -1) {
-        perror("mmap from syzkaller failed");
-        assert(0 && "mmap from syzkaller failed");
-    }
-
-    assert(ctx->mmap_offsets_NN_prog);
-
-    // allocate and fill write buffer
-    ctx->writeBuffer_NN_prog = (char*) malloc(maxWriteBufferSize_NN_prog);
-
-    // EVERYTHING MUT BE INITIALIZED BEFORE
-    // do one warmup iteration to allocate memory in mmap
-    bm_dispatch_operation_NN_prog(ctx, 0);
-
-    // reset statistics
-    ctx->num_succeeded_NN_prog = 0;
-    ctx->num_failed_NN_prog = 0;
-$_end();
-
+  V_UNUSED(ctx, tid);
 }
 
-static inline void
-bm_target_dereg(thread_ctx_t *ctx, size_t tid)
-{
-$_begin(NN = [[1; 2]]);
-    free(ctx->tmpdir_NN_prog);
-    ctx->tmpdir_NN_prog = NULL;
-
-    // free write buffer
-    free(ctx->writeBuffer_NN_prog);
-    ctx->writeBuffer_NN_prog = NULL;
-$_end();
-
-    V_UNUSED(ctx, tid);
+static inline void bm_target_destroy(size_t num_threads) {
+  V_UNUSED(num_threads);
 }
 
-static inline void
-bm_target_destroy(size_t num_threads)
-{
-    V_UNUSED(num_threads);
+static inline void bm_target_extra_info(char *buf, size_t len) {
+  V_UNUSED(buf, len);
 }
 
-static inline void
-bm_target_extra_info(char *buf, size_t len)
-{
-    V_UNUSED(buf, len);
-}
-
-static inline bm_op_res_t
-bm_dispatch_operation(thread_ctx_t *ctx, size_t op_id)
-{
-    bm_op_res_t res_all;
-    res_all.op_count = 0;
-    res_all.succ_count = 0;
-$_begin(NN = [[1; 2]]);
-    bm_dispatch_operation_NN_prog(ctx, op_id);
-    res_all.op_count += ctx->num_succeeded_NN_prog + ctx->num_failed_NN_prog;
-    res_all.succ_count += ctx->num_succeeded_NN_prog;
-$_end();
-    ctx->iteration++;
-    return res_all;
+static inline bm_op_res_t bm_dispatch_operation(thread_ctx_t *ctx,
+                                                size_t op_id) {
+  bm_op_res_t res_all;
+  res_all.op_count = 0;
+  res_all.succ_count = 0;
+  $_begin(NN = [[1; 2]]);
+  bm_dispatch_operation_NN_prog(ctx, op_id);
+  res_all.op_count += ctx->num_succeeded_NN_prog + ctx->num_failed_NN_prog;
+  res_all.succ_count += ctx->num_succeeded_NN_prog;
+  $_end();
+  ctx->iteration++;
+  return res_all;
 }
