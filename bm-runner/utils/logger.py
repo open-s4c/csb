@@ -1,6 +1,7 @@
 # Copyright (C) Huawei Technologies Co., Ltd. 2026. All rights reserved.
 # SPDX-License-Identifier: MIT
 
+from datetime import datetime
 from enum import Enum
 
 
@@ -14,4 +15,5 @@ class LogType(str, Enum):
 
 def bm_log(msg: str, t: LogType = LogType.DEBUG):
     RESET: str = "\033[0m"
-    print(f"{t.value}[{t.name}] {msg}{RESET}")
+    time = datetime.now().strftime("%H:%M:%S.%f")
+    print(f"{t.value}{time} [{t.name}] {msg}{RESET}")
