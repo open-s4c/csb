@@ -118,6 +118,14 @@ jobs:
       - name: Run documentation script
         run: ./scripts/configure.sh && ./helpers/update-doc.sh && git --no-pager diff --exit-code
 
+  # Check all JSON files are valid and formatted
+  Check-JSON-format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run JSON formatting script
+        run: helpers/json-format.sh && git --no-pager diff --exit-code
+
   # Run a dummy benchmark to ensure bm-runner works
   Run-Benchmark:
     runs-on: ubuntu-latest
