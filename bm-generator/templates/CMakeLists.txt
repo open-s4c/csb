@@ -36,8 +36,8 @@ foreach(HEADER ${HEADERS})
         get_filename_component(TEMPLATE_NAME ${TEMPLATE} NAME_WLE)
         # find the real extension .h or .json
         get_filename_component(EXTENSION ${TEMPLATE_NAME} LAST_EXT)
-        # based on the extension decide target name parameters to tmplr output
-        # file name and path
+        # based on the extension, decide target name, parameters to tmplr,
+        # output file name, and path
         if(EXTENSION STREQUAL ".json")
             set(TARGET ${HEADER_NAME}_json)
             set(TMPLR_PARAMS -DPROBAVG="" -DPROBEND="1024"
@@ -61,7 +61,7 @@ foreach(HEADER ${HEADERS})
 endforeach(HEADER)
 
 # ##############################################################################
-# Generate aggregated benchmark config multi-app configuration file
+# Generate aggregated benchmark config: multi-app configuration file
 # ##############################################################################
 set(AGGREGATE_TARGET csb-gen-agg)
 set(INPUT_TEMPLATE ${CMAKE_CURRENT_SOURCE_DIR}/syz_bm.json.in)
