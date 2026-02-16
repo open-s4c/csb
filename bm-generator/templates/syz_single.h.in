@@ -23,7 +23,7 @@
 #include <sys/types.h>
 
 #define BM_CTX_TID (ctx->tid)
-#define BASE_PORT_CONNECT 36721
+#define BASE_PORT_CON 36721
 #define BASE_PORT_BIND 46721
 
 $_begin(NNOPS = [[1]]);
