@@ -1,112 +1,133 @@
 {
-	"plots": [
-		{
-			"x": "container_cnt",
-			"x_lbl": "#Containers",
-			"y": "throughput_min",
-			"y_lbl": "Throughput",
-			"hue_lbl": "Executer",
-			"hue": "execution_unit",
-			"shape": "barplot",
-			"title" : "Throughput vs. #Containers"
-		},
-		{
-			"x": "container_cnt",
-			"x_lbl": "#Containers",
-			"y": "throughput_min",
-			"y_lbl": "Throughput",
-			"hue": "execution_type",
-			"hue_lbl": "Execution Env",
-			"title": "Linearity vs. #Containers",
-			"type": "linearity"
-		},
-		{
-			"x": "container_cnt",
-			"x_lbl": "#Containers",
-			"y": "sys_time",
-			"y_lbl": "System Time",
-			"hue": "execution_unit",
-			"hue_lbl": "Executer",
-			"shape": "barplot"
-		},
-		{
-			"x": "container_cnt",
-			"x_lbl": "#Containers",
-			"y": "univ_succ_count",
-			"y_lbl": "Operation Success Count",
-			"hue": "execution_unit",
-			"hue_lbl": "Executer",
-			"shape": "barplot"
-		},
-		{
-			"x": "container_cnt",
-			"x_lbl": "#Containers",
-			"y": "univ_count",
-			"y_lbl": "Operation count",
-			"hue": "execution_unit",
-			"hue_lbl": "Executer",
-			"shape": "barplot"
-		},
-		{
-			"x": "container_cnt",
-			"x_lbl": "#Containers",
-			"y": "op0_read_write",
-			"y_lbl": "Operation min, max, avg",
-			"hue": "execution_unit",
-			"hue_lbl": "Executer",
-			"shape": "barplot",
-			"type" : "min_max_avg"
-		},
-		{
-			"x": "container_cnt",
-			"x_lbl": "#Containers",
-			"y": "op0_read_write",
-			"y_lbl": "Operation success percent",
-			"hue": "execution_unit",
-			"hue_lbl": "Executer",
-			"shape": "barplot",
-			"type" : "success_percent"
-		},
-		{
-			"x": "container_cnt",
-			"x_lbl": "#Containers",
-			"y": "op0_read_write",
-			"y_lbl": "Operation Histogram",
-			"hue": "execution_unit",
-			"hue_lbl": "Executer",
-			"type" : "histogram"
-		}
-	],
-	"benchmark_config" : {
-		"duration": 10,
-		"monitors" : { "mpstat" : ["-n", "-u", "-I", "SCPU,SUM", "-P", "0,1"],
-						"perf" : ["-C", "0,1"] }
-	},
-	"containers": {
-		"container_list":
-			{
-				"values":
-				[
-					[1, 5, 10]
-				]
-			},
-		"image": "ubuntu:latest",
-		"name": "redis-like",
-		"port": 8000
+  "plots": [
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "throughput_min",
+      "y_lbl": "Throughput",
+      "hue_lbl": "Executer",
+      "hue": "execution_unit",
+      "shape": "barplot",
+      "title": "Throughput vs. #Containers"
     },
-	"applications": [
-		{ "name": "bm_server_redis", "operations" : [512, 512] }
-	],
-	"plugins":[
-		{
-			"name": "launch-clients-local.sh",
-			"exec_time": "pre",
-			"force_stop" : "True",
-			"args": [
-			"8000",
-			"{n_units}",
-			"{homedir}/start",
-			"{homedir}"]
-		}
-	]
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "throughput_min",
+      "y_lbl": "Throughput",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "title": "Linearity vs. #Containers",
+      "type": "linearity"
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "sys_time",
+      "y_lbl": "System Time",
+      "hue": "execution_unit",
+      "hue_lbl": "Executer",
+      "shape": "barplot"
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "univ_succ_count",
+      "y_lbl": "Operation Success Count",
+      "hue": "execution_unit",
+      "hue_lbl": "Executer",
+      "shape": "barplot"
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "univ_count",
+      "y_lbl": "Operation count",
+      "hue": "execution_unit",
+      "hue_lbl": "Executer",
+      "shape": "barplot"
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "op0_read_write",
+      "y_lbl": "Operation min, max, avg",
+      "hue": "execution_unit",
+      "hue_lbl": "Executer",
+      "shape": "barplot",
+      "type": "min_max_avg"
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "op0_read_write",
+      "y_lbl": "Operation success percent",
+      "hue": "execution_unit",
+      "hue_lbl": "Executer",
+      "shape": "barplot",
+      "type": "success_percent"
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "op0_read_write",
+      "y_lbl": "Operation Histogram",
+      "hue": "execution_unit",
+      "hue_lbl": "Executer",
+      "type": "histogram"
+    }
+  ],
+  "benchmark_config": {
+    "duration": 10,
+    "monitors": {
+      "mpstat": [
+        "-n",
+        "-u",
+        "-I",
+        "SCPU,SUM",
+        "-P",
+        "0,1"
+      ],
+      "perf": [
+        "-C",
+        "0,1"
+      ]
+    }
+  },
+  "containers": {
+    "container_list": {
+      "values": [
+        [
+          1,
+          5,
+          10
+        ]
+      ]
+    },
+    "image": "ubuntu:latest",
+    "name": "redis-like",
+    "port": 8000
+  },
+  "applications": [
+    {
+      "name": "bm_server_redis",
+      "operations": [
+        512,
+        512
+      ]
+    }
+  ],
+  "plugins": [
+    {
+      "name": "launch-clients-local.sh",
+      "exec_time": "pre",
+      "force_stop": "True",
+      "args": [
+        "8000",
+        "{n_units}",
+        "{homedir}/start",
+        "{homedir}"
+      ]
+    }
+  ]
 }

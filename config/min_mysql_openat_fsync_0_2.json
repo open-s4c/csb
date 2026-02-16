@@ -1,40 +1,64 @@
 {
-	"plots": [
-		{
-			"x": "container_cnt",
-			"x_lbl": "#Containers",
-			"y": "throughput_min",
-			"y_lbl": "Throughput",
-			"hue_lbl": "Executer",
-			"hue": "execution_unit",
-			"shape": "barplot",
-			"title" : "Throughput vs. #Containers"
-		},
-		{
-			"x": "container_cnt",
-			"x_lbl": "#Containers",
-			"y": "throughput_min",
-			"y_lbl": "Throughput",
-			"hue": "execution_type",
-			"hue_lbl": "Execution Env",
-			"title": "Linearity vs. #Containers",
-			"type": "linearity"
-		}
-	],
-	"benchmark_config" : {
-		"duration": 30,
-		"exec_env": ["native"],
-		"monitors" : { "mpstat" : ["-n", "-u", "-I", "SCPU,SUM", "-P", "0"],
-			       "perf" : ["-C", "0"]
-			     }
-	},
-	"containers": {
-		"container_list": {"values": [[1]]},
-		"core_count": 1,
-		"image": "ubuntu:latest",
-		"name" : "syz_switch_container"
+  "plots": [
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "throughput_min",
+      "y_lbl": "Throughput",
+      "hue_lbl": "Executer",
+      "hue": "execution_unit",
+      "shape": "barplot",
+      "title": "Throughput vs. #Containers"
     },
-    "applications": [
-        { "name": "min_mysql_openat_fsync_0_2","operations": [1024]}
-    ]
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "throughput_min",
+      "y_lbl": "Throughput",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "title": "Linearity vs. #Containers",
+      "type": "linearity"
+    }
+  ],
+  "benchmark_config": {
+    "duration": 30,
+    "exec_env": [
+      "native"
+    ],
+    "monitors": {
+      "mpstat": [
+        "-n",
+        "-u",
+        "-I",
+        "SCPU,SUM",
+        "-P",
+        "0"
+      ],
+      "perf": [
+        "-C",
+        "0"
+      ]
+    }
+  },
+  "containers": {
+    "container_list": {
+      "values": [
+        [
+          1
+        ]
+      ]
+    },
+    "core_count": 1,
+    "image": "ubuntu:latest",
+    "name": "syz_switch_container"
+  },
+  "applications": [
+    {
+      "name": "min_mysql_openat_fsync_0_2",
+      "operations": [
+        1024
+      ]
+    }
+  ]
 }

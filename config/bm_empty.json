@@ -1,42 +1,58 @@
 {
-	"plots": [
-		{
-			"x": "container_cnt",
-			"x_lbl": "#Containers",
-			"y": "throughput_min",
-			"y_lbl": "Throughput",
-			"hue_lbl": "Executer",
-			"hue": "execution_unit",
-			"shape": "barplot",
-			"title" : "Throughput vs. #Containers"
-		},
-		{
-			"x": "container_cnt",
-			"x_lbl": "#Containers",
-			"y": "throughput_min",
-			"y_lbl": "Throughput",
-			"hue": "execution_type",
-			"hue_lbl": "Execution Env",
-			"title": "Linearity vs. #Containers",
-			"type": "linearity"
-		}
-	],
-	"benchmark_config" : {
-		"noise": [10],
-		"threads": {"values": [[2]]},
-		"duration": 1
-	},
-	"containers": {
-		"container_list": {"values": [[1, 5, 10]]},
-		"core_count": 3,
-		"image": "ubuntu:latest"
-	},
-	"applications": [
-		{
-			"name": "bm_empty",
-			"operations": [
-				1024
-			]
-		}
-	]
+  "plots": [
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "throughput_min",
+      "y_lbl": "Throughput",
+      "hue_lbl": "Executer",
+      "hue": "execution_unit",
+      "shape": "barplot",
+      "title": "Throughput vs. #Containers"
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "throughput_min",
+      "y_lbl": "Throughput",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "title": "Linearity vs. #Containers",
+      "type": "linearity"
+    }
+  ],
+  "benchmark_config": {
+    "noise": [
+      10
+    ],
+    "threads": {
+      "values": [
+        [
+          2
+        ]
+      ]
+    },
+    "duration": 1
+  },
+  "containers": {
+    "container_list": {
+      "values": [
+        [
+          1,
+          5,
+          10
+        ]
+      ]
+    },
+    "core_count": 3,
+    "image": "ubuntu:latest"
+  },
+  "applications": [
+    {
+      "name": "bm_empty",
+      "operations": [
+        1024
+      ]
+    }
+  ]
 }

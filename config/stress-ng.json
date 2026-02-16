@@ -1,45 +1,74 @@
 {
-	"plots": [
-		{
-			"x": "container_cnt",
-			"x_lbl": "#Containers",
-			"y": "throughput_real",
-			"y_lbl": "Throughput",
-			"hue_lbl": "Executer",
-			"hue": "execution_unit",
-			"shape": "barplot",
-			"title" : "Throughput vs. #container"
-		},
-		{
-			"x": "container_cnt",
-			"x_lbl": "#Containers",
-			"y": "ops",
-			"y_lbl": "Operations",
-			"hue_lbl": "Executer",
-			"hue": "execution_unit",
-			"shape": "barplot",
-			"title" : "Operations vs. #container"
-		}
-	],
-	"benchmark_config" : {
-		"duration": 3,
-		"exec_env": ["container"],
-		"monitors" : { "mpstat" : ["-n", "-u", "-I", "SCPU,SUM", "-P", "0,1"],
-						"perf" : ["-C", "0,1"] },
-		"threads": {"values": [[1, 3]]}
-	},
-	"containers": {
-		"container_list": {"values": [{"min": 1, "step": 1, "max": 3}]},
-		"core_count": 3,
-		"image": "ubuntu:latest"
-	},
-	"applications": [
-		{
-			"name": "stress-ng",
-			"args": "--futex {threads} -t {duration} -M",
-			"adapter": {
-				"name": "stress-ng-adapter.sh"
-			}
-		}
-	]
+  "plots": [
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "throughput_real",
+      "y_lbl": "Throughput",
+      "hue_lbl": "Executer",
+      "hue": "execution_unit",
+      "shape": "barplot",
+      "title": "Throughput vs. #container"
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "ops",
+      "y_lbl": "Operations",
+      "hue_lbl": "Executer",
+      "hue": "execution_unit",
+      "shape": "barplot",
+      "title": "Operations vs. #container"
+    }
+  ],
+  "benchmark_config": {
+    "duration": 3,
+    "exec_env": [
+      "container"
+    ],
+    "monitors": {
+      "mpstat": [
+        "-n",
+        "-u",
+        "-I",
+        "SCPU,SUM",
+        "-P",
+        "0,1"
+      ],
+      "perf": [
+        "-C",
+        "0,1"
+      ]
+    },
+    "threads": {
+      "values": [
+        [
+          1,
+          3
+        ]
+      ]
+    }
+  },
+  "containers": {
+    "container_list": {
+      "values": [
+        {
+          "min": 1,
+          "step": 1,
+          "max": 3
+        }
+      ]
+    },
+    "core_count": 3,
+    "image": "ubuntu:latest"
+  },
+  "applications": [
+    {
+      "name": "stress-ng",
+      "args": "--futex {threads} -t {duration} -M",
+      "adapter": {
+        "name": "stress-ng-adapter.sh"
+      }
+    }
+  ]
 }
