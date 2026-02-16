@@ -4,15 +4,16 @@
 ### Reference: https://docker-py.readthedocs.io/en/stable/containers.html
 import docker
 import docker.errors
+import os
 import sys
 from benchkit.shell.shell import shell_out
 from bm_executer import Executer
 from bm_executer import ExecutionUnit
 import bm_utils
 from typing import Optional
+from config.application import Application
 from config.container import ContainersConfig
 from config.nics import NicsConfig, ContainerNicConfig
-from config.application import Application
 from config.benchmark import ExecutionType
 from utils.logger import bm_log, LogType
 from bm_utils import resolve_path
@@ -81,8 +82,48 @@ class Container(ExecutionUnit):
             f"sudo ../scripts/add-nic-to-container.sh {netcfg.nic} {smp_irq_affinity} {pid} {self.name} {netcfg.ip} {netcfg.netmask}"
         )
 
+    def _host_home_dir(self):
+        home_dir = os.path.abspath(self.home_dir)
+        home_dir = os.path.join(home_dir, Application.BUILTIN_APP_DIR)
+
+        if not os.path.exists("/.dockerenv"):
+            return home_dir
+
+        # CSB is inside a docker container.
+        # We can't map home_dir, as this is not the real location.
+        # So, pick the actual volume that contains it or bail out.
+
+        try:
+            container = self.client.containers.get(os.uname().nodename)
+        except Exception as e:
+            bm_log(f"Unable to determine CSB container: {e}", LogType.ERROR)
+            return None
+
+        for mount in container.attrs.get("Mounts", []):
+            dest = mount.get("Destination")
+            source = mount.get("Source")
+            if not source or not dest:
+                continue
+
+            bm_log(f"volume bind: host: {source} -> to: {dest}")
+            if home_dir == dest:
+                bm_log(f"Running CSB with volume bind: host: '{source}' to: {dest}")
+                return source
+
+        bm_log(
+            f"CSB container doesn't map '{home_dir}'. Can't create subcontainers",
+            LogType.ERROR,
+        )
+        return None
+
     def __start(self, commands):
         self.stop()
+
+        host_home = self._host_home_dir()
+        if not host_home:
+            return False
+
+        bm_log(f"Starting Container: {self.name}")
         try:
             ports = {f"{self.port}/tcp": ("0.0.0.0", self.port)} if self.port else None
             container = self.client.containers.run(
@@ -91,7 +132,10 @@ class Container(ExecutionUnit):
                 name=self.name,
                 cpuset_cpus=self.core_set,
                 volumes={
-                    f"{self.home_dir}": {"bind": "/home", "mode": "rw"},
+                    host_home: {
+                        "bind": f"/home/{Application.BUILTIN_APP_DIR}",
+                        "mode": "rw",
+                    },
                     "/usr": {"bind": "/usr", "mode": "rw"},
                     "/mnt": {"bind": "/mnt", "mode": "rw"},
                     "/lib/modules": {"bind": "/lib/modules", "mode": "rw"},
