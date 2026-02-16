@@ -13,12 +13,6 @@ will be run and analyzed.
 
 ## Requirements
 
-### Install tmplr
-You can install [tmplr][] as follows:
-```bash
-cd bm-generator/templates/
-./tmplr.sh
-```
 ### Install golang
 
 [syzkaller][] requires golang of version 1.25.x to be installed.

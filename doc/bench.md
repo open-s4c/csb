@@ -11,7 +11,7 @@ to be run by [bm-runner][].
 However, one can manually build them as follows (assuming current directory is CSB):
 
 ```bash
-cmake -Sbench -Bbuild
+cmake -S. -Bbuild
 cmake --build build -j
 ```
 
