@@ -128,5 +128,14 @@
         "{homedir}/build/bench"
       ]
     }
+  ],
+  "plugins": [
+    {
+      "name": "collect_strace.sh",
+      "exec_time": "with",
+      "args": [
+        "{res_dir}/test_strace-cnt{index}.log"
+      ]
+    }
   ]
 }

@@ -3,16 +3,17 @@
 # SPDX-License-Identifier: MIT
 
 
- : ${FILE_LOG:="strace.log"}
+FILE_LOG=$1
+shift
 
 if [ -z "`command -v strace`" ]; then
   echo "\"strace\" command not found in \$PATH. Either install strace or add it to PATH"
   exit 1
 fi
 
-if [ $# -lt 1 ]; then
+if [ $# -lt 2 ]; then
   echo "Usage:"
-  echo "  $0 <command> [<arg1>] [<arg2>] ..."
+  echo "  $0 <command> <output_fname> [<arg1>] [<arg2>] ..."
   exit 1
 fi
 

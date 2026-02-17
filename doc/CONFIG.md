@@ -122,6 +122,7 @@ Execution time of the plugin script/process.  <br/>Supported values:
 - `"pre"`:  The script/process will be launched before the start signal.
 - `"post"`:  The script/process will be launched after the start signal.
 - `"cleanup"`:  The script/process will be called after the benchmark is finished or interrupted.
+- `"with"`:  The script/process will be called at the same time as the benchmark as a wrapper.
 ## ExecutionType
 Execution environment of the benchmarks.  <br/>Supported values:
 - `"native"`:  Launches the benchmark(s) directly on the host OS.

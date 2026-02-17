@@ -33,6 +33,10 @@ class ExecutionUnit:
         self.output_file = os.path.join(Application.BUILTIN_APP_DIR, self.name)
 
     @abstractmethod
+    def get_results_dir(self) -> str:
+        pass
+
+    @abstractmethod
     def exec(self, command):
         pass
 
@@ -70,15 +74,25 @@ class Executer:
             for type, args in bm_config.g_config.get_benchmark_cfg().monitors.items()
         ]
 
-    def __call_plugins(self, exec_time):
+    def __call_plugins(self, exec_time: ExecutionTime) -> None:
         plugins = [plugin for plugin in self.plugins if plugin.exec_time == exec_time]
         for plugin in plugins:
             plugin.execute(
-                self.results_dir,
+                resolve_path(self.results_dir),
                 n_units=len(self.exec_units),
                 homedir=self.home_dir,
                 res_dir=self.results_dir,
             )
+
+    def __wrap_plugins(self, exec_time: ExecutionTime) -> str:
+        """
+        Retuns command line string with all plugins that run "with" the benchmarked applications.
+        """
+        plugins = [plugin.get_command() for plugin in self.plugins if plugin.exec_time == exec_time]
+        return " ".join(plugins)
+
+    def add_exec_unit(self, unit):
+        self.exec_units.append(unit)
 
     def __stop_plugins(self):
         for plugin in self.plugins:
@@ -108,16 +122,22 @@ class Executer:
                         sys.exit(1)
                 else:
                     sz = initial_size
+
                 eu.exec(
                     eu.app.get_cmd(
+                        plugins=self.__wrap_plugins(ExecutionTime.WITH),
                         threads=threads,
                         duration=duration,
                         noise=noise,
                         initial_size=sz,
                         index=idx,
                         work_dir=self.home_dir,
+                        n_units=len(self.exec_units),
+                        homedir=self.home_dir,
+                        res_dir=eu.get_results_dir(),
                     )
                 )
+
             # give start signal
             self.signal_start()
             # wait for all containers to finish

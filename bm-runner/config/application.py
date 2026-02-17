@@ -97,22 +97,41 @@ class Application(dict):
             fname = ensure_exists(name=self.name, dir=self.path)
             # if changing directory is required, the command
             # will be just the app name.
-            fname = f"./{self.name} " if self.cd else fname
+            fname = f"./{self.name}" if self.cd else fname
         else:
             # if path is None, then we are either running a builtin benchmark
             # or one that is available system wide
             fname = ensure_exists(name=self.name, dir=self.BUILTIN_APP_DIR)
-        return f"{fname} "
+        return f"{fname}"
 
-    def get_cmd(self, threads, duration, noise, initial_size, index, work_dir: Path) -> str:
+    def get_cmd(self,
+        plugins: str,
+        threads: int,
+        duration: int,
+        noise: int,
+        initial_size: int,
+        index: int,
+        work_dir: Path,
+        n_units: int,
+        homedir: str,
+        res_dir: str,
+    ) -> str:
         cmd = self.__get_runnable_cmd(work_dir)
-        cmd += " ".join(f"-op{idx}={val} " for idx, val in enumerate(self.operations))
-        cmd += self.args.format(
+        ops = " ".join(f"-op{idx}={val}" for idx, val in enumerate(self.operations))
+        args = self.args
+
+        #NOTE: Filter removes any empty string
+        cmd = " ".join(filter(None, [plugins, cmd, ops, args]))
+
+        cmd = cmd.format(
             threads=threads,
             duration=duration,
             noise=noise,
             initial_size=initial_size,
             index=index,
+            n_units=n_units,
+            homedir=homedir,
+            res_dir=res_dir,
         )
         bm_log(f"generated command: {cmd}")
         return cmd

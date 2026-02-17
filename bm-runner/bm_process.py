@@ -20,6 +20,9 @@ class Process(ExecutionUnit):
         self.record_data_dir = record_data_dir
         self.core_set = core_set
 
+    def get_results_dir(self) -> str:
+        return resolve_path(self.record_data_dir, use_in_container=False)
+
     def exec(self, command):
         change_dir = ""
         if self.app.cd:
@@ -76,4 +79,4 @@ class Processes(Executer):
                 record_data_dir=record_data_dir,
                 app=apps[i],
             )
-            self.exec_units.append(proc)
+            self.add_exec_unit(proc)

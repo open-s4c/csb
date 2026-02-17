@@ -22,11 +22,13 @@ class ExecutionTime(str, Enum):
     PRE: The script/process will be launched before the start signal.
     POST: The script/process will be launched after the start signal.
     CLEANUP: The script/process will be called after the benchmark is finished or interrupted.
+    WITH: The script/process will be called at the same time as the benchmark as a wrapper.
     """
 
     PRE = "pre"
     POST = "post"
     CLEANUP = "cleanup"
+    WITH = "with"
 
 
 # Example of a valid Json
@@ -76,11 +78,18 @@ class Plugin(dict):
         self.process = None
         self.fname = ensure_exists(name, dir=path, env_var_dir=self.ENV_VAR)
 
+    def get_command(self) -> dict:
+        commands = [self.fname]
+        commands.extend(self.args)
+
+        return commands
+
     def execute(self, results_dir, **kwargs):
         tmpfile = tempfile.NamedTemporaryFile(dir=results_dir, delete=False)
         commands = [self.fname]
         if self.args is not None:
             commands.extend(map(lambda arg: arg.format(**kwargs), self.args))
+
         self.process = subprocess.Popen(
             commands, stdout=tmpfile, stderr=tmpfile, preexec_fn=os.setpgrp
         )

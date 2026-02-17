@@ -6,6 +6,7 @@ set -e
 STRACE_LOG="ls_strace.log"
 APP="ls"
 FILE_LOG=${STRACE_LOG} helper/collect_strace.sh ${APP}
+../scripts/plugins/collect_strace.sh ${STRACE_LOG} ${APP}
 echo "STEP#0: Initializing ..."
 ./00_init.sh
 echo "STEP#1: Building ..."

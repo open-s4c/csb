@@ -38,6 +38,9 @@ class Container(ExecutionUnit):
         self.port = port + self.idx if port else None
         self.nic = nic
 
+    def get_results_dir(self) -> str:
+        return resolve_path(self.record_data_dir, use_in_container=True)
+
     def wait(self):
         # TODO: wait with a timeout
         container = self.client.containers.get(self.name)
@@ -144,4 +147,4 @@ class Containers(Executer):
                 app=apps[i],
                 nic=self.nics.get_cfg(i) if self.nics else None,
             )
-            self.exec_units.append(container)
+            self.add_exec_unit(container)
