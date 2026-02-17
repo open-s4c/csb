@@ -26,9 +26,10 @@ class MpstatCmd:
         cmds.append(f"{self.INTERVAL}")
         self.fname = os.path.join(output_dir, output_file)
         cmd_str = " ".join(cmds)
+        env = {"LANG": "en_US.UTF-8", "LC_ALL": "en_US.UTF-8"}
         bm_log(f"Running {cmd_str}")
         with open(self.fname, "w") as outfile:
-            self.process = subprocess.Popen(cmds, stdout=outfile, stderr=subprocess.PIPE, text=True)
+            self.process = subprocess.Popen(cmds, env=env, stdout=outfile, stderr=subprocess.PIPE, text=True)
 
     def stop(self):
         # This acts like ctrl+C
@@ -137,21 +138,10 @@ class SystemStats(Monitor):
                 # This format has been observed in Ubuntu
                 df["time"] = pd.to_datetime(df["time"], format="%I:%M:%S %p")
             except ValueError:
-                try:
-                    # This format observed in openEuler
-                    df["time"] = pd.to_datetime(df["time"], format="%I:%M:%S")
-                except ValueError:
-                    # If neither format works, uses automatic detection with `mixed`
-                    # Note: This is somewhat risky, so it's kept as last option
                     bm_log(
-                        "mpstat does not follow observed formats. Attempt to automatically discover datatime format.",
-                        LogType.WARNING,
+                        "mpstat does not follow format yyyy:mm:dd am/pm. Make sure that en_US.UTF-8 locale package is installed (on openEuler, install package glibc-all-languages).",
+                        LogType.ERROR,
                     )
-                    df["time"] = pd.to_datetime(df["time"], format="mixed", dayfirst=False)
-                else:
-                    bm_log("mpstat follows yyyy:mm:dd format.", LogType.DEBUG)
-            else:
-                bm_log("mpstat follows yyyy:mm:dd am/pm format", LogType.DEBUG)
 
             # calc seconds elapsed
             df["time"] = (df["time"] - df["time"].iloc[0]).dt.total_seconds()
