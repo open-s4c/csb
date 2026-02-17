@@ -183,13 +183,31 @@ static inline void bm_target_reg(thread_ctx_t *ctx, size_t tid) {
 
   assert(ctx->mmap_offsets_NN_prog);
 
-  // connect IPv4
-  struct sockaddr_in *saddr4_con =
-      (struct sockaddr_in *)malloc(sizeof(struct sockaddr_in));
-  ctx->connect4_arg_NN_prog = saddr4_con;
-  saddr4_con->sin_family = AF_INET;
-  saddr4_con->sin_port = htons(BASE_PORT_CON);
-  inet_aton("127.0.0.1", &saddr4_con->sin_addr);
+  struct sockaddr_in *saddr4_con = NULL;
+  if (bm_connect_addr_inited) {
+    saddr4_con = &bm_connect_addr;
+  } else {
+    saddr4_con = malloc(sizeof(struct sockaddr_in));
+    assert(saddr4_con != NULL);
+    saddr4_con->sin_family = AF_INET;
+    saddr4_con->sin_port = htons(BASE_PORT_CON);
+    saddr4_con->sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+  }
+  ctx->connect_arg_NN_prog = saddr4_con;
+
+  // bind IPv4
+  struct sockaddr_in *saddr4_bind = NULL;
+  if (bm_bind_addr_inited) {
+    saddr_bind4 = &bm_bind_addr;
+  } else {
+    saddr_bind4 = malloc(sizeof(struct sockaddr_in));
+    assert(saddr_bind4 != NULL);
+    saddr_bind4->sin_family = AF_INET;
+    saddr_bind4->sin_port = htons(BASE_PORT_BIND);
+    saddr_bind4->sin_addr.s_addr = htonl(INADDR_ANY);
+  }
+  ctx->bind_arg_NN_prog = saddr_bind;
+  //////////////////////////////////////////////
 
   // connect IPv6
   struct sockaddr_in6 *saddr6_con =
@@ -198,14 +216,6 @@ static inline void bm_target_reg(thread_ctx_t *ctx, size_t tid) {
   saddr6_con->sin6_family = AF_INET6;
   saddr6_con->sin6_port = htons(BASE_PORT_CON);
   saddr6_con->sin6_addr = in6addr_loopback;
-
-  // bind IPv4
-  struct sockaddr_in *saddr_bind =
-      (struct sockaddr_in *)malloc(sizeof(struct sockaddr_in));
-  ctx->bind4_arg_NN_prog = saddr_bind;
-  saddr_bind->sin_family = AF_INET;
-  saddr_bind->sin_port = htons(BASE_PORT_BIND);
-  inet_aton("0.0.0.0", &saddr_bind->sin_addr);
 
   // bind IPv6
   struct sockaddr_in6 *saddr6_bind =
