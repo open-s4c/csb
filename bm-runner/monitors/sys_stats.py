@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: MIT
 
 import os
-import sys
 import subprocess
 import json
 import signal
@@ -144,7 +143,7 @@ class SystemStats(Monitor):
                     "mpstat does not follow format yyyy:mm:dd am/pm. Make sure that en_US.UTF-8 locale package is installed (on openEuler, install package glibc-all-languages).",
                     LogType.ERROR,
                 )
-                sys.exit(1)
+                return
 
             # calc seconds elapsed
             df["time"] = (df["time"] - df["time"].iloc[0]).dt.total_seconds()
