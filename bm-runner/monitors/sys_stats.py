@@ -29,7 +29,9 @@ class MpstatCmd:
         env = {"LANG": "en_US.UTF-8", "LC_ALL": "en_US.UTF-8"}
         bm_log(f"Running {cmd_str}")
         with open(self.fname, "w") as outfile:
-            self.process = subprocess.Popen(cmds, env=env, stdout=outfile, stderr=subprocess.PIPE, text=True)
+            self.process = subprocess.Popen(
+                cmds, env=env, stdout=outfile, stderr=subprocess.PIPE, text=True
+            )
 
     def stop(self):
         # This acts like ctrl+C
@@ -138,10 +140,10 @@ class SystemStats(Monitor):
                 # This format has been observed in Ubuntu
                 df["time"] = pd.to_datetime(df["time"], format="%I:%M:%S %p")
             except ValueError:
-                    bm_log(
-                        "mpstat does not follow format yyyy:mm:dd am/pm. Make sure that en_US.UTF-8 locale package is installed (on openEuler, install package glibc-all-languages).",
-                        LogType.ERROR,
-                    )
+                bm_log(
+                    "mpstat does not follow format yyyy:mm:dd am/pm. Make sure that en_US.UTF-8 locale package is installed (on openEuler, install package glibc-all-languages).",
+                    LogType.ERROR,
+                )
 
             # calc seconds elapsed
             df["time"] = (df["time"] - df["time"].iloc[0]).dt.total_seconds()
