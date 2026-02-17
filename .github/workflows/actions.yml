@@ -129,9 +129,6 @@ jobs:
   # Run a dummy benchmark to ensure bm-runner works
   Run-Benchmark:
     runs-on: ubuntu-latest
-    env:
-      LC_ALL: en_US.UTF-8
-      LANG: en_US.UTF-8
     strategy:
       matrix:
         benchmark: [bm_empty, bm_server_redis, min_mysql_close_dup_0_0]
