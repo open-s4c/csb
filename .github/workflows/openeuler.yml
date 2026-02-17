@@ -11,11 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: [ amd64, aarch64 ]
+        arch: [ aarch64 ]
     outputs:
       image-ref: ${{ steps.build.outputs.image }}
 
     steps:
+      - name: Normalise repo name to lowercase
+        run: |
+          echo "LOWER_REPO=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
       - uses: actions/checkout@v4
 
       - uses: docker/setup-buildx-action@v3
@@ -30,7 +34,7 @@ jobs:
         with:
           context: .
           file: .github/workflows/openeuler/Dockerfile
-          tags: ghcr.io/${{ github.repository_owner }}/openeuler-csb:${{ matrix.arch }}
+          tags: ghcr.io/${{ env.LOWER_REPO }}/openeuler-csb:${{ matrix.arch }}
           push: true
           # openEuler Image to use: 24.03-SP3 LTS
           build-args:
