@@ -186,7 +186,7 @@ static inline void bm_target_reg(thread_ctx_t *ctx, size_t tid) {
   // connect IPv4
   struct sockaddr_in *saddr4_con =
       (struct sockaddr_in *)malloc(sizeof(struct sockaddr_in));
-  ctx->connect_arg_NN_prog = saddr4_con;
+  ctx->connect4_arg_NN_prog = saddr4_con;
   saddr4_con->sin_family = AF_INET;
   saddr4_con->sin_port = htons(BASE_PORT_CON);
   inet_aton("127.0.0.1", &saddr4_con->sin_addr);
@@ -197,12 +197,12 @@ static inline void bm_target_reg(thread_ctx_t *ctx, size_t tid) {
   ctx->connect6_arg_NN_prog = saddr6_con;
   saddr6_con->sin6_family = AF_INET6;
   saddr6_con->sin6_port = htons(BASE_PORT_CON);
-  saddr6con->sin6_addr = IN6ADDR_LOOPBACK_INIT;
+  saddr6_con->sin6_addr = {IN6ADDR_LOOPBACK_INIT};
 
   // bind IPv4
   struct sockaddr_in *saddr_bind =
       (struct sockaddr_in *)malloc(sizeof(struct sockaddr_in));
-  ctx->bind_arg_NN_prog = saddr_bind;
+  ctx->bind4_arg_NN_prog = saddr_bind;
   saddr_bind->sin_family = AF_INET;
   saddr_bind->sin_port = htons(BASE_PORT_BIND);
   inet_aton("0.0.0.0", &saddr_bind->sin_addr);
@@ -213,7 +213,7 @@ static inline void bm_target_reg(thread_ctx_t *ctx, size_t tid) {
   ctx->bind6_arg_NN_prog = saddr6_bind;
   saddr6_bind->sin6_family = AF_INET6;
   saddr6_bind->sin6_port = htons(BASE_PORT_BIND);
-  saddr6_bind->sin6_addr = IN6ADDR_LOOPBACK_ANY;
+  saddr6_bind->sin6_addr = {IN6ADDR_ANY};
 
   // EVERYTHING MUT BE INITIALIZED BEFORE
   // do one warmup iteration to allocate memory in mmap
