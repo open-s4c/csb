@@ -11,9 +11,7 @@ from benchkit.benchmark import (
     RecordResult,
 )
 import sys
-import os
 from benchkit.dependencies.packages import PackageDependency
-from benchkit.utils.dir import parentdir
 from typing import Iterable, Optional, Dict, Any, List
 import bm_utils
 from bm_container import Containers
@@ -31,8 +29,7 @@ class ScalabilityBenchmark(Benchmark):
         command_attachments: Iterable[CommandAttachment],
         shared_libs: Iterable[SharedLib],
         post_run_hooks: Iterable[PostRunHook],
-        bench_subdir: str,
-        build_dir: PathType,
+        csb_dir: PathType,
     ):
         super().__init__(
             command_wrappers=command_wrappers,
@@ -41,10 +38,7 @@ class ScalabilityBenchmark(Benchmark):
             post_run_hooks=post_run_hooks,
             pre_run_hooks=[],
         )
-        self._bench_src_path = parentdir(build_dir)
-        self._build_dir = build_dir
-        self._bench_subdir = bench_subdir
-        self._home_dir = os.path.join(self._build_dir, self._bench_subdir)
+        self.csb_dir = csb_dir
         self.multi_app = False
 
     def dependencies(self) -> list[PackageDependency]:
@@ -54,7 +48,7 @@ class ScalabilityBenchmark(Benchmark):
         ]
 
     def prebuild_bench(self, **_kwargs):
-        bm_utils.build_bench(self._bench_src_path)
+        bm_utils.build_bench(self.csb_dir)
         bm_utils.save_sys_config(self._base_data_dir)
         bm_utils.save_docker_daemon_config(self._base_data_dir)
         # copy the configuration file and map it to the same name
@@ -106,14 +100,14 @@ class ScalabilityBenchmark(Benchmark):
                 executer = Containers(
                     config=container_cfg,
                     count=container_cnt,
-                    home_dir=f"{self._home_dir}",
+                    home_dir=f"{self.csb_dir}",
                     apps=apps,
                     record_data_dir=record_data_dir,
                 )
             case ExecutionType.NATIVE:
                 # TODO: add app name in process/container name
                 executer = Processes(
-                    home_dir=self._home_dir,
+                    home_dir=self.csb_dir,
                     count=container_cnt,
                     cpus_per_proc=container_cfg.core_count,
                     record_data_dir=record_data_dir,
@@ -185,4 +179,4 @@ class ScalabilityBenchmark(Benchmark):
 
     @property
     def bench_src_path(self):
-        return self._bench_src_path
+        return self.csb_dir

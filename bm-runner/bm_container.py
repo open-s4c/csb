@@ -15,12 +15,10 @@ from config.nics import NicsConfig, ContainerNicConfig
 from config.application import Application
 from config.benchmark import ExecutionType
 from utils.logger import bm_log, LogType
+from bm_utils import resolve_path
 
 
 class Container(ExecutionUnit):
-    # containers will share the same /home
-    START_FILE = "/home/start"
-
     def __init__(
         self,
         idx,
@@ -113,7 +111,7 @@ class Container(ExecutionUnit):
             bm_log(f"Could not start container {self.name}: {str(e)}", LogType.ERROR)
 
     def exec(self, command):
-        commands = f"{self.CMD_WHILE_NOT_START} {command} > /home/{self.name}"  # same as self.output_file outside container.
+        commands = f"{self.CMD_WHILE_NOT_START} {command} > {resolve_path(self.output_file, use_in_container=True)}"  # same as self.output_file outside container.
         self.__start(commands)
 
 

@@ -11,6 +11,7 @@ from bm_utils import stop_process
 from bm_config import Application
 from config.benchmark import ExecutionType
 from utils.logger import bm_log, LogType
+from bm_utils import resolve_path
 
 
 class Process(ExecutionUnit):
@@ -21,7 +22,7 @@ class Process(ExecutionUnit):
 
     def exec(self, command):
         commands = f"{self.CMD_WHILE_NOT_START} taskset --cpu-list {self.core_set} {command}"
-        with open(self.output_file, "w") as outfile:
+        with open(resolve_path(self.output_file), "w") as outfile:
             self.process = subprocess.Popen(
                 commands,
                 shell=True,

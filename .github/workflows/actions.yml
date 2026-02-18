@@ -126,6 +126,21 @@ jobs:
       - name: Run JSON formatting script
         run: helpers/json-format.sh && git --no-pager diff --exit-code
 
+  Run-Python-Tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Run Tests
+        run: |
+         ./scripts/configure.sh
+         helpers/python-tests.sh
+
   # Run a dummy benchmark to ensure bm-runner works
   Run-Benchmark:
     runs-on: ubuntu-latest

@@ -15,6 +15,7 @@ from utils.logger import bm_log, LogType
 class Application(dict):
     CONFIG_KEY: str = "applications"
     DISTRIBUTION_SUM = 1024
+    BUILTIN_APP_DIR = "build/bench"
 
     def __init__(
         self,
@@ -76,14 +77,15 @@ class Application(dict):
             sys.exit(1)
 
     def __get_runnable_cmd(self, work_dir: Path) -> str:
+        binary_path = os.path.join(work_dir, self.BUILTIN_APP_DIR)
         if self.path:
             fname = ensure_exists(name=self.name, dir=self.path)
-            shutil.copy(fname, os.path.join(work_dir, self.name))
+            shutil.copy(fname, os.path.join(binary_path, self.name))
         else:
             if exists_system_wide(self.name):
                 return f"{self.name} "
-            fname = ensure_exists(name=self.name, dir=work_dir)
-        return f"./{self.name} "
+            fname = ensure_exists(name=self.name, dir=binary_path)
+        return f"./{os.path.join(self.BUILTIN_APP_DIR, self.name)} "
 
     def get_cmd(self, threads, duration, noise, initial_size, index, work_dir: Path) -> str:
         cmd = self.__get_runnable_cmd(work_dir)

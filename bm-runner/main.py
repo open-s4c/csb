@@ -3,7 +3,6 @@
 
 import argparse
 import pathlib
-import os
 import sys
 from pathlib import Path
 import bm_visualize
@@ -65,8 +64,7 @@ def v_campaign(
             command_attachments=command_attachments,
             shared_libs=shared_libs,
             post_run_hooks=post_run_hooks,
-            bench_subdir=bench_subdir,
-            build_dir=bm_build_path,
+            csb_dir=csb_dir,
         ),
         nb_runs=nb_runs,
         variables=variables,
@@ -114,8 +112,7 @@ if __name__ == "__main__":
 
     # find the arguments
     script_path = get_curdir(__file__)
-    # ../bench/
-    bm_build_path = os.path.join(parentdir(script_path), "build")
+    csb_dir = parentdir(script_path)
 
     # Campaign Parameters
     assert bm_config.g_config is not None

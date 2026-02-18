@@ -21,8 +21,7 @@ if [ ! -d "${DIR_SYZ_SRC}" ]; then
   echo "syzkaller source dir not found."
   echo "  Building syzkaller with cmake ..."
   cmake -S../ -B../build -DCSB_BM_GENERATOR=ON
-  cmake --build ../build --target syzkaller
- DIR_SYZ_SRC=$(${SCRIPT_SYZ_SRC})
+  DIR_SYZ_SRC=$(${SCRIPT_SYZ_SRC})
   if [ ! -d "${DIR_SYZ_SRC}" ]; then
     echo "Failed setting up syzkaller sources."
     echo "If the syzkaller source dir is not beneath $(pwd)/build, then run this script as:"
@@ -30,3 +29,5 @@ if [ ! -d "${DIR_SYZ_SRC}" ]; then
     exit 1
   fi
 fi
+
+cmake --build ../build --target syzkaller

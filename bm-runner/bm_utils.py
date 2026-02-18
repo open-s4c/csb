@@ -12,6 +12,23 @@ from typing import Optional
 from pathlib import Path
 import json
 from utils.logger import bm_log, LogType
+from benchkit.utils.types import PathType
+
+
+def resolve_path(path: PathType, use_in_container: bool = False) -> PathType:
+    """
+    Returns the absolute path of the given path with respect to
+    CSB root dir. The absolute path differs depending on
+    use_in_container input.
+    This function works under the assumption that CSB is mounted
+    to /home inside the container.
+    """
+    csb_dir = Path(os.getcwd()).parent
+    if Path(path).is_relative_to(csb_dir):
+        path = Path(path).relative_to(csb_dir)
+    homedir = "/home" if use_in_container else csb_dir
+    new_path = os.path.join(homedir, path)
+    return new_path
 
 
 # Builds the C micro-benchmarks
@@ -169,7 +186,9 @@ def exists_system_wide(cmd: str) -> bool:
     return shutil.which(cmd) is not None
 
 
-def ensure_exists(name: str, dir: Optional[Path] = None, env_var_dir: Optional[str] = None) -> str:
+def ensure_exists(
+    name: str, dir: Optional[PathType] = None, env_var_dir: Optional[str] = None
+) -> str:
     """
     Checks if the given binary is found under the given `dir`,
     available system wide, or in the dir specified by `env_var_dir` respectively.

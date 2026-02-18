@@ -15,10 +15,11 @@ from config.benchmark import ExecutionType
 from bm_utils import is_port_free_to_use
 from monitors.monitor_factory import MonitorFactory
 from utils.logger import bm_log, LogType
+from bm_utils import resolve_path
 
 
 class ExecutionUnit:
-    START_FILE = "start"
+    START_FILE = f"{Application.BUILTIN_APP_DIR}/start"
     CMD_WHILE_NOT_START = f"while [ ! -e {START_FILE} ]; do sleep 0.1; done;"
 
     def __init__(self, idx, home_dir, app: Application, type: ExecutionType):
@@ -28,7 +29,7 @@ class ExecutionUnit:
         self.home_dir = home_dir
         self.name = "C" if type == ExecutionType.CONTAINER else "N"
         self.name += f"{idx:03d}_{app.name}"
-        self.output_file = os.path.join(home_dir, self.name)
+        self.output_file = os.path.join(Application.BUILTIN_APP_DIR, self.name)
 
     @abstractmethod
     def exec(self, command):
@@ -43,7 +44,7 @@ class ExecutionUnit:
         pass
 
     def get_output(self) -> str:
-        line = open(self.output_file, "r").read()
+        line = open(resolve_path(self.output_file), "r").read()
         # If there is an adapter, it means that
         # the applications' output needs to be transformed
         # after collection. This is important to have
@@ -55,13 +56,11 @@ class ExecutionUnit:
 
 class Executer:
     SLEEP_IN_SEC = 5
-    START_FILE = "start"
 
     def __init__(self, home_dir, results_dir):
         assert bm_config.g_config
         self.home_dir = home_dir
         self.results_dir = results_dir
-        self.start_file_full_name = os.path.join(self.home_dir, self.START_FILE)
         self.exec_units = []
         self.plugins = bm_config.g_config.get_plugins()
         self.nics = bm_config.g_config.get_nics()
@@ -137,7 +136,7 @@ class Executer:
         self.__call_plugins(ExecutionTime.PRE)
         self.__start_monitors()
         shell_out(
-            f"touch {self.START_FILE}",
+            f"touch {ExecutionUnit.START_FILE}",
             current_dir=self.home_dir,
             output_is_log=False,
         )
@@ -147,8 +146,9 @@ class Executer:
         bm_log("cleaning up, stopping all processes/containers")
         for eu in self.exec_units:
             eu.stop()
-        if os.path.exists(self.start_file_full_name):
-            os.remove(self.start_file_full_name)
+        start_file = resolve_path(ExecutionUnit.START_FILE)
+        if os.path.exists(start_file):
+            os.remove(start_file)
         self.__stop_monitors()
         self.__call_plugins(ExecutionTime.CLEANUP)
         self.__stop_plugins()

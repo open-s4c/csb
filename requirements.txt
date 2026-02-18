@@ -5,3 +5,4 @@ dominate
 docker
 jsonpath_ng
 psutil
+pytest
