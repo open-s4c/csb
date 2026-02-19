@@ -193,20 +193,20 @@ static inline void bm_target_reg(thread_ctx_t *ctx, size_t tid) {
     saddr4_con->sin_port = htons(BASE_PORT_CON);
     saddr4_con->sin_addr.s_addr = htonl(INADDR_LOOPBACK);
   }
-  ctx->connect_arg_NN_prog = saddr4_con;
+  ctx->connect4_arg_NN_prog = saddr4_con;
 
   // bind IPv4
   struct sockaddr_in *saddr4_bind = NULL;
   if (bm_bind_addr_inited) {
-    saddr_bind4 = &bm_bind_addr;
+    saddr4_bind = &bm_bind_addr;
   } else {
-    saddr_bind4 = malloc(sizeof(struct sockaddr_in));
-    assert(saddr_bind4 != NULL);
-    saddr_bind4->sin_family = AF_INET;
-    saddr_bind4->sin_port = htons(BASE_PORT_BIND);
-    saddr_bind4->sin_addr.s_addr = htonl(INADDR_ANY);
+    saddr4_bind = malloc(sizeof(struct sockaddr_in));
+    assert(saddr4_bind != NULL);
+    saddr4_bind->sin_family = AF_INET;
+    saddr4_bind->sin_port = htons(BASE_PORT_BIND);
+    saddr4_bind->sin_addr.s_addr = htonl(INADDR_ANY);
   }
-  ctx->bind_arg_NN_prog = saddr_bind;
+  ctx->bind4_arg_NN_prog = saddr4_bind;
   //////////////////////////////////////////////
 
   // connect IPv6
