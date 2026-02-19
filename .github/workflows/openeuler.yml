@@ -2,6 +2,10 @@
 name: CSB on openEuler
 on: [workflow_dispatch, push, pull_request]
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   #
   # Build the image once, reuse it in all later jobs
