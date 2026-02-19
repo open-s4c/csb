@@ -197,7 +197,7 @@ static inline void bm_target_reg(thread_ctx_t *ctx, size_t tid) {
   ctx->connect6_arg_NN_prog = saddr6_con;
   saddr6_con->sin6_family = AF_INET6;
   saddr6_con->sin6_port = htons(BASE_PORT_CON);
-  saddr6_con->sin6_addr = {IN6ADDR_LOOPBACK_INIT};
+  saddr6_con->sin6_addr = in6addr_loopback;
 
   // bind IPv4
   struct sockaddr_in *saddr_bind =
@@ -213,7 +213,7 @@ static inline void bm_target_reg(thread_ctx_t *ctx, size_t tid) {
   ctx->bind6_arg_NN_prog = saddr6_bind;
   saddr6_bind->sin6_family = AF_INET6;
   saddr6_bind->sin6_port = htons(BASE_PORT_BIND);
-  saddr6_bind->sin6_addr = {IN6ADDR_ANY};
+  saddr6_bind->sin6_addr = in6addr_any;
 
   // EVERYTHING MUT BE INITIALIZED BEFORE
   // do one warmup iteration to allocate memory in mmap
