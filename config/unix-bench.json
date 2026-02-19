@@ -53,7 +53,7 @@
   },
   "applications": [
     {
-      "path": "/home/lilith/workspace/byte-unixbench/UnixBench",
+      "path": "bm-external/byte-unixbench/UnixBench",
       "name": "Run",
       "args": "-c {threads} -i 1 -b -q syscall",
       "adapter": {

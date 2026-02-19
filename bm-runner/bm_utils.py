@@ -195,11 +195,15 @@ def ensure_exists(
     If found in any, it returns a name that can be run from anywhere.
     Otherwise, it exits with an error message.
     """
-    bm_log(f"ensure_exists {name}, {dir}, {env_var_dir}")
+    bm_log(f"ensure_exists name: {name}, dir:{dir}, env_var_dir:{env_var_dir}")
     fname = name
-    if dir is not None:
+    if dir is not None and os.path.isabs(fname) :
         fname = os.path.join(dir, name)
         if Path(fname).exists():
+            return fname
+    elif dir is not None:
+        fname = os.path.join(dir, name)
+        if Path(resolve_path(fname)).exists():
             return fname
     elif exists_system_wide(fname):
         return fname

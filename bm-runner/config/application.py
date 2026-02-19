@@ -77,15 +77,18 @@ class Application(dict):
             sys.exit(1)
 
     def __get_runnable_cmd(self, work_dir: Path) -> str:
-        binary_path = os.path.join(work_dir, self.BUILTIN_APP_DIR)
+        # The benchmark binary can be:
+        # external: exists somewhere under CSB root
+        # external: exists in the /usr/bin
+        # builtin: exist under `self.BUILTIN_APP_DIR``
         if self.path:
             fname = ensure_exists(name=self.name, dir=self.path)
-            shutil.copy(fname, os.path.join(binary_path, self.name))
         else:
             if exists_system_wide(self.name):
                 return f"{self.name} "
+            binary_path = os.path.join(work_dir, self.BUILTIN_APP_DIR)
             fname = ensure_exists(name=self.name, dir=binary_path)
-        return f"./{os.path.join(self.BUILTIN_APP_DIR, self.name)} "
+        return f"{fname} "
 
     def get_cmd(self, threads, duration, noise, initial_size, index, work_dir: Path) -> str:
         cmd = self.__get_runnable_cmd(work_dir)
