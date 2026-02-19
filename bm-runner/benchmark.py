@@ -80,7 +80,10 @@ class ScalabilityBenchmark(Benchmark):
         container_cfg = bm_config.g_config.get_container_config()
         self.multi_app = len(applications) > 1
         if self.multi_app:
-            if container_cnt < len(applications):
+            # check if the apps provided are the same app (i.e. same name & path, but different args)
+            # or if they differ
+            different_apps = any(app.name != applications[0].name or app.path != applications[0].path for app in applications)
+            if container_cnt < len(applications) and different_apps:
                 bm_log(
                     f"Minimum number of containers must be greater or equal to the number of applications({len(applications)}). Adjust the `container_list` config and try again!",
                     LogType.FATAL,
