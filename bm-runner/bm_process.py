@@ -21,7 +21,11 @@ class Process(ExecutionUnit):
         self.core_set = core_set
 
     def exec(self, command):
-        commands = f"{self.CMD_WHILE_NOT_START} taskset --cpu-list {self.core_set} {command}"
+        change_dir = ""
+        if self.app.cd:
+            assert(self.app.path is not None)
+            change_dir = f" cd {self.app.path} && "
+        commands = f"{self.CMD_WHILE_NOT_START}{change_dir}taskset --cpu-list {self.core_set} {command}"
         with open(resolve_path(self.output_file), "w") as outfile:
             self.process = subprocess.Popen(
                 commands,

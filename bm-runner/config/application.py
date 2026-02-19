@@ -24,6 +24,7 @@ class Application(dict):
         path: Optional[Path] = None,
         args: Optional[str] = None,
         adapter: Optional[Adapter] = None,
+        cd: bool = False
     ):
         """
         An application is either a builtin benchmark binary from the `bench` directory,
@@ -59,11 +60,12 @@ class Application(dict):
         -
         """
         super().__init__(
-            name=name, path=path, op_distributions=operations, args=args, adapter=adapter
+            name=name, path=path, op_distributions=operations, args=args, adapter=adapter, cd=cd
         )
         self.name = name
         self.path = path
         self.operations = operations
+        self.cd = cd
         # Set default framework arguments
         self.args = (
             "-t={threads} -n={noise} -d={duration} -s={initial_size}" if args is None else args
@@ -83,6 +85,7 @@ class Application(dict):
         # builtin: exist under `self.BUILTIN_APP_DIR``
         if self.path:
             fname = ensure_exists(name=self.name, dir=self.path)
+            fname = f"./{self.name}" if self.cd else fname
         else:
             if exists_system_wide(self.name):
                 return f"{self.name} "
