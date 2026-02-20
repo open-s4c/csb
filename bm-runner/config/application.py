@@ -88,8 +88,7 @@ class Application(dict):
         else:
             if exists_system_wide(self.name):
                 return f"{self.name} "
-            binary_path = os.path.join(work_dir, self.BUILTIN_APP_DIR)
-            fname = ensure_exists(name=self.name, dir=binary_path)
+            fname = ensure_exists(name=self.name, dir=self.BUILTIN_APP_DIR)
         return f"{fname} "
 
     def get_cmd(self, threads, duration, noise, initial_size, index, work_dir: Path) -> str:
