@@ -32,7 +32,15 @@
   },
   "containers": {
     "container_list": {
-      "values": [[1, 2, 4, 6, 8]]
+      "values": [
+        [
+          1,
+          2,
+          4,
+          6,
+          8
+        ]
+      ]
     },
     "core_count": 2,
     "image": "ubuntu:latest"
@@ -41,7 +49,7 @@
     {
       "path": "bm-external/byte-unixbench/UnixBench",
       "name": "Run",
-      "cd" : true,
+      "cd": true,
       "args": "-c {threads} -i 1 -b -q syscall",
       "adapter": {
         "name": "unix-bench-adapter.sh"
@@ -50,7 +58,7 @@
     {
       "path": "bm-external/byte-unixbench/UnixBench",
       "name": "Run",
-      "cd" : true,
+      "cd": true,
       "args": "-c {threads} -i 1 -b -q pipe",
       "adapter": {
         "name": "unix-bench-adapter.sh"
