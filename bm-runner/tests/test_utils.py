@@ -9,6 +9,7 @@ from bm_utils import resolve_path, ensure_exists
 def csb_dir() -> Path:
     return Path(os.getcwd()).parent
 
+
 #################################
 # resolve_path tests
 #################################
@@ -19,11 +20,13 @@ def test_resolve_path_native():
     out = resolve_path(input)
     assert expected_out == out
 
+
 def test_resolve_path_container():
     input = "build/bench/x"
     expected_out = os.path.join("/home", input)
     out = resolve_path(input, use_in_container=True)
     assert expected_out == out
+
 
 def test_resolve_path_native_full():
     parent = csb_dir()
@@ -33,6 +36,7 @@ def test_resolve_path_native_full():
     out = resolve_path(input)
     assert expected_out == out
 
+
 def test_resolve_path_container_full():
     parent = csb_dir()
     relative = "scripts/plugins/launch-clients-local.sh"
@@ -40,9 +44,12 @@ def test_resolve_path_container_full():
     expected_out = os.path.join("/home", relative)
     out = resolve_path(input, use_in_container=True)
     assert expected_out == out
+
+
 #################################
 # ensure_exists tests
 #################################
+
 
 def test_ensure_exists_relative():
     input_path = "scripts"
@@ -51,6 +58,7 @@ def test_ensure_exists_relative():
     actual = ensure_exists(name=input_name, dir=input_path)
     assert actual == expected
 
+
 def test_ensure_exists_sys_wide():
     input_name = "ls"
     input_path = "/tmp"
@@ -58,11 +66,13 @@ def test_ensure_exists_sys_wide():
     actual = ensure_exists(name=input_name, dir=input_path)
     assert actual == expected
 
+
 def test_ensure_exists_sys_wide_no_dir():
     input_name = "ls"
     expected = "ls"
     actual = ensure_exists(name=input_name)
     assert actual == expected
+
 
 def test_ensure_exists_env_var():
     input_env_var = "CSB_PLUGINS"
