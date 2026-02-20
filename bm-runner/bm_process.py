@@ -41,6 +41,7 @@ class Process(ExecutionUnit):
                 cwd=self.home_dir,
             )
         bm_log(f"launched process {self.name} with {commands}")
+        return True
 
     def wait(self):
         self.process.wait()

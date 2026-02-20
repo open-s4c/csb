@@ -37,8 +37,8 @@ class ExecutionUnit:
         pass
 
     @abstractmethod
-    def exec(self, command):
-        pass
+    def exec(self, command: str) -> bool:
+        return False
 
     @abstractmethod
     def wait(self):
@@ -126,8 +126,7 @@ class Executer:
                         sys.exit(1)
                 else:
                     sz = initial_size
-
-                eu.exec(
+                ret = eu.exec(
                     eu.app.get_cmd(
                         plugins_cmds=self.__wrap_plugins(),
                         threads=threads,
@@ -141,6 +140,8 @@ class Executer:
                         res_dir=eu.get_results_dir(),
                     )
                 )
+                if not ret:
+                    break
 
             # give start signal
             self.signal_start()
