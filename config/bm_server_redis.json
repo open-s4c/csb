@@ -126,7 +126,7 @@
         "8000",
         "{n_units}",
         "{homedir}/build/bench/start",
-        "{homedir}"
+        "{homedir}/build/bench"
       ]
     }
   ]
