@@ -74,7 +74,9 @@ jobs:
 
       - name: Test ${{ matrix.test }}
         run: |
+          mkdir /tmp/csb
           docker run --rm --name csb \
+            -v /tmp/csb:/root/csb/build/bench \
             -v /boot:/boot \
             -v /lib/modules:/lib/modules \
             -v /var/run/docker.sock:/var/run/docker.sock \
