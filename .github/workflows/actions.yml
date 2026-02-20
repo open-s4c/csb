@@ -210,5 +210,5 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: results-${{ matrix.benchmark }}
+          name: results-${{ matrix.benchmark.config }}
           path: results/

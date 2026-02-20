@@ -125,7 +125,7 @@
       "args": [
         "8000",
         "{n_units}",
-        "{homedir}/start",
+        "{homedir}/build/bench/start",
         "{homedir}"
       ]
     }
