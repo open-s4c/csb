@@ -4,7 +4,6 @@
 import sys
 from typing import Optional
 from config.adapter import Adapter
-from bm_utils import exists_system_wide
 from pathlib import Path
 from bm_utils import ensure_exists
 from utils.logger import bm_log, LogType
@@ -88,16 +87,14 @@ class Application(dict):
             sys.exit(1)
 
     def __get_runnable_cmd(self, work_dir: Path) -> str:
-        # The benchmark binary can be:
-        # external: exists somewhere under CSB root
-        # external: exists in the /usr/bin
-        # builtin: exist under `self.BUILTIN_APP_DIR``
         if self.path:
             fname = ensure_exists(name=self.name, dir=self.path)
-            fname = f"./{self.name}" if self.cd else fname
+            # if changing directory is required, the command
+            # will be just the app name.
+            fname = f"./{self.name} " if self.cd else fname
         else:
-            if exists_system_wide(self.name):
-                return f"{self.name} "
+            # if path is None, then we are either running a builtin benchmark
+            # or one that is available system wide
             fname = ensure_exists(name=self.name, dir=self.BUILTIN_APP_DIR)
         return f"{fname} "
 
