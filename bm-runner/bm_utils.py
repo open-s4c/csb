@@ -197,7 +197,7 @@ def ensure_exists(
     """
     bm_log(f"ensure_exists name: {name}, dir:{dir}, env_var_dir:{env_var_dir}")
     fname = name
-    if dir is not None and os.path.isabs(fname) :
+    if dir is not None and os.path.isabs(fname):
         fname = os.path.join(dir, name)
         if Path(fname).exists():
             return fname

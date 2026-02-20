@@ -3,7 +3,6 @@
 
 import os
 import sys
-import shutil
 from typing import Optional
 from config.adapter import Adapter
 from bm_utils import exists_system_wide
@@ -24,7 +23,7 @@ class Application(dict):
         path: Optional[Path] = None,
         args: Optional[str] = None,
         adapter: Optional[Adapter] = None,
-        cd: bool = False
+        cd: bool = False,
     ):
         """
         An application is either a builtin benchmark binary from the `bench` directory,
