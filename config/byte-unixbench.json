@@ -52,7 +52,7 @@
       "cd": true,
       "args": "-c {threads} -i 1 -b -q syscall",
       "adapter": {
-        "name": "unix-bench-adapter.sh"
+        "name": "byte-unixbench-adapter.sh"
       }
     },
     {
