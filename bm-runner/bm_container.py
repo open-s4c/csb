@@ -5,11 +5,13 @@
 import docker
 import docker.errors
 import os
+import time
 import sys
 from benchkit.shell.shell import shell_out
 from bm_executer import Executer
 from bm_executer import ExecutionUnit
 import bm_utils
+from textwrap import indent
 from typing import Optional
 from config.application import Application
 from config.container import ContainersConfig
@@ -42,11 +44,37 @@ class Container(ExecutionUnit):
     def get_results_dir(self) -> str:
         return str(resolve_path(self.record_data_dir, use_in_container=True))
 
-    def wait(self):
-        # TODO: wait with a timeout
+    def __log_status(self, container):
+        exit_code = container.attrs["State"].get("ExitCode")
+        logs = container.logs().decode(errors="replace").strip()
+
+        msg = f"Container {self.name}\n"
+        msg += f"  Status      : {container.status}"
+
+        if exit_code:
+            msg += f"\n  Exit code   : {exit_code}"
+
+        if logs:
+            msg += f"\n  Logs:\n{indent(logs, '    ')}"
+
+        bm_log(msg)
+
+    def __wait_status(self, container, timeout):
+        #
+        # Wait up to timeout for one of those status: run/exit/dead
+        # Status like created, restarting, removing and paused are ignored.
+        #
+        for _ in range(0, timeout * 10):
+            container.reload()
+            if container.status in ("running", "exited", "dead"):
+                break
+
+            time.sleep(0.1)
+
+    def wait(self, timeout=None):
         container = self.client.containers.get(self.name)
         bm_log(f"Waiting for Container: {self.name} to stop")
-        result = container.wait()
+        result = container.wait(timeout=timeout)
         exit_code = result["StatusCode"]
         if exit_code != 0:
             bm_log(
@@ -56,8 +84,12 @@ class Container(ExecutionUnit):
             sys.exit(1)
 
     def stop(self):
+        bm_log(f"Stopping Container {self.name}")
         try:
             container = self.client.containers.get(self.name)
+
+            self.__log_status(container)
+
             container.stop()
             container.remove()
             # Remove network namespace as well
@@ -154,6 +186,17 @@ class Container(ExecutionUnit):
                 working_dir="/home",
                 ports=ports,
             )
+
+            timeout = 20
+            self.__wait_status(container, timeout)
+            self.__log_status(container)
+
+            if container.status != "running":
+                bm_log(
+                    f"Container {self.name} did not reach 'running' status in {timeout}s.",
+                    LogType.ERROR,
+                )
+
             bm_utils.save_container_config(self.record_data_dir, self.name)
 
             if self.nic:
