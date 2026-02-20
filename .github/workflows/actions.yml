@@ -179,8 +179,8 @@ jobs:
     strategy:
       matrix:
         benchmark:
-          - { config: unix-bench, repo: https://github.com/kdlucas/byte-unixbench.git }
-          - { config: will-it-scale, repo: https://github.com/antonblanchard/will-it-scale.git }
+          - { config: byte-unixbench, repo: https://github.com/kdlucas/byte-unixbench.git, build: ls }
+          - { config: will-it-scale, repo: https://github.com/antonblanchard/will-it-scale.git, build: make }
     steps:
       - uses: actions/checkout@v4
         with:
@@ -199,7 +199,7 @@ jobs:
           cd bm-external
           git clone ${{ matrix.benchmark.repo }}
           cd ${{ matrix.benchmark.config }}
-          make
+          ${{ matrix.benchmark.build }}
       - name: Run Benchmark ${{ matrix.benchmark }}
         run: |
           ./scripts/fg-diff/run-single.sh config/${{ matrix.benchmark.config }}.json
