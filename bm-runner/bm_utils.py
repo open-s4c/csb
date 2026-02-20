@@ -39,7 +39,7 @@ def build_bench(bench_src_dir):
     build_cmd = f"cmake --build {build_dir} -j"
     if os.getenv("CSB_NO_CLEAN_BENCH") is None:
         shell_out(
-            f"rm -rf {build_dir}",
+            f"rm -rf {build_dir}/*",
             output_is_log=True,
         )
     shell_out(
