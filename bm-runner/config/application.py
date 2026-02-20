@@ -85,6 +85,12 @@ class Application(dict):
                 LogType.FATAL,
             )
             sys.exit(1)
+        if self.cd and self.path is None:
+            self.cd = False
+            bm_log(
+                f"Ignoring `cd` in configuration of {name}. `path` must be set when `cd` is set to `true`",
+                LogType.ERROR,
+            )
 
     def __get_runnable_cmd(self, work_dir: Path) -> str:
         if self.path:

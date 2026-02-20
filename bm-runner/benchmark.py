@@ -80,8 +80,8 @@ class ScalabilityBenchmark(Benchmark):
         container_cfg = bm_config.g_config.get_container_config()
         self.multi_app = len(applications) > 1
         if self.multi_app:
-            # check if the apps provided are the same app (i.e. same name & path, but different args)
-            # or if they differ
+            # Determine if the multi-apps are really different,
+            # or if they only differ in the params
             different_apps = any(
                 app.name != applications[0].name or app.path != applications[0].path
                 for app in applications

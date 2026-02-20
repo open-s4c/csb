@@ -112,6 +112,7 @@ class Container(ExecutionUnit):
 
     def exec(self, command):
         if self.app.cd:
+            assert self.app.path is not None, "path is not set while change directory is requested!"
             command = f"cd {self.app.path} && {command}"
         commands = f"{self.CMD_WHILE_NOT_START} {command} > {resolve_path(self.output_file, use_in_container=True)}"  # same as self.output_file outside container.
         self.__start(commands)
