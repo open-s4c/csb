@@ -201,13 +201,13 @@ def ensure_exists(
         fname = os.path.join(dir, name)
         if Path(fname).exists():
             return fname
-    elif dir is not None:
+    if dir is not None:
         fname = os.path.join(dir, name)
         if Path(resolve_path(fname)).exists():
             return fname
-    elif exists_system_wide(fname):
-        return fname
-    elif env_var_dir is not None:
+    if exists_system_wide(name):
+        return name
+    if env_var_dir is not None:
         env_dir = os.getenv(env_var_dir)
         if env_dir is not None:
             fname = os.path.join(env_dir, name)
