@@ -95,7 +95,10 @@ def save_docker_daemon_config(output_dir):
                 command=f"{script_path} {daemon_config_dir}",
                 output_is_log=False,
             )
-            bm_log(f"docker daemon configuration saved in {daemon_config_dir}.", LogType.INFO)
+            bm_log(
+                f"docker daemon configuration saved in {daemon_config_dir}.",
+                LogType.INFO,
+            )
         else:
             bm_log(
                 f"`get-docker-daemon-info.sh` script does not exist in: {script_path}. docker daemon information will not be recorded.",
@@ -121,7 +124,10 @@ def save_container_config(output_dir, container_name):
                 current_dir=get_curdir(__file__),
                 output_is_log=True,
             )
-            bm_log(f"container configuration saved in {container_config_dir}.", LogType.INFO)
+            bm_log(
+                f"container configuration saved in {container_config_dir}.",
+                LogType.INFO,
+            )
         else:
             bm_log(
                 f"`get-docker-container-info.sh` script does not exist in: {script_path}. docker container information will not be recorded.",
