@@ -53,6 +53,8 @@ jobs:
       fail-fast: false
       matrix:
         test:
+          - bm_empty
+          - bm_server_redis
           - min_mysql_close_dup_0_0
           - min_mysql_getdents64_close_0_0
           - min_mysql_lseek_read_1_0
