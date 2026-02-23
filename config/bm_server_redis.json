@@ -133,6 +133,7 @@
     {
       "name": "collect_strace.sh",
       "exec_time": "with",
+      "path": "scripts/plugins",
       "args": [
         "{res_dir}/test_strace-cnt{index}.log"
       ]

@@ -82,7 +82,7 @@ class Plugin(dict):
         commands = [self.fname]
         commands.extend(self.args)
 
-        return commands
+        return " ".join(commands)
 
     def execute(self, results_dir, **kwargs):
         tmpfile = tempfile.NamedTemporaryFile(dir=results_dir, delete=False)
