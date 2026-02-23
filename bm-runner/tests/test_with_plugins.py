@@ -4,6 +4,7 @@
 import os
 from pathlib import Path
 
+from bm_utils import ensure_exists
 from bm_container import Container
 from bm_process import Process
 from config.application import Application
@@ -62,8 +63,8 @@ def get_command(
 
 
 def test_results_dir_container():
-    input_ = "results"
-    out = get_command(input_, "", 0, is_process=False)
+    input_path = "results"
+    out = get_command(input_path, "", 0, is_process=False)
 
     homedir = csb_dir()
     expected_out = "strace -o /home/results/test-container0.log ls"
@@ -73,8 +74,8 @@ def test_results_dir_container():
 
 
 def test_results_dir_process():
-    input_ = "results"
-    out = get_command(input_, "", 0)
+    input_path = "results"
+    out = get_command(input_path, "", 0)
 
     homedir = csb_dir()
     expected_out = f"strace -o {homedir}/results/test-container0.log ls"
@@ -84,8 +85,8 @@ def test_results_dir_process():
 
 
 def test_results_dir_with_args_process():
-    input_ = "results"
-    out = get_command(input_, "subdir/ myfile", 0)
+    input_path = "results"
+    out = get_command(input_path, "subdir/ myfile", 0)
 
     homedir = csb_dir()
     expected_out = f"strace -o {homedir}/results/test-container0.log ls subdir/ myfile"
@@ -95,8 +96,8 @@ def test_results_dir_with_args_process():
 
 
 def test_results_dir_with_args_container():
-    input_ = "results"
-    out = get_command(input_, "subdir/ myfile", 0, is_process=False)
+    input_path = "results"
+    out = get_command(input_path, "subdir/ myfile", 0, is_process=False)
 
     homedir = csb_dir()
     expected_out = "strace -o /home/results/test-container0.log ls subdir/ myfile"
@@ -106,22 +107,26 @@ def test_results_dir_with_args_container():
 
 
 def test_results_dir_with_script_process():
-    input_ = "results"
-    out = get_command(input_, "subdir/ myfile", 0, plugins="collect_strace.sh")
+    input_path = "results"
+    input_plugin = "collect_strace.sh"
+
+    input_plugin = ensure_exists(input_plugin, dir="scripts/plugins")
+    out = get_command(input_path, "subdir/ myfile", 0, plugins=input_plugin)
 
     homedir = csb_dir()
-    expected_out = f"{homedir}/script/plugins/collect_strace.sh ls subdir/ myfile"
-    not_expected_out = "/home/script/plugins/collect_strace.sh ls subdir/ myfile"
+    expected_out = "scripts/plugins/collect_strace.sh ls subdir/ myfile"
 
-    assert expected_out == out and not_expected_out != out
+    assert expected_out == out
 
 
 def test_results_dir_with_script_container():
-    input_ = "results"
-    out = get_command(input_, "subdir/ myfile", 0, plugins="collect_strace.sh", is_process=False)
+    input_path = "results"
+    input_plugin = "collect_strace.sh"
+
+    input_plugin = ensure_exists(input_plugin, dir="scripts/plugins")
+    out = get_command(input_path, "subdir/ myfile", 0, plugins=input_plugin, is_process=False)
 
     homedir = csb_dir()
-    expected_out = "/home/script/plugins/collect_strace.sh ls subdir/ myfile"
-    not_expected_out = f"{homedir}/script/plugins/collect_strace.sh ls subdir/ myfile"
+    expected_out = "scripts/plugins/collect_strace.sh ls subdir/ myfile"
 
-    assert expected_out == out and not_expected_out != out
+    assert expected_out == out

@@ -75,7 +75,7 @@ def test_ensure_exists_sys_wide_no_dir():
 
 
 def test_ensure_exists_env_var():
-    input_env_var = "CSB_PLUGINS"
+    input_env_var = "CSB_TEST_ENV"
     current_dir = os.getcwd()
     real_dir = f"{current_dir}/../scripts"
     os.environ[input_env_var] = real_dir
