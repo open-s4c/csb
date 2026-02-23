@@ -26,6 +26,7 @@ class Container(ExecutionUnit):
         self,
         idx,
         image,
+        is_build,
         home_dir,
         core_set,
         record_data_dir,
@@ -36,6 +37,7 @@ class Container(ExecutionUnit):
         super().__init__(idx=idx, type=ExecutionType.CONTAINER, home_dir=home_dir, app=app)
         self.client = docker.from_env()  # Initialize Docker client
         self.image = image
+        self.is_build = is_build
         self.core_set = core_set
         self.record_data_dir = record_data_dir
         self.port = port + self.idx if port else None
@@ -159,18 +161,24 @@ class Container(ExecutionUnit):
         )
         return None
 
-    def __start(self, commands):
+    def __start(self, commands, build=False):
         self.stop()
 
         host_home_dir = self._host_home_dir()
 
         volumes = {
             host_home_dir: {"bind": "/home", "mode": "rw"},
-            "/usr": {"bind": "/usr", "mode": "rw"},
-            "/mnt": {"bind": "/mnt", "mode": "rw"},
             "/lib/modules": {"bind": "/lib/modules", "mode": "rw"},
             "/etc": {"bind": "/etc", "mode": "rw"},
         }
+
+        if not self.is_build:
+            volumes.update(
+                {
+                    "/usr": {"bind": "/usr", "mode": "rw"},
+                    "/mnt": {"bind": "/mnt", "mode": "rw"},
+                }
+            )
 
         bm_log(f"Starting Container: {self.name}")
         try:
@@ -233,12 +241,19 @@ class Containers(Executer):
         assert len(apps) == count, "[BUG] Application list length must be equal to count"
         bm_log(f"Initializing {count} containers with config: {config}")
         core_offsets = config.get_core_affinity_offset_list()
+
+        if config.build:
+            is_build = True
+        else:
+            is_build = False
+
         for i in range(count):
             core_set = bm_utils.get_cpu_set(start=core_offsets[i], core_cnt=config.core_count)
             container = Container(
                 idx=i,
                 home_dir=home_dir,
                 image=config.image,
+                is_build=is_build,
                 core_set=core_set,
                 record_data_dir=record_data_dir,
                 port=config.port,
