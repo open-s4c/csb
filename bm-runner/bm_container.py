@@ -39,7 +39,7 @@ class Container(ExecutionUnit):
         self.nic = nic
 
     def get_results_dir(self) -> str:
-        return resolve_path(self.record_data_dir, use_in_container=True)
+        return str(resolve_path(self.record_data_dir, use_in_container=True))
 
     def wait(self):
         # TODO: wait with a timeout

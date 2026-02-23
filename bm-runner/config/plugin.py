@@ -78,7 +78,7 @@ class Plugin(dict):
         self.process = None
         self.fname = ensure_exists(name, dir=path, env_var_dir=self.ENV_VAR)
 
-    def get_command(self) -> dict:
+    def get_command(self) -> str:
         commands = [self.fname]
         commands.extend(self.args)
 

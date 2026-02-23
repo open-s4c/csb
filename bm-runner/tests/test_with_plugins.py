@@ -18,7 +18,7 @@ def csb_dir() -> Path:
 
 image = "ubuntu"
 core_set = "0"
-work_dir = "/home"
+work_dir = Path("/home")
 
 
 def get_command(
@@ -57,7 +57,7 @@ def get_command(
         index=index,
         n_units=2,
         work_dir=work_dir,
-        homedir=work_dir,
+        homedir=str(work_dir),
         res_dir=eu.get_results_dir(),
     )
 

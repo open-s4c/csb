@@ -21,7 +21,7 @@ class Process(ExecutionUnit):
         self.core_set = core_set
 
     def get_results_dir(self) -> str:
-        return resolve_path(self.record_data_dir, use_in_container=False)
+        return str(resolve_path(self.record_data_dir, use_in_container=False))
 
     def exec(self, command):
         change_dir = ""
