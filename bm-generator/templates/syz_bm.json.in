@@ -42,7 +42,6 @@ $_begin(NPROCS = [[1; 2]]);
 $_end();
 		]},
 		"core_count": 1,
-		"image": "ubuntu:latest",
 		"name" : "syz_proc_container"
     },
     "applications": [

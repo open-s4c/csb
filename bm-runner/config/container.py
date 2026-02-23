@@ -7,17 +7,18 @@ import docker
 import docker.errors
 import sys
 from utils.logger import bm_log, LogType
+from utils.platform import get_os, OperatingSystem
 
 
-# Example configuration:
-# "containers": {
-#   "container_list": {"values": [{"min": 1, "step": 1, "max": 3}]}
-# 	"core_count": 3,
-# 	"name": "Container",
-# 	"image": "ubuntu:latest",
-# },
+
 class ContainersConfig(dict):
     CONFIG_KEY: str = "containers"
+    DEFAULT_IMG: dict [OperatingSystem, str] = {
+        OperatingSystem.openEuler: "hub.oepkgs.net/openeuler/openeuler",
+        OperatingSystem.Ubuntu: "ubuntu:latest",
+        OperatingSystem.Unsupported: "ubuntu:latest"
+    }
+
 
     def __init__(
         self,
@@ -25,7 +26,7 @@ class ContainersConfig(dict):
         core_affinity_offsets: Optional[ListConfig] = None,
         core_count: int = 1,
         name: str = "",
-        image: str = "hub.oepkgs.net/openeuler/openeuler",
+        image: Optional[str] = None,
         port: Optional[int] = None,
     ):
         """
@@ -42,7 +43,7 @@ class ContainersConfig(dict):
             Number of cores to assign to each container.
         name: str
             The base name of the container.
-        image: str
+        image: Optional[str]
             The docker image name to use.
         port: Optional[int]
             The starting port number to use for the first container.
@@ -53,14 +54,13 @@ class ContainersConfig(dict):
         super().__init__(image=image, name=name, core_count=core_count, port=port)
         self.container_list = ListConfig.from_dict(container_list).get_list()
         self.core_count = core_count
-        bm_log(f"Container list: {self.container_list}")
         self.core_affinity_offsets = (
             ListConfig.from_dict(core_affinity_offsets).get_list()
             if core_affinity_offsets is not None
             else [core_count * i for i in range(0, self.container_list[-1])]
         )
-        bm_log(f"Container aff list: {self.core_affinity_offsets}")
-        self.image = image
+        self.image = image if image is not None else self.DEFAULT_IMG[get_os()]
+        bm_log(f"Selected image {self.image}", LogType.INFO)
         self.name = name
         self.port = port
         self.__ensure_img_exists()

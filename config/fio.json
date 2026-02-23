@@ -51,8 +51,7 @@
         }
       ]
     },
-    "core_count": 3,
-    "image": "ubuntu:latest"
+    "core_count": 3
   },
   "applications": [
     {

@@ -104,7 +104,6 @@
         ]
       ]
     },
-    "image": "ubuntu:latest",
     "name": "redis-like",
     "port": 8000
   },
