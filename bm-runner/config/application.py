@@ -104,7 +104,8 @@ class Application(dict):
             fname = ensure_exists(name=self.name, dir=self.BUILTIN_APP_DIR)
         return f"{fname}"
 
-    def get_cmd(self,
+    def get_cmd(
+        self,
         plugins: str,
         threads: int,
         duration: int,
@@ -120,7 +121,7 @@ class Application(dict):
         ops = " ".join(f"-op{idx}={val}" for idx, val in enumerate(self.operations))
         args = self.args
 
-        #NOTE: Filter removes any empty string
+        # NOTE: Filter removes any empty string
         cmd = " ".join(filter(None, [plugins, cmd, ops, args]))
 
         cmd = cmd.format(
