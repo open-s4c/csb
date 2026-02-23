@@ -43,7 +43,7 @@ ContainersConfig represents the configuration for multiple containers. Represent
 |core_affinity_offsets|[ListConfig](#listconfig)|:white_check_mark:|`core_count * [0, 1, 2, 3, ...]`|    Specifies the cores that should be assigned to the containers.     Note that the assignment of cores happens in ascending order by default. |
 |core_count|int|:white_check_mark:|`1`|    Number of cores to assign to each container. |
 |name|str|:white_check_mark:||    The base name of the container. |
-|image|str|:white_check_mark:|`hub.oepkgs.net/openeuler/openeuler`|    The docker image name to use. |
+|image|str|:white_check_mark:|`same as the host OS e.g. ubuntu:latest on Ubuntu.`|    The docker image name to use. |
 |port|int|:white_check_mark:||    The starting port number to use for the first container.     Subsequent containers will use incremented port numbers.     This configuration is relevant for networking benchmarks. |
 
 ## Plugin
