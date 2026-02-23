@@ -10,15 +10,13 @@ from utils.logger import bm_log, LogType
 from utils.platform import get_os, OperatingSystem
 
 
-
 class ContainersConfig(dict):
     CONFIG_KEY: str = "containers"
-    DEFAULT_IMG: dict [OperatingSystem, str] = {
+    DEFAULT_IMG: dict[OperatingSystem, str] = {
         OperatingSystem.openEuler: "hub.oepkgs.net/openeuler/openeuler",
         OperatingSystem.Ubuntu: "ubuntu:latest",
-        OperatingSystem.Unsupported: "ubuntu:latest"
+        OperatingSystem.Unsupported: "ubuntu:latest",
     }
-
 
     def __init__(
         self,
@@ -43,7 +41,7 @@ class ContainersConfig(dict):
             Number of cores to assign to each container.
         name: str
             The base name of the container.
-        image: Optional[str]
+        image: Optional[str] = same as the host OS e.g. ubuntu:latest on Ubuntu.
             The docker image name to use.
         port: Optional[int]
             The starting port number to use for the first container.
