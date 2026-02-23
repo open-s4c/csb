@@ -106,7 +106,7 @@ class Application(dict):
 
     def get_cmd(
         self,
-        plugins: str,
+        plugins_cmds: str,
         threads: int,
         duration: int,
         noise: int,
@@ -117,12 +117,19 @@ class Application(dict):
         homedir: str,
         res_dir: str,
     ) -> str:
+        """
+        Returns full command line for a single benchmark run.
+        This command line is composed of:
+        application's command with arguments; the distribution of opperations; and plugins that run with the application.
+
+        This step also formats the command line, using variables such as `homedir`.
+        """
         cmd = self.__get_runnable_cmd(work_dir)
         ops = " ".join(f"-op{idx}={val}" for idx, val in enumerate(self.operations))
         args = self.args
 
         # NOTE: Filter removes any empty string
-        cmd = " ".join(filter(None, [plugins, cmd, ops, args]))
+        cmd = " ".join(filter(None, [plugins_cmds, cmd, ops, args]))
 
         cmd = cmd.format(
             threads=threads,

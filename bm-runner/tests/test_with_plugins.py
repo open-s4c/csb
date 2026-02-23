@@ -49,7 +49,7 @@ def get_command(
         )
 
     return eu.app.get_cmd(
-        plugins=plugins,
+        plugins_cmds=plugins,
         threads=1,
         duration=1,
         noise=0,

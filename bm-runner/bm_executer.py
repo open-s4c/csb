@@ -74,21 +74,25 @@ class Executer:
             for type, args in bm_config.g_config.get_benchmark_cfg().monitors.items()
         ]
 
-    def __call_plugins(self, exec_time: ExecutionTime) -> None:
+    def __call_plugins(self, exec_time):
         plugins = [plugin for plugin in self.plugins if plugin.exec_time == exec_time]
         for plugin in plugins:
             plugin.execute(
-                resolve_path(self.results_dir),
+                self.results_dir,
                 n_units=len(self.exec_units),
                 homedir=self.home_dir,
                 res_dir=self.results_dir,
             )
 
-    def __wrap_plugins(self, exec_time: ExecutionTime) -> str:
+    def __wrap_plugins(self) -> str:
         """
         Retuns command line string with all plugins that run "with" the benchmarked applications.
         """
-        plugins = [plugin.get_command() for plugin in self.plugins if plugin.exec_time == exec_time]
+        plugins = [
+            plugin.get_command()
+            for plugin in self.plugins
+            if plugin.exec_time == ExecutionTime.WITH
+        ]
         return " ".join(plugins)
 
     def add_exec_unit(self, unit):
@@ -125,7 +129,7 @@ class Executer:
 
                 eu.exec(
                     eu.app.get_cmd(
-                        plugins=self.__wrap_plugins(ExecutionTime.WITH),
+                        plugins_cmds=self.__wrap_plugins(),
                         threads=threads,
                         duration=duration,
                         noise=noise,
