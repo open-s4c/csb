@@ -127,9 +127,7 @@
         "{homedir}/build/bench/start",
         "{homedir}/build/bench"
       ]
-    }
-  ],
-  "plugins": [
+    },
     {
       "name": "collect_strace.sh",
       "exec_time": "with",
