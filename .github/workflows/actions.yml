@@ -140,7 +140,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        benchmark: [bm_empty, bm_server_redis, min_mysql_close_dup_0_0]
+        benchmark: [bm_empty, bm_server_redis, fio, min_mysql_close_dup_0_0]
     steps:
       - uses: actions/checkout@v4
         with:
