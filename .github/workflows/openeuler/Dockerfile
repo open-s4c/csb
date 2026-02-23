@@ -29,7 +29,7 @@ RUN dnf install -y cmake perf sysstat sudo gcc moby-engine moby-client hiredis-d
 #
 # Currently undocumented dependencies
 #
-RUN dnf install -y hostname python3 python3-pip iproute lshw ethtool nvme-cli hdparm libcgroup-tools stress-ng fio
+RUN dnf install -y hostname python3 python3-pip iproute lshw ethtool nvme-cli hdparm libcgroup-tools
 
 #
 # Docker-specific setup: install sudo disabling PAM authentication
