@@ -8,6 +8,7 @@ import signal
 from monitors.monitor import Monitor
 from bm_utils import ensure_exists
 from utils.logger import bm_log, LogType
+from typing import Optional
 
 
 class PerfCmd:
@@ -36,7 +37,7 @@ class FlameGraph(Monitor):
     def __init__(self, output_dir: str, args: list[str] = ["-a"]):
         ensure_exists("perf")
         super().__init__(dir=output_dir, args=args)
-        self.perf: PerfCmd = None
+        self.perf: Optional[PerfCmd] = None
         self.fg_path = os.getenv(self.FG_PATH_ENV_VAR_NAME)
         if self.fg_path is None:
             bm_log(

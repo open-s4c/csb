@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 from monitors.monitor import Monitor
 from bm_utils import ensure_exists
 from utils.logger import bm_log
+from typing import Optional
 
 
 class SarCmd:
@@ -39,7 +40,7 @@ class SarNetStats(Monitor):
         for tool in ["sar", "sadf"]:
             ensure_exists(tool)
         super().__init__(dir=output_dir, args=args)
-        self.sar: SarCmd = None
+        self.sar: Optional[SarCmd] = None
 
     def start(self):
         # Launch perf in the background

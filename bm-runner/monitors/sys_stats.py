@@ -11,7 +11,7 @@ from jsonpath_ng import parse
 from monitors.monitor import Monitor
 from bm_utils import ensure_exists
 from utils.logger import bm_log, LogType
-
+from typing import Optional
 
 # TODO: generate other user plots
 # TODO: refactor if turns out this is the only use, one class is enough!
@@ -46,7 +46,7 @@ class SystemStats(Monitor):
     def __init__(self, output_dir: str, args: list[str] = ["-A"]):
         ensure_exists("mpstat")
         super().__init__(dir=output_dir, args=args)
-        self.stat: MpstatCmd = None
+        self.stat: Optional[MpstatCmd] = None
 
     def start(self):
         self.stat = MpstatCmd(self.dir, "mpstat.json", self.args)
@@ -104,12 +104,16 @@ class SystemStats(Monitor):
         return self.transform(df)
 
     def collect_results(self) -> str:
-        data = self.stat.read_output()
-        self.dump_plot(data)
-        results = self.get_cpu_load(data)
-        results += self.get_sum_interrupts(data)
-        results += self.get_soft_interrupts(data)
-        return results
+        if self.stat:
+            data = self.stat.read_output()
+            self.dump_plot(data)
+            results = self.get_cpu_load(data)
+            results += self.get_sum_interrupts(data)
+            results += self.get_soft_interrupts(data)
+            return results
+        else:
+            bm_log("Could not read output of sys stats", LogType.ERROR)
+            return ""
 
     # TODO: decide if the generate should stay here, and if it should be part of the final html
     def dump_plot(self, data):
