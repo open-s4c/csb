@@ -112,8 +112,6 @@ def test_results_dir_with_script_process():
 
     input_plugin = ensure_exists(input_plugin, dir="scripts/plugins")
     out = get_command(input_path, "subdir/ myfile", 0, plugins=input_plugin)
-
-    homedir = csb_dir()
     expected_out = "scripts/plugins/collect_strace.sh ls subdir/ myfile"
 
     assert expected_out == out
@@ -125,8 +123,6 @@ def test_results_dir_with_script_container():
 
     input_plugin = ensure_exists(input_plugin, dir="scripts/plugins")
     out = get_command(input_path, "subdir/ myfile", 0, plugins=input_plugin, is_process=False)
-
-    homedir = csb_dir()
     expected_out = "scripts/plugins/collect_strace.sh ls subdir/ myfile"
 
     assert expected_out == out

@@ -11,9 +11,9 @@ if [ -z "`command -v strace`" ]; then
   exit 1
 fi
 
-if [ $# -lt 2 ]; then
+if [ $# -lt 1 ]; then
   echo "Usage:"
-  echo "  $0 <command> <output_fname> [<arg1>] [<arg2>] ..."
+  echo "  $0 <output_fname> <command> [<arg1>] [<arg2>] ..."
   exit 1
 fi
 
