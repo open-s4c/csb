@@ -37,7 +37,7 @@ class Application(dict):
             The name of the application/benchmark binary.
         path: Optional[Path]
             Specifies the relative path where the benchmark binary/script exists. This is
-            relevant to running external benchmarks that don not exist system wide under e.g. in `/usr/bin`.
+            relevant to running external benchmarks that do not exist system wide under e.g. in `/usr/bin`.
             Note that the path here should be relative to CSB (project) dir, which is mounted as
             `/home` dir in the containers. When running an external benchmark, place its parent folder under
             the project directory e.g. `CSB/bm-external/will-it-scale`, then specify `path` as
@@ -59,9 +59,9 @@ class Application(dict):
             An adapter object.
             This is only relevant for external applications/benchmarks.
         cd: bool = false
-            When set to `true`, it changes the current directory to the given `path`, before
-            running the binary/script with the given `name`. When set to `false` and `path`
-            is given the binary is run from the project directory as `path/name`. Use this
+            When set to `true`, it changes the current directory to the given `path`, and
+            then runs the binary/script with the given `name`. When set to `false` and `path`
+            is given, the binary is run from the project directory as `path/name`. Use this
             configuration with caution! This configuration is useful when running external
             benchmarks that require to be run from their own directory, because they use
             relative paths like unix bench.
