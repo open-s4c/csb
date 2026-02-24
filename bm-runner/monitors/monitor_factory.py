@@ -11,19 +11,26 @@ from utils.logger import bm_log, LogType
 import sys
 from config.env_config import EnvUniversalConfig, UniversalConfig
 
+
 class DummyMonitor(Monitor):
-    def __init__(self, name:str):
+    def __init__(self, name: str):
         super().__init__(dir="", args=[])
         self.name = name
 
     def start(self):
-        bm_log(f"Requested monitor `{self.name}` from config is not started, since environment variable `{UniversalConfig.CSB_ANALYZE}` "
-               f"is set to `false`."
-               f"To reactivate monitors remove `{UniversalConfig.CSB_ANALYZE}` or set it to `true`", LogType.WARNING)
+        bm_log(
+            f"Requested monitor `{self.name}` from config is not started, since environment variable `{UniversalConfig.CSB_ANALYZE}` "
+            f"is set to `false`."
+            f"To reactivate monitors remove `{UniversalConfig.CSB_ANALYZE}` or set it to `true`",
+            LogType.WARNING,
+        )
+
     def stop(self):
         pass
+
     def collect_results(self) -> str:
         return ""
+
 
 class MonitorFactory:
     @staticmethod

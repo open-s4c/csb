@@ -12,6 +12,7 @@ from config.nics import NicsConfig
 from typing import get_origin, get_args
 from typing import Union, Optional
 from bm_config import CampaignConfig
+from config.env_config import UniversalConfig
 import sys
 import re
 
@@ -76,8 +77,8 @@ def pretty_type(t):
     return str(t)
 
 
-def enum_values(t):
-    documentation = f"## {t.__name__}\n"
+def enum_values(t, add_title=True):
+    documentation = f"## {t.__name__}\n" if add_title else ""
     doc_str = inspect.getdoc(t)
     documentation += get_enum_doc(doc_str) if doc_str else ""
     documentation += "<br/>Supported values:\n"
@@ -232,6 +233,12 @@ def overall_main_doc(main_config):
     return documentation
 
 
+def document_env_config():
+    documentation = "## Environment Variables\n"
+    documentation += enum_values(UniversalConfig, add_title=False)
+    return documentation
+
+
 if __name__ == "__main__":
     fname = sys.argv[1] if len(sys.argv) > 1 else "../doc/CONFIG.md"
     documentation = ""
@@ -252,6 +259,8 @@ if __name__ == "__main__":
     # add enum sections
     for e in g_enums:
         documentation += enum_values(e)
+
+    documentation += document_env_config()
 
     with open(fname, "w") as f:
         f.write(documentation)

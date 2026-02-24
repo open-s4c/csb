@@ -1,9 +1,25 @@
+# Copyright (C) Huawei Technologies Co., Ltd. 2026. All rights reserved.
+# SPDX-License-Identifier: MIT
+
 import os
 from enum import Enum
 
+
 class UniversalConfig(str, Enum):
+    """
+    CSB bm-runner has universal configuration that can overwrite default
+    behavior, and JSON config values. These are set via environment variables,
+    and are read at runtime.
+
+    Members
+    ----------
+    CSB_NO_CLEAN_BENCH: When set to `true`, it disables the cleaning of the build folder of builtin benchmarks.
+    CSB_ANALYZE: When set to `false`, it disables the analysis monitors.
+    """
+
     CSB_NO_CLEAN_BENCH = "CSB_NO_CLEAN_BENCH"
     CSB_ANALYZE = "CSB_ANALYZE"
+
 
 class EnvUniversalConfig:
     DEFAULT_ENV_CONFIG: dict[UniversalConfig, bool] = {

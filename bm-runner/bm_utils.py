@@ -15,6 +15,7 @@ from utils.logger import bm_log, LogType
 from benchkit.utils.types import PathType
 from config.env_config import EnvUniversalConfig, UniversalConfig
 
+
 def resolve_path(path: PathType, use_in_container: bool = False) -> PathType:
     """
     Returns the absolute path of the given path with respect to
