@@ -18,6 +18,7 @@ class Application(dict):
         self,
         name: str,
         operations: list[int] = [],
+        command: Optional[str] = None,
         path: Optional[Path] = None,
         args: Optional[str] = None,
         adapter: Optional[Adapter] = None,
@@ -35,6 +36,8 @@ class Application(dict):
         ----------
         name: str
             The name of the application/benchmark binary.
+        command: Optional[str]
+            Name of the command line to be executed, with its absolute path.
         path: Optional[Path]
             Specifies the relative path where the benchmark binary/script exists. This is
             relevant to running external benchmarks that do not exist system wide under e.g. in `/usr/bin`.
@@ -71,6 +74,7 @@ class Application(dict):
             name=name, path=path, op_distributions=operations, args=args, adapter=adapter, cd=cd
         )
         self.name = name
+        self.command = command
         self.path = path
         self.operations = operations
         self.cd = cd
@@ -93,6 +97,9 @@ class Application(dict):
             )
 
     def __get_runnable_cmd(self, work_dir: Path) -> str:
+        if self.command:
+            return self.command
+
         if self.path:
             fname = ensure_exists(name=self.name, dir=self.path)
             # if changing directory is required, the command
