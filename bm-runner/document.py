@@ -240,7 +240,7 @@ def document_env_config():
 
 
 if __name__ == "__main__":
-    fname = sys.argv[1] if len(sys.argv) > 1 else "../doc/CONFIG.md"
+    fname = sys.argv[1] if len(sys.argv) > 1 else "../doc/bm-config.md"
     documentation = ""
 
     documentation += "# Overall Configuration\n"

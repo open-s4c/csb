@@ -68,7 +68,7 @@ in its operation. It is used a demo, and it can be used to analyze
 the benchmarking skeleton behavior in isolation._
 
 <!-- references -->
-[config]: doc/CONFIG.md
+[config]: doc/bm-config.md
 [bench]: doc/bench.md
 [bm-generator]: doc/bm-generator.md
 [bm-runner]: doc/bm-runner.md

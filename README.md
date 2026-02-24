@@ -61,4 +61,4 @@ a complete developer guide and accept PRs.
 [bm-runner]: doc/bm-runner.md
 [bm-generator]: doc/bm-generator.md
 [bench]: doc/bench.md
-[config]: doc/CONFIG.md
+[config]: doc/bm-config.md
