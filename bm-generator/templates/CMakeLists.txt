@@ -13,7 +13,7 @@ add_custom_target(${SINGLE_BM_TARGET})
 add_custom_command(
     TARGET ${SINGLE_BM_TARGET}
     POST_BUILD
-    COMMAND cmake --build "${CMAKE_BINARY_DIR}" --target clang-format-apply
+    COMMAND cmake --build "${CMAKE_BINARY_DIR}" --target clang-format-apply json-format-apply
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 
 # Find all single template files
@@ -83,3 +83,8 @@ add_custom_target(
     COMMAND ${TMPLR_PROGRAM} -DNN="${APPLICATIONS}" -DNPROCS="${FILES_NUM}"
             ${INPUT_TEMPLATE} > ${OUTPUT_FILE})
 add_dependencies(${AGGREGATE_TARGET} ${TMPLR_TARGET})
+add_custom_command(
+    TARGET ${AGGREGATE_TARGET}
+    POST_BUILD
+    COMMAND cmake --build "${CMAKE_BINARY_DIR}" --target json-format-apply
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})

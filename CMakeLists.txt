@@ -47,3 +47,10 @@ add_dependencies(cmake-format-apply license-check)
 # Add git-diff-check target
 # ##############################################################################
 add_custom_target(git-diff-check COMMAND git --no-pager diff --exit-code)
+# ##############################################################################
+# Add json-format-apply target
+# ##############################################################################
+add_custom_target(
+    json-format-apply
+    COMMAND bash -c ${HELPERS}/json-format.sh ${CMAKE_SOURCE_DIR}
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
