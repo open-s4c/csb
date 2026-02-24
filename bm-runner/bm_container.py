@@ -84,10 +84,23 @@ class Container(ExecutionUnit):
 
     def _host_home_dir(self):
         home_dir = os.path.abspath(self.home_dir)
-        home_dir = os.path.join(home_dir, Application.BUILTIN_APP_DIR)
 
         if not os.path.exists("/.dockerenv"):
             return home_dir
+
+        #
+        # Volume binds works like mount: when a volume is bound, any existing
+        # contents on it will be hidden. The new content will be whatever the
+        # host has.
+        #
+        # When running inside a docker container, we can't simply map the
+        # entire home directory, as this will simply replace whatever content
+        # it was already there by the ones from the host, which may be empty.
+        # What we need, instead, is to bind the volume where we want writes
+        # to be replicated within multiple containers, e.g. what is inside
+        # BUILTIN_APP_DIR.
+        #
+        home_dir = os.path.join(home_dir, Application.BUILTIN_APP_DIR)
 
         # CSB is inside a docker container.
         # We can't map home_dir, as this is not the real location.
