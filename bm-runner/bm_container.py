@@ -82,9 +82,12 @@ class Container(ExecutionUnit):
             f"sudo ../scripts/add-nic-to-container.sh {netcfg.nic} {smp_irq_affinity} {pid} {self.name} {netcfg.ip} {netcfg.netmask}"
         )
 
-    def _host_builtin_app_dir(self):
+    def _host_home_dir(self):
+        # Use home_dir on its canonical form
+        home_dir = os.path.abspath(self.home_dir)
+
         if not os.path.exists("/.dockerenv"):
-            return None
+            return home_dir
 
         #
         # CSB is inside a docker container.
@@ -100,9 +103,6 @@ class Container(ExecutionUnit):
         # to be replicated within multiple containers, e.g. what is inside
         # BUILTIN_APP_DIR.
         #
-
-        home_dir = os.path.abspath(self.home_dir)
-        home_dir = os.path.join(home_dir, Application.BUILTIN_APP_DIR)
 
         try:
             container = self.client.containers.get(os.uname().nodename)
@@ -130,24 +130,15 @@ class Container(ExecutionUnit):
     def __start(self, commands):
         self.stop()
 
-        volumes = {}
+        host_home_dir = self._host_home_dir()
 
-        host_builtin_app_dir = self._host_builtin_app_dir()
-        if host_builtin_app_dir:
-            volumes.update({
-                host_builtin_app_dir: {
-                    "bind": f"/home/{Application.BUILTIN_APP_DIR}",
-                    "mode": "rw",
-                }
-            })
-
-        volumes.update({
-            "/home": {"bind": "/home", "mode": "rw"},
+        volumes = {
+            host_home_dir: {"bind": "/home", "mode": "rw"},
             "/usr": {"bind": "/usr", "mode": "rw"},
             "/mnt": {"bind": "/mnt", "mode": "rw"},
             "/lib/modules": {"bind": "/lib/modules", "mode": "rw"},
             "/etc": {"bind": "/etc", "mode": "rw"},
-        })
+        }
 
         bm_log(f"Starting Container: {self.name}")
         try:
@@ -157,16 +148,7 @@ class Container(ExecutionUnit):
                 command=["bash", "-c", commands],
                 name=self.name,
                 cpuset_cpus=self.core_set,
-                volumes={
-                    host_builtin_app_dir: {
-                        "bind": f"/home/{Application.BUILTIN_APP_DIR}",
-                        "mode": "rw",
-                    },
-                    "/usr": {"bind": "/usr", "mode": "rw"},
-                    "/mnt": {"bind": "/mnt", "mode": "rw"},
-                    "/lib/modules": {"bind": "/lib/modules", "mode": "rw"},
-                    "/etc": {"bind": "/etc", "mode": "rw"},
-                },
+                volumes=volumes,
                 privileged=True,  # privileged mode
                 detach=True,  # detach mode
                 working_dir="/home",
