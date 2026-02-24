@@ -84,3 +84,14 @@ jobs:
             -w /root/csb \
             ${{ env.TEST_TAG }} \
             bash -c "cp -ar . /home/csb && cd /home/csb && scripts/fg-diff/run-single.sh config/${{ matrix.test }}.json"
+
+      - name: Fix artifact permissions
+        if: always()
+        run: sudo chmod -R a+r /tmp/csb/results/
+
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: openeuler-results-${{ matrix.test }}
+          path: /tmp/csb/results/
