@@ -49,7 +49,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [clang-format-apply, cmake-format-apply]
+        target: [clang-format-apply, cmake-format-apply, json-format-apply, csb-generated]
     steps:
       - name: Install cmake-format for cmake-format-check
         if: matrix.target == 'cmake-format-apply'
@@ -59,7 +59,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Configure
-        run: cmake -S. -Bbuild
+        run: cmake -S. -Bbuild -DCSB_BM_GENERATOR=ON
       - name: Run ${{ matrix.target }}
         run: cmake --build build --target ${{ matrix.target }}
       - name: Check things match expectation
@@ -119,14 +119,6 @@ jobs:
           python-version: "3.10"
       - name: Run documentation script
         run: ./scripts/configure.sh && ./helpers/update-doc.sh && git --no-pager diff --exit-code
-
-  # Check all JSON files are valid and formatted
-  Check-JSON-format:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run JSON formatting script
-        run: helpers/json-format.sh && git --no-pager diff --exit-code
 
   Run-Python-Tests:
     runs-on: ubuntu-latest
