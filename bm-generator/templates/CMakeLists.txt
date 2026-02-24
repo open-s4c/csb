@@ -13,7 +13,8 @@ add_custom_target(${SINGLE_BM_TARGET})
 add_custom_command(
     TARGET ${SINGLE_BM_TARGET}
     POST_BUILD
-    COMMAND cmake --build "${CMAKE_BINARY_DIR}" --target clang-format-apply json-format-apply
+    COMMAND cmake --build "${CMAKE_BINARY_DIR}" --target clang-format-apply
+            json-format-apply
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 
 # Find all single template files
