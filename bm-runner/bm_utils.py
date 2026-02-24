@@ -13,7 +13,7 @@ from pathlib import Path
 import json
 from utils.logger import bm_log, LogType
 from benchkit.utils.types import PathType
-
+from config.env_config import EnvUniversalConfig, UniversalConfig
 
 def resolve_path(path: PathType, use_in_container: bool = False) -> PathType:
     """
@@ -37,7 +37,8 @@ def build_bench(bench_src_dir):
     build_dir = os.path.join(bench_src_dir, "build")
     config_cmd = f"cmake -DCMAKE_BUILD_TYPE=Release -S{bench_src_dir} -B{build_dir}"
     build_cmd = f"cmake --build {build_dir} -j"
-    if os.getenv("CSB_NO_CLEAN_BENCH") is None:
+    if not EnvUniversalConfig.is_on(UniversalConfig.CSB_NO_CLEAN_BENCH):
+        bm_log("Cleaning previous bench build...", LogType.INFO)
         shell_out(
             f"rm -rf {build_dir}",
             output_is_log=True,
