@@ -49,7 +49,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [clang-format-apply, cmake-format-apply, json-format-apply, csb-generated]
+        target: [clang-format-apply, cmake-format-apply, json-format-apply, csb-generate]
     steps:
       - name: Install cmake-format for cmake-format-check
         if: matrix.target == 'cmake-format-apply'
