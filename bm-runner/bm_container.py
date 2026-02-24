@@ -82,12 +82,12 @@ class Container(ExecutionUnit):
             f"sudo ../scripts/add-nic-to-container.sh {netcfg.nic} {smp_irq_affinity} {pid} {self.name} {netcfg.ip} {netcfg.netmask}"
         )
 
-    def _host_home_dir(self):
-        home_dir = os.path.abspath(self.home_dir)
-
+    def _host_builtin_app_dir(self):
         if not os.path.exists("/.dockerenv"):
-            return home_dir
+            return None
 
+        #
+        # CSB is inside a docker container.
         #
         # Volume binds works like mount: when a volume is bound, any existing
         # contents on it will be hidden. The new content will be whatever the
@@ -100,11 +100,9 @@ class Container(ExecutionUnit):
         # to be replicated within multiple containers, e.g. what is inside
         # BUILTIN_APP_DIR.
         #
-        home_dir = os.path.join(home_dir, Application.BUILTIN_APP_DIR)
 
-        # CSB is inside a docker container.
-        # We can't map home_dir, as this is not the real location.
-        # So, pick the actual volume that contains it or bail out.
+        home_dir = os.path.abspath(self.home_dir)
+        home_dir = os.path.join(home_dir, Application.BUILTIN_APP_DIR)
 
         try:
             container = self.client.containers.get(os.uname().nodename)
@@ -132,9 +130,24 @@ class Container(ExecutionUnit):
     def __start(self, commands):
         self.stop()
 
-        host_home = self._host_home_dir()
-        if not host_home:
-            return False
+        volumes = {}
+
+        host_builtin_app_dir = self._host_builtin_app_dir()
+        if host_builtin_app_dir:
+            volumes.update({
+                host_builtin_app_dir: {
+                    "bind": f"/home/{Application.BUILTIN_APP_DIR}",
+                    "mode": "rw",
+                }
+            })
+
+        volumes.update({
+            "/home": {"bind": "/home", "mode": "rw"},
+            "/usr": {"bind": "/usr", "mode": "rw"},
+            "/mnt": {"bind": "/mnt", "mode": "rw"},
+            "/lib/modules": {"bind": "/lib/modules", "mode": "rw"},
+            "/etc": {"bind": "/etc", "mode": "rw"},
+        })
 
         bm_log(f"Starting Container: {self.name}")
         try:
@@ -145,7 +158,7 @@ class Container(ExecutionUnit):
                 name=self.name,
                 cpuset_cpus=self.core_set,
                 volumes={
-                    host_home: {
+                    host_builtin_app_dir: {
                         "bind": f"/home/{Application.BUILTIN_APP_DIR}",
                         "mode": "rw",
                     },
