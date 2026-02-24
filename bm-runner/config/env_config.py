@@ -8,7 +8,7 @@ from enum import Enum
 class UniversalConfig(str, Enum):
     """
     CSB bm-runner has universal configuration that can overwrite default
-    behavior, and JSON config values. These are set via environment variables,
+    behavior and JSON config values. These are set via environment variables,
     and are read at runtime.
 
     Members

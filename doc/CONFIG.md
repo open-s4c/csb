@@ -128,6 +128,6 @@ Execution environment of the benchmarks.  <br/>Supported values:
 - `"native"`:  Launches the benchmark(s) directly on the host OS.
 - `"container"`:  Launches the benchmark(s) inside a container.
 ## Environment Variables
-CSB bm-runner has universal configuration that can overwrite default behavior, and JSON config values. These are set via environment variables, and are read at runtime.  <br/>Supported values:
+CSB bm-runner has universal configuration that can overwrite default behavior and JSON config values. These are set via environment variables, and are read at runtime.  <br/>Supported values:
 - `"CSB_NO_CLEAN_BENCH"`:  When set to `true`, it disables the cleaning of the build folder of builtin benchmarks.
 - `"CSB_ANALYZE"`:  When set to `false`, it disables the analysis monitors.
