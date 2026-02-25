@@ -6,7 +6,8 @@ cmake_minimum_required(VERSION 3.22)
 project(
     CSB
     LANGUAGES C
-    DESCRIPTION "Builtin Benchmarks of CSB")
+    VERSION 0.1.0
+    DESCRIPTION "CSB: Container Scalability Benchmarks")
 
 option(CSB_BM_GENERATOR "Turns bm-generator ON/OFF" OFF)
 include(CTest)
