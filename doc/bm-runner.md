@@ -125,9 +125,9 @@ See [Running Benchmarks](#running-benchmarks)
 In addition to the builtin/auto-generated benchmarks shipped with CSB, CSB allows users
 to add external benchmarks under the following conditions:
 
-- users are expected to add an adapter that maps the output of the external benchmark to CSB format. (see [adapters config](bm-config.md#adapter))
-- users should provide a relative path to the CSB project directory where the external benchmarks are located. (see [applications config](bm-config.md#application))
-- if the external benchmark is installed on the host (in /usr/bin), it can be run in the container, provided the container's OS matches the host's OS
+- Users are expected to add an adapter that maps the output of the external benchmark to CSB format (see [adapters config](bm-config.md#adapter)).
+- Users should provide a relative path to the CSB project directory where the external benchmarks are located (see [applications config](bm-config.md#application)).
+- If the external benchmark is installed on the host (in /usr/bin), it can be run in the container, provided the container's OS matches the host's OS.
 
 CSB contains minimal examples for some external benchmarks like [fio][], [stress-ng][], [unixbench][], and [will-it-scale][].
 Each of these benchmarks have a JSON file under `config/` and an adapter under `scripts/adapters`.
