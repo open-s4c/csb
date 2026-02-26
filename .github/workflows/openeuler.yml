@@ -2,99 +2,58 @@
 name: CSB on openEuler
 on: [workflow_dispatch, push, pull_request]
 
+# Almost identical to vatomic
 
+env:
+  REGISTRY: ghcr.io
 jobs:
-  #
-  # Build the image once, reuse it in all later jobs
-  #
-
-  build-image:
-    name: openeuler-csb image
+  prepare-docker:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
       attestations: write
       id-token: write
-
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+        container:
+          - name: "test-ci"
+            path: ".github/Dockerfile.test"
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Log in to github
-        uses: docker/login-action@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          registry: ghcr.io
+          fetch-depth: 0
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3.0.0
+        with:
+          registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Generate Docker metadata
+      - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository }}
+          images: ghcr.io/${{ github.repository }}/${{ matrix.container.name }}
+
           tags: |
-            type=sha,format=short
+            type=edge,branch=dev
+            type=raw,latest
+            type=sha,format=long
 
-      - uses: docker/setup-buildx-action@v3
+      - name: Setup docker buildx
+        uses: docker/setup-buildx-action@v3
 
-      - name: Build and push openeuler-csb
-        uses: docker/build-push-action@v6
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5.1.0
         with:
           context: .
           push: true
           file: .github/workflows/openeuler/Dockerfile
-          tags:  ${{ steps.meta.outputs.tags }}
+          cache-from: type=gha,scope=${{ matrix.container }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.container }}
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
-      - name: Set image tag to be used on openEuler job
-        id: set-image
-        run: |
-          IMAGE=${{ steps.meta.outputs.tags }}
-          echo "image=${IMAGE}" >> $GITHUB_OUTPUT
-
-  #
-  # Run tests on openEuler via openeuler-csb image
-  #
-  openEuler:
-    name: OpenEuler Tests
-    needs: build-image
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        test:
-          - bm_empty
-          - min_mysql_close_dup_0_0
-          - min_mysql_getdents64_close_0_0
-          - min_mysql_lseek_read_1_0
-          - min_mysql_newfstatat_0_1
-          - min_mysql_newfstatat_openat_0_1
-          - min_mysql_openat_fsync_0_2
-          - min_mysql_pread64_faccessat2_0_5
-          - min_mysql_read_close_0_0
-          - min_mysql_read_write_0_1
-
-    container:
-      image: ${{ needs.build-image.outputs.image }}
-      volumes:
-        - /tmp:/home/csb
-        - /boot:/boot
-        - /lib/modules:/lib/modules
-        - /var/run/docker.sock:/var/run/docker.sock
-
-    steps:
-      - name: Test ${{ matrix.test }}
-        run: |
-          cp -ar /root/csb/* /root/csb/.?* /home/csb
-          cd /home/csb && scripts/fg-diff/run-single.sh config/${{ matrix.test }}.json
-
-      - name: Fix artifact permissions
-        if: always()
-        run: sudo chmod -R a+r /tmp/results/
-
-      - name: Upload results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: openeuler-results-${{ matrix.test }}
-          path: /tmp/results/
