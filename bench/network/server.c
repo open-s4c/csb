@@ -156,6 +156,16 @@ readwrite(struct epoll_event *ev, int efd)
     config_wait(d, efd);
 }
 
+static void
+usage(const char *argv0)
+{
+    fprintf(stderr, "Usage: %s [-6] [-p port] [-P operation_sequence]\n",
+            argv0);
+    fprintf(
+        stderr,
+        "Operation sequence: <NUM_TIME>[rw]<NUM_BYTES>[-operation_sequence]*, "
+        "e.g. '2r1024-1w32'\n");
+}
 
 int
 main(int argc, char *argv[])
@@ -179,18 +189,20 @@ main(int argc, char *argv[])
                 program = optarg;
                 break;
             default: /* '?' */
-                fprintf(stderr,
-                        "Usage: %s [-6] [-p port] [-P operation_sequence]\n",
-                        argv[0]);
+                usage(argv[0]);
                 return -1;
         }
     }
 
     if (!program) {
+        fprintf(stderr, "No operation sequence specified\n");
+        usage(argv[0]);
         return 'P';
     }
     eops_sz = parse_ops(program, &eops[0], sizeof(eops) / sizeof(eops[0]));
     if (eops_sz < 0) {
+        fprintf(stderr, "Failed to parse operation sequence.\n");
+        usage(argv[0]);
         return 'P';
     }
 
