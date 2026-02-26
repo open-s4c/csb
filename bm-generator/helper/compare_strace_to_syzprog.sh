@@ -34,7 +34,7 @@ cat "${TRACE}" | grep -vF '<...' | grep -vF -- '---' | grep -vF -- '+++' | sed '
 
 # Generate prog output frequencies
 
-cat "${DIR_PROG}/"*.prog | sed 's/^r.* = //' | cut -d '(' -f 1 | cut -d '$' -f 1 | sort | uniq -c | sed 's/^ *//' | sed 's/^\(.*\) \(.*\)$/\2\t\1/' > "${FILE_FREQ_OUT}"
+cat "${DIR_PROG}/"*.prog | sed 's/^<[0-9]*>r.* = //' | cut -d '(' -f 1 | cut -d '$' -f 1 | sort | uniq -c | sed 's/^ *//' | sed 's/^\(.*\) \(.*\)$/\2\t\1/' > "${FILE_FREQ_OUT}"
 
 num_hist_in=`cat ${FILE_FREQ_IN} | wc -l`
 num_hist_out=`cat ${FILE_FREQ_OUT} | wc -l`
