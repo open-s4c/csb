@@ -1,46 +1,56 @@
 # SPDX-License-Identifier: MIT
 name: CSB on openEuler
-on:
-  # Trigger when manually triggered via the GitHub UI
-  workflow_dispatch:
-  # Trigger when code is pushed to the 'main' branch
-  push:
-    branches:
-      - main
-env:
-  TEST_IMG: openeuler-csb-image
-  TEST_TAG: openeuler-csb:aarch64
-  TEST_ZST: openeuler-csb.tar.zst
+on: [workflow_dispatch, push, pull_request]
 
 
 jobs:
   #
   # Build the image once, reuse it in all later jobs
   #
+
   build-image:
     name: openeuler-csb image
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
 
     steps:
-
       - uses: actions/checkout@v4
+
+      - name: Log in to github
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=sha,format=short
 
       - uses: docker/setup-buildx-action@v3
 
-      - name: build openEuler container
-        run: |
-          docker buildx build \
-            --load \
-            -t ${{ env.TEST_TAG }} -f .github/workflows/openeuler/Dockerfile .
-
-          docker save ${{ env.TEST_TAG }} | zstd -T0 -19 -o ${{ env.TEST_ZST }}
-
-      - name: Upload image artifact
-        uses: actions/upload-artifact@v4
+      - name: Build and push openeuler-csb
+        uses: docker/build-push-action@v6
         with:
-          name: ${{ env.TEST_IMG }}
-          path: ${{ env.TEST_ZST }}
-          retention-days: 1
+          context: .
+          push: true
+          file: .github/workflows/openeuler/Dockerfile
+          tags:  ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Set image tag to be used on openEuler job
+        id: set-image
+        run: |
+          IMAGE=${{ steps.meta.outputs.tags }}
+          echo "image=${IMAGE}" >> $GITHUB_OUTPUT
 
   #
   # Run tests on openEuler via openeuler-csb image
@@ -64,34 +74,27 @@ jobs:
           - min_mysql_read_close_0_0
           - min_mysql_read_write_0_1
 
+    container:
+      image: ${{ needs.build-image.outputs.image }}
+      volumes:
+        - /tmp:/home/csb
+        - /boot:/boot
+        - /lib/modules:/lib/modules
+        - /var/run/docker.sock:/var/run/docker.sock
+
     steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: ${{ env.TEST_IMG }}
-
-      - name: Load Docker image
-        run: |
-          zstd -d -T0 ${{ env.TEST_ZST }} -c | docker load
-
       - name: Test ${{ matrix.test }}
         run: |
-          mkdir /tmp/csb
-          docker run --rm --name csb \
-            -v /tmp/csb:/home/csb \
-            -v /boot:/boot \
-            -v /lib/modules:/lib/modules \
-            -v /var/run/docker.sock:/var/run/docker.sock \
-            -w /root/csb \
-            ${{ env.TEST_TAG }} \
-            bash -c "cp -ar . /home/csb && cd /home/csb && scripts/fg-diff/run-single.sh config/${{ matrix.test }}.json"
+          cp -ar /root/csb/* /root/csb/.?* /home/csb
+          cd /home/csb && scripts/fg-diff/run-single.sh config/${{ matrix.test }}.json
 
       - name: Fix artifact permissions
         if: always()
-        run: sudo chmod -R a+r /tmp/csb/results/
+        run: sudo chmod -R a+r /tmp/results/
 
       - name: Upload results
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: openeuler-results-${{ matrix.test }}
-          path: /tmp/csb/results/
+          path: /tmp/results/
