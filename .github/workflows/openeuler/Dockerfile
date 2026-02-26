@@ -15,21 +15,10 @@ FROM ${BASE_IMAGE}
 # Note, however, that csb is currently not ready to run like that
 #
 
-
 #
-# Needed due to pandas issues with timestamps
+# Install required packages
 #
-RUN dnf install -y glibc-all-langpacks
-
-#
-# Dependencies from doc/bm-runner.md
-#
-RUN dnf install -y cmake perf sysstat sudo gcc moby-engine moby-client hiredis-devel jq
-
-#
-# Currently undocumented dependencies
-#
-RUN dnf install -y hostname python3 python3-pip iproute lshw ethtool nvme-cli hdparm libcgroup-tools
+RUN dnf install -y glibc-all-langpacks cmake perf sysstat sudo gcc moby-engine moby-client hiredis-devel jq hostname python3 python3-pip iproute lshw ethtool nvme-cli hdparm libcgroup-tools git
 
 #
 # Docker-specific setup: install sudo disabling PAM authentication
@@ -42,14 +31,14 @@ RUN set -eux; \
     echo 'Double check if sudo works' | sudo tee /tmp/sudo_test.txt
 
 #
-# Git is needed to clone the repository inside the container
-#
-RUN dnf install -y git
-
-#
 # Reduce container disk space by dropping dnf data
 #
 RUN dnf clean all
+
+#
+# Create a home directory
+#
+RUN mkdir -p /home/csb
 
 # Create a working directory and update submodules
 WORKDIR /root/csb
