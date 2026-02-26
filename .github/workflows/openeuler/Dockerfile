@@ -19,52 +19,40 @@ FROM ${BASE_IMAGE}
 #
 # Needed due to pandas issues with timestamps
 #
-RUN dnf install -y glibc-all-langpacks
-
-#
-# Dependencies from doc/bm-runner.md
-#
-RUN dnf install -y cmake perf sysstat sudo gcc moby-engine moby-client hiredis-devel jq
-
-#
-# Currently undocumented dependencies
-#
-RUN dnf install -y hostname python3 python3-pip iproute lshw ethtool nvme-cli hdparm libcgroup-tools
-
-#
-# Docker-specific setup: install sudo disabling PAM authentication
-#
-RUN set -eux; \
-    dnf install -y sudo; \
-    echo 'auth sufficient pam_permit.so' > /etc/pam.d/sudo && \
-    echo 'account sufficient pam_permit.so' >> /etc/pam.d/sudo && \
-    echo 'session sufficient pam_permit.so' >> /etc/pam.d/sudo && \
-    echo 'Double check if sudo works' | sudo tee /tmp/sudo_test.txt
-
-#
-# Git is needed to clone the repository inside the container
-#
-RUN dnf install -y git
+RUN dnf install -y glibc-all-langpacks cmake perf sysstat sudo gcc \
+                   moby-engine moby-client hiredis-devel jq \
+                   hostname python3 python3-pip iproute lshw ethtool \
+                   nvme-cli hdparm libcgroup-tools sudo git
 
 #
 # Reduce container disk space by dropping dnf data
 #
 RUN dnf clean all
 
-# Create a working directory and update submodules
-WORKDIR /root/csb
-COPY . .
+#
+# Docker-specific setup: install sudo disabling PAM authentication
+#
+RUN set -eux; \
+    echo 'auth sufficient pam_permit.so' > /etc/pam.d/sudo && \
+    echo 'account sufficient pam_permit.so' >> /etc/pam.d/sudo && \
+    echo 'session sufficient pam_permit.so' >> /etc/pam.d/sudo && \
+    echo 'Double check if sudo works' | sudo tee /tmp/sudo_test.txt
 
 #
 # Directory used when running containers inside CSB.
 # This needs to be mapped by the host as otherwise container tests won't run.
 #
-RUN mkdir -p /root/csb/build/bench
-VOLUME [ "/root/csb/build/bench" ]
+RUN mkdir -p /venv
 
 #
 # Prepare the environment: initialize git submodules and venv
 #
+#COPY . .
 RUN ./scripts/prepare.sh
 
-CMD ["/root/csb/run.sh"]
+#
+# Copy virtualenv to the container
+#
+RUN mv ./venv /venv
+
+CMD ["bash"]
