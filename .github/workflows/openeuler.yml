@@ -1,12 +1,8 @@
 # SPDX-License-Identifier: MIT
 name: CSB on openEuler
 on:
-  # Trigger when manually triggered via the GitHub UI
   workflow_dispatch:
-  # Trigger when code is pushed to the 'main' branch
   push:
-    branches:
-      - main
 env:
   TEST_IMG: openeuler-csb-image
   TEST_TAG: openeuler-csb:aarch64
