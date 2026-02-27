@@ -45,7 +45,7 @@ jobs:
             ${{ env.TEST_TAG }} \
             bash -c "cd /home/csb && git config --global --add safe.directory /home/csb && scripts/fg-diff/run-single.sh config/${{ matrix.test }}.json"
 
-        # FIXME: ideally, we shoudld be copying the already prepared /venv, but
+        # FIXME: ideally, we should be copying the already prepared /venv, but
         # the command line below didn't work:
         #            bash -c "cd /home/csb && cp -r /venv . && git config --global --add safe.directory /home/csb && scripts/fg-diff/run-single.sh config/${{ matrix.test }}.json"
 
