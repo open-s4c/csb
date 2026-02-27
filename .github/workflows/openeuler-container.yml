@@ -2,7 +2,12 @@
 name: openEuler container to test CSB
 on:
   workflow_dispatch:
+
   push:
+    paths:
+      - .github/workflows/openeuler-container.yml
+      - .github/workflows/docker/openeuler-for-csb.Dockerfile
+
   schedule:
     - cron: '0 0 * * 0'   # Every Sunday 00:00 UTC
 
