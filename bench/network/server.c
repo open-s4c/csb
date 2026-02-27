@@ -40,11 +40,11 @@ setnonblocking(int sock)
 {
     int opt = fcntl(sock, F_GETFL);
     if (opt < 0) {
-        printf("fcntl(F_GETFL) fail.");
+        fprintf(stderr, "fcntl(F_GETFL) fail.");
     }
     opt |= O_NONBLOCK;
     if (fcntl(sock, F_SETFL, opt) < 0) {
-        printf("fcntl(F_SETFL) fail.");
+        fprintf(stderr, "fcntl(F_SETFL) fail.");
     }
 }
 
@@ -143,13 +143,9 @@ readwrite(struct epoll_event *ev, int efd)
     if (ev->events & EPOLLOUT) {
         assert(!eops[d->step].is_write);
         r = send(fd, &sbuf[0], eops[d->step].sz, 0);
-        if(r > 0)
-            printf("[send] %s\n", sbuf);
     } else if (ev->events & EPOLLIN) {
         assert(eops[d->step].is_write);
         r = recv(fd, &sbuf[0], eops[d->step].sz, 0);
-        if(r > 0)
-            printf("[recv] %s\n", sbuf);
     }
     if (r == -1) {
         unregister(d, efd);
@@ -163,21 +159,22 @@ readwrite(struct epoll_event *ev, int efd)
 static void
 usage(const char *argv0)
 {
-    fprintf(stderr, "Usage: %s [-6] [-p port] [-P operation_sequence]\n",
+    /* -O indicates that the server shall perform one operation only */
+    fprintf(stderr, "Usage: %s [-6] [-p port] [-P operation_sequence] [-O]\n",
             argv0);
     fprintf(
         stderr,
         "Operation sequence: <NUM_TIME>[rw]<NUM_BYTES>[-operation_sequence]*, "
-        "e.g. '2r1024-1w32'\n");
+        "e.g. '2r1023-1w32'\n");
 }
 
 int
 main(int argc, char *argv[])
 {
-    size_t port   = 10000;
-    char *program = NULL;
-    bool use_ipv6 = false;
-    int opt       = 0;
+    size_t port    = 10000;
+    char *program  = NULL;
+    bool use_ipv6  = false;
+    int opt        = 0;
     bool only_once = false;
     while ((opt = getopt(argc, argv, "6p:P:O")) != -1) {
         switch (opt) {
@@ -256,7 +253,8 @@ main(int argc, char *argv[])
     if (epoll_ctl(efd, EPOLL_CTL_ADD, lsock, &ev) == -1) {
         return -1;
     }
-    while (true) {
+    int cnt_ops = 0;
+    do {
         struct epoll_event evs[MAX_EVS];
         int nfds = epoll_wait(efd, &evs[0], MAX_EVS, -1);
         if (nfds == -1) {
@@ -291,13 +289,11 @@ main(int argc, char *argv[])
                 }
             } else {
                 readwrite(&evs[i], efd);
-                if(only_once) {
-                    goto EXIT;
-                }
+                cnt_ops++;
             }
         }
-    }
+    } while (!only_once);
 EXIT:
-    printf("Server exited!\n");
+    printf("Server exited! %d\n", cnt_ops);
     return 0;
 }
