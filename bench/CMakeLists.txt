@@ -75,5 +75,4 @@ foreach(target IN ITEMS ${TARGETS})
     add_test(NAME ${TEST_CASE} COMMAND ${TEST_CASE} ${PARAMS})
 endforeach()
 
-
 add_subdirectory(network)
