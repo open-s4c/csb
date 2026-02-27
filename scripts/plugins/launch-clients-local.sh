@@ -27,7 +27,7 @@ done;
 for ((i=0; i<$CLIENT_COUNT; i++)); do
     port=$((START_PORT + i))
     echo "Launching client $i on port $port"
-    $CLIENT_PATH/client "$IP" "$port" &
+    $CLIENT_PATH/network/redis-client "$IP" "$port" &
 done
 
 echo "\nwaiting for clients to finish..."
