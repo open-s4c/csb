@@ -5,3 +5,14 @@ venv/
 __pycache__/
 results/
 bm-external/*
+
+# Ignore all auto generated files
+bm-generator/extracted*/
+bm-generator/deserialized*/
+bm-generator/*.log
+config/min_*.json
+bench/targets/min_*.h
+bench/targets/syz/
+
+# Temporary files on generator
+bm-generator/templates/*.tmp
