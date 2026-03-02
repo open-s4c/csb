@@ -23,4 +23,4 @@ if [ -f "${FILE_LOG}" ]; then
   exit 1
 fi
 
-strace -o "${FILE_LOG}" -a 1 -s 65500 -v -xx -f -Xraw --raw=wait4 -etrace=!statx $@
+strace -o "${FILE_LOG}" -a 1 -s 65500 -v -xx -f -Xraw --raw=wait4 $@
