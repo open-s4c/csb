@@ -29,6 +29,7 @@ An application is either a builtin benchmark binary from the `bench` directory, 
 |---|---|---|---|---|
 |name|str|:x:||    The name of the application/benchmark binary. |
 |operations|list[int]|:white_check_mark:|`[]`|    A list of integers representing the distribution of operations.     The sum of all values in the list must be equal to 1024.     Each index represents a specific operation as defined by the benchmark/application.     This is only relevant for builtin benchmarks. |
+|command|str|:white_check_mark:||    Name of the command line to be executed, with its absolute path. |
 |path|Path|:white_check_mark:||    Specifies the relative path where the benchmark binary/script exists. This is     relevant to running external benchmarks that do not exist system wide under e.g. in `/usr/bin`.     Note that the path here should be relative to CSB (project) dir, which is mounted as     `/home` dir in the containers. When running an external benchmark, place its parent folder under     the project directory e.g. `CSB/bm-external/will-it-scale`, then specify `path` as     `bm-external/will-it-scale`. |
 |args|str|:white_check_mark:|`-t={threads} -n={noise} -d={duration} -s={initial_size}`|    A string that represents the command line arguments of the application.     It can contain place holders for dynamic values. Available place holders:     are `{threads}`, `{noise}`, `{duration}`, `{index}`, and `{initial_size}`.     They are replaced at runtime with the actual values: number of threads, number of nop instructions following an operation,     duration of the benchmark in seconds, the index of the execution unit in the current benchmarking run, and initial size of the data structure respectively.     If any of the above is relevant for the external application they can be used in the args     string. Otherwise they can be omitted. |
 |adapter|[Adapter](#adapter)|:white_check_mark:|`{}`|    An adapter object.     This is only relevant for external applications/benchmarks. |
@@ -39,6 +40,7 @@ ContainersConfig represents the configuration for multiple containers. Represent
 <br/>***JSON key: "containers"***
 |Field|Type|Optional|Default|Description|
 |---|---|---|---|---|
+|build|[ListConfig](#listconfig)|:white_check_mark:|`list[str]`|    Dockerfile build instructions to build the container. |
 |container_list|[ListConfig](#listconfig)|:white_check_mark:|`{"values": [[1]]}`|    Specifies the number of containers to run. |
 |core_affinity_offsets|[ListConfig](#listconfig)|:white_check_mark:|`core_count * [0, 1, 2, 3, ...]`|    Specifies the cores that should be assigned to the containers.     Note that the assignment of cores happens in ascending order by default. |
 |core_count|int|:white_check_mark:|`1`|    Number of cores to assign to each container. |

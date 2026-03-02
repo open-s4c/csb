@@ -42,6 +42,10 @@
     }
   },
   "containers": {
+    "image": "ubuntu:latest",
+    "build": [
+      "RUN apt update && apt install -y fio"
+    ],
     "container_list": {
       "values": [
         {
@@ -56,6 +60,7 @@
   "applications": [
     {
       "name": "fio",
+      "command": "/usr/bin/fio",
       "args": "--name=randrw --filename=/tmp/fio.test --rw=randrw --rwmixread=70 --bs=4k --size={initial_size}G --iodepth=64 --numjobs={threads} --direct=1",
       "adapter": {
         "name": "fio-adapter.sh"

@@ -44,6 +44,7 @@ def get_command(
             idx=0,
             record_data_dir=results_dir,
             image=image,
+            is_build=False,
             home_dir=work_dir,
             core_set=core_set,
         )
