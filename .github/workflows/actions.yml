@@ -36,8 +36,16 @@ jobs:
       - name: Test bm-generator
         run: |
           go env -w GOBIN=$HOME/.local/bin
+          strace --version
           cd bm-generator/
           ./test.sh
+      - name: Upload strace log
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ls_strace
+          path: ls_strace.log
+
 
   # Checks if cmake and C files are properly formatted
   Check-Format:
