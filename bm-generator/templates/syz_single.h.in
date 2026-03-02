@@ -183,6 +183,10 @@ static inline void bm_target_reg(thread_ctx_t *ctx, size_t tid) {
 
   assert(ctx->mmap_offsets_NN_prog);
 
+  // allocate and fill write buffer
+  ctx->writeBuffer_NN_prog = (char *)malloc(maxWriteBufferSize_NN_prog);
+
+  // connect IPv4
   struct sockaddr_in *saddr4_con = NULL;
   if (bm_connect_addr_inited) {
     saddr4_con = &bm_connect_addr;
@@ -207,7 +211,6 @@ static inline void bm_target_reg(thread_ctx_t *ctx, size_t tid) {
     saddr4_bind->sin_addr.s_addr = htonl(INADDR_ANY);
   }
   ctx->bind4_arg_NN_prog = saddr4_bind;
-  //////////////////////////////////////////////
 
   // connect IPv6
   struct sockaddr_in6 *saddr6_con =
