@@ -160,7 +160,6 @@ readwrite(struct epoll_event *ev, struct epoll_st *est)
     }
     advance_step(d);
     if (0 && d->step == 0) {
-        printf("Completed a full cycle of operations.\n");
         unregister(d, est);
         return;
     } else {
