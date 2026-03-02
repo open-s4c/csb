@@ -209,41 +209,35 @@ jobs:
           name: results-${{ matrix.benchmark.config }}
           path: results/
 
-    Check-Submodule-Commit:
-      runs-on: ubuntu-latest
-
-      steps:
-        - uses: actions/checkout@v4
-          with:
-            submodules: true
-
-        - name: Extract submodule commit SHA
-          id: sub
-          run: |
-            # Path to your submodule
-            SUBMODULE_PATH="deps/syzkaller"
-
-            # Get the commit SHA the submodule is pinned to
-            SHA=$(git -C "$SUBMODULE_PATH" rev-parse HEAD)
-            echo "sha=$SHA" >> $GITHUB_OUTPUT
-            echo "Submodule commit: $SHA"
-
-        - name: Fetch upstream s4c/csb-dev branch
-          run: |
-            # Replace with the real upstream repo URL
-            git clone https://github.com/open-s4c/syzkaller.git
-            cd syzkaller
-            git fetch origin s4c/csb-dev
-
-        - name: Check if submodule SHA exists on upstream s4c/csb-dev
-          run: |
-            SHA="${{ steps.sub.outputs.sha }}"
-            cd syzkaller
-
-            # Check if SHA is reachable from s4c/csb-dev
-            if git merge-base --is-ancestor "$SHA" origin/s4c/csb-dev; then
-              echo "✔ Submodule commit exists on upstream s4c/csb-dev"
-            else
-              echo "❌ Submodule commit does NOT exist on upstream s4c/csb-dev"
-              exit 1
-            fi
+  Check-Submodule-Commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Extract submodule commit SHA
+        id: sub
+        run: |
+          # Path to your submodule
+          SUBMODULE_PATH="deps/syzkaller"
+          # Get the commit SHA the submodule is pinned to
+          SHA=$(git -C "$SUBMODULE_PATH" rev-parse HEAD)
+          echo "sha=$SHA" >> $GITHUB_OUTPUT
+          echo "Submodule commit: $SHA"
+      - name: Fetch upstream s4c/csb-dev branch
+        run: |
+          # Replace with the real upstream repo URL
+          git clone https://github.com/open-s4c/syzkaller.git
+          cd syzkaller
+          git fetch origin s4c/csb-dev
+      - name: Check if submodule SHA exists on upstream s4c/csb-dev
+        run: |
+          SHA="${{ steps.sub.outputs.sha }}"
+          cd syzkaller
+          # Check if SHA is reachable from s4c/csb-dev
+          if git merge-base --is-ancestor "$SHA" origin/s4c/csb-dev; then
+            echo "✔ Submodule commit exists on upstream s4c/csb-dev"
+          else
+            echo "❌ Submodule commit does NOT exist on upstream s4c/csb-dev"
+            exit 1
+          fi
