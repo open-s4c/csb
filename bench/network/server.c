@@ -159,8 +159,7 @@ readwrite(struct epoll_event *ev, int efd)
 static void
 usage(const char *argv0)
 {
-    /* -O indicates that the server shall perform one operation only */
-    fprintf(stderr, "Usage: %s [-6] [-p port] [-P operation_sequence] [-O]\n",
+    fprintf(stderr, "Usage: %s [-6] [-p port] [-P operation_sequence]\n",
             argv0);
     fprintf(
         stderr,
@@ -171,11 +170,10 @@ usage(const char *argv0)
 int
 main(int argc, char *argv[])
 {
-    size_t port    = 10000;
-    char *program  = NULL;
-    bool use_ipv6  = false;
-    int opt        = 0;
-    bool only_once = false;
+    size_t port   = 10000;
+    char *program = NULL;
+    bool use_ipv6 = false;
+    int opt       = 0;
     while ((opt = getopt(argc, argv, "6p:P:O")) != -1) {
         switch (opt) {
             case 'p':
@@ -189,9 +187,6 @@ main(int argc, char *argv[])
                 use_ipv6 = true;
             case 'P':
                 program = optarg;
-                break;
-            case 'O':
-                only_once = true;
                 break;
             default: /* '?' */
                 usage(argv[0]);
@@ -253,8 +248,7 @@ main(int argc, char *argv[])
     if (epoll_ctl(efd, EPOLL_CTL_ADD, lsock, &ev) == -1) {
         return -1;
     }
-    int cnt_ops = 0;
-    do {
+    while (true) {
         struct epoll_event evs[MAX_EVS];
         int nfds = epoll_wait(efd, &evs[0], MAX_EVS, -1);
         if (nfds == -1) {
@@ -289,11 +283,8 @@ main(int argc, char *argv[])
                 }
             } else {
                 readwrite(&evs[i], efd);
-                cnt_ops++;
             }
         }
-    } while (!only_once);
-EXIT:
-    printf("Server exited! %d\n", cnt_ops);
+    }
     return 0;
 }

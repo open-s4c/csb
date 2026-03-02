@@ -28,11 +28,9 @@ for pid in "${CLIENT_PIDS[@]}"; do
   fi
 done
 
-wait $SERVER_PID
-SERVER_RET=$?
-echo "Server exited with $SERVER_RET"
-
-if [[ $SERVER_RET =~ ^(0|124)$ ]] && [[ $A_CLIENT_FAILED -eq 0 ]]; then
+echo "Killing server"
+kill $SERVER_PID
+if [[ $A_CLIENT_FAILED -eq 0 ]]; then
   exit 0
 else
   exit 1
