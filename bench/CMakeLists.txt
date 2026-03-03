@@ -65,6 +65,11 @@ foreach(target IN ITEMS ${TARGETS})
 
     target_compile_options(${TEST_CASE} PUBLIC -g -O2 -Wall -Werror
                                                -Wno-unused-function)
+    # use -fno-var-tracking to speed up compilation of big auto-generated test
+    # cases
+    if(bm_target_prefix MATCHES "^min_.*")
+        target_compile_options(${TEST_CASE} PRIVATE "-fno-var-tracking")
+    endif()
 
     if(DEFINED BM_PARAM_${bm_target_prefix})
         set(PARAMS ${BM_PARAM_${bm_target_prefix}})
