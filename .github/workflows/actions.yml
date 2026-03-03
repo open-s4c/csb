@@ -163,11 +163,15 @@ jobs:
       - name: Fix artifact permissions
         if: always()
         run: sudo chmod -R a+r results/
+
+      - name: Create unique name
+        run: echo "ARTIFACT_NAME=$(echo '${{ matrix.benchmark }}' | tr '/' '_')" >> $GITHUB_ENV
+
       - name: Upload results
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: results-${{ matrix.benchmark }}
+          name: results-${{ env.ARTIFACT_NAME }}
           path: results/
 
   Run-External-Benchmark:
