@@ -226,7 +226,7 @@ jobs:
           echo "Submodule commit: $SHA"
       - name: Fetch upstream s4c/csb-dev branch
         run: |
-          # Replace with the real upstream repo URL
+          # Clone our syzkaller fork
           git clone https://github.com/open-s4c/syzkaller.git
           cd syzkaller
           git fetch origin s4c/csb-dev
