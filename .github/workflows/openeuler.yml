@@ -12,15 +12,15 @@ jobs:
       matrix:
         test:
           - bm_empty
-          - min_mysql_close_dup_0_0
-          - min_mysql_getdents64_close_0_0
-          - min_mysql_lseek_read_1_0
-          - min_mysql_newfstatat_0_1
-          - min_mysql_newfstatat_openat_0_1
-          - min_mysql_openat_fsync_0_2
-          - min_mysql_pread64_faccessat2_0_5
-          - min_mysql_read_close_0_0
-          - min_mysql_read_write_0_1
+          - mysql/min_mysql_close_dup_0_0
+          - mysql/min_mysql_getdents64_close_0_0
+          - mysql/min_mysql_lseek_read_1_0
+          - mysql/min_mysql_newfstatat_0_1
+          - mysql/min_mysql_newfstatat_openat_0_1
+          - mysql/min_mysql_openat_fsync_0_2
+          - mysql/min_mysql_pread64_faccessat2_0_5
+          - mysql/min_mysql_read_close_0_0
+          - mysql/min_mysql_read_write_0_1
 
     env:
       TEST_TAG: ghcr.io/${{ github.repository }}/openeuler_for_csb:latest
