@@ -37,10 +37,13 @@ class MpstatCmd:
         # This acts like ctrl+C
         self.process.send_signal(signal.SIGINT)
 
-    # TODO: try catch and error handling
-    def read_output(self) -> dict:
-        with open(self.fname, "r") as f:
-            return json.load(f)
+    def read_output(self) -> Optional[dict]:
+        try:
+            with open(self.fname, "r") as f:
+                return json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError) as e:
+            bm_log(f"Could not read mpstat JSON from {self.fname}: {e}")
+            return None
 
 
 class SystemStats(Monitor):
@@ -107,16 +110,15 @@ class SystemStats(Monitor):
     def collect_results(self) -> str:
         if self.stat:
             data = self.stat.read_output()
-            self.dump_plot(data)
-            results = self.get_cpu_load(data)
-            results += self.get_sum_interrupts(data)
-            results += self.get_soft_interrupts(data)
-            return results
+            if data:
+                self.dump_plot(data)
+                results = self.get_cpu_load(data)
+                results += self.get_sum_interrupts(data)
+                results += self.get_soft_interrupts(data)
+                return results
         else:
-            bm_log(
-                "Could not read output of sys stats, `self.stat` is not initialized!", LogType.ERROR
-            )
-            return ""
+            bm_log("Could not read output of sys stats, `self.stat` is not initialized!", LogType.ERROR)
+        return ""
 
     # TODO: decide if the generate should stay here, and if it should be part of the final html
     def dump_plot(self, data):
