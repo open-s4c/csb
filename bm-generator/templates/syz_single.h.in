@@ -228,7 +228,7 @@ static inline void bm_target_reg(thread_ctx_t *ctx, size_t tid) {
   saddr6_bind->sin6_port = htons(BASE_PORT_BIND);
   saddr6_bind->sin6_addr = in6addr_any;
 
-  // EVERYTHING MUT BE INITIALIZED BEFORE
+  // EVERYTHING MUST BE INITIALIZED BEFORE
   // do one warmup iteration to allocate memory in mmap
   bm_dispatch_operation_NN_prog(ctx, 0);
 
