@@ -19,13 +19,16 @@ add_custom_command(
 
 # Find all single template files
 file(GLOB TEMPLATES *single*.in)
+# Output subfolder for auto-generated workspace
+set(SUBDIR "gen-ws")
 # Collect all input headers
-file(GLOB HEADERS CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/bench/targets/syz/*.h")
+file(GLOB HEADERS CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/bench/targets/${SUBDIR}/syz/*.h")
 # Output dir for config files
 set(CONFIG_DIR "${CMAKE_SOURCE_DIR}/config")
+file(MAKE_DIRECTORY "${CONFIG_DIR}/${SUBDIR}")
 # Output dir for header files
 set(HEADER_DIR "${CMAKE_SOURCE_DIR}/bench/targets")
-
+file(MAKE_DIRECTORY "${HEADER_DIR}/${SUBDIR}")
 # For each header input we want to generate a JSON config files and a matching
 # header
 foreach(HEADER ${HEADERS})
@@ -43,11 +46,11 @@ foreach(HEADER ${HEADERS})
             set(TARGET ${HEADER_NAME}_json)
             set(TMPLR_PARAMS -DPROBAVG="" -DPROBEND="1024"
                              -DBINNAME="${HEADER_NAME}")
-            set(OUTPUT_FILE "${CONFIG_DIR}/${HEADER_NAME}.json")
+            set(OUTPUT_FILE "${CONFIG_DIR}/${SUBDIR}/${HEADER_NAME}.json")
         elseif(EXTENSION STREQUAL ".h")
             set(TARGET ${HEADER_NAME}_h)
             set(TMPLR_PARAMS -DNCALLS="1" -DNNOPS="1" -DNN="${HEADER_NAME}")
-            set(OUTPUT_FILE "${HEADER_DIR}/${HEADER_NAME}.h")
+            set(OUTPUT_FILE "${HEADER_DIR}/${SUBDIR}/${HEADER_NAME}.h")
         else()
             message(FATAL_ERROR "Unsupported extension ${EXTENSION}")
         endif()
@@ -66,7 +69,7 @@ endforeach(HEADER)
 # ##############################################################################
 set(AGGREGATE_TARGET csb-gen-agg)
 set(INPUT_TEMPLATE ${CMAKE_CURRENT_SOURCE_DIR}/syz_bm.json.in)
-set(OUTPUT_FILE ${CONFIG_DIR}/aggregated.json)
+set(OUTPUT_FILE ${CONFIG_DIR}/${SUBDIR}/aggregated.json)
 
 # Find number of available files
 list(LENGTH HEADERS FILES_NUM)

@@ -13,7 +13,7 @@ if [ ! -d "${DIR_PROG}" ]; then
     exit 1
 fi
 
-DIR_TARGETS="../bench/targets/syz"
+DIR_TARGETS="../bench/targets/gen-ws/syz"
 
 if [ -d "${DIR_TARGETS}" ]; then
   echo "`readlink -e ${DIR_TARGETS}` exist!"

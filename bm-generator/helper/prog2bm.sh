@@ -29,7 +29,8 @@ fi
 
 PROG="`basename ${FILEPROG} .prog`"
 
-DIR_TARGETS="../bench/targets/syz"
+# TODO: sync. with the definition in cmake `set(SUBDIR "gen-ws")`
+DIR_TARGETS="../bench/targets/gen-ws/syz"
 
 DIR_TARGETS_ABS="`readlink -e ${DIR_TARGETS}`"
 FILEPROG_ABS="`readlink -e ${FILEPROG}`"
