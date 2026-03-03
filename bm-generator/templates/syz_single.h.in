@@ -6,19 +6,17 @@
 
 #include <CSB/bm_helper.h>
 #include <CSB/bm_target.h>
-#include <arpa/inet.h>
+#include <CSB/bm_network.h>
 #include <dirent.h>
 #include <endian.h>
 #include <errno.h>
 #include <fcntl.h>
-#include <netinet/in.h>
 #include <pthread.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/mman.h>
-#include <sys/socket.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 
@@ -110,24 +108,37 @@ static inline void bm_target_get_op_name(char *out_str, const size_t len,
 
 static inline void bm_target_init(size_t init_size, size_t num_threads) {
   V_UNUSED(init_size, num_threads);
-  int numNetOps = 0;
-  char *netOpsArgs[1024];
-  int netOpsArgsIdx = 0;
+  int numNetOpsConnect = 0;
+  int numNetOpsAccept = 0;
+  char *netOpsArgsConnect[1024];
+  char *netOpsArgsAccept[1024];
+  int netOpsArgsIdxConnect = 0;
+  int netOpsArgsIdxAccept = 0;
   $_begin(NN = [[1; 2]]);
   op_name_tbl[0] = "NN";
 
-  numNetOps = sizeof(netops_NN_prog) / sizeof(char *);
-  for (int i = 0; i < numNetOps; i++) {
-    netOpsArgs[netOpsArgsIdx] = (char *)netops_NN_prog[i];
-    netOpsArgsIdx++;
+  // Server command (connect syscall)
+  numNetOpsConnect = sizeof(netops_connect_NN_prog) / sizeof(char *);
+  for (int i = 0; i < numNetOpsConnect; i++) {
+    netOpsArgsConnect[netOpsArgsIdxConnect] = (char *)netops_connect_NN_prog[i];
+    netOpsArgsIdxConnect++;
+  }
+
+  // Client command (accept[4] syscall)
+  numNetOpsAccept = sizeof(netops_accept_NN_prog) / sizeof(char *);
+  for (int i = 0; i < numNetOpsAccept; i++) {
+    netOpsArgsAccept[netOpsArgsIdxAccept] = (char *)netops_accept_NN_prog[i];
+    netOpsArgsIdxAccept++;
   }
   $_end();
+
+  // Server command (connect syscall)
   char pattern_args[4096];
   int pattern_args_idx = 0;
-  for (int i = 0; i < netOpsArgsIdx; i++) {
+  for (int i = 0; i < netOpsArgsIdxConnect; i++) {
     pattern_args_idx += snprintf(pattern_args + pattern_args_idx,
                                  sizeof(pattern_args) - pattern_args_idx,
-                                 "-P%s ", netOpsArgs[i]);
+                                 "-P%s ", netOpsArgsConnect[i]);
   }
   pattern_args[pattern_args_idx] = '\0';
 
@@ -136,9 +147,32 @@ static inline void bm_target_init(size_t init_size, size_t num_threads) {
       snprintf(server_command, 4096, "server -p36721 -w1024 -r1024 -W1024 %s",
                pattern_args);
   server_command[server_command_len] = '\0';
-  if (netOpsArgsIdx > 0) {
-    fprintf(stderr, "Server command: %s\n", server_command);
+  if (netOpsArgsIdxConnect > 0) {
+    fprintf(stderr, "Server command:\n    %s\n", server_command);
   }
+
+  // Client command (accept[4] syscall)
+  pattern_args_idx = 0;
+  for (int i = 0; i < netOpsArgsIdxAccept; i++) {
+    pattern_args_idx += snprintf(pattern_args + pattern_args_idx,
+                                 sizeof(pattern_args) - pattern_args_idx,
+                                 "-P%s ", netOpsArgsAccept[i]);
+  }
+  pattern_args[pattern_args_idx] = '\0';
+
+  char client_command[4096];
+  int client_command_len =
+      snprintf(client_command, 4096, "client -p36721 -w1024 -r1024 -W1024 %s",
+               pattern_args);
+  client_command[client_command_len] = '\0';
+  if (netOpsArgsIdxAccept > 0) {
+    fprintf(stderr, "Client command:\n    %s\n", client_command);
+  }
+
+  parse_net_addr("BM_SYS_CONNECT_ADDR", "BM_SYS_CONNECT_PORT",
+                  &bm_connect_addr, &bm_connect_addr_inited);
+  parse_net_addr("BM_SYS_BIND_ADDR", "BM_SYS_BIND_PORT", &bm_bind_addr,
+                  &bm_bind_addr_inited);
 }
 
 static inline void bm_target_reg(thread_ctx_t *ctx, size_t tid) {
