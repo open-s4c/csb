@@ -2,7 +2,6 @@
  * Copyright (C) Huawei Technologies Co., Ltd. 2026. All rights reserved.
  * SPDX-License-Identifier: MIT
  */
-
 #include <CSB/thread_launcher.h>
 #include <CSB/time.h>
 #include <CSB/bm_params.h>
