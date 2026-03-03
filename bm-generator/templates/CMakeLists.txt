@@ -20,7 +20,7 @@ add_custom_command(
 # Find all single template files
 file(GLOB TEMPLATES *single*.in)
 # Collect all input headers
-file(GLOB HEADERS CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/../bench/targets/syz/*.h")
+file(GLOB HEADERS CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/bench/targets/syz/*.h")
 # Output dir for config files
 set(CONFIG_DIR "${CMAKE_SOURCE_DIR}/config")
 # Output dir for header files
