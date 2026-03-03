@@ -117,7 +117,9 @@ class SystemStats(Monitor):
                 results += self.get_soft_interrupts(data)
                 return results
         else:
-            bm_log("Could not read output of sys stats, `self.stat` is not initialized!", LogType.ERROR)
+            bm_log(
+                "Could not read output of sys stats, `self.stat` is not initialized!", LogType.ERROR
+            )
         return ""
 
     # TODO: decide if the generate should stay here, and if it should be part of the final html
