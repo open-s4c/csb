@@ -14,7 +14,7 @@ add_custom_command(
     TARGET ${SINGLE_BM_TARGET}
     POST_BUILD
     COMMAND cmake --build "${CMAKE_BINARY_DIR}" --target clang-format-apply
-    json-format-apply
+            json-format-apply
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 
 # Find all single template files
@@ -42,7 +42,7 @@ foreach(HEADER ${HEADERS})
         if(EXTENSION STREQUAL ".json")
             set(TARGET ${HEADER_NAME}_json)
             set(TMPLR_PARAMS -DPROBAVG="" -DPROBEND="1024"
-                -DBINNAME="${HEADER_NAME}")
+                             -DBINNAME="${HEADER_NAME}")
             set(OUTPUT_FILE "${CONFIG_DIR}/${HEADER_NAME}.json")
         elseif(EXTENSION STREQUAL ".h")
             set(TARGET ${HEADER_NAME}_h)
@@ -53,7 +53,7 @@ foreach(HEADER ${HEADERS})
         endif()
 
         add_custom_target(${TARGET} COMMAND ${TMPLR_PROGRAM} ${TMPLR_PARAMS}
-            ${TEMPLATE} > ${OUTPUT_FILE})
+                                            ${TEMPLATE} > ${OUTPUT_FILE})
         # this target requires tmplr
         add_dependencies(${TARGET} ${TMPLR_TARGET})
         # the main target require this target
@@ -82,7 +82,7 @@ string(REPLACE ";" "\\;" APPLICATIONS "${APPLICATIONS}")
 add_custom_target(
     ${AGGREGATE_TARGET}
     COMMAND ${TMPLR_PROGRAM} -DNN="${APPLICATIONS}" -DNPROCS="${FILES_NUM}"
-    ${INPUT_TEMPLATE} > ${OUTPUT_FILE})
+            ${INPUT_TEMPLATE} > ${OUTPUT_FILE})
 add_dependencies(${AGGREGATE_TARGET} ${TMPLR_TARGET})
 add_custom_command(
     TARGET ${AGGREGATE_TARGET}

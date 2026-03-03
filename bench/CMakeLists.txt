@@ -5,7 +5,7 @@ add_library(CSB INTERFACE)
 
 target_include_directories(
     CSB INTERFACE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-    "$<INSTALL_INTERFACE:include>")
+                  "$<INSTALL_INTERFACE:include>")
 
 option(CSB_ADDRESS_SANITIZER "Compile with -fsanitize=address" "off")
 option(CSB_THREAD_SANITIZER "Compile with -fsanitize=thread" "off")
@@ -61,15 +61,15 @@ foreach(target IN ITEMS ${TARGETS})
     target_link_libraries(${TEST_CASE} pthread CSB)
 
     target_compile_definitions(${TEST_CASE} PUBLIC ${BM_DEFS}
-        BM_TARGET=${bm_target_name})
+                                                   BM_TARGET=${bm_target_name})
 
     target_compile_options(${TEST_CASE} PUBLIC -g -O2 -Wall -Werror
-        -Wno-unused-function)
-    # use -fno-var-tracking to speed up compilation of big auto-generated test cases
+                                               -Wno-unused-function)
+    # use -fno-var-tracking to speed up compilation of big auto-generated test
+    # cases
     if(bm_target_prefix MATCHES "^min_.*")
         target_compile_options(${TEST_CASE} PRIVATE "-fno-var-tracking")
     endif()
-
 
     if(DEFINED BM_PARAM_${bm_target_prefix})
         set(PARAMS ${BM_PARAM_${bm_target_prefix}})
