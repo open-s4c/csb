@@ -12,7 +12,6 @@
 #include <unistd.h>
 #include <sys/time.h>
 #include <sys/resource.h>
-
 #define DISTRIBUTION_BOUND 1024
 #define BM_PRINT_DELIMITER ';'
 
