@@ -12,63 +12,18 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/mman.h>
 #include <unistd.h>
 #include <stdbool.h>
 #include <sys/epoll.h>
 #include <getopt.h>
 #include <errno.h>
 
-struct extracted_op {
-    unsigned long n;
-    unsigned long sz;
-    bool is_write;
-};
+#include "helper.h"
 
 static struct extracted_op eops[128];
 static long eops_sz = 0;
-
-static long
-parse_ops(const char *input, struct extracted_op *ops, size_t nops)
-{
-    const char *str = input;
-    char *next      = NULL;
-    long i          = 0;
-    while (str[0] != 0 && i < nops) {
-        unsigned long n = strtoul(str, &next, 10);
-        bool is_write   = false;
-        switch (next[0]) {
-            default:
-                return -1;
-            case 'r':
-                is_write = false;
-                next++;
-                break;
-            case 'w':
-                is_write = true;
-                next++;
-                break;
-        }
-        str              = next;
-        unsigned long sz = strtoul(str, &next, 10);
-        switch (next[0]) {
-            default:
-                return -2;
-            case 0:
-                break;
-            case '-':
-                next++;
-                break;
-        }
-        str    = next;
-        ops[i] = (struct extracted_op){
-            .n        = n,
-            .is_write = is_write,
-            .sz       = sz,
-        };
-        i++;
-    }
-    return i;
-}
 
 #define MAX_EVS  16
 #define BUF_SIZE 1024
@@ -170,14 +125,15 @@ readwrite(struct epoll_event *ev, struct epoll_st *est)
 static void
 usage(const char *argv0)
 {
-    fprintf(stderr, "Usage: %s [-h host] [-p port] [-P operation_sequence]\n",
+    fprintf(stderr,
+            "Usage: %s [-h host] [-p port] [-P operation_sequence | -F "
+            "op_sequence_file]\n",
             argv0);
     fprintf(
         stderr,
         "Operation sequence: <NUM_TIME>[rw]<NUM_BYTES>[-operation_sequence]*, "
         "e.g. '2r1024-1w32'\n");
 }
-
 
 int
 main(int argc, char *argv[])
@@ -186,12 +142,14 @@ main(int argc, char *argv[])
     size_t port     = 10000;
     char *host      = NULL;
     char *program   = NULL;
+    char *prog_file = NULL;
     bool use_ipv6   = false;
     int opt         = 0;
     bool retry_on_fail =
         false; /* retry if the connection fails till it succeeds*/
     bool only_once = false;
-    while ((opt = getopt(argc, argv, "6h:p:P:RO")) != -1) {
+    prog_file      = NULL;
+    while ((opt = getopt(argc, argv, "6h:p:P:F:RO")) != -1) {
         switch (opt) {
             case 'h':
                 host = optarg;
@@ -213,10 +171,26 @@ main(int argc, char *argv[])
                 break;
             case 'O':
                 only_once = true;
+            case 'F':
+                prog_file = optarg;
                 break;
             default: /* '?' */
                 usage(argv[0]);
                 return -1;
+        }
+    }
+
+    if (program && prog_file) {
+        fprintf(stderr, "Please specify the operation sequence once.\n");
+        return 1;
+    }
+
+    if (prog_file) {
+        program = load_prog_file(prog_file);
+        if (!program) {
+            fprintf(stderr,
+                    "Failed to load the operation sequence from file %s\n",
+                    prog_file);
         }
     }
 

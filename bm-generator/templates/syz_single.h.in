@@ -133,28 +133,25 @@ static inline void bm_target_init(size_t init_size, size_t num_threads) {
   $_end();
 
   // Server command (connect syscall)
-  char pattern_args[4096];
-  int pattern_args_idx = 0;
-  for (int i = 0; i < netOpsArgsIdxConnect; i++) {
-    pattern_args_idx += snprintf(pattern_args + pattern_args_idx,
-                                 sizeof(pattern_args) - pattern_args_idx,
-                                 "-P%s ", netOpsArgsConnect[i]);
+  char *pattern_args = NULL;
+  size_t pattern_args_len = 0;
+  FILE *pattern_stream = open_memstream(&pattern_args, &pattern_args_len);
+  if (!pattern_stream) {
+      assert(0);
   }
-  pattern_args[pattern_args_idx] = '\0';
+  for (int i = 0; i < netOpsArgsIdxConnect; i++) {
+      fprintf(pattern_stream, "-P%s ", netOpsArgsConnect[i]);
+  }
+  fclose(pattern_stream);
 
-  char server_command[4096];
-  int server_command_len =
-      snprintf(server_command, 4096, "server -p${PORT_SERVER} -w1024 -r1024 -W1024 %s",
-               pattern_args);
-  server_command[server_command_len] = '\0';
   if (netOpsArgsIdxConnect > 0) {
     FILE *fp_server;
   $_begin(NN = [[1; 2]]);
     fp_server = fopen( "server_NN.sh", "w" ); // Open server shell script for writing
     fprintf(fp_server, "#!/bin/bash\n");
-    fprintf(fp_server, " : ${DIR_SERVER:=.}\n");
+    fprintf(fp_server, " : ${DIR_SERVER:=./network}\n");
     fprintf(fp_server, " : ${PORT_SERVER:=36721}\n");
-    fprintf(fp_server, "${DIR_SERVER}/%s\n", server_command);
+    fprintf(fp_server, "${DIR_SERVER}/server -p${PORT_SERVER} %s\n", pattern_args);
     fclose(fp_server);
     chmod("server_NN.sh", S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IWOTH | S_IXOTH);
     fprintf(stderr, "PORT_SERVER=36721 DIR_SERVER=\".\" ./server_NN.sh\n");
@@ -162,32 +159,34 @@ $_end();
   }
 
   // Client command (accept[4] syscall)
-  pattern_args_idx = 0;
-  for (int i = 0; i < netOpsArgsIdxAccept; i++) {
-    pattern_args_idx += snprintf(pattern_args + pattern_args_idx,
-                                 sizeof(pattern_args) - pattern_args_idx,
-                                 "-P%s ", netOpsArgsAccept[i]);
+  free(pattern_args);
+  pattern_args = NULL;
+  pattern_stream = open_memstream(&pattern_args, &pattern_args_len);
+  if (!pattern_stream) {
+      assert(0);
   }
-  pattern_args[pattern_args_idx] = '\0';
 
-  char client_command[4096];
-  int client_command_len =
-      snprintf(client_command, 4096, "client -p${PORT_CLIENT} -w1024 -r1024 -W1024 %s",
-               pattern_args);
-  client_command[client_command_len] = '\0';
+  for (int i = 0; i < netOpsArgsIdxAccept; i++) {
+      fprintf(pattern_stream, "-P%s ", netOpsArgsAccept[i]);
+  }
+  fclose(pattern_stream);
+
   if (netOpsArgsIdxAccept > 0) {
     FILE *fp_client;
   $_begin(NN = [[1; 2]]);
     fp_client = fopen( "client_NN.sh", "w" ); // Open file for writing
     fprintf(fp_client, "#!/bin/bash\n");
-    fprintf(fp_client, " : ${DIR_CLIENT:=.}\n");
+    fprintf(fp_client, " : ${DIR_CLIENT:=./network}\n");
     fprintf(fp_client, " : ${PORT_CLIENT:=46721}\n");
-    fprintf(fp_client, "${DIR_CLIENT}/%s\n", client_command);
+    fprintf(fp_client, "${DIR_CLIENT}/client -h 127.0.0.1 -p${PORT_CLIENT} %s\n", pattern_args);
     fclose(fp_client);
     chmod("client_NN.sh", S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IWOTH | S_IXOTH);
     fprintf(stderr, "PORT_CLIENT=46721 DIR_CLIENT=\".\" ./client_NN.sh\n");
   $_end();
   }
+  free(pattern_args);
+  pattern_args = NULL;
+
 
   parse_net_addr("BM_SYS_CONNECT_ADDR", "BM_SYS_CONNECT_PORT",
                   &bm_connect_addr, &bm_connect_addr_inited);
