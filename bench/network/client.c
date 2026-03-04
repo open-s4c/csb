@@ -92,16 +92,24 @@ readwrite(struct epoll_event *ev, struct epoll_st *est)
     assert(eops[d->step].sz < sbuf_size);
     if (ev->events & EPOLLOUT) {
         assert(eops[d->step].is_write);
-        r = send(fd, &sbuf[0], eops[d->step].sz, 0);
     } else if (ev->events & EPOLLIN) {
         assert(!eops[d->step].is_write);
-        r = recv(fd, &sbuf[0], eops[d->step].sz, 0);
     }
-    if (r == -1) {
+
+    while (r != -1) {
+        if (eops[d->step].is_write) {
+            r = send(fd, &sbuf[0], eops[d->step].sz, 0);
+        } else {
+            r = recv(fd, &sbuf[0], eops[d->step].sz, 0);
+        }
+        if (r != -1) {
+            advance_step(d);
+        }
+    }
+    if (r == -1 && errno != EAGAIN) {
         unregister(d, est);
         return;
     }
-    advance_step(d);
     if (0 && d->step == 0) {
         unregister(d, est);
         return;
