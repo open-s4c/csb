@@ -69,7 +69,7 @@ done
 DIR_BASE="$(readlink -e ${DIR_CSB_BUILD}/..)"
 
 if [ "x${DIR_BASE}" == "x" ]; then
-    DIR_BASE="${DIR_CSB_BUILD}/.."
+    DIR_BASE="$(dirname ${DIR_CSB_BUILD})"
 fi
 
 echo "You probably want to run:"
