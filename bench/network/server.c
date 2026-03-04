@@ -22,7 +22,7 @@
 #define MAX_EVS 16
 
 static uint8_t *sbuf;
-static uint64_t sbuf_size = 0;
+static size_t sbuf_size = 0;
 
 struct conn_data {
     size_t n;
@@ -53,7 +53,7 @@ unregister(struct conn_data *d, int efd)
 }
 
 static struct extracted_op eops[128];
-static long eops_sz = 0;
+static size_t eops_sz = 0;
 
 static void
 config_wait(struct conn_data *d, int efd)
@@ -122,20 +122,6 @@ usage(const char *argv0)
         "e.g. '2r1023-1w32'\n");
 }
 
-void
-prepare_buffer(struct extracted_op *ops, long nops)
-{
-    long max_sz = 0;
-    for (long i = 0; i < nops; i++) {
-        if (ops[i].sz > max_sz) {
-            max_sz = ops[i].sz;
-        }
-    }
-    sbuf_size = max_sz + 1;
-    sbuf      = malloc(sbuf_size);
-    assert(sbuf != NULL);
-}
-
 int
 main(int argc, char *argv[])
 {
@@ -194,7 +180,9 @@ main(int argc, char *argv[])
     }
 
     // allocate buffer large enough
-    prepare_buffer(&eops[0], eops_sz);
+    sbuf_size = get_max_buffer_size(&eops[0], eops_sz) + 1;
+    sbuf      = calloc(1, sbuf_size);
+    assert(sbuf != NULL);
 
     struct epoll_event ev;
     int efd = epoll_create1(0);

@@ -23,12 +23,13 @@
 #include "helper.h"
 
 static struct extracted_op eops[128];
-static long eops_sz = 0;
+static size_t eops_sz = 0;
 
 #define MAX_EVS  16
 #define BUF_SIZE 1024
 
-static uint8_t sbuf[BUF_SIZE];
+static uint8_t *sbuf;
+static size_t sbuf_size = 0;
 
 struct conn_data {
     size_t step;
@@ -101,7 +102,7 @@ readwrite(struct epoll_event *ev, struct epoll_st *est)
         unregister(d, est);
         return;
     }
-    assert(eops[d->step].sz < BUF_SIZE);
+    assert(eops[d->step].sz < sbuf_size);
     if (ev->events & EPOLLOUT) {
         assert(eops[d->step].is_write);
         r = send(fd, &sbuf[0], eops[d->step].sz, 0);
@@ -205,6 +206,11 @@ main(int argc, char *argv[])
         usage(argv[0]);
         return 'P';
     }
+
+    // allocate buffer large enough
+    sbuf_size = get_max_buffer_size(&eops[0], eops_sz) + 1;
+    sbuf      = calloc(1, sbuf_size);
+    assert(sbuf != NULL);
 
     if (!host) {
         fprintf(stderr, "No host specified\n");

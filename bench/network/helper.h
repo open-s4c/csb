@@ -16,7 +16,7 @@ parse_ops(const char *input, struct extracted_op *ops, size_t nops)
 {
     const char *str = input;
     char *next      = NULL;
-    long i          = 0;
+    size_t i        = 0;
     while (str[0] != 0 && i < nops) {
         unsigned long n = strtoul(str, &next, 10);
         bool is_write   = false;
@@ -74,6 +74,18 @@ load_prog_file(const char *path)
         return NULL;
     }
     return data;
+}
+
+static inline size_t
+get_max_buffer_size(struct extracted_op *ops, size_t nops)
+{
+    size_t max_sz = 0;
+    for (size_t i = 0; i < nops; i++) {
+        if (ops[i].sz > max_sz) {
+            max_sz = ops[i].sz;
+        }
+    }
+    return max_sz;
 }
 
 #endif /* _HELPER_H_ */
