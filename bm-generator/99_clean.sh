@@ -1,8 +1,6 @@
+#!/bin/bash
 # Copyright (C) Huawei Technologies Co., Ltd. 2026. All rights reserved.
 # SPDX-License-Identifier: MIT
-
-#!/bin/bash
-
  : ${FORCE:=0}
  : ${DIR_DESERIALIZED:="deserialized"}
  : ${DIR_EXTRACTED:="extracted"}
