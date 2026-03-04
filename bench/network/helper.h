@@ -88,4 +88,17 @@ get_max_buffer_size(struct extracted_op *ops, size_t nops)
     return max_sz;
 }
 
+static inline void
+setnonblocking(int sock)
+{
+    int opt = fcntl(sock, F_GETFL);
+    if (opt < 0) {
+        printf("fcntl(F_GETFL) fail.");
+    }
+    opt |= O_NONBLOCK;
+    if (fcntl(sock, F_SETFL, opt) < 0) {
+        printf("fcntl(F_SETFL) fail.");
+    }
+}
+
 #endif /* _HELPER_H_ */

@@ -71,19 +71,6 @@ advance_step(struct conn_data *d)
 }
 
 static void
-setnonblocking(int sock)
-{
-    int opt = fcntl(sock, F_GETFL);
-    if (opt < 0) {
-        printf("fcntl(F_GETFL) fail.");
-    }
-    opt |= O_NONBLOCK;
-    if (fcntl(sock, F_SETFL, opt) < 0) {
-        printf("fcntl(F_SETFL) fail.");
-    }
-}
-
-static void
 unregister(struct conn_data *d, struct epoll_st *est)
 {
     epoll_ctl(est->fd, EPOLL_CTL_DEL, d->fd, NULL);

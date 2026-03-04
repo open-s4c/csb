@@ -32,19 +32,6 @@ struct conn_data {
 };
 
 static void
-setnonblocking(int sock)
-{
-    int opt = fcntl(sock, F_GETFL);
-    if (opt < 0) {
-        fprintf(stderr, "fcntl(F_GETFL) fail.");
-    }
-    opt |= O_NONBLOCK;
-    if (fcntl(sock, F_SETFL, opt) < 0) {
-        fprintf(stderr, "fcntl(F_SETFL) fail.");
-    }
-}
-
-static void
 unregister(struct conn_data *d, int efd)
 {
     epoll_ctl(efd, EPOLL_CTL_DEL, d->fd, NULL);
