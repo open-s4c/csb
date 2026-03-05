@@ -79,6 +79,49 @@ unregister(struct conn_data *d, struct epoll_st *est)
     est->nconn--;
 }
 
+static bool
+register_new(struct epoll_st *est, struct sockaddr *serv_addr, size_t addr_size,
+             bool retry_on_fail)
+{
+    struct epoll_event ev;
+    struct conn_data *d = malloc(sizeof(struct conn_data));
+    if (!d) {
+        return false;
+    }
+
+    d->step       = 0;
+    d->n          = 0;
+    d->last_epoll = eops[0].is_write ? EPOLLOUT : EPOLLIN;
+
+    int csock = socket(serv_addr->sa_family, SOCK_STREAM, 0);
+    if (csock == -1) {
+        fprintf(stderr, "socket failed!\n");
+        return false;
+    }
+    d->fd = csock;
+
+    int connect_ret = 0;
+    do {
+        connect_ret = connect(csock, serv_addr, addr_size);
+    } while (retry_on_fail && connect_ret != 0);
+
+    if (connect_ret == -1) {
+        fprintf(stderr, "connect failed!\n");
+        return false;
+    }
+
+    setnonblocking(csock);
+
+    ev.events   = d->last_epoll;
+    ev.data.ptr = d;
+    if (epoll_ctl(est->fd, EPOLL_CTL_ADD, csock, &ev) == -1) {
+        fprintf(stderr, "epoll_ctl failed!\n");
+        return false;
+    }
+    est->nconn++;
+    return true;
+}
+
 static void
 readwrite(struct epoll_event *ev, struct epoll_st *est)
 {
@@ -250,7 +293,6 @@ main(int argc, char *argv[])
         break;
     }
 
-    struct epoll_event ev;
     struct epoll_st est = {};
     est.fd              = epoll_create1(0);
     if (est.fd == -1) {
@@ -259,40 +301,9 @@ main(int argc, char *argv[])
     }
 
     for (size_t i = 0; i < num_conn; i++) {
-        struct conn_data *d = malloc(sizeof(struct conn_data));
-        if (!d) {
-            return 13;
-        }
-        d->step       = 0;
-        d->n          = 0;
-        d->last_epoll = eops[0].is_write ? EPOLLOUT : EPOLLIN;
-
-        int csock = socket(use_ipv6 ? AF_INET6 : AF_INET, SOCK_STREAM, 0);
-        if (csock == -1) {
-            fprintf(stderr, "socket failed!\n");
-            return 1;
-        }
-        d->fd = csock;
-
-        int connect_ret = 0;
-        do {
-            connect_ret = connect(csock, serv_addr, addr_size);
-        } while (retry_on_fail && connect_ret != 0);
-
-        if (connect_ret == -1) {
-            fprintf(stderr, "connect failed!\n");
-            return 2;
-        }
-
-        setnonblocking(csock);
-
-        ev.events   = d->last_epoll;
-        ev.data.ptr = d;
-        if (epoll_ctl(est.fd, EPOLL_CTL_ADD, csock, &ev) == -1) {
-            fprintf(stderr, "epoll_ctl failed!\n");
+        if (!register_new(&est, serv_addr, addr_size, retry_on_fail)) {
             return -1;
         }
-        est.nconn++;
     }
 
     printf("[Client] %zu connections established.\n", est.nconn);
@@ -304,6 +315,11 @@ main(int argc, char *argv[])
         }
         for (int i = 0; i < nfds; i++) {
             readwrite(&evs[i], &est);
+        }
+        while (est.nconn < num_conn) {
+            if (!register_new(&est, serv_addr, addr_size, false)) {
+                break;
+            }
         }
         if (only_once) {
             break;
