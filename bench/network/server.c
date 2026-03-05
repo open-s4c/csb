@@ -93,7 +93,11 @@ readwrite(struct epoll_event *ev, int efd)
     }
 
     advance_step(d);
-    config_wait(d, efd);
+    if (d->step == 0) {
+        unregister(d, efd);
+    } else {
+        config_wait(d, efd);
+    }
 }
 
 static void
