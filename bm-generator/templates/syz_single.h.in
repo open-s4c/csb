@@ -51,7 +51,6 @@ struct thread_ctx_s {
 };
 
 #define REPEAT_NUM 1
-#define MMAP_OFFSET 0x200000000000ul
 
 $_begin(NN = [[1; 2]]);
 #define PTR_OFFSET (ctx->mmap_offsets_NN_prog - MMAP_OFFSET)
