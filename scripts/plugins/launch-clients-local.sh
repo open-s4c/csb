@@ -8,7 +8,7 @@ if [ $# -ne 4 ]; then
     exit 1
 fi
 
-START_PORT=$1
+START_PORT=$1  #46721
 CLIENT_COUNT=$2
 START_FILE=$3
 CLIENT_PATH=$4
