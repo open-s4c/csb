@@ -14,5 +14,4 @@ IP="127.0.0.0"
 
 META_STRING=$(cat "$META_PATH")
 
-echo "${META_STRING}"
-${CLIENT_PATH} -h ${IP} -p${PORT} -P${META_STRING}
+${CLIENT_PATH} -R -h ${IP} -p${PORT} -P${META_STRING}
