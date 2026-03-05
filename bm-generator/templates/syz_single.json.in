@@ -33,7 +33,10 @@
 	],
 	"benchmark_config" : {
 		"duration": 60,
+<<<<<<< HEAD
 		"initial_size": [5000],
+=======
+>>>>>>> c1b5f05 (update template)
 		"exec_env": ["native"],
 		"monitors" : { "mpstat" : ["-n", "-u", "-I", "SCPU,SUM", "-P", "0"],
 			       "perf" : ["-C", "0"]
@@ -46,7 +49,7 @@
     },
     "applications": [
 $_begin(BINNAME = [[1; 2]]);
-        { "name": "gen-ws_BINNAME","operations": [1024]}
+        { "name": "BINNAME","operations": [1024]}
 $_end();
     ]
 $_begin(META_NAME = [[1; 2]]);
