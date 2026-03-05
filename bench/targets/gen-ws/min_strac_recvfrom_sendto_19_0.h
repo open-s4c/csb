@@ -501,6 +501,10 @@ bm_target_reg(thread_ctx_t *ctx, size_t tid)
 static inline void
 bm_target_dereg(thread_ctx_t *ctx, size_t tid)
 {
+    // close network related fds
+    close(UNIQUE_VAR(r)[0]);
+	close(UNIQUE_VAR(r)[1]);
+
     free(ctx->tmpdir_min_strac_recvfrom_sendto_19_0_prog);
     // free(ctx->connect_arg_min_strac_recvfrom_sendto_19_0_prog);
     ctx->tmpdir_min_strac_recvfrom_sendto_19_0_prog = NULL;

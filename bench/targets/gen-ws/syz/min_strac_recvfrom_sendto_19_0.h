@@ -71123,14 +71123,14 @@ UNIQUE_FUNC(bm_dispatch_operation)(thread_ctx_t* ctx, size_t op_id)
 //    fd: sock (resource)
 //    how: shutdown_flags = 0x2 (8 bytes)
 //  ]
-// 	res = syscall(__NR_shutdown, /*fd=*/UNIQUE_VAR(r)[2], /*how=*/2ul);
-// 	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-// //  close arguments: [
-// //    fd: fd (resource)
-// //  ]
+	res = syscall(__NR_shutdown, /*fd=*/UNIQUE_VAR(r)[2], /*how=*/2ul);
+	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+//  close arguments: [
+//    fd: fd (resource)
+//  ]
 	res = syscall(__NR_close, /*fd=*/UNIQUE_VAR(r)[2]);
 	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-// 	close(UNIQUE_VAR(r)[0]);
-// 	close(UNIQUE_VAR(r)[1]);
+	// close(UNIQUE_VAR(r)[0]);
+	// close(UNIQUE_VAR(r)[1]);
 	return 0;
 }
