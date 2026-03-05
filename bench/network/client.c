@@ -19,6 +19,7 @@
 #include <sys/epoll.h>
 #include <getopt.h>
 #include <errno.h>
+#include <signal.h>
 
 #include "helper.h"
 
@@ -305,6 +306,8 @@ main(int argc, char *argv[])
             return -1;
         }
     }
+
+    signal(SIGPIPE, SIG_IGN);
 
     printf("[Client] %zu connections established.\n", est.nconn);
     while (est.nconn) {
