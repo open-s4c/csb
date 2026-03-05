@@ -21,9 +21,9 @@ add_custom_command(
 file(GLOB TEMPLATES *single*.in)
 # Output subfolder for auto-generated workspace
 set(SUBDIR "gen-ws")
+set(GENERATED_HEADER_DIR "${CMAKE_SOURCE_DIR}/bench/targets/${SUBDIR}/syz")
 # Collect all input headers
-file(GLOB HEADERS CONFIGURE_DEPENDS
-     "${CMAKE_SOURCE_DIR}/bench/targets/${SUBDIR}/syz/*.h")
+file(GLOB HEADERS CONFIGURE_DEPENDS "${GENERATED_HEADER_DIR}/*.h")
 # Output dir for config files
 set(CONFIG_DIR "${CMAKE_SOURCE_DIR}/config")
 file(MAKE_DIRECTORY "${CONFIG_DIR}/${SUBDIR}")
@@ -45,8 +45,16 @@ foreach(HEADER ${HEADERS})
         # output file name, and path
         if(EXTENSION STREQUAL ".json")
             set(TARGET ${HEADER_NAME}_json)
+            # determine if there is a meta file associated with the benchmark
+            if(EXISTS "${GENERATED_HEADER_DIR}/${HEADER_NAME}.meta")
+                # pass it if that's the case
+                set(META_NAME "${HEADER_NAME}.meta")
+            else()
+                # otherwise set it to empty, and related section(s) will be turned off
+                set(META_NAME="")
+            endif()
             set(TMPLR_PARAMS -DPROBAVG="" -DPROBEND="1024"
-                             -DBINNAME="${HEADER_NAME}")
+                             -DBINNAME="${SUBDIR}_${HEADER_NAME}" -DMETA_NAME="${META_NAME}")
             set(OUTPUT_FILE "${CONFIG_DIR}/${SUBDIR}/${HEADER_NAME}.json")
         elseif(EXTENSION STREQUAL ".h")
             set(TARGET ${HEADER_NAME}_h)
