@@ -112,7 +112,6 @@ register_new(struct epoll_st *est, struct sockaddr *serv_addr, size_t addr_size,
     }
 
     setnonblocking(csock);
-
     ev.events   = d->last_epoll;
     ev.data.ptr = d;
     if (epoll_ctl(est->fd, EPOLL_CTL_ADD, csock, &ev) == -1) {
@@ -120,6 +119,7 @@ register_new(struct epoll_st *est, struct sockaddr *serv_addr, size_t addr_size,
         return false;
     }
     est->nconn++;
+    printf("[Client] %zu connections established.\n", est->nconn);
     return true;
 }
 
@@ -309,7 +309,6 @@ main(int argc, char *argv[])
 
     signal(SIGPIPE, SIG_IGN);
 
-    printf("[Client] %zu connections established.\n", est.nconn);
     while (est.nconn) {
         struct epoll_event evs[MAX_EVS];
         int nfds = epoll_wait(est.fd, &evs[0], MAX_EVS, -1);
