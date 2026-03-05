@@ -283,6 +283,97 @@ bm_target_init_connection(thread_ctx_t *ctx)
     res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(r)[1], /*cmd=*/4ul,
                   /*flags=O_NONBLOCK|0x2*/ 0x802ul);
     fprintf(stderr, "res = %ld\n", res);
+
+    *(uint32_t*)(0x200000b414c0ul+PTR_OFFSET) = UNIQUE_VAR(r)[0];
+*(uint16_t*)(0x200000b414c4ul+PTR_OFFSET) = 1;
+*(uint16_t*)(0x200000b414c6ul+PTR_OFFSET) = 0;
+*(uint32_t*)(0x200000b414c8ul+PTR_OFFSET) = UNIQUE_VAR(r)[1];
+*(uint16_t*)(0x200000b414ccul+PTR_OFFSET) = 1;
+*(uint16_t*)(0x200000b414ceul+PTR_OFFSET) = 0;
+	res = syscall(__NR_ppoll, /*fds=*/0x200000b414c0ul+PTR_OFFSET, /*nfds=*/2ul, /*tsp=*/0ul, /*sigmask=*/0ul, /*size=*/0ul);
+	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+//  accept$inet6 arguments: [
+//    fd: sock_in6 (resource)
+//    peer: ptr[out, sockaddr_in6] {
+//      sockaddr_in6 {
+//        family: const = 0xa (2 bytes)
+//        port: int16be = 0x0 (2 bytes)
+//        flow: int32be = 0x0 (4 bytes)
+//        addr: union ipv6_addr {
+//          rand_addr: buffer: (DirOut)
+//        }
+//        scope: int32 = 0x0 (4 bytes)
+//      }
+//    }
+//    peerlen: ptr[inout, len] {
+//      len = 0x80 (4 bytes)
+//    }
+//  ]
+//  returns sock_in6
+*(uint32_t*)(0x200000b417c0ul+PTR_OFFSET) = 0x80;
+	res = syscall(__NR_accept, /*fd=*/UNIQUE_VAR(r)[0], /*peer=*/0x200000b41780ul+PTR_OFFSET, /*peerlen=*/0x200000b417c0ul+PTR_OFFSET);
+	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	if (res != -1)
+		UNIQUE_VAR(r)[2] = res;
+//  setsockopt$bt_l2cap_L2CAP_OPTIONS arguments: [
+//    fd: sock_bt_l2cap (resource)
+//    level: const = 0x6 (4 bytes)
+//    opt: const = 0x1 (4 bytes)
+//    arg: ptr[in, l2cap_options] {
+//      l2cap_options {
+//        omtu: int16 = 0x1 (2 bytes)
+//        imtu: int16 = 0x0 (2 bytes)
+//        flush_to: int16 = 0x0 (2 bytes)
+//        mode: int8 = 0x0 (1 bytes)
+//        fcs: int8 = 0x0 (1 bytes)
+//        max_tx: int8 = 0x0 (1 bytes)
+//        pad = 0x0 (1 bytes)
+//        txwin_size: int16 = 0x0 (2 bytes)
+//      }
+//    }
+//    arglen: len = 0x4 (8 bytes)
+//  ]
+*(uint16_t*)(0x200000b44180ul+PTR_OFFSET) = 1;
+*(uint16_t*)(0x200000b44182ul+PTR_OFFSET) = 0;
+*(uint16_t*)(0x200000b44184ul+PTR_OFFSET) = 0;
+*(uint8_t*)(0x200000b44186ul+PTR_OFFSET) = 0;
+*(uint8_t*)(0x200000b44187ul+PTR_OFFSET) = 0;
+*(uint8_t*)(0x200000b44188ul+PTR_OFFSET) = 0;
+*(uint16_t*)(0x200000b4418aul+PTR_OFFSET) = 0;
+	res = syscall(__NR_setsockopt, /*fd=*/UNIQUE_VAR(r)[2], /*level=*/6, /*opt=*/1, /*arg=*/0x200000b44180ul+PTR_OFFSET, /*arglen=*/4ul);
+	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+//  getpeername arguments: [
+//    fd: sock (resource)
+//    peer: ptr[out, sockaddr_storage] {
+//      union sockaddr_storage {
+//        un: union sockaddr_un {
+//          file: sockaddr_un_file {
+//            family: unix_socket_family = 0x0 (2 bytes)
+//            path: buffer: (DirOut)
+//          }
+//        }
+//      }
+//    }
+//    peerlen: ptr[inout, len] {
+//      len = 0x80 (4 bytes)
+//    }
+//  ]
+*(uint32_t*)(0x200000b44500ul+PTR_OFFSET) = 0x80;
+	res = syscall(__NR_getpeername, /*fd=*/UNIQUE_VAR(r)[2], /*peer=*/0x200000b44480ul+PTR_OFFSET, /*peerlen=*/0x200000b44500ul+PTR_OFFSET);
+	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+//  setsockopt$sock_int arguments: [
+//    fd: sock (resource)
+//    level: const = 0x1 (4 bytes)
+//    optname: sockopt_opt_sock_int = 0x9 (4 bytes)
+//    optval: ptr[in, int32] {
+//      int32 = 0x1 (4 bytes)
+//    }
+//    optlen: len = 0x4 (8 bytes)
+//  ]
+*(uint32_t*)(0x200000b448c0ul+PTR_OFFSET) = 1;
+	res = syscall(__NR_setsockopt, /*fd=*/UNIQUE_VAR(r)[2], /*level=*/1, /*optname=SO_KEEPALIVE*/9, /*optval=*/0x200000b448c0ul+PTR_OFFSET, /*optlen=*/4ul);
+	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+
 }
 
 static inline void
@@ -501,6 +592,15 @@ bm_target_reg(thread_ctx_t *ctx, size_t tid)
 static inline void
 bm_target_dereg(thread_ctx_t *ctx, size_t tid)
 {
+    long res = 0;
+    res = syscall(__NR_shutdown, /*fd=*/UNIQUE_VAR(r)[2], /*how=*/2ul);
+	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+    //  close arguments: [
+    //    fd: fd (resource)
+    //  ]
+	res = syscall(__NR_close, /*fd=*/UNIQUE_VAR(r)[2]);
+	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+
     // close network related fds
     close(UNIQUE_VAR(r)[0]);
 	close(UNIQUE_VAR(r)[1]);
