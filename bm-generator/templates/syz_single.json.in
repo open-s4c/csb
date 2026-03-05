@@ -35,7 +35,7 @@
     },
     "applications": [
 $_begin(BINNAME = [[1; 2]]);
-        { "name": "BINNAME","operations": [1024]}
+        { "name": "gen-ws_BINNAME","operations": [1024]}
 $_end();
     ]
 }
