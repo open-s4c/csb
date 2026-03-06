@@ -33,6 +33,7 @@
 	],
 	"benchmark_config" : {
 		"duration": 60,
+		"initial_size": [5000],
 		"exec_env": ["native"],
 		"monitors" : { "mpstat" : ["-n", "-u", "-I", "SCPU,SUM", "-P", "0"],
 			       "perf" : ["-C", "0"]
@@ -56,7 +57,7 @@ $_begin(META_NAME = [[1; 2]]);
 		"exec_time": "pre",
 		"force_stop": "True",
 		"args": [
-			"46721",
+			"5000",
 			"{homedir}/build/bench/network/client",
 			"{homedir}/bench/targets/gen-ws/syz/META_NAME"
 		]
