@@ -25,8 +25,12 @@
 #include <sys/types.h>
 
 #define BM_CTX_TID     (ctx->tid)
-#define BASE_PORT_CON  36721
-#define BASE_PORT_BIND 46721
+
+// #define BASE_PORT_CON  36721
+// #define BASE_PORT_BIND 46721
+
+size_t g_port_con = 36721;
+size_t g_port_bind = 46721;
 
 #define NOP_PER_OP   1
 #define MAX_NAME_LEN 20U
@@ -122,6 +126,7 @@ static inline void
 bm_target_init_connection(thread_ctx_t *ctx)
 {
     intptr_t res = 0;
+
     fprintf(stderr, "bm_target_init_connection is called\n");
     //  socket$inet6 arguments: [
     //    domain: const = 0xa (8 bytes)
@@ -186,13 +191,13 @@ bm_target_init_connection(thread_ctx_t *ctx)
     res =
         syscall(__NR_bind, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->bind6_arg),
                 sizeof(*(UNIQUE_VAR(ctx->bind6_arg))));
-    fprintf(stderr, "res = %ld\n", res);
+    fprintf(stderr, "bind$inet6 res = %ld\n", res);
     //  listen arguments: [
     //    fd: sock (resource)
     //    backlog: int32 = 0xfa0 (4 bytes)
     //  ]
     res = syscall(__NR_listen, /*fd=*/UNIQUE_VAR(r)[0], /*backlog=*/0xfa0);
-    fprintf(stderr, "res = %ld\n", res);
+    fprintf(stderr, "listen res = %ld\n", res);
     //  fcntl$getflags arguments: [
     //    fd: fd (resource)
     //    cmd: fcntl_getflags = 0x3 (8 bytes)
@@ -284,96 +289,124 @@ bm_target_init_connection(thread_ctx_t *ctx)
                   /*flags=O_NONBLOCK|0x2*/ 0x802ul);
     fprintf(stderr, "res = %ld\n", res);
 
-    *(uint32_t*)(0x200000b414c0ul+PTR_OFFSET) = UNIQUE_VAR(r)[0];
-*(uint16_t*)(0x200000b414c4ul+PTR_OFFSET) = 1;
-*(uint16_t*)(0x200000b414c6ul+PTR_OFFSET) = 0;
-*(uint32_t*)(0x200000b414c8ul+PTR_OFFSET) = UNIQUE_VAR(r)[1];
-*(uint16_t*)(0x200000b414ccul+PTR_OFFSET) = 1;
-*(uint16_t*)(0x200000b414ceul+PTR_OFFSET) = 0;
-	res = syscall(__NR_ppoll, /*fds=*/0x200000b414c0ul+PTR_OFFSET, /*nfds=*/2ul, /*tsp=*/0ul, /*sigmask=*/0ul, /*size=*/0ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  accept$inet6 arguments: [
-//    fd: sock_in6 (resource)
-//    peer: ptr[out, sockaddr_in6] {
-//      sockaddr_in6 {
-//        family: const = 0xa (2 bytes)
-//        port: int16be = 0x0 (2 bytes)
-//        flow: int32be = 0x0 (4 bytes)
-//        addr: union ipv6_addr {
-//          rand_addr: buffer: (DirOut)
-//        }
-//        scope: int32 = 0x0 (4 bytes)
-//      }
-//    }
-//    peerlen: ptr[inout, len] {
-//      len = 0x80 (4 bytes)
-//    }
-//  ]
-//  returns sock_in6
-*(uint32_t*)(0x200000b417c0ul+PTR_OFFSET) = 0x80;
-	res = syscall(__NR_accept, /*fd=*/UNIQUE_VAR(r)[0], /*peer=*/0x200000b41780ul+PTR_OFFSET, /*peerlen=*/0x200000b417c0ul+PTR_OFFSET);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-	if (res != -1)
-		UNIQUE_VAR(r)[2] = res;
-//  setsockopt$bt_l2cap_L2CAP_OPTIONS arguments: [
-//    fd: sock_bt_l2cap (resource)
-//    level: const = 0x6 (4 bytes)
-//    opt: const = 0x1 (4 bytes)
-//    arg: ptr[in, l2cap_options] {
-//      l2cap_options {
-//        omtu: int16 = 0x1 (2 bytes)
-//        imtu: int16 = 0x0 (2 bytes)
-//        flush_to: int16 = 0x0 (2 bytes)
-//        mode: int8 = 0x0 (1 bytes)
-//        fcs: int8 = 0x0 (1 bytes)
-//        max_tx: int8 = 0x0 (1 bytes)
-//        pad = 0x0 (1 bytes)
-//        txwin_size: int16 = 0x0 (2 bytes)
-//      }
-//    }
-//    arglen: len = 0x4 (8 bytes)
-//  ]
-*(uint16_t*)(0x200000b44180ul+PTR_OFFSET) = 1;
-*(uint16_t*)(0x200000b44182ul+PTR_OFFSET) = 0;
-*(uint16_t*)(0x200000b44184ul+PTR_OFFSET) = 0;
-*(uint8_t*)(0x200000b44186ul+PTR_OFFSET) = 0;
-*(uint8_t*)(0x200000b44187ul+PTR_OFFSET) = 0;
-*(uint8_t*)(0x200000b44188ul+PTR_OFFSET) = 0;
-*(uint16_t*)(0x200000b4418aul+PTR_OFFSET) = 0;
-	res = syscall(__NR_setsockopt, /*fd=*/UNIQUE_VAR(r)[2], /*level=*/6, /*opt=*/1, /*arg=*/0x200000b44180ul+PTR_OFFSET, /*arglen=*/4ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  getpeername arguments: [
-//    fd: sock (resource)
-//    peer: ptr[out, sockaddr_storage] {
-//      union sockaddr_storage {
-//        un: union sockaddr_un {
-//          file: sockaddr_un_file {
-//            family: unix_socket_family = 0x0 (2 bytes)
-//            path: buffer: (DirOut)
-//          }
-//        }
-//      }
-//    }
-//    peerlen: ptr[inout, len] {
-//      len = 0x80 (4 bytes)
-//    }
-//  ]
-*(uint32_t*)(0x200000b44500ul+PTR_OFFSET) = 0x80;
-	res = syscall(__NR_getpeername, /*fd=*/UNIQUE_VAR(r)[2], /*peer=*/0x200000b44480ul+PTR_OFFSET, /*peerlen=*/0x200000b44500ul+PTR_OFFSET);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  setsockopt$sock_int arguments: [
-//    fd: sock (resource)
-//    level: const = 0x1 (4 bytes)
-//    optname: sockopt_opt_sock_int = 0x9 (4 bytes)
-//    optval: ptr[in, int32] {
-//      int32 = 0x1 (4 bytes)
-//    }
-//    optlen: len = 0x4 (8 bytes)
-//  ]
-*(uint32_t*)(0x200000b448c0ul+PTR_OFFSET) = 1;
-	res = syscall(__NR_setsockopt, /*fd=*/UNIQUE_VAR(r)[2], /*level=*/1, /*optname=SO_KEEPALIVE*/9, /*optval=*/0x200000b448c0ul+PTR_OFFSET, /*optlen=*/4ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-
+    *(uint32_t *)(0x200000b414c0ul + PTR_OFFSET) = UNIQUE_VAR(r)[0];
+    *(uint16_t *)(0x200000b414c4ul + PTR_OFFSET) = 1;
+    *(uint16_t *)(0x200000b414c6ul + PTR_OFFSET) = 0;
+    *(uint32_t *)(0x200000b414c8ul + PTR_OFFSET) = UNIQUE_VAR(r)[1];
+    *(uint16_t *)(0x200000b414ccul + PTR_OFFSET) = 1;
+    *(uint16_t *)(0x200000b414ceul + PTR_OFFSET) = 0;
+    res = syscall(__NR_ppoll, /*fds=*/0x200000b414c0ul + PTR_OFFSET,
+                  /*nfds=*/2ul, /*tsp=*/0ul, /*sigmask=*/0ul, /*size=*/0ul);
+    if (res == -1) {
+        UNIQUE_VAR(ctx->num_failed)++;
+    } else {
+        UNIQUE_VAR(ctx->num_succeeded)++;
+    };
+    //  accept$inet6 arguments: [
+    //    fd: sock_in6 (resource)
+    //    peer: ptr[out, sockaddr_in6] {
+    //      sockaddr_in6 {
+    //        family: const = 0xa (2 bytes)
+    //        port: int16be = 0x0 (2 bytes)
+    //        flow: int32be = 0x0 (4 bytes)
+    //        addr: union ipv6_addr {
+    //          rand_addr: buffer: (DirOut)
+    //        }
+    //        scope: int32 = 0x0 (4 bytes)
+    //      }
+    //    }
+    //    peerlen: ptr[inout, len] {
+    //      len = 0x80 (4 bytes)
+    //    }
+    //  ]
+    //  returns sock_in6
+    *(uint32_t *)(0x200000b417c0ul + PTR_OFFSET) = 0x80;
+    res = syscall(__NR_accept, /*fd=*/UNIQUE_VAR(r)[0],
+                  /*peer=*/0x200000b41780ul + PTR_OFFSET,
+                  /*peerlen=*/0x200000b417c0ul + PTR_OFFSET);
+    if (res == -1) {
+        UNIQUE_VAR(ctx->num_failed)++;
+    } else {
+        UNIQUE_VAR(ctx->num_succeeded)++;
+    };
+    if (res != -1)
+        UNIQUE_VAR(r)[2] = res;
+    //  setsockopt$bt_l2cap_L2CAP_OPTIONS arguments: [
+    //    fd: sock_bt_l2cap (resource)
+    //    level: const = 0x6 (4 bytes)
+    //    opt: const = 0x1 (4 bytes)
+    //    arg: ptr[in, l2cap_options] {
+    //      l2cap_options {
+    //        omtu: int16 = 0x1 (2 bytes)
+    //        imtu: int16 = 0x0 (2 bytes)
+    //        flush_to: int16 = 0x0 (2 bytes)
+    //        mode: int8 = 0x0 (1 bytes)
+    //        fcs: int8 = 0x0 (1 bytes)
+    //        max_tx: int8 = 0x0 (1 bytes)
+    //        pad = 0x0 (1 bytes)
+    //        txwin_size: int16 = 0x0 (2 bytes)
+    //      }
+    //    }
+    //    arglen: len = 0x4 (8 bytes)
+    //  ]
+    *(uint16_t *)(0x200000b44180ul + PTR_OFFSET) = 1;
+    *(uint16_t *)(0x200000b44182ul + PTR_OFFSET) = 0;
+    *(uint16_t *)(0x200000b44184ul + PTR_OFFSET) = 0;
+    *(uint8_t *)(0x200000b44186ul + PTR_OFFSET)  = 0;
+    *(uint8_t *)(0x200000b44187ul + PTR_OFFSET)  = 0;
+    *(uint8_t *)(0x200000b44188ul + PTR_OFFSET)  = 0;
+    *(uint16_t *)(0x200000b4418aul + PTR_OFFSET) = 0;
+    res = syscall(__NR_setsockopt, /*fd=*/UNIQUE_VAR(r)[2], /*level=*/6,
+                  /*opt=*/1, /*arg=*/0x200000b44180ul + PTR_OFFSET,
+                  /*arglen=*/4ul);
+    if (res == -1) {
+        UNIQUE_VAR(ctx->num_failed)++;
+    } else {
+        UNIQUE_VAR(ctx->num_succeeded)++;
+    };
+    //  getpeername arguments: [
+    //    fd: sock (resource)
+    //    peer: ptr[out, sockaddr_storage] {
+    //      union sockaddr_storage {
+    //        un: union sockaddr_un {
+    //          file: sockaddr_un_file {
+    //            family: unix_socket_family = 0x0 (2 bytes)
+    //            path: buffer: (DirOut)
+    //          }
+    //        }
+    //      }
+    //    }
+    //    peerlen: ptr[inout, len] {
+    //      len = 0x80 (4 bytes)
+    //    }
+    //  ]
+    *(uint32_t *)(0x200000b44500ul + PTR_OFFSET) = 0x80;
+    res = syscall(__NR_getpeername, /*fd=*/UNIQUE_VAR(r)[2],
+                  /*peer=*/0x200000b44480ul + PTR_OFFSET,
+                  /*peerlen=*/0x200000b44500ul + PTR_OFFSET);
+    if (res == -1) {
+        UNIQUE_VAR(ctx->num_failed)++;
+    } else {
+        UNIQUE_VAR(ctx->num_succeeded)++;
+    };
+    //  setsockopt$sock_int arguments: [
+    //    fd: sock (resource)
+    //    level: const = 0x1 (4 bytes)
+    //    optname: sockopt_opt_sock_int = 0x9 (4 bytes)
+    //    optval: ptr[in, int32] {
+    //      int32 = 0x1 (4 bytes)
+    //    }
+    //    optlen: len = 0x4 (8 bytes)
+    //  ]
+    *(uint32_t *)(0x200000b448c0ul + PTR_OFFSET) = 1;
+    res = syscall(__NR_setsockopt, /*fd=*/UNIQUE_VAR(r)[2], /*level=*/1,
+                  /*optname=SO_KEEPALIVE*/ 9,
+                  /*optval=*/0x200000b448c0ul + PTR_OFFSET, /*optlen=*/4ul);
+    if (res == -1) {
+        UNIQUE_VAR(ctx->num_failed)++;
+    } else {
+        UNIQUE_VAR(ctx->num_succeeded)++;
+    };
 }
 
 static inline void
@@ -387,7 +420,9 @@ bm_target_init(size_t init_size, size_t num_threads)
     int netOpsArgsIdxConnect = 0;
     int netOpsArgsIdxAccept  = 0;
     op_name_tbl[0]           = "min_strac_recvfrom_sendto_19_0";
+    g_port_bind              =  init_size;
 
+    fprintf(stderr, "Should listen on port %zu\n", g_port_bind);
     // Server command (connect syscall)
     numNetOpsConnect =
         sizeof(netops_connect_min_strac_recvfrom_sendto_19_0_prog) /
@@ -543,7 +578,7 @@ bm_target_reg(thread_ctx_t *ctx, size_t tid)
         saddr4_con = malloc(sizeof(struct sockaddr_in));
         assert(saddr4_con != NULL);
         saddr4_con->sin_family      = AF_INET;
-        saddr4_con->sin_port        = htons(BASE_PORT_CON);
+        saddr4_con->sin_port        = htons(g_port_con);
         saddr4_con->sin_addr.s_addr = htonl(INADDR_LOOPBACK);
     }
     ctx->connect4_arg_min_strac_recvfrom_sendto_19_0_prog = saddr4_con;
@@ -556,7 +591,8 @@ bm_target_reg(thread_ctx_t *ctx, size_t tid)
         saddr4_bind = malloc(sizeof(struct sockaddr_in));
         assert(saddr4_bind != NULL);
         saddr4_bind->sin_family      = AF_INET;
-        saddr4_bind->sin_port        = htons(BASE_PORT_BIND);
+        fprintf(stderr, "Binding on port %zu\n", g_port_bind);
+        saddr4_bind->sin_port        = htons(g_port_bind);
         saddr4_bind->sin_addr.s_addr = htonl(INADDR_ANY);
     }
     ctx->bind4_arg_min_strac_recvfrom_sendto_19_0_prog = saddr4_bind;
@@ -566,7 +602,7 @@ bm_target_reg(thread_ctx_t *ctx, size_t tid)
         (struct sockaddr_in6 *)malloc(sizeof(struct sockaddr_in6));
     ctx->connect6_arg_min_strac_recvfrom_sendto_19_0_prog = saddr6_con;
     saddr6_con->sin6_family                               = AF_INET6;
-    saddr6_con->sin6_port = htons(BASE_PORT_CON);
+    saddr6_con->sin6_port = htons(g_port_con);
     saddr6_con->sin6_addr = in6addr_loopback;
 
     // bind IPv6
@@ -574,7 +610,8 @@ bm_target_reg(thread_ctx_t *ctx, size_t tid)
         (struct sockaddr_in6 *)malloc(sizeof(struct sockaddr_in6));
     ctx->bind6_arg_min_strac_recvfrom_sendto_19_0_prog = saddr6_bind;
     saddr6_bind->sin6_family                           = AF_INET6;
-    saddr6_bind->sin6_port                             = htons(BASE_PORT_BIND);
+    fprintf(stderr, "Binding IPv6 on port %zu\n", g_port_bind);
+    saddr6_bind->sin6_port                             = htons(g_port_bind);
     saddr6_bind->sin6_addr                             = in6addr_any;
 
     fprintf(stderr, "connecting on thread %zu\n", tid);
@@ -593,17 +630,25 @@ static inline void
 bm_target_dereg(thread_ctx_t *ctx, size_t tid)
 {
     long res = 0;
-    res = syscall(__NR_shutdown, /*fd=*/UNIQUE_VAR(r)[2], /*how=*/2ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+    res      = syscall(__NR_shutdown, /*fd=*/UNIQUE_VAR(r)[2], /*how=*/2ul);
+    if (res == -1) {
+        UNIQUE_VAR(ctx->num_failed)++;
+    } else {
+        UNIQUE_VAR(ctx->num_succeeded)++;
+    };
     //  close arguments: [
     //    fd: fd (resource)
     //  ]
-	res = syscall(__NR_close, /*fd=*/UNIQUE_VAR(r)[2]);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+    res = syscall(__NR_close, /*fd=*/UNIQUE_VAR(r)[2]);
+    if (res == -1) {
+        UNIQUE_VAR(ctx->num_failed)++;
+    } else {
+        UNIQUE_VAR(ctx->num_succeeded)++;
+    };
 
     // close network related fds
     close(UNIQUE_VAR(r)[0]);
-	close(UNIQUE_VAR(r)[1]);
+    close(UNIQUE_VAR(r)[1]);
 
     free(ctx->tmpdir_min_strac_recvfrom_sendto_19_0_prog);
     // free(ctx->connect_arg_min_strac_recvfrom_sendto_19_0_prog);

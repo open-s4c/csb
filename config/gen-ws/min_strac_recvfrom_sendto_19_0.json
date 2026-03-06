@@ -33,6 +33,7 @@
 	],
 	"benchmark_config" : {
 		"duration": 30,
+		"initial_size": [5000],
 		"exec_env": ["native"],
 		"monitors" : { "mpstat" : ["-n", "-u", "-I", "SCPU,SUM", "-P", "0"],
 			       "perf" : ["-C", "0"]
@@ -53,7 +54,7 @@
 		"exec_time": "pre",
 		"force_stop": "True",
 		"args": [
-			"46721",
+			"5000",
 			"{homedir}/build/bench/network/client",
 			"{homedir}/bench/targets/gen-ws/syz/min_strac_recvfrom_sendto_19_0.meta"
 		]
