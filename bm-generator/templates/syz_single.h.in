@@ -35,6 +35,7 @@ struct thread_ctx_s {
   size_t iteration;
   bool aggregation_threads;
   $_begin(NN = [[1; 2]]);
+  uint64_t *r_NN_prog;
   char *tmpdir_NN_prog;
   int dirfd_NN_prog;
   int num_succeeded_NN_prog;
@@ -209,6 +210,9 @@ static inline void bm_target_reg(thread_ctx_t *ctx, size_t tid) {
   saddr6_bind->sin6_addr = in6addr_any;
 
   // EVERYTHING MUST BE INITIALIZED BEFORE
+  // do the per test reg
+  bm_target_reg_NN_prog(ctx);
+
   // do one warmup iteration to allocate memory in mmap
   bm_dispatch_operation_NN_prog(ctx, 0);
 
@@ -220,6 +224,9 @@ static inline void bm_target_reg(thread_ctx_t *ctx, size_t tid) {
 
 static inline void bm_target_dereg(thread_ctx_t *ctx, size_t tid) {
   $_begin(NN = [[1; 2]]);
+  // do the per test dereg
+  bm_target_dereg_NN_prog(ctx);
+
   free(ctx->tmpdir_NN_prog);
   // free(ctx->connect_arg_NN_prog);
   ctx->tmpdir_NN_prog = NULL;
