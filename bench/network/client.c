@@ -150,7 +150,7 @@ readwrite(struct epoll_event *ev, struct epoll_st *est)
             advance_step(d);
         }
     }
-    if (r == -1 && errno != EAGAIN) {
+    if (r == -1 && (errno != EAGAIN && errno != ECONNRESET)) {
         unregister(d, est);
         return;
     }
