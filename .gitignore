@@ -5,3 +5,7 @@ venv/
 __pycache__/
 results/
 bm-external/*
+gen-ws
+deserialized/
+extracted/
+Testing/

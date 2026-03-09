@@ -19,10 +19,21 @@
 			"hue_lbl": "Execution Env",
 			"title": "Linearity vs. #Containers",
 			"type": "linearity"
+		},
+		{
+			"x": "container_cnt",
+			"x_lbl": "#Containers",
+			"y": "univ_succ_percent",
+			"y_lbl": "Operations success percent",
+			"hue_lbl": "Executer",
+			"hue": "execution_unit",
+			"shape": "barplot",
+			"title" : "Success% vs. #Containers"
 		}
 	],
 	"benchmark_config" : {
-		"duration": 30,
+		"duration": 60,
+		"initial_size": [5000],
 		"exec_env": ["native"],
 		"monitors" : { "mpstat" : ["-n", "-u", "-I", "SCPU,SUM", "-P", "0"],
 			       "perf" : ["-C", "0"]
@@ -38,4 +49,19 @@ $_begin(BINNAME = [[1; 2]]);
         { "name": "BINNAME","operations": [1024]}
 $_end();
     ]
+$_begin(META_NAME = [[1; 2]]);
+	,
+	"plugins": [
+	 {
+		"name": "generic-network-client.sh",
+		"exec_time": "pre",
+		"force_stop": "True",
+		"args": [
+			"5000",
+			"{homedir}/build/bench/network/client",
+			"{homedir}/bench/targets/gen-ws/syz/META_NAME"
+		]
+	 }
+  ]
+$_end();
 }

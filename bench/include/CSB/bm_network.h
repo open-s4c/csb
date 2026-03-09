@@ -15,7 +15,7 @@ static struct sockaddr_in bm_connect_addr;
 static bool bm_connect_addr_inited;
 
 static struct sockaddr_in bm_bind_addr;
-static bool bm_bind_addr_inited;
+static bool bm_bind_addr_inited = false;
 
 static inline void
 parse_net_addr(const char *addr_env, const char *port_env,
