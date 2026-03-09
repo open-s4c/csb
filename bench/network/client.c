@@ -48,7 +48,7 @@ static void
 config_wait(struct conn_data *d, struct epoll_st *est)
 {
     size_t step    = d->step;
-    int next_epoll = eops[step].is_write ? EPOLLOUT : EPOLLIN;
+    int next_epoll = eops[step].is_write ? EPOLLIN : EPOLLOUT;
     if (d->last_epoll == next_epoll) {
         return;
     }
@@ -92,7 +92,7 @@ register_new(struct epoll_st *est, struct sockaddr *serv_addr, size_t addr_size,
 
     d->step       = 0;
     d->n          = 0;
-    d->last_epoll = eops[0].is_write ? EPOLLOUT : EPOLLIN;
+    d->last_epoll = eops[0].is_write ? EPOLLIN : EPOLLOUT;
 
     int csock = socket(serv_addr->sa_family, SOCK_STREAM, 0);
     if (csock == -1) {
@@ -135,16 +135,16 @@ readwrite(struct epoll_event *ev, struct epoll_st *est)
     }
     assert(eops[d->step].sz < sbuf_size);
     if (ev->events & EPOLLOUT) {
-        assert(eops[d->step].is_write);
-    } else if (ev->events & EPOLLIN) {
         assert(!eops[d->step].is_write);
+    } else if (ev->events & EPOLLIN) {
+        assert(eops[d->step].is_write);
     }
 
     while (r != -1) {
         if (eops[d->step].is_write) {
-            r = send(fd, &sbuf[0], eops[d->step].sz, 0);
-        } else {
             r = recv(fd, &sbuf[0], eops[d->step].sz, 0);
+        } else {
+            r = send(fd, &sbuf[0], eops[d->step].sz, 0);
         }
         if (r != -1) {
             advance_step(d);
