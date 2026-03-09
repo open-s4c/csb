@@ -19,17 +19,17 @@ static bool bm_bind_addr_inited = false;
 
 static inline void
 parse_net_addr(const char *addr_env, const char *port_env,
-               struct sockaddr_in *dst, bool *inited)
+               struct sockaddr_in *dst, bool *initialized, uint16_t sin_port)
 {
     const char *conn_addr_str = getenv(addr_env);
     const char *conn_port_str = getenv(port_env);
     if (conn_addr_str) {
         dst->sin_family = AF_INET;
-        dst->sin_port   = htons(31334);
+        dst->sin_port   = htons(sin_port);
         int r =
             inet_pton(dst->sin_family, conn_addr_str, &dst->sin_addr.s_addr);
         if (r == 1) {
-            *inited = true;
+            *initialized = true;
         } else if (r == -1) {
             perror("inet_pton(connect addr)");
             exit(-1);
@@ -39,7 +39,7 @@ parse_net_addr(const char *addr_env, const char *port_env,
             exit(-1);
         }
     }
-    if (*inited && conn_port_str) {
+    if (*initialized && conn_port_str) {
         unsigned long port = strtoul(conn_port_str, NULL, 0);
         if (errno == ERANGE) {
             perror("strtoul(conn_port_str)");
