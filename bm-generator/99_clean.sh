@@ -51,11 +51,10 @@ else
     DIRS="${DIRS_ALL}"
 fi
 
-for dir in ${DIRS}; do
-    remove_dir "${dir}"
-done
-
 if [ ${FORCE} -eq 0 ]; then
+    for dir in ${DIRS}; do
+        remove_dir "${dir}"
+    done
     while true; do
         read -p "Do you wish to remove all shown paths? " yn
         case $yn in
