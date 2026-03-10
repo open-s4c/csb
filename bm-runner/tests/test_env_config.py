@@ -11,13 +11,13 @@ def del_env_var(env_var: UniversalConfig):
 
 
 def test_env_var_dne():
-    for env_var in UniversalConfig:
+    for env_var in EnvUniversalConfig.DEFAULT_ENV_CONFIG.keys():
         del_env_var(env_var)
         assert EnvUniversalConfig.is_on(env_var) == EnvUniversalConfig.DEFAULT_ENV_CONFIG[env_var]
 
 
 def test_env_var_true():
-    for env_var in UniversalConfig:
+    for env_var in EnvUniversalConfig.DEFAULT_ENV_CONFIG.keys():
         for val in EnvUniversalConfig.TRUE_VALS:
             os.environ[env_var.value] = val
             assert EnvUniversalConfig.is_on(env_var)
