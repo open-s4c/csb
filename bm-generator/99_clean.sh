@@ -1,13 +1,18 @@
 #!/bin/bash
 # Copyright (C) Huawei Technologies Co., Ltd. 2026. All rights reserved.
 # SPDX-License-Identifier: MIT
+ : ${ALL:=0}
  : ${FORCE:=0}
+
  : ${DIR_DESERIALIZED:="deserialized"}
  : ${DIR_EXTRACTED:="extracted"}
  : ${DIR_GENERATED_ROOT:="../bench/targets/gen-ws"}
+ : ${DIR_CONFIG:="../config/gen-ws"}
  : ${DIR_CSB_BUILD:="../build"}
 
- : ${DIRS:="${DIR_DESERIALIZED} ${DIR_EXTRACTED} ${DIR_GENERATED_ROOT} ${DIR_CSB_BUILD}"}
+ : ${DIRS_ALL:="${DIR_DESERIALIZED} ${DIR_EXTRACTED} ${DIR_GENERATED_ROOT} ${DIR_CSB_BUILD} ${DIR_CONFIG}"}
+ : ${DIRS_DEFAULT:="${DIR_GENERATED_ROOT} ${DIR_CONFIG}"}
+ : ${DIRS:=${DIRS_DEFAULT}}
 
 dry_run=1
 
@@ -30,21 +35,20 @@ remove_dir() {
     fi
 }
 
-if [ "$#" -eq 1 ]; then
+while [ "$#" -gt 0 ]; do
     if [ "$1" == "-f" ]; then
         FORCE=1
     fi
-fi
+    if [ "$1" == "-a" ]; then
+        ALL=1
+    fi
+    shift
+done
 
-if [ ${FORCE} -eq 0 ]; then
-    while true; do
-        read -p "Do you wish to remove all generated files? " yn
-        case $yn in
-            [Yy]* ) break;;
-            [Nn]* ) exit;;
-            * ) echo "Please answer [y]es or [n]o.";;
-        esac
-    done
+if [ ${ALL} -eq 0 ]; then
+    DIRS="${DIRS_DEFAULT}"
+else
+    DIRS="${DIRS_ALL}"
 fi
 
 for dir in ${DIRS}; do
@@ -73,5 +77,7 @@ if [ "x${DIR_BASE}" == "x" ]; then
     DIR_BASE="$(dirname ${DIR_CSB_BUILD})"
 fi
 
-echo "You probably want to run:"
-echo "  (cd \"${DIR_BASE}\" && cmake -B \"$(basename ${DIR_CSB_BUILD})\" .);"
+if [ ${ALL} -eq 1 ]; then
+    echo "You probably want to run:"
+    echo "  (cd \"${DIR_BASE}\" && cmake -B \"$(basename ${DIR_CSB_BUILD})\" .);"
+fi
