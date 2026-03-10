@@ -14,4 +14,4 @@ foreach(AGENT ${AGENTS})
 endforeach(AGENT)
 
 add_test(NAME client-server-comm
-    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test-comm.sh)
+         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test-comm.sh)
