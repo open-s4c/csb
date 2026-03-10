@@ -3,6 +3,7 @@
 
 import os
 from enum import Enum
+from typing import Optional
 
 
 class UniversalConfig(str, Enum):
@@ -15,10 +16,12 @@ class UniversalConfig(str, Enum):
     ----------
     CSB_NO_CLEAN_BENCH: When set to `true`, it disables the cleaning of the build folder of builtin benchmarks.
     CSB_ANALYZE: When set to `false`, it disables the analysis monitors.
+    CSB_RESULTS_GROUP: when set to <dir-name>, bm-runner dumps all results under results/<dir-name>.
     """
 
     CSB_NO_CLEAN_BENCH = "CSB_NO_CLEAN_BENCH"
     CSB_ANALYZE = "CSB_ANALYZE"
+    CSB_RESULTS_GROUP = "CSB_RESULTS_GROUP"
 
 
 class EnvUniversalConfig:
@@ -37,4 +40,16 @@ class EnvUniversalConfig:
 
     @staticmethod
     def is_on(env_var: UniversalConfig) -> bool:
-        return EnvUniversalConfig.__read_env_var(env_var)
+        if env_var in EnvUniversalConfig.DEFAULT_ENV_CONFIG:
+            return EnvUniversalConfig.__read_env_var(env_var)
+        else:
+            # handle non-boolean env-var(s) not ideal!
+            return False
+
+    @staticmethod
+    def get(env_var: UniversalConfig) -> Optional[str]:
+        value = os.getenv(env_var.value)
+        if value is None:
+            return None
+        else:
+            return value

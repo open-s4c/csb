@@ -22,6 +22,8 @@ from config.benchmark import ExecutionType
 import traceback
 from bm_utils import remove_files_by_ext
 from utils.logger import bm_log, LogType
+from config.env_config import EnvUniversalConfig, UniversalConfig
+import os
 
 
 def v_campaign(
@@ -75,7 +77,9 @@ def v_campaign(
         continuing=continuing,
         benchmark_duration_seconds=benchmark_duration_seconds,
         pretty=pretty_dict,
-        results_dir="../results",
+        results_dir=os.path.join(
+            "../results", EnvUniversalConfig.get(UniversalConfig.CSB_RESULTS_GROUP) or ""
+        ),
     )
 
 
