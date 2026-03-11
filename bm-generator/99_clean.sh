@@ -1,13 +1,16 @@
 #!/bin/bash
 # Copyright (C) Huawei Technologies Co., Ltd. 2026. All rights reserved.
 # SPDX-License-Identifier: MIT
+
+source helper/bm-generator-lib.sh
+
  : ${ALL:=0}
  : ${FORCE:=0}
 
  : ${DIR_DESERIALIZED:="deserialized"}
  : ${DIR_EXTRACTED:="extracted"}
- : ${DIR_GENERATED_ROOT:="../bench/targets/gen-ws"}
- : ${DIR_CONFIG:="../config/gen-ws"}
+ : ${DIR_GENERATED_ROOT:="../bench/targets/$(get_workspace_dir)"}
+ : ${DIR_CONFIG:="../config/$(get_workspace_dir)"}
  : ${DIR_CSB_BUILD:="../build"}
 
  : ${DIRS_ALL:="${DIR_DESERIALIZED} ${DIR_EXTRACTED} ${DIR_GENERATED_ROOT} ${DIR_CSB_BUILD} ${DIR_CONFIG}"}

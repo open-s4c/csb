@@ -2,6 +2,7 @@
 # Copyright (C) Huawei Technologies Co., Ltd. 2026. All rights reserved.
 # SPDX-License-Identifier: MIT
 
+source helper/bm-generator-lib.sh
 
 if [ $# != 1 ]; then
   echo "Usage: $0 </path/to/syz/prog/file>"
@@ -29,8 +30,8 @@ fi
 
 PROG="`basename ${FILEPROG} .prog`"
 
-# TODO: sync. with the definition in cmake `set(SUBDIR "gen-ws")`
-DIR_TARGETS="../bench/targets/gen-ws/syz"
+# TODO: sync. with the definition in cmake `set(SUBDIR "$(get_workspace_dir)")`
+DIR_TARGETS="../bench/targets/$(get_workspace_dir)/syz"
 
 DIR_TARGETS_ABS="`readlink -e ${DIR_TARGETS}`"
 FILEPROG_ABS="`readlink -e ${FILEPROG}`"

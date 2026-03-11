@@ -2,6 +2,7 @@
 # Copyright (C) Huawei Technologies Co., Ltd. 2026. All rights reserved.
 # SPDX-License-Identifier: MIT
 
+source helper/bm-generator-lib.sh
 
  : ${DIR_PROG:="./extracted"}
  : ${JOBS:=$(nproc)}
@@ -13,7 +14,7 @@ if [ ! -d "${DIR_PROG}" ]; then
     exit 1
 fi
 
-DIR_TARGETS="../bench/targets/gen-ws/syz"
+DIR_TARGETS="../bench/targets/$(get_workspace_dir)/syz"
 
 if [ -d "${DIR_TARGETS}" ]; then
   echo "`readlink -e ${DIR_TARGETS}` exist!"
