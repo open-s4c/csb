@@ -63,7 +63,7 @@
     {
       "name": "run_rocksdb.sh",
       "exec_time": "with",
-      "path": "bm-external/rocksdb/",
+      "path": "scripts/org-apps",
       "args": []
     }
   ]
