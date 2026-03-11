@@ -37,4 +37,4 @@ FILEPROG_ABS="`readlink -e ${FILEPROG}`"
 
 cd "${DIR_SYZ_SRC}"
 echo "Converting ${PROG} to benchmark framework"
-tools/syz-prog2c/syz-prog2c -csb -trace=true -format=false -prog "${FILEPROG_ABS}" -cfile "${DIR_TARGETS_ABS}/${PROG}.h"
+bin/syz-prog2c -csb -trace=true -format=false -prog "${FILEPROG_ABS}" -cfile "${DIR_TARGETS_ABS}/${PROG}.h"

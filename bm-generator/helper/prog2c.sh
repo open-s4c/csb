@@ -15,4 +15,4 @@ REPEATS=1
 THREADED=false
 
 echo "Converting ${PROG}"
-tools/syz-prog2c/syz-prog2c -format=false -repeat=${REPEATS} -procs ${PROCESSES} -threaded=${THREADED} -prog "${PROG}" 2> "${PROG}".err > "${PROG}".c
+bin/syz-prog2c -format=false -repeat=${REPEATS} -procs ${PROCESSES} -threaded=${THREADED} -prog "${PROG}" 2> "${PROG}".err > "${PROG}".c

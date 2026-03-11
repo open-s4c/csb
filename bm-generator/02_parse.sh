@@ -34,7 +34,7 @@ DIR_CUR="`pwd`"
 
 # Check and create directory for syz-lang .prog files
  : ${DIR_PROG:="./deserialized"}
- 
+
 if [ ! -d "${DIR_PROG}" ]; then
     mkdir -p "${DIR_PROG}"
 fi
@@ -51,7 +51,7 @@ fi
 # Change to syzkaller source
 cd "${DIR_SYZ_SRC}"
 
-tools/syz-trace2syz/syz-trace2syz -vv 0 -file "${TRACE_ABS}" --deserialize "${DIR_PROG_ABS}" --nocorpus
+bin/syz-trace2syz -vv 0 -file "${TRACE_ABS}" --deserialize "${DIR_PROG_ABS}" --nocorpus
 
 cd "${DIR_CUR}"
 

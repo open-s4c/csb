@@ -53,7 +53,7 @@ for file in $files; do
   echo $file
   dir="${DIR_OUT_ABS}/$i"
   mkdir -p "${dir}"
-  tools/syz-extraction/syz-extraction -prog "${file}" -deserialize "${dir}" -minCalls ${MINCALLS} &
+  bin/syz-extraction -prog "${file}" -deserialize "${dir}" -minCalls ${MINCALLS} &
   i=$(($i + 1))
 done
 
