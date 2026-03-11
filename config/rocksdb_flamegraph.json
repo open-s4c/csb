@@ -1,0 +1,70 @@
+{
+  "plots": [
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "ops",
+      "y_lbl": "Operations",
+      "hue_lbl": "Executer",
+      "hue": "execution_unit",
+      "shape": "barplot",
+      "title": "Operations vs. #container"
+    }
+  ],
+  "benchmark_config": {
+    "duration": 30,
+    "exec_env": [
+      "container"
+    ],
+    "monitors": {
+      "mpstat": [
+        "-n",
+        "-u",
+        "-I",
+        "SCPU,SUM",
+        "-P",
+        "0"
+      ],
+      "perf": [
+        "-C",
+        "0"
+      ]
+    },
+    "threads": {
+      "values": [
+        [
+          5
+        ]
+      ]
+    }
+  },
+  "containers": {
+    "container_list": {
+      "values": [
+        [
+          1
+        ]
+      ]
+    },
+    "core_count": 6,
+    "image": "ubuntu:latest"
+  },
+  "applications": [
+    {
+      "name": "db_bench",
+      "path": "bm-external/rocksdb/",
+      "args": "--threads={threads} --duration={duration} --use_existing_db=1 --db=/tmp/rocksdb_db --benchmarks=readrandom,multireadrandom,seekrandom,overwrite,readwhilewriting,seekrandomwhilewriting,compact",
+      "adapter": {
+        "name": "rocksdb-adapter.sh"
+      }
+    }
+  ],
+  "plugins": [
+    {
+      "name": "run_rocksdb.sh",
+      "exec_time": "with",
+      "path": "bm-external/rocksdb/",
+      "args": []
+    }
+  ]
+}
