@@ -12,24 +12,10 @@
     }
   ],
   "benchmark_config": {
-    "duration": 30,
+    "duration": 1,
     "exec_env": [
       "container"
     ],
-    "monitors": {
-      "mpstat": [
-        "-n",
-        "-u",
-        "-I",
-        "SCPU,SUM",
-        "-P",
-        "0"
-      ],
-      "perf": [
-        "-C",
-        "0"
-      ]
-    },
     "threads": {
       "values": [
         [
@@ -61,10 +47,18 @@
   ],
   "plugins": [
     {
-      "name": "run_rocksdb.sh",
+      "name": "run-rocksdb.sh",
       "exec_time": "with",
       "path": "scripts/org-apps",
       "args": []
+    },
+    {
+      "name": "collect_strace.sh",
+      "exec_time": "with",
+      "path": "scripts/plugins",
+      "args": [
+        "{res_dir}/rocksdb-strace-cnt{index}.log"
+      ]
     }
   ]
 }
