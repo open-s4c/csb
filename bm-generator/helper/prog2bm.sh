@@ -30,7 +30,6 @@ fi
 
 PROG="`basename ${FILEPROG} .prog`"
 
-# TODO: sync. with the definition in cmake `set(SUBDIR "$(get_workspace_dir)")`
 DIR_TARGETS="../bench/targets/$(get_workspace_dir)/syz"
 
 DIR_TARGETS_ABS="`readlink -e ${DIR_TARGETS}`"
