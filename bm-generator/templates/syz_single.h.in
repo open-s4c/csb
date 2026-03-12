@@ -110,7 +110,7 @@ static inline void bm_target_init(size_t init_size, size_t num_threads) {
   op_name_tbl[0] = "NN";
   $_end();
   assert(init_size <= UINT16_MAX);
-  if(init_size > UINT16_MAX) {
+  if (init_size > UINT16_MAX) {
     init_size = UINT16_MAX;
   }
   g_conn_port = (uint16_t)init_size;
@@ -234,6 +234,24 @@ static inline void bm_target_dereg(thread_ctx_t *ctx, size_t tid) {
   // free write buffer
   free(ctx->writeBuffer_NN_prog);
   ctx->writeBuffer_NN_prog = NULL;
+
+  // if bm_connect_addr_inited == true, memory is static (see bm_network.h)
+  if (!bm_connect_addr_inited) {
+    free(ctx->connect4_arg_NN_prog);
+    ctx->connect4_arg_NN_prog = NULL;
+  }
+
+  // if bm_bind_addr_inited == true, memory is static (see bm_network.h)
+  if (!bm_bind_addr_inited) {
+    free(ctx->bind4_arg_NN_prog);
+    ctx->bind4_arg_NN_prog = NULL;
+  }
+
+  free(ctx->connect6_arg_NN_prog);
+  ctx->connect6_arg_NN_prog = NULL;
+  free(ctx->bind6_arg_NN_prog);
+  ctx->bind6_arg_NN_prog = NULL;
+
   $_end();
 
   V_UNUSED(ctx, tid);

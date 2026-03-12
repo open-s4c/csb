@@ -257,6 +257,24 @@ bm_target_dereg(thread_ctx_t *ctx, size_t tid)
     free(ctx->writeBuffer_min_mysql_lseek_fallocate_43_0_prog);
     ctx->writeBuffer_min_mysql_lseek_fallocate_43_0_prog = NULL;
 
+    // if bm_connect_addr_inited == true, memory is static (see bm_network.h)
+    if (!bm_connect_addr_inited) {
+        free(ctx->connect4_arg_min_mysql_lseek_fallocate_43_0_prog);
+        ctx->connect4_arg_min_mysql_lseek_fallocate_43_0_prog = NULL;
+    }
+
+    // if bm_bind_addr_inited == true, memory is static (see bm_network.h)
+    if (!bm_bind_addr_inited) {
+        free(ctx->bind4_arg_min_mysql_lseek_fallocate_43_0_prog);
+        ctx->bind4_arg_min_mysql_lseek_fallocate_43_0_prog = NULL;
+    }
+
+    free(ctx->connect6_arg_min_mysql_lseek_fallocate_43_0_prog);
+    ctx->connect6_arg_min_mysql_lseek_fallocate_43_0_prog = NULL;
+    free(ctx->bind6_arg_min_mysql_lseek_fallocate_43_0_prog);
+    ctx->bind6_arg_min_mysql_lseek_fallocate_43_0_prog = NULL;
+
+
     V_UNUSED(ctx, tid);
 }
 
