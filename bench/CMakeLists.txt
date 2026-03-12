@@ -101,7 +101,8 @@ foreach(target IN ITEMS ${TARGETS})
             "${PROJECT_SOURCE_DIR}/scripts/plugins/generic-network-client.sh")
         set(CLIENT_BIN "${CMAKE_CURRENT_BINARY_DIR}/network/client")
         set(CLIENT_CMD
-            "${SCRIPT_PATH} ${DEFAULT_PORT} ${UNITS} ${CLIENT_BIN} ${META_FILE}")
+            "${SCRIPT_PATH} ${DEFAULT_PORT} ${UNITS} ${CLIENT_BIN} ${META_FILE}"
+        )
         add_test(NAME ${SETUP_CLIENT}
                  COMMAND bash -c "(${CLIENT_CMD} > /dev/null 2>&1 &)")
         set_tests_properties(${SETUP_CLIENT} PROPERTIES FIXTURES_SETUP
