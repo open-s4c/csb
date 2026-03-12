@@ -25,3 +25,8 @@ export CSB_SELECTED_OUTPUT="$(mktemp)"
 
 echo "The selected benchmarks are (available in $CSB_SELECTED_OUTPUT):"
 cat "$CSB_SELECTED_OUTPUT"
+
+./scripts/fg-merge/filter-merge.sh "./results/$group" ./bench-select "$CSB_SELECTED_OUTPUT"
+if [ -e ./bench-select/all.html ]; then
+    echo "The aggregation of individual benchmark flamegraphs is available in $(realpath ./bench-select/all.html)"
+fi
