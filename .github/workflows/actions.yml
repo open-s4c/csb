@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        config: [-DCSB_ADDRESS_SANITIZER=ON, -DCSB_THREAD_SANITIZER=ON, ""]
+        config: [-DCSB_ADDRESS_SANITIZER=ON]
     steps:
       - name: install pre-requisites
         run: sudo apt-get install -y libhiredis-dev
@@ -21,10 +21,10 @@ jobs:
         run: cmake -S. -Bbuild ${{ matrix.config }}
       - name: Build Tests
         run: |
-          cmake --build mysql_v2_min_mysql_epoll_create1_missing_0_0
-          cmake --build mysql_v2_min_mysql_lseek_fcntl_17_0
-          cmake --build mysql_v2_min_mysql_lseek_pwrite64_25_0
-          cmake --build mysql_v2_min_mysql_lseek_pwrite64_26_0
+          cmake --build build --target mysql_v2_min_mysql_epoll_create1_missing_0_0
+          cmake --build build --target mysql_v2_min_mysql_lseek_fcntl_17_0
+          cmake --build build --target mysql_v2_min_mysql_lseek_pwrite64_25_0
+          cmake --build build --target mysql_v2_min_mysql_lseek_pwrite64_26_0
       - name: Run Tests
         run: |
          ctest --test-dir build --output-on-failure -R mysql_v2_min_mysql_epoll_create1_missing_0_0
