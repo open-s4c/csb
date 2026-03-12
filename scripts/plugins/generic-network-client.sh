@@ -2,14 +2,15 @@
 # Copyright (C) Huawei Technologies Co., Ltd. 2026. All rights reserved.
 # SPDX-License-Identifier: MIT
 
-if [ $# -ne 3 ]; then
-    echo "Usage: $0 <PORT> <CLIENT_PATH> <META_PATH>"
+if [ $# -ne 4 ]; then
+    echo "Usage: $0 <PORT> <CLIENT_COUNT> <CLIENT_PATH> <META_PATH>"
     exit 1
 fi
 
-PORT=$1
-CLIENT_PATH=$2
-META_PATH=$3
+START_PORT=$1
+CLIENT_COUNT=$2
+CLIENT_PATH=$3
+META_PATH=$4
 IP="127.0.0.0"
 
 # grep everything after `=` and between quotes `"..."`
@@ -20,4 +21,12 @@ echo $META_STRING
 # TODO: create an analogous case for CLIENT_SEQ
 # TODO: make it decide whether to launch a client or a server based on
 # the available sequence
-${CLIENT_PATH} -R -h ${IP} -p${PORT} -P${META_STRING}
+for ((i=0; i<$CLIENT_COUNT; i++)); do
+    port=$((START_PORT + i))
+    echo "Launching client $i on port $port"
+    $CLIENT_PATH "-R" "-h" "$IP" "-p$port" "-P$META_STRING" &
+done
+
+echo "\nwaiting for clients to finish..."
+wait
+echo "Clients are done"
