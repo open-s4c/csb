@@ -73,7 +73,8 @@ def plot_chart(
 
     chart.xaxis.set_major_locator(ticker.MultipleLocator(1))
     chart.set(xlabel=plot.x_lbl, ylabel=plot.y_lbl)
-    chart.set_ylim(0, 1.2 * max(df[plot.y]))
+    new_ylim = 1.2 * max(df[plot.y])
+    chart.set_ylim(0, 1 if new_ylim == 0 else new_ylim)
 
     plt.legend(
         loc="upper left",
