@@ -5,8 +5,8 @@
  */
 
 #include <CSB/bm_helper.h>
-#include <CSB/bm_target.h>
 #include <CSB/bm_network.h>
+#include <CSB/bm_target.h>
 #include <dirent.h>
 #include <endian.h>
 #include <errno.h>
@@ -21,8 +21,6 @@
 #include <sys/types.h>
 
 #define BM_CTX_TID (ctx->tid)
-#define BASE_PORT_CON 36721
-#define BASE_PORT_BIND 46721
 
 #define NOP_PER_OP 1
 #define MAX_NAME_LEN 20U
@@ -46,17 +44,18 @@ struct thread_ctx_s {
   struct sockaddr_in6 *bind6_arg_min_rocks_fcntl_read_0_0_prog;
 };
 
-#define REPEAT_NUM 1
-//#define MMAP_OFFSET 0x200000000000ul
+uint16_t g_conn_port = 36721;
+uint16_t g_bind_port = 46721;
 
 #define PTR_OFFSET (ctx->mmap_offsets_min_rocks_fcntl_read_0_0_prog - MMAP_OFFSET)
 #define UNIQUE_ID min_rocks_fcntl_read_0_0_prog
+bool abort_on_fail = false;
 #include "syz/min_rocks_fcntl_read_0_0.h"
 
 static inline void _mkdir_min_rocks_fcntl_read_0_0_prog(thread_ctx_t *ctx, const char *dir) {
-  char tmp[256];
+  char tmp[256] = {0};
   char *p = NULL;
-  size_t len;
+  size_t len = 0;
 
   snprintf(tmp, sizeof(tmp), "%s", dir);
   len = strlen(tmp);
@@ -93,90 +92,21 @@ static inline void bm_target_get_op_name(char *out_str, const size_t len,
   assert(len >= MAX_NAME_LEN && "output buffer too small");
   assert(op_id == 0);
   snprintf(out_str, len, "%s", op_name_tbl[op_id]);
-  // V_UNUSED(len, op_id);
 }
 
 static inline void bm_target_init(size_t init_size, size_t num_threads) {
-  V_UNUSED(init_size, num_threads);
-  int numNetOpsConnect = 0;
-  int numNetOpsAccept = 0;
-  char *netOpsArgsConnect[1024];
-  char *netOpsArgsAccept[1024];
-  int netOpsArgsIdxConnect = 0;
-  int netOpsArgsIdxAccept = 0;
   op_name_tbl[0] = "min_rocks_fcntl_read_0_0";
-
-  // Server command (connect syscall)
-  numNetOpsConnect = sizeof(netops_connect_min_rocks_fcntl_read_0_0_prog) / sizeof(char *);
-  for (int i = 0; i < numNetOpsConnect; i++) {
-    netOpsArgsConnect[netOpsArgsIdxConnect] = (char *)netops_connect_min_rocks_fcntl_read_0_0_prog[i];
-    netOpsArgsIdxConnect++;
+  assert(init_size <= UINT16_MAX);
+  if(init_size > UINT16_MAX) {
+    init_size = UINT16_MAX;
   }
-
-  // Client command (accept[4] syscall)
-  numNetOpsAccept = sizeof(netops_accept_min_rocks_fcntl_read_0_0_prog) / sizeof(char *);
-  for (int i = 0; i < numNetOpsAccept; i++) {
-    netOpsArgsAccept[netOpsArgsIdxAccept] = (char *)netops_accept_min_rocks_fcntl_read_0_0_prog[i];
-    netOpsArgsIdxAccept++;
-  }
-
-  // Server command (connect syscall)
-  char pattern_args[4096];
-  int pattern_args_idx = 0;
-  for (int i = 0; i < netOpsArgsIdxConnect; i++) {
-    pattern_args_idx += snprintf(pattern_args + pattern_args_idx,
-                                 sizeof(pattern_args) - pattern_args_idx,
-                                 "-P%s ", netOpsArgsConnect[i]);
-  }
-  pattern_args[pattern_args_idx] = '\0';
-
-  char server_command[4096];
-  int server_command_len =
-      snprintf(server_command, 4096, "server -p${PORT_SERVER} -w1024 -r1024 -W1024 %s",
-               pattern_args);
-  server_command[server_command_len] = '\0';
-  if (netOpsArgsIdxConnect > 0) {
-    FILE *fp_server;
-    fp_server = fopen( "server_min_rocks_fcntl_read_0_0.sh", "w" ); // Open server shell script for writing
-    fprintf(fp_server, "#!/bin/bash\n");
-    fprintf(fp_server, " : ${DIR_SERVER:=.}\n");
-    fprintf(fp_server, " : ${PORT_SERVER:=36721}\n");
-    fprintf(fp_server, "${DIR_SERVER}/%s\n", server_command);
-    fclose(fp_server);
-    chmod("server_min_rocks_fcntl_read_0_0.sh", S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IWOTH | S_IXOTH);
-    fprintf(stderr, "PORT_SERVER=36721 DIR_SERVER=\".\" ./server_min_rocks_fcntl_read_0_0.sh\n");
-  }
-
-  // Client command (accept[4] syscall)
-  pattern_args_idx = 0;
-  for (int i = 0; i < netOpsArgsIdxAccept; i++) {
-    pattern_args_idx += snprintf(pattern_args + pattern_args_idx,
-                                 sizeof(pattern_args) - pattern_args_idx,
-                                 "-P%s ", netOpsArgsAccept[i]);
-  }
-  pattern_args[pattern_args_idx] = '\0';
-
-  char client_command[4096];
-  int client_command_len =
-      snprintf(client_command, 4096, "client -p${PORT_CLIENT} -w1024 -r1024 -W1024 %s",
-               pattern_args);
-  client_command[client_command_len] = '\0';
-  if (netOpsArgsIdxAccept > 0) {
-    FILE *fp_client;
-    fp_client = fopen( "client_min_rocks_fcntl_read_0_0.sh", "w" ); // Open file for writing
-    fprintf(fp_client, "#!/bin/bash\n");
-    fprintf(fp_client, " : ${DIR_CLIENT:=.}\n");
-    fprintf(fp_client, " : ${PORT_CLIENT:=46721}\n");
-    fprintf(fp_client, "${DIR_CLIENT}/%s\n", client_command);
-    fclose(fp_client);
-    chmod("client_min_rocks_fcntl_read_0_0.sh", S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IWOTH | S_IXOTH);
-    fprintf(stderr, "PORT_CLIENT=46721 DIR_CLIENT=\".\" ./client_min_rocks_fcntl_read_0_0.sh\n");
-  }
-
-  parse_net_addr("BM_SYS_CONNECT_ADDR", "BM_SYS_CONNECT_PORT",
-                  &bm_connect_addr, &bm_connect_addr_inited);
+  g_conn_port = (uint16_t)init_size;
+  g_bind_port = (uint16_t)init_size;
+  parse_net_addr("BM_SYS_CONNECT_ADDR", "BM_SYS_CONNECT_PORT", &bm_connect_addr,
+                 &bm_connect_addr_inited, g_conn_port);
   parse_net_addr("BM_SYS_BIND_ADDR", "BM_SYS_BIND_PORT", &bm_bind_addr,
-                  &bm_bind_addr_inited);
+                 &bm_bind_addr_inited, g_bind_port);
+  V_UNUSED(init_size, num_threads);
 }
 
 static inline void bm_target_reg(thread_ctx_t *ctx, size_t tid) {
@@ -231,7 +161,7 @@ static inline void bm_target_reg(thread_ctx_t *ctx, size_t tid) {
     saddr4_con = malloc(sizeof(struct sockaddr_in));
     assert(saddr4_con != NULL);
     saddr4_con->sin_family = AF_INET;
-    saddr4_con->sin_port = htons(BASE_PORT_CON);
+    saddr4_con->sin_port = htons(g_conn_port);
     saddr4_con->sin_addr.s_addr = htonl(INADDR_LOOPBACK);
   }
   ctx->connect4_arg_min_rocks_fcntl_read_0_0_prog = saddr4_con;
@@ -244,7 +174,7 @@ static inline void bm_target_reg(thread_ctx_t *ctx, size_t tid) {
     saddr4_bind = malloc(sizeof(struct sockaddr_in));
     assert(saddr4_bind != NULL);
     saddr4_bind->sin_family = AF_INET;
-    saddr4_bind->sin_port = htons(BASE_PORT_BIND);
+    saddr4_bind->sin_port = htons(g_bind_port);
     saddr4_bind->sin_addr.s_addr = htonl(INADDR_ANY);
   }
   ctx->bind4_arg_min_rocks_fcntl_read_0_0_prog = saddr4_bind;
@@ -254,7 +184,7 @@ static inline void bm_target_reg(thread_ctx_t *ctx, size_t tid) {
       (struct sockaddr_in6 *)malloc(sizeof(struct sockaddr_in6));
   ctx->connect6_arg_min_rocks_fcntl_read_0_0_prog = saddr6_con;
   saddr6_con->sin6_family = AF_INET6;
-  saddr6_con->sin6_port = htons(BASE_PORT_CON);
+  saddr6_con->sin6_port = htons(g_conn_port);
   saddr6_con->sin6_addr = in6addr_loopback;
 
   // bind IPv6
@@ -262,7 +192,7 @@ static inline void bm_target_reg(thread_ctx_t *ctx, size_t tid) {
       (struct sockaddr_in6 *)malloc(sizeof(struct sockaddr_in6));
   ctx->bind6_arg_min_rocks_fcntl_read_0_0_prog = saddr6_bind;
   saddr6_bind->sin6_family = AF_INET6;
-  saddr6_bind->sin6_port = htons(BASE_PORT_BIND);
+  saddr6_bind->sin6_port = htons(g_bind_port);
   saddr6_bind->sin6_addr = in6addr_any;
 
   // EVERYTHING MUST BE INITIALIZED BEFORE

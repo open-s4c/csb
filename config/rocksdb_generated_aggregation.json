@@ -58,83 +58,83 @@
     },
     "core_count": 2,
     "image": "ubuntu:latest",
-    "name": "syz_proc_container"
+    "name" :"rocksdb_syz_proc_container"
   },
   "applications": [
     {
-      "name": "min_rocks_fcntl_pread64_0_0",
+      "name" :"rocksdb_min_rocks_fcntl_pread64_0_0",
       "operations": [
         1024
       ]
     },
     {
-      "name": "min_rocks_fcntl_read_0_0",
+      "name" :"rocksdb_min_rocks_fcntl_read_0_0",
       "operations": [
         1024
       ]
     },
     {
-      "name": "min_rocks_newfstatat_missing_0_0",
+      "name" :"rocksdb_min_rocks_newfstatat_missing_0_0",
       "operations": [
         1024
       ]
     },
     {
-      "name": "min_rocks_pread64_fcntl_9_0",
+      "name" :"rocksdb_min_rocks_pread64_fcntl_67_0",
       "operations": [
         1024
       ]
     },
     {
-      "name": "min_rocks_pread64_write_0_0",
+      "name" :"rocksdb_min_rocks_pread64_write_0_0",
       "operations": [
         1024
       ]
     },
     {
-      "name": "min_rocks_read_fcntl_0_0",
+      "name" :"rocksdb_min_rocks_read_fcntl_0_0",
       "operations": [
         1024
       ]
     },
     {
-      "name": "min_rocks_read_openat_0_0",
+      "name" :"rocksdb_min_rocks_read_openat_0_0",
       "operations": [
         1024
       ]
     },
     {
-      "name": "min_rocks_read_openat_2_0",
+      "name" :"rocksdb_min_rocks_read_openat_2_0",
       "operations": [
         1024
       ]
     },
     {
-      "name": "min_rocks_write_fcntl_1_0",
+      "name" :"rocksdb_min_rocks_write_fcntl_0_0",
       "operations": [
         1024
       ]
     },
     {
-      "name": "min_rocks_write_fcntl_3_0",
+      "name" :"rocksdb_min_rocks_write_fcntl_5_0",
       "operations": [
         1024
       ]
     },
     {
-      "name": "min_rocks_write_fcntl_4_0",
+      "name" :"rocksdb_min_rocks_write_fcntl_7_0",
       "operations": [
         1024
       ]
     },
     {
-      "name": "min_rocks_write_fcntl_8_0",
+      "name" :"rocksdb_min_rocks_write_fcntl_8_0",
       "operations": [
         1024
       ]
     },
     {
-      "name": "min_rocks_write_fcntl_9_0",
+      "name" :"rocksdb_min_rocks_write_fcntl_9_0",
       "operations": [
         1024
       ]

@@ -57,12 +57,12 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 #define MMAP_LEN (0x1000 + 0x1000000 + 0x1000)
 #define MMAP_SIZE_TOTAL ((BM_THREAD_NUM) * (MMAP_LEN))
 
-const static int UNIQUE_VAR(num_subdirs) = 0;
-const static char* UNIQUE_VAR(subdirs)[0] = {};
-const static int UNIQUE_VAR(num_filenames) = 0;
-const static char* UNIQUE_VAR(filenames)[0] = {};
-const static int UNIQUE_VAR(num_filesizes) = 0;
-const static uint64_t UNIQUE_VAR(filesizes)[0] = {};
+const static int UNIQUE_VAR(num_subdirs) = 1;
+const static char* UNIQUE_VAR(subdirs)[1] = {"proc/self"};
+const static int UNIQUE_VAR(num_filenames) = 1;
+const static char* UNIQUE_VAR(filenames)[1] = {"./proc/self/statu"};
+const static int UNIQUE_VAR(num_filesizes) = 1;
+const static uint64_t UNIQUE_VAR(filesizes)[1] = {0};
 
 static void __attribute__((noinline)) UNIQUE_FUNC(remove_tmp_dir)(const char* dir)
 {
@@ -103,20 +103,20 @@ UNIQUE_FUNC(bm_dispatch_operation)(thread_ctx_t* ctx, size_t op_id)
 {
 	const char* reason;
 	(void)reason;
-			uint64_t UNIQUE_VAR(r)[1] = {0xffffffffffffffff};
+			uint64_t UNIQUE_VAR(r)[2] = {0xffffffffffffffff, 0xffffffffffffffff};
 	intptr_t res = 0;
-//  openat$procfs arguments: [
-//    fd: const = 0xffffffffffffff9c (8 bytes)
+//  openat arguments: [
+//    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2f 70 72 6f 63 2f 63 70 75 69 6e 66 6f 00} (length 0xe)
+//      buffer: {2e 2f 70 72 6f 63 2f 73 65 6c 66 2f 73 74 61 74 75 73 00} (length 0x13)
 //    }
-//    flags: const = 0x0 (4 bytes)
-//    mode: const = 0x0 (2 bytes)
+//    flags: open_flags = 0x40 (4 bytes)
+//    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20d38840ul+PTR_OFFSET), "/proc/cpuinfo\000", 14);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d38840ul+PTR_OFFSET, /*flags=*/0, /*mode=*/0);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+memcpy((void*)(0x20002c80ul+PTR_OFFSET), "./proc/self/status\000", 19);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20002c80ul+PTR_OFFSET, /*flags=O_CREAT*/0x40, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(r)[0] = res;
 //  read arguments: [
@@ -126,8 +126,8 @@ memcpy((void*)(0x20d38840ul+PTR_OFFSET), "/proc/cpuinfo\000", 14);
 //    }
 //    count: len = 0x400 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d38940ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20002d80ul+PTR_OFFSET, /*count=*/0x400ul);
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
 //    buf: ptr[out, buffer] {
@@ -135,8 +135,8 @@ memcpy((void*)(0x20d38840ul+PTR_OFFSET), "/proc/cpuinfo\000", 14);
 //    }
 //    count: len = 0x400 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d38d40ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20003180ul+PTR_OFFSET, /*count=*/0x400ul);
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
 //    buf: ptr[out, buffer] {
@@ -144,282 +144,58 @@ memcpy((void*)(0x20d38840ul+PTR_OFFSET), "/proc/cpuinfo\000", 14);
 //    }
 //    count: len = 0x400 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d39140ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d39540ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d39940ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d39d40ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d3a140ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d3a540ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d3a940ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d3ad40ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d3b140ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d3b540ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d3b940ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d3bd40ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d3c140ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d3c540ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d3c940ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d3cd40ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d3d140ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d3d540ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d3d940ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d3dd40ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d3e140ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d3e540ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d3e940ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d3ed40ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d3f140ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d3f540ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d3f940ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d3fd40ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d40140ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d40540ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  read arguments: [
-//    fd: fd (resource)
-//    buf: ptr[out, buffer] {
-//      buffer: (DirOut)
-//    }
-//    count: len = 0x400 (8 bytes)
-//  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d40800ul+PTR_OFFSET, /*count=*/0x400ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20003240ul+PTR_OFFSET, /*count=*/0x400ul);
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  close arguments: [
 //    fd: fd (resource)
 //  ]
 	res = syscall(__NR_close, /*fd=*/UNIQUE_VAR(r)[0]);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+//  openat arguments: [
+//    fd: fd_dir (resource)
+//    file: ptr[in, buffer] {
+//      buffer: {2e 2f 70 72 6f 63 2f 73 65 6c 66 2f 73 74 61 74 75 73 00} (length 0x13)
+//    }
+//    flags: open_flags = 0x40 (4 bytes)
+//    mode: open_mode = 0x1ff (2 bytes)
+//  ]
+//  returns fd
+memcpy((void*)(0x20003600ul+PTR_OFFSET), "./proc/self/status\000", 19);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20003600ul+PTR_OFFSET, /*flags=O_CREAT*/0x40, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	if (res != -1)
+		UNIQUE_VAR(r)[1] = res;
+//  read arguments: [
+//    fd: fd (resource)
+//    buf: ptr[out, buffer] {
+//      buffer: (DirOut)
+//    }
+//    count: len = 0x400 (8 bytes)
+//  ]
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[1], /*buf=*/0x20003700ul+PTR_OFFSET, /*count=*/0x400ul);
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+//  read arguments: [
+//    fd: fd (resource)
+//    buf: ptr[out, buffer] {
+//      buffer: (DirOut)
+//    }
+//    count: len = 0x400 (8 bytes)
+//  ]
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[1], /*buf=*/0x20003b00ul+PTR_OFFSET, /*count=*/0x400ul);
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+//  read arguments: [
+//    fd: fd (resource)
+//    buf: ptr[out, buffer] {
+//      buffer: (DirOut)
+//    }
+//    count: len = 0x400 (8 bytes)
+//  ]
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[1], /*buf=*/0x20003bc0ul+PTR_OFFSET, /*count=*/0x400ul);
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+//  close arguments: [
+//    fd: fd (resource)
+//  ]
+	res = syscall(__NR_close, /*fd=*/UNIQUE_VAR(r)[1]);
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	return 0;
 }

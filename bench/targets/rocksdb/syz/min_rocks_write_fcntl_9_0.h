@@ -37,9 +37,6 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 #ifndef __NR_fadvise64
 #define __NR_fadvise64 223
 #endif
-#ifndef __NR_fallocate
-#define __NR_fallocate 47
-#endif
 #ifndef __NR_fcntl
 #define __NR_fcntl 25
 #endif
@@ -49,14 +46,8 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 #ifndef __NR_fstatfs
 #define __NR_fstatfs 44
 #endif
-#ifndef __NR_ftruncate
-#define __NR_ftruncate 46
-#endif
 #ifndef __NR_mmap
 #define __NR_mmap 222
-#endif
-#ifndef __NR_newfstatat
-#define __NR_newfstatat 79
 #endif
 #ifndef __NR_openat
 #define __NR_openat 56
@@ -90,9 +81,9 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 const static int UNIQUE_VAR(num_subdirs) = 1;
 const static char* UNIQUE_VAR(subdirs)[1] = {"tmp/rocksdb_db"};
 const static int UNIQUE_VAR(num_filenames) = 1;
-const static char* UNIQUE_VAR(filenames)[1] = {"./tmp/rocksdb_db/000040.ss"};
+const static char* UNIQUE_VAR(filenames)[1] = {"./tmp/rocksdb_db/000032.ss"};
 const static int UNIQUE_VAR(num_filesizes) = 1;
-const static uint64_t UNIQUE_VAR(filesizes)[1] = {70940384};
+const static uint64_t UNIQUE_VAR(filesizes)[1] = {4962650};
 
 static void __attribute__((noinline)) UNIQUE_FUNC(remove_tmp_dir)(const char* dir)
 {
@@ -138,15 +129,15 @@ UNIQUE_FUNC(bm_dispatch_operation)(thread_ctx_t* ctx, size_t op_id)
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 74 6d 70 2f 72 6f 63 6b 73 64 62 5f 64 62 2f 30 30 30 30 34 30 2e 73 73 74 00} (length 0x1c)
+//      buffer: {2e 2f 74 6d 70 2f 72 6f 63 6b 73 64 62 5f 64 62 2f 30 30 30 30 33 32 2e 73 73 74 00} (length 0x1c)
 //    }
 //    flags: open_flags = 0x80241 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20837d00ul+PTR_OFFSET), "./tmp/rocksdb_db/000040.sst\000", 28);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20837d00ul+PTR_OFFSET, /*flags=O_TRUNC|O_CREAT|O_CLOEXEC|O_WRONLY*/0x80241, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+memcpy((void*)(0x20c84b00ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20c84b00ul+PTR_OFFSET, /*flags=O_TRUNC|O_CREAT|O_CLOEXEC|O_WRONLY*/0x80241, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(r)[0] = res;
 //  fcntl$getflags arguments: [
@@ -154,22 +145,22 @@ memcpy((void*)(0x20837d00ul+PTR_OFFSET), "./tmp/rocksdb_db/000040.sst\000", 28);
 //    cmd: fcntl_getflags = 0x1 (8 bytes)
 //  ]
 	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(r)[0], /*cmd=F_GETFD*/1ul, 0);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  fcntl$setflags arguments: [
 //    fd: fd (resource)
 //    cmd: const = 0x2 (8 bytes)
 //    flags: fcntl_flags = 0x1 (8 bytes)
 //  ]
 	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(r)[0], /*cmd=*/2ul, /*flags=FD_CLOEXEC*/1ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  fstatfs arguments: [
 //    fd: fd (resource)
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //  ]
-	res = syscall(__NR_fstatfs, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20837d40ul+PTR_OFFSET);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	res = syscall(__NR_fstatfs, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20c84b40ul+PTR_OFFSET);
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  sync_file_range arguments: [
 //    fd: fd (resource)
 //    off: intptr = 0x0 (8 bytes)
@@ -177,7 +168,7 @@ memcpy((void*)(0x20837d00ul+PTR_OFFSET), "./tmp/rocksdb_db/000040.sst\000", 28);
 //    flags: sync_file_flags = 0x0 (8 bytes)
 //  ]
 	res = syscall(__NR_sync_file_range, /*fd=*/UNIQUE_VAR(r)[0], /*off=*/0ul, /*nbytes=*/0ul, /*flags=*/0ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  fcntl$F_SET_RW_HINT arguments: [
 //    fd: fd (resource)
 //    cmd: const = 0x40c (8 bytes)
@@ -185,17 +176,9 @@ memcpy((void*)(0x20837d00ul+PTR_OFFSET), "./tmp/rocksdb_db/000040.sst\000", 28);
 //      fcntl_rw_hint = 0x0 (8 bytes)
 //    }
 //  ]
-*(uint64_t*)(0x20837e00ul+PTR_OFFSET) = 0;
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(r)[0], /*cmd=*/0x40cul, /*hint=*/0x20837e00ul+PTR_OFFSET);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  fallocate arguments: [
-//    fd: fd (resource)
-//    mode: fallocate_mode = 0x1 (8 bytes)
-//    off: intptr = 0x0 (8 bytes)
-//    len: intptr = 0x43a76e0 (8 bytes)
-//  ]
-	res = syscall(__NR_fallocate, /*fd=*/UNIQUE_VAR(r)[0], /*mode=FALLOC_FL_KEEP_SIZE*/1ul, /*off=*/0ul, /*len=*/0x43a76e0ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+*(uint64_t*)(0x20c84bc0ul+PTR_OFFSET) = 0;
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(r)[0], /*cmd=*/0x40cul, /*hint=*/0x20c84bc0ul+PTR_OFFSET);
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  write arguments: [
 //    fd: fd (resource)
 //    buf: ptr[in, buffer] {
@@ -204,7 +187,7 @@ memcpy((void*)(0x20837d00ul+PTR_OFFSET), "./tmp/rocksdb_db/000040.sst\000", 28);
 //    count: len = 0x100000 (8 bytes)
 //  ]
 	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  write arguments: [
 //    fd: fd (resource)
 //    buf: ptr[in, buffer] {
@@ -213,7 +196,7 @@ memcpy((void*)(0x20837d00ul+PTR_OFFSET), "./tmp/rocksdb_db/000040.sst\000", 28);
 //    count: len = 0x100000 (8 bytes)
 //  ]
 	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  write arguments: [
 //    fd: fd (resource)
 //    buf: ptr[in, buffer] {
@@ -222,7 +205,7 @@ memcpy((void*)(0x20837d00ul+PTR_OFFSET), "./tmp/rocksdb_db/000040.sst\000", 28);
 //    count: len = 0x100000 (8 bytes)
 //  ]
 	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  write arguments: [
 //    fd: fd (resource)
 //    buf: ptr[in, buffer] {
@@ -231,591 +214,38 @@ memcpy((void*)(0x20837d00ul+PTR_OFFSET), "./tmp/rocksdb_db/000040.sst\000", 28);
 //    count: len = 0x100000 (8 bytes)
 //  ]
 	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  write arguments: [
 //    fd: fd (resource)
 //    buf: ptr[in, buffer] {
 //      buffer: {} (length 0x0)
 //    }
-//    count: len = 0x100000 (8 bytes)
+//    count: len = 0xbb95a (8 bytes)
 //  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x100000 (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x100000ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  write arguments: [
-//    fd: fd (resource)
-//    buf: ptr[in, buffer] {
-//      buffer: {} (length 0x0)
-//    }
-//    count: len = 0x80efb (8 bytes)
-//  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x80efbul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[0], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0xbb95aul);
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  fdatasync arguments: [
 //    fd: fd (resource)
 //  ]
 	res = syscall(__NR_fdatasync, /*fd=*/UNIQUE_VAR(r)[0]);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  ftruncate arguments: [
-//    fd: fd (resource)
-//    len: intptr = 0x3d80efb (8 bytes)
-//  ]
-	res = syscall(__NR_ftruncate, /*fd=*/UNIQUE_VAR(r)[0], /*len=*/0x3d80efbul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  close arguments: [
 //    fd: fd (resource)
 //  ]
 	res = syscall(__NR_close, /*fd=*/UNIQUE_VAR(r)[0]);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  newfstatat arguments: [
-//    dfd: const = 0xffffffffffffff9c (8 bytes)
-//    file: ptr[in, buffer] {
-//      buffer: {2e 2f 74 6d 70 2f 72 6f 63 6b 73 64 62 5f 64 62 2f 30 30 30 30 34 30 2e 73 73 74 00} (length 0x1c)
-//    }
-//    statbuf: ptr[out, stat] {
-//      stat {
-//        st_dev: intptr = 0x0 (8 bytes)
-//        st_ino: intptr = 0x0 (8 bytes)
-//        st_mode: int32 = 0x0 (4 bytes)
-//        st_nlink: int32 = 0x0 (4 bytes)
-//        st_uid: uid (resource)
-//        st_gid: gid (resource)
-//        st_rdev: intptr = 0x0 (8 bytes)
-//        __pad1: const = 0x0 (8 bytes)
-//        st_size: intptr = 0x0 (8 bytes)
-//        st_blksize: int32 = 0x0 (4 bytes)
-//        __pad2: const = 0x0 (4 bytes)
-//        st_blocks: intptr = 0x0 (8 bytes)
-//        st_atime: intptr = 0x0 (8 bytes)
-//        st_atime_nsec: intptr = 0x0 (8 bytes)
-//        st_mtime: intptr = 0x0 (8 bytes)
-//        st_mtime_nsec: intptr = 0x0 (8 bytes)
-//        st_ctime: intptr = 0x0 (8 bytes)
-//        st_ctime_nsec: intptr = 0x0 (8 bytes)
-//        __unused4: const = 0x0 (4 bytes)
-//        __unused5: const = 0x0 (4 bytes)
-//      }
-//    }
-//    flag: statx_flags = 0x0 (8 bytes)
-//  ]
-memcpy((void*)(0x20ebb300ul+PTR_OFFSET), "./tmp/rocksdb_db/000040.sst\000", 28);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ebb300ul+PTR_OFFSET, /*statbuf=*/0x20ebb340ul+PTR_OFFSET, /*flag=*/0ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 74 6d 70 2f 72 6f 63 6b 73 64 62 5f 64 62 2f 30 30 30 30 34 30 2e 73 73 74 00} (length 0x1c)
+//      buffer: {2e 2f 74 6d 70 2f 72 6f 63 6b 73 64 62 5f 64 62 2f 30 30 30 30 33 32 2e 73 73 74 00} (length 0x1c)
 //    }
 //    flags: open_flags = 0x80040 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20ebb400ul+PTR_OFFSET), "./tmp/rocksdb_db/000040.sst\000", 28);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ebb400ul+PTR_OFFSET, /*flags=O_CREAT|O_CLOEXEC*/0x80040, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d24b40ul+PTR_OFFSET, /*flags=O_CREAT|O_CLOEXEC*/0x80040, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(r)[1] = res;
 //  fcntl$getflags arguments: [
@@ -823,14 +253,14 @@ memcpy((void*)(0x20ebb400ul+PTR_OFFSET), "./tmp/rocksdb_db/000040.sst\000", 28);
 //    cmd: fcntl_getflags = 0x1 (8 bytes)
 //  ]
 	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(r)[1], /*cmd=F_GETFD*/1ul, 0);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  fcntl$setflags arguments: [
 //    fd: fd (resource)
 //    cmd: const = 0x2 (8 bytes)
 //    flags: fcntl_flags = 0x1 (8 bytes)
 //  ]
 	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(r)[1], /*cmd=*/2ul, /*flags=FD_CLOEXEC*/1ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  fadvise64 arguments: [
 //    fd: fd (resource)
 //    offset: intptr = 0x0 (8 bytes)
@@ -838,54 +268,54 @@ memcpy((void*)(0x20ebb400ul+PTR_OFFSET), "./tmp/rocksdb_db/000040.sst\000", 28);
 //    advice: fadvise_flags = 0x1 (8 bytes)
 //  ]
 	res = syscall(__NR_fadvise64, /*fd=*/UNIQUE_VAR(r)[1], /*offset=*/0ul, /*len=*/0ul, /*advice=POSIX_FADV_RANDOM*/1ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readahead arguments: [
 //    fd: fd (resource)
-//    off: intptr = 0x3d28383 (8 bytes)
-//    count: intptr = 0x58b78 (8 bytes)
+//    off: intptr = 0x4b4d9f (8 bytes)
+//    count: intptr = 0x6bbb (8 bytes)
 //  ]
-	res = syscall(__NR_readahead, /*fd=*/UNIQUE_VAR(r)[1], /*off=*/0x3d28383ul, /*count=*/0x58b78ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	res = syscall(__NR_readahead, /*fd=*/UNIQUE_VAR(r)[1], /*off=*/0x4b4d9ful, /*count=*/0x6bbbul);
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    count: len = 0x35 (8 bytes)
-//    pos: intptr = 0x3d80ec6 (8 bytes)
+//    pos: intptr = 0x4bb925 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[1], /*buf=*/0x20ebb500ul+PTR_OFFSET, /*count=*/0x35ul, /*pos=*/0x3d80ec6ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[1], /*buf=*/0x20d24c40ul+PTR_OFFSET, /*count=*/0x35ul, /*pos=*/0x4bb925ul);
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    count: len = 0x43 (8 bytes)
-//    pos: intptr = 0x3d80e83 (8 bytes)
+//    pos: intptr = 0x4bb8e2 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[1], /*buf=*/0x20ebb540ul+PTR_OFFSET, /*count=*/0x43ul, /*pos=*/0x3d80e83ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[1], /*buf=*/0x20d24c80ul+PTR_OFFSET, /*count=*/0x43ul, /*pos=*/0x4bb8e2ul);
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
-//    count: len = 0x3e1 (8 bytes)
-//    pos: intptr = 0x3d80aa2 (8 bytes)
+//    count: len = 0x3cb (8 bytes)
+//    pos: intptr = 0x4bb517 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[1], /*buf=*/0x20ebb5c0ul+PTR_OFFSET, /*count=*/0x3e1ul, /*pos=*/0x3d80aa2ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[1], /*buf=*/0x20d24d00ul+PTR_OFFSET, /*count=*/0x3cbul, /*pos=*/0x4bb517ul);
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
-//    count: len = 0x5871f (8 bytes)
-//    pos: intptr = 0x3d28383 (8 bytes)
+//    count: len = 0x6778 (8 bytes)
+//    pos: intptr = 0x4b4d9f (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[1], /*buf=*/0x20ebb9c0ul+PTR_OFFSET, /*count=*/0x5871ful, /*pos=*/0x3d28383ul);
-	if (res == -1 ) { UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[1], /*buf=*/0x20d25100ul+PTR_OFFSET, /*count=*/0x6778ul, /*pos=*/0x4b4d9ful);
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	close(UNIQUE_VAR(r)[1]);
 	return 0;
 }
