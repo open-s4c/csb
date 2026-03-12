@@ -58,6 +58,7 @@ $_begin(META_NAME = [[1; 2]]);
 		"force_stop": "True",
 		"args": [
 			"5000",
+			"1",
 			"{homedir}/build/bench/network/client",
 			"{homedir}/bench/targets/gen-ws/syz/META_NAME"
 		]
