@@ -22,9 +22,7 @@ class ExecutionTime(str, Enum):
     PRE: The script/process will be launched before the start signal.
     POST: The script/process will be launched after the start signal.
     CLEANUP: The script/process will be called after the benchmark is finished or interrupted.
-    WITH: The script/process will be called at the same time as the benchmark as a wrapper.
-    The order of the JSON array of objects indicates the order in which plugins are wrapped.
-    For example, a plugins' array of `[{name: foo}, {name: bar}]` executed the command `foo bar <application>`.
+    WITH: The script/process will be called at the same time as the benchmark as a wrapper. The order of the JSON array of objects indicates the order in which plugins are wrapped. For example, a plugins' array of `[{name: foo}, {name: bar}]` executed the command `foo bar <application>`.
     """
 
     PRE = "pre"

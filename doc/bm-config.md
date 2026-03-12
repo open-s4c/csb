@@ -52,7 +52,7 @@ Plugins are a flexible way to inject additional scripts/processes to be executed
 |Field|Type|Optional|Default|Description|
 |---|---|---|---|---|
 |name|str|:x:||    Name of the script/process to be executed. |
-|exec_time|[ExecutionTime](#executiontime)|:x:||    When to execute the script/process (pre, post, cleanup). |
+|exec_time|[ExecutionTime](#executiontime)|:x:||    When to execute the script/process (pre, post, cleanup, with). |
 |path|Path|:white_check_mark:||    Path to the script/process. It will look under scripts/plugins     or if it is available system wide. |
 |args|list[str]|:white_check_mark:|`[]`|    List of arguments to be passed to the script/process.     It can include one place holder: `{homedir}`.     This is replaced at runtime with the path of the build directory of the CSB project. |
 |force_stop|bool|:white_check_mark:|`False`|    Whether to forcefully stop the process if it is still running during cleanup. |
@@ -122,7 +122,7 @@ Execution time of the plugin script/process.  <br/>Supported values:
 - `"pre"`:  The script/process will be launched before the start signal.
 - `"post"`:  The script/process will be launched after the start signal.
 - `"cleanup"`:  The script/process will be called after the benchmark is finished or interrupted.
-- `"with"`:  The script/process will be called at the same time as the benchmark as a wrapper.
+- `"with"`:  The script/process will be called at the same time as the benchmark as a wrapper. The order of the JSON array of objects indicates the order in which plugins are wrapped. For example, a plugins' array of `[{name: foo}, {name: bar}]` executed the command `foo bar <application>`.
 ## ExecutionType
 Execution environment of the benchmarks.  <br/>Supported values:
 - `"native"`:  Launches the benchmark(s) directly on the host OS.
