@@ -63,8 +63,10 @@ foreach(HEADER ${HEADERS})
             endif()
             set(TMPLR_PARAMS
                 -DPROBAVG="" -DPROBEND="1024"
-                -DBINNAME="${SUBDIR}_${HEADER_NAME}" -DMETA_NAME="${META_NAME}" -DGROUP_NAME="${SUBDIR}")
-            set(OUTPUT_FILE "${CONFIG_DIR}/${SUBDIR}/${PREFIX}${HEADER_NAME}.json")
+                -DBINNAME="${SUBDIR}_${HEADER_NAME}" -DMETA_NAME="${META_NAME}"
+                -DGROUP_NAME="${SUBDIR}")
+            set(OUTPUT_FILE
+                "${CONFIG_DIR}/${SUBDIR}/${PREFIX}${HEADER_NAME}.json")
         elseif(EXTENSION STREQUAL ".h")
             set(TARGET ${HEADER_NAME}_h)
             set(TMPLR_PARAMS -DNCALLS="1" -DNNOPS="1" -DNN="${HEADER_NAME}")
