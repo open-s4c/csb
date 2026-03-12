@@ -25,9 +25,9 @@ list(FILTER TARGETS EXCLUDE REGEX ".*/syz/.*")
 
 set(BM_DEFS _GNU_SOURCE)
 set(DEFAULT_PORT 5000)
-
+set(UNITS 1)
 set(BM_PARAM
-    "-t=1"
+    "-t=${UNITS}"
     "-n=0" # noise
     "-d=2" # duration
     "-s=${DEFAULT_PORT}" # initial size
@@ -101,7 +101,7 @@ foreach(target IN ITEMS ${TARGETS})
             "${PROJECT_SOURCE_DIR}/scripts/plugins/generic-network-client.sh")
         set(CLIENT_BIN "${CMAKE_CURRENT_BINARY_DIR}/network/client")
         set(CLIENT_CMD
-            "${SCRIPT_PATH} ${DEFAULT_PORT} ${CLIENT_BIN} ${META_FILE}")
+            "${SCRIPT_PATH} ${DEFAULT_PORT} ${UNITS} ${CLIENT_BIN} ${META_FILE}")
         add_test(NAME ${SETUP_CLIENT}
                  COMMAND bash -c "(${CLIENT_CMD} > /dev/null 2>&1 &)")
         set_tests_properties(${SETUP_CLIENT} PROPERTIES FIXTURES_SETUP
