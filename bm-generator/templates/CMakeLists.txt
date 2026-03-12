@@ -46,10 +46,12 @@ foreach(HEADER ${HEADERS})
         get_filename_component(TEMPLATE_NAME ${TEMPLATE} NAME_WLE)
         # find the real extension .h or .json
         get_filename_component(EXTENSION ${TEMPLATE_NAME} LAST_EXT)
+        get_filename_component(PREFIX ${TEMPLATE} NAME_WE)
+        string(REPLACE "single" "" PREFIX "${PREFIX}")
         # based on the extension, decide target name, parameters to tmplr,
         # output file name, and path
         if(EXTENSION STREQUAL ".json")
-            set(TARGET ${HEADER_NAME}_json)
+            set(TARGET ${PREFIX}${HEADER_NAME}_json)
             # determine if there is a meta file associated with the benchmark
             if(EXISTS "${GENERATED_HEADER_DIR}/${HEADER_NAME}.meta")
                 # pass it if that's the case
@@ -62,7 +64,7 @@ foreach(HEADER ${HEADERS})
             set(TMPLR_PARAMS
                 -DPROBAVG="" -DPROBEND="1024"
                 -DBINNAME="${SUBDIR}_${HEADER_NAME}" -DMETA_NAME="${META_NAME}" -DGROUP_NAME="${SUBDIR}")
-            set(OUTPUT_FILE "${CONFIG_DIR}/${SUBDIR}/${HEADER_NAME}.json")
+            set(OUTPUT_FILE "${CONFIG_DIR}/${SUBDIR}/${PREFIX}${HEADER_NAME}.json")
         elseif(EXTENSION STREQUAL ".h")
             set(TARGET ${HEADER_NAME}_h)
             set(TMPLR_PARAMS -DNCALLS="1" -DNNOPS="1" -DNN="${HEADER_NAME}")
