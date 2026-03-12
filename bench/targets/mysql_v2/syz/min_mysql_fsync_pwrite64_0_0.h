@@ -18,7 +18,7 @@
 #define UNIQUE_GOTO(mark) UNIQUE_NAME(mark, RESOLVE(UNIQUE_ID_TOK))
 #define UNIQUE_STR_STR(str) #str
 #define UNIQUE_STR() UNIQUE_STR_STR(RESOLVE(UNIQUE_ID))
-#define MMAP_OFFSET 0x20000000ul
+#define MMAP_OFFSET 0x200000000000ul
 #define MMAP_LENGTH 0x1000000ul
 const static uint64_t UNIQUE_VAR(maxWriteBufferSize) = 512ul;
 const char* UNIQUE_VAR(netops_connect)[0] = {};
@@ -34,28 +34,6 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 #include <sys/syscall.h>
 #include <sys/types.h>
 #include <unistd.h>
-
-#ifndef __NR_close
-#define __NR_close 57
-#endif
-#ifndef __NR_fcntl
-#define __NR_fcntl 25
-#endif
-#ifndef __NR_fsync
-#define __NR_fsync 82
-#endif
-#ifndef __NR_mmap
-#define __NR_mmap 222
-#endif
-#ifndef __NR_newfstatat
-#define __NR_newfstatat 79
-#endif
-#ifndef __NR_openat
-#define __NR_openat 56
-#endif
-#ifndef __NR_pwrite64
-#define __NR_pwrite64 68
-#endif
 
 #include <fcntl.h> /* Definition of AT_* constants */
 #ifndef BM_THREAD_NUM
@@ -73,7 +51,7 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 const static int UNIQUE_VAR(num_subdirs) = 1;
 const static char* UNIQUE_VAR(subdirs)[1] = {"#innodb_redo"};
 const static int UNIQUE_VAR(num_filenames) = 1;
-const static char* UNIQUE_VAR(filenames)[1] = {"./#innodb_redo/#ib_redo59"};
+const static char* UNIQUE_VAR(filenames)[1] = {"./#innodb_redo/#ib_redo592"};
 const static int UNIQUE_VAR(num_filesizes) = 1;
 const static uint64_t UNIQUE_VAR(filesizes)[1] = {2048};
 
@@ -173,8 +151,8 @@ static inline int UNIQUE_FUNC(bm_dispatch_operation)(thread_ctx_t* ctx, size_t o
 //    }
 //    flag: statx_flags = 0x0 (8 bytes)
 //  ]
-memcpy((void*)(0x20b1a3c0ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b1a3c0ul+PTR_OFFSET, /*statbuf=*/0x20b1a400ul+PTR_OFFSET, /*flag=*/0ul);
+memcpy((void*)(0x200000aa0a80ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200000aa0a80ul+PTR_OFFSET, /*statbuf=*/0x200000aa0ac0ul+PTR_OFFSET, /*flag=*/0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
@@ -185,8 +163,8 @@ memcpy((void*)(0x20b1a3c0ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20b1a480ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b1a480ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x200000aa0b40ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200000aa0b40ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[0] = res;
@@ -205,12 +183,12 @@ memcpy((void*)(0x20b1a480ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //      }
 //    }
 //  ]
-*(uint16_t*)(0x20b1a4c0ul+PTR_OFFSET) = 1;
-*(uint16_t*)(0x20b1a4c2ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x20b1a4c8ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x20b1a4d0ul+PTR_OFFSET) = 0;
-*(uint32_t*)(0x20b1a4d8ul+PTR_OFFSET) = 0;
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*cmd=F_SETLK*/6ul, /*lock=*/0x20b1a4c0ul+PTR_OFFSET);
+*(uint16_t*)(0x200000aa0b80ul+PTR_OFFSET) = 1;
+*(uint16_t*)(0x200000aa0b82ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x200000aa0b88ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x200000aa0b90ul+PTR_OFFSET) = 0;
+*(uint32_t*)(0x200000aa0b98ul+PTR_OFFSET) = 0;
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*cmd=F_SETLK*/6ul, /*lock=*/0x200000aa0b80ul+PTR_OFFSET);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pwrite64 arguments: [
 //    fd: fd (resource)
@@ -268,8 +246,8 @@ memcpy((void*)(0x20b1a480ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //    }
 //    flag: statx_flags = 0x0 (8 bytes)
 //  ]
-memcpy((void*)(0x20555e80ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20555e80ul+PTR_OFFSET, /*statbuf=*/0x20555ec0ul+PTR_OFFSET, /*flag=*/0ul);
+memcpy((void*)(0x20000049d940ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20000049d940ul+PTR_OFFSET, /*statbuf=*/0x20000049d980ul+PTR_OFFSET, /*flag=*/0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
@@ -280,8 +258,8 @@ memcpy((void*)(0x20555e80ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20555fc0ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20555fc0ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20000049da00ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20000049da00ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[1] = res;
@@ -300,12 +278,12 @@ memcpy((void*)(0x20555fc0ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //      }
 //    }
 //  ]
-*(uint16_t*)(0x20556000ul+PTR_OFFSET) = 1;
-*(uint16_t*)(0x20556002ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x20556008ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x20556010ul+PTR_OFFSET) = 0;
-*(uint32_t*)(0x20556018ul+PTR_OFFSET) = 0;
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[1], /*cmd=F_SETLK*/6ul, /*lock=*/0x20556000ul+PTR_OFFSET);
+*(uint16_t*)(0x20000049da40ul+PTR_OFFSET) = 1;
+*(uint16_t*)(0x20000049da42ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x20000049da48ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x20000049da50ul+PTR_OFFSET) = 0;
+*(uint32_t*)(0x20000049da58ul+PTR_OFFSET) = 0;
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[1], /*cmd=F_SETLK*/6ul, /*lock=*/0x20000049da40ul+PTR_OFFSET);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pwrite64 arguments: [
 //    fd: fd (resource)
@@ -363,8 +341,8 @@ memcpy((void*)(0x20555fc0ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //    }
 //    flag: statx_flags = 0x0 (8 bytes)
 //  ]
-memcpy((void*)(0x204355c0ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x204355c0ul+PTR_OFFSET, /*statbuf=*/0x20435600ul+PTR_OFFSET, /*flag=*/0ul);
+memcpy((void*)(0x200000373e00ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200000373e00ul+PTR_OFFSET, /*statbuf=*/0x200000373e40ul+PTR_OFFSET, /*flag=*/0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
@@ -375,8 +353,8 @@ memcpy((void*)(0x204355c0ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20435680ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20435680ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x200000373ec0ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200000373ec0ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[2] = res;
@@ -395,12 +373,12 @@ memcpy((void*)(0x20435680ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //      }
 //    }
 //  ]
-*(uint16_t*)(0x204356c0ul+PTR_OFFSET) = 1;
-*(uint16_t*)(0x204356c2ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x204356c8ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x204356d0ul+PTR_OFFSET) = 0;
-*(uint32_t*)(0x204356d8ul+PTR_OFFSET) = 0;
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[2], /*cmd=F_SETLK*/6ul, /*lock=*/0x204356c0ul+PTR_OFFSET);
+*(uint16_t*)(0x200000373f00ul+PTR_OFFSET) = 1;
+*(uint16_t*)(0x200000373f02ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x200000373f08ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x200000373f10ul+PTR_OFFSET) = 0;
+*(uint32_t*)(0x200000373f18ul+PTR_OFFSET) = 0;
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[2], /*cmd=F_SETLK*/6ul, /*lock=*/0x200000373f00ul+PTR_OFFSET);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pwrite64 arguments: [
 //    fd: fd (resource)
@@ -458,8 +436,8 @@ memcpy((void*)(0x20435680ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //    }
 //    flag: statx_flags = 0x0 (8 bytes)
 //  ]
-memcpy((void*)(0x20557a40ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20557a40ul+PTR_OFFSET, /*statbuf=*/0x20557a80ul+PTR_OFFSET, /*flag=*/0ul);
+memcpy((void*)(0x20000048c700ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20000048c700ul+PTR_OFFSET, /*statbuf=*/0x20000048c740ul+PTR_OFFSET, /*flag=*/0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
@@ -470,8 +448,8 @@ memcpy((void*)(0x20557a40ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20557b00ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20557b00ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20000048c7c0ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20000048c7c0ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[3] = res;
@@ -490,12 +468,12 @@ memcpy((void*)(0x20557b00ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //      }
 //    }
 //  ]
-*(uint16_t*)(0x20557b40ul+PTR_OFFSET) = 1;
-*(uint16_t*)(0x20557b42ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x20557b48ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x20557b50ul+PTR_OFFSET) = 0;
-*(uint32_t*)(0x20557b58ul+PTR_OFFSET) = 0;
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[3], /*cmd=F_SETLK*/6ul, /*lock=*/0x20557b40ul+PTR_OFFSET);
+*(uint16_t*)(0x20000048c800ul+PTR_OFFSET) = 1;
+*(uint16_t*)(0x20000048c802ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x20000048c808ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x20000048c810ul+PTR_OFFSET) = 0;
+*(uint32_t*)(0x20000048c818ul+PTR_OFFSET) = 0;
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[3], /*cmd=F_SETLK*/6ul, /*lock=*/0x20000048c800ul+PTR_OFFSET);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pwrite64 arguments: [
 //    fd: fd (resource)
@@ -553,8 +531,8 @@ memcpy((void*)(0x20557b00ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //    }
 //    flag: statx_flags = 0x0 (8 bytes)
 //  ]
-memcpy((void*)(0x20640a00ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20640a00ul+PTR_OFFSET, /*statbuf=*/0x20640a40ul+PTR_OFFSET, /*flag=*/0ul);
+memcpy((void*)(0x2000005703c0ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2000005703c0ul+PTR_OFFSET, /*statbuf=*/0x200000570400ul+PTR_OFFSET, /*flag=*/0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
@@ -565,8 +543,8 @@ memcpy((void*)(0x20640a00ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20640ac0ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20640ac0ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x200000570480ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200000570480ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[4] = res;
@@ -585,12 +563,12 @@ memcpy((void*)(0x20640ac0ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //      }
 //    }
 //  ]
-*(uint16_t*)(0x20640b00ul+PTR_OFFSET) = 1;
-*(uint16_t*)(0x20640b02ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x20640b08ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x20640b10ul+PTR_OFFSET) = 0;
-*(uint32_t*)(0x20640b18ul+PTR_OFFSET) = 0;
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[4], /*cmd=F_SETLK*/6ul, /*lock=*/0x20640b00ul+PTR_OFFSET);
+*(uint16_t*)(0x2000005704c0ul+PTR_OFFSET) = 1;
+*(uint16_t*)(0x2000005704c2ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x2000005704c8ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x2000005704d0ul+PTR_OFFSET) = 0;
+*(uint32_t*)(0x2000005704d8ul+PTR_OFFSET) = 0;
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[4], /*cmd=F_SETLK*/6ul, /*lock=*/0x2000005704c0ul+PTR_OFFSET);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pwrite64 arguments: [
 //    fd: fd (resource)
@@ -648,8 +626,8 @@ memcpy((void*)(0x20640ac0ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //    }
 //    flag: statx_flags = 0x0 (8 bytes)
 //  ]
-memcpy((void*)(0x20cc4040ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20cc4040ul+PTR_OFFSET, /*statbuf=*/0x20cc4080ul+PTR_OFFSET, /*flag=*/0ul);
+memcpy((void*)(0x200000bdf700ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200000bdf700ul+PTR_OFFSET, /*statbuf=*/0x200000bdf740ul+PTR_OFFSET, /*flag=*/0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
@@ -660,8 +638,8 @@ memcpy((void*)(0x20cc4040ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20cc4180ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20cc4180ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x200000bdf840ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200000bdf840ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[5] = res;
@@ -680,12 +658,12 @@ memcpy((void*)(0x20cc4180ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //      }
 //    }
 //  ]
-*(uint16_t*)(0x20cc41c0ul+PTR_OFFSET) = 1;
-*(uint16_t*)(0x20cc41c2ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x20cc41c8ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x20cc41d0ul+PTR_OFFSET) = 0;
-*(uint32_t*)(0x20cc41d8ul+PTR_OFFSET) = 0;
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[5], /*cmd=F_SETLK*/6ul, /*lock=*/0x20cc41c0ul+PTR_OFFSET);
+*(uint16_t*)(0x200000bdf880ul+PTR_OFFSET) = 1;
+*(uint16_t*)(0x200000bdf882ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x200000bdf888ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x200000bdf890ul+PTR_OFFSET) = 0;
+*(uint32_t*)(0x200000bdf898ul+PTR_OFFSET) = 0;
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[5], /*cmd=F_SETLK*/6ul, /*lock=*/0x200000bdf880ul+PTR_OFFSET);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pwrite64 arguments: [
 //    fd: fd (resource)
@@ -743,8 +721,8 @@ memcpy((void*)(0x20cc4180ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //    }
 //    flag: statx_flags = 0x0 (8 bytes)
 //  ]
-memcpy((void*)(0x2024f900ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2024f900ul+PTR_OFFSET, /*statbuf=*/0x2024f940ul+PTR_OFFSET, /*flag=*/0ul);
+memcpy((void*)(0x20000016ef80ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20000016ef80ul+PTR_OFFSET, /*statbuf=*/0x20000016efc0ul+PTR_OFFSET, /*flag=*/0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
@@ -755,8 +733,8 @@ memcpy((void*)(0x2024f900ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2024fa40ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2024fa40ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20000016f0c0ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20000016f0c0ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[6] = res;
@@ -775,12 +753,12 @@ memcpy((void*)(0x2024fa40ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //      }
 //    }
 //  ]
-*(uint16_t*)(0x2024fa80ul+PTR_OFFSET) = 1;
-*(uint16_t*)(0x2024fa82ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x2024fa88ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x2024fa90ul+PTR_OFFSET) = 0;
-*(uint32_t*)(0x2024fa98ul+PTR_OFFSET) = 0;
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[6], /*cmd=F_SETLK*/6ul, /*lock=*/0x2024fa80ul+PTR_OFFSET);
+*(uint16_t*)(0x20000016f100ul+PTR_OFFSET) = 1;
+*(uint16_t*)(0x20000016f102ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x20000016f108ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x20000016f110ul+PTR_OFFSET) = 0;
+*(uint32_t*)(0x20000016f118ul+PTR_OFFSET) = 0;
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[6], /*cmd=F_SETLK*/6ul, /*lock=*/0x20000016f100ul+PTR_OFFSET);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pwrite64 arguments: [
 //    fd: fd (resource)
@@ -838,8 +816,8 @@ memcpy((void*)(0x2024fa40ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //    }
 //    flag: statx_flags = 0x0 (8 bytes)
 //  ]
-memcpy((void*)(0x2089d3c0ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2089d3c0ul+PTR_OFFSET, /*statbuf=*/0x2089d400ul+PTR_OFFSET, /*flag=*/0ul);
+memcpy((void*)(0x2000007b12c0ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2000007b12c0ul+PTR_OFFSET, /*statbuf=*/0x2000007b1300ul+PTR_OFFSET, /*flag=*/0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
@@ -850,8 +828,8 @@ memcpy((void*)(0x2089d3c0ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2089d480ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2089d480ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2000007b1380ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2000007b1380ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[7] = res;
@@ -870,12 +848,12 @@ memcpy((void*)(0x2089d480ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //      }
 //    }
 //  ]
-*(uint16_t*)(0x2089d540ul+PTR_OFFSET) = 1;
-*(uint16_t*)(0x2089d542ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x2089d548ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x2089d550ul+PTR_OFFSET) = 0;
-*(uint32_t*)(0x2089d558ul+PTR_OFFSET) = 0;
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[7], /*cmd=F_SETLK*/6ul, /*lock=*/0x2089d540ul+PTR_OFFSET);
+*(uint16_t*)(0x2000007b1440ul+PTR_OFFSET) = 1;
+*(uint16_t*)(0x2000007b1442ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x2000007b1448ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x2000007b1450ul+PTR_OFFSET) = 0;
+*(uint32_t*)(0x2000007b1458ul+PTR_OFFSET) = 0;
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[7], /*cmd=F_SETLK*/6ul, /*lock=*/0x2000007b1440ul+PTR_OFFSET);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pwrite64 arguments: [
 //    fd: fd (resource)
@@ -933,8 +911,8 @@ memcpy((void*)(0x2089d480ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //    }
 //    flag: statx_flags = 0x0 (8 bytes)
 //  ]
-memcpy((void*)(0x20e027c0ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20e027c0ul+PTR_OFFSET, /*statbuf=*/0x20e02800ul+PTR_OFFSET, /*flag=*/0ul);
+memcpy((void*)(0x200000d0c740ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200000d0c740ul+PTR_OFFSET, /*statbuf=*/0x200000d0c780ul+PTR_OFFSET, /*flag=*/0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
@@ -945,8 +923,8 @@ memcpy((void*)(0x20e027c0ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20e02880ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20e02880ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x200000d0c800ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200000d0c800ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[8] = res;
@@ -965,12 +943,12 @@ memcpy((void*)(0x20e02880ul+PTR_OFFSET), "./#innodb_redo/#ib_redo592\000", 27);
 //      }
 //    }
 //  ]
-*(uint16_t*)(0x20e028c0ul+PTR_OFFSET) = 1;
-*(uint16_t*)(0x20e028c2ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x20e028c8ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x20e028d0ul+PTR_OFFSET) = 0;
-*(uint32_t*)(0x20e028d8ul+PTR_OFFSET) = 0;
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[8], /*cmd=F_SETLK*/6ul, /*lock=*/0x20e028c0ul+PTR_OFFSET);
+*(uint16_t*)(0x200000d0c840ul+PTR_OFFSET) = 1;
+*(uint16_t*)(0x200000d0c842ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x200000d0c848ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x200000d0c850ul+PTR_OFFSET) = 0;
+*(uint32_t*)(0x200000d0c858ul+PTR_OFFSET) = 0;
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[8], /*cmd=F_SETLK*/6ul, /*lock=*/0x200000d0c840ul+PTR_OFFSET);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pwrite64 arguments: [
 //    fd: fd (resource)

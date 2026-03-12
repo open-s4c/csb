@@ -18,7 +18,7 @@
 #define UNIQUE_GOTO(mark) UNIQUE_NAME(mark, RESOLVE(UNIQUE_ID_TOK))
 #define UNIQUE_STR_STR(str) #str
 #define UNIQUE_STR() UNIQUE_STR_STR(RESOLVE(UNIQUE_ID))
-#define MMAP_OFFSET 0x20000000ul
+#define MMAP_OFFSET 0x200000000000ul
 #define MMAP_LENGTH 0x1000000ul
 const static uint64_t UNIQUE_VAR(maxWriteBufferSize) = 0ul;
 const char* UNIQUE_VAR(netops_connect)[0] = {};
@@ -34,19 +34,6 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 #include <sys/syscall.h>
 #include <sys/types.h>
 #include <unistd.h>
-
-#ifndef __NR_fcntl
-#define __NR_fcntl 25
-#endif
-#ifndef __NR_fsync
-#define __NR_fsync 82
-#endif
-#ifndef __NR_mmap
-#define __NR_mmap 222
-#endif
-#ifndef __NR_openat
-#define __NR_openat 56
-#endif
 
 #include <fcntl.h> /* Definition of AT_* constants */
 #ifndef BM_THREAD_NUM
@@ -64,7 +51,7 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 const static int UNIQUE_VAR(num_subdirs) = 1;
 const static char* UNIQUE_VAR(subdirs)[1] = {"."};
 const static int UNIQUE_VAR(num_filenames) = 1;
-const static char* UNIQUE_VAR(filenames)[1] = {"./undo_00"};
+const static char* UNIQUE_VAR(filenames)[1] = {"./undo_001"};
 const static int UNIQUE_VAR(num_filesizes) = 1;
 const static uint64_t UNIQUE_VAR(filesizes)[1] = {0};
 
@@ -134,8 +121,8 @@ static inline int UNIQUE_FUNC(bm_dispatch_operation)(thread_ctx_t* ctx, size_t o
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2020e8c0ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20000020d580ul+PTR_OFFSET), "./undo_001\000", 11);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20000020d580ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[0] = res;
@@ -144,7 +131,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    cmd: const = 0x4 (8 bytes)
 //    flags: fcntl_status = 0x10000 (8 bytes)
 //  ]
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*cmd=*/4ul, /*flags=O_DIRECT*/0x10000ul);
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*cmd=*/4ul, /*flags=*/0x10000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  fcntl$lock arguments: [
 //    fd: fd (resource)
@@ -161,12 +148,12 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //      }
 //    }
 //  ]
-*(uint16_t*)(0x2020e900ul+PTR_OFFSET) = 1;
-*(uint16_t*)(0x2020e902ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x2020e908ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x2020e910ul+PTR_OFFSET) = 0;
-*(uint32_t*)(0x2020e918ul+PTR_OFFSET) = 0;
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*cmd=F_SETLK*/6ul, /*lock=*/0x2020e900ul+PTR_OFFSET);
+*(uint16_t*)(0x20000020d5c0ul+PTR_OFFSET) = 1;
+*(uint16_t*)(0x20000020d5c2ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x20000020d5c8ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x20000020d5d0ul+PTR_OFFSET) = 0;
+*(uint32_t*)(0x20000020d5d8ul+PTR_OFFSET) = 0;
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*cmd=F_SETLK*/6ul, /*lock=*/0x20000020d5c0ul+PTR_OFFSET);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  fsync arguments: [
 //    fd: fd (resource)
@@ -913,5 +900,6 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //  ]
 	res = syscall(__NR_fsync, /*fd=*/UNIQUE_VAR(ctx->r)[0]);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	close(UNIQUE_VAR(ctx->r)[0]);
 	return 0;
 }

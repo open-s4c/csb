@@ -18,7 +18,7 @@
 #define UNIQUE_GOTO(mark) UNIQUE_NAME(mark, RESOLVE(UNIQUE_ID_TOK))
 #define UNIQUE_STR_STR(str) #str
 #define UNIQUE_STR() UNIQUE_STR_STR(RESOLVE(UNIQUE_ID))
-#define MMAP_OFFSET 0x20000000ul
+#define MMAP_OFFSET 0x200000000000ul
 #define MMAP_LENGTH 0x1000000ul
 const static uint64_t UNIQUE_VAR(maxWriteBufferSize) = 0ul;
 const char* UNIQUE_VAR(netops_connect)[0] = {};
@@ -38,9 +38,6 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 #ifndef __NR_faccessat2
 #define __NR_faccessat2 439
 #endif
-#ifndef __NR_mmap
-#define __NR_mmap 222
-#endif
 
 #include <fcntl.h> /* Definition of AT_* constants */
 #ifndef BM_THREAD_NUM
@@ -56,7 +53,7 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 #define MMAP_SIZE_TOTAL ((BM_THREAD_NUM) * (MMAP_LEN))
 
 const static int UNIQUE_VAR(num_subdirs) = 1;
-const static char* UNIQUE_VAR(subdirs)[1] = {"var/lib/mysql/sbtest"};
+const static char* UNIQUE_VAR(subdirs)[1] = {"./var/lib/mysql/sbtest/"};
 const static int UNIQUE_VAR(num_filenames) = 0;
 const static char* UNIQUE_VAR(filenames)[0] = {};
 const static int UNIQUE_VAR(num_filesizes) = 0;
@@ -119,442 +116,442 @@ static inline int UNIQUE_FUNC(bm_dispatch_operation)(thread_ctx_t* ctx, size_t o
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x203c4d80ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x203c4d80ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x2000003b4c00ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x2000003b4c00ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x2049da40ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x2049da40ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x20000048c6c0ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20000048c6c0ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x207338c0ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x207338c0ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x20000071d0c0ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20000071d0c0ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x207a4d00ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x207a4d00ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x20000078dc00ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20000078dc00ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x20857fc0ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20857fc0ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x200000840240ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x200000840240ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x208c2780ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x208c2780ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x2000008aa180ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x2000008aa180ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x209794c0ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x209794c0ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x20000095f9c0ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20000095f9c0ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x209e3300ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x209e3300ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x2000009c9700ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x2000009c9700ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x20a9ed40ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20a9ed40ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x200000a83d40ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x200000a83d40ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x20b09380ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20b09380ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x200000aee280ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x200000aee280ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x20bc2bc0ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20bc2bc0ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x200000ba66c0ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x200000ba66c0ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x20c2fe00ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20c2fe00ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x200000c13800ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x200000c13800ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x20ce7640ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20ce7640ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x200000cc9c40ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x200000cc9c40ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x20d51280ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20d51280ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x200000d33780ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x200000d33780ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x20e0c0c0ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20e0c0c0ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x200000ded1c0ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x200000ded1c0ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x20e76900ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20e76900ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x200000e57900ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x200000e57900ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x20f327c0ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20f327c0ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x200000f12340ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x200000f12340ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x20fa2400ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20fa2400ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x200000f81e00ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x200000f81e00ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x200624c0ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x200624c0ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x200000040a40ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x200000040a40ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x200cd280ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x200cd280ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x2000000ab700ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x2000000ab700ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x20183c40ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20183c40ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x200000160cc0ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x200000160cc0ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x201ec880ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x201ec880ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x2000001c9780ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x2000001c9780ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x202a6500ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x202a6500ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x200000280b00ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x200000280b00ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x20312780ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20312780ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x2000002ec400ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x2000002ec400ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x203c8180ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x203c8180ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x2000003a1280ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x2000003a1280ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x20435200ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20435200ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x20000040d980ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20000040d980ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x204ed280ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x204ed280ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x2000004c4d80ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x2000004c4d80ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x20557c80ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20557c80ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x20000052ef00ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20000052ef00ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x20615c00ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20615c00ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x2000005ec100ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x2000005ec100ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x20683a00ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20683a00ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x200000659680ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x200000659680ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x207390c0ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x207390c0ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x20000070d8c0ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20000070d8c0ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x207a3700ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x207a3700ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x200000777e00ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x200000777e00ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x2085d140ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x2085d140ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x200000830440ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x200000830440ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x208c9580ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x208c9580ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x20000089c780ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20000089c780ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x209b26c0ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x209b26c0ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x2000009843c0ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x2000009843c0ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x20a1c380ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20a1c380ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x2000009edf00ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x2000009edf00ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x20ad5740ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20ad5740ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x200000aa5f40ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x200000aa5f40ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x20b4be00ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20b4be00ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x200000b1bc80ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x200000b1bc80ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x20c044c0ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20c044c0ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x200000bd36c0ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x200000bd36c0ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  faccessat2 arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f 00} (length 0x18)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 73 62 74 65 73 74 2f} (length 0x17)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //    flags: faccessat_flags = 0x200 (8 bytes)
 //  ]
-memcpy((void*)(0x20c6ea80ul+PTR_OFFSET), "./var/lib/mysql/sbtest/\000", 24);
-	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20c6ea80ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
+memcpy((void*)(0x200000c3d400ul+PTR_OFFSET), "./var/lib/mysql/sbtest/", 23);
+	res = syscall(__NR_faccessat2, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x200000c3d400ul+PTR_OFFSET, /*mode=*/0ul, /*flags=AT_EACCESS*/0x200ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	return 0;
 }

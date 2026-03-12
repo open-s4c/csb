@@ -18,7 +18,7 @@
 #define UNIQUE_GOTO(mark) UNIQUE_NAME(mark, RESOLVE(UNIQUE_ID_TOK))
 #define UNIQUE_STR_STR(str) #str
 #define UNIQUE_STR() UNIQUE_STR_STR(RESOLVE(UNIQUE_ID))
-#define MMAP_OFFSET 0x20000000ul
+#define MMAP_OFFSET 0x200000000000ul
 #define MMAP_LENGTH 0x1000000ul
 const static uint64_t UNIQUE_VAR(maxWriteBufferSize) = 0ul;
 const char* UNIQUE_VAR(netops_connect)[0] = {};
@@ -35,22 +35,6 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 #include <sys/types.h>
 #include <unistd.h>
 
-#ifndef __NR_close
-#define __NR_close 57
-#endif
-#ifndef __NR_getdents64
-#define __NR_getdents64 61
-#endif
-#ifndef __NR_mmap
-#define __NR_mmap 222
-#endif
-#ifndef __NR_newfstatat
-#define __NR_newfstatat 79
-#endif
-#ifndef __NR_openat
-#define __NR_openat 56
-#endif
-
 #include <fcntl.h> /* Definition of AT_* constants */
 #ifndef BM_THREAD_NUM
 #define BM_THREAD_NUM 1
@@ -64,10 +48,10 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 #define MMAP_LEN (0x1000 + 0x1000000 + 0x1000)
 #define MMAP_SIZE_TOTAL ((BM_THREAD_NUM) * (MMAP_LEN))
 
-const static int UNIQUE_VAR(num_subdirs) = 2;
-const static char* UNIQUE_VAR(subdirs)[2] = {"var/lib/mysql","./var/lib/mysql/performance_schema"};
+const static int UNIQUE_VAR(num_subdirs) = 1;
+const static char* UNIQUE_VAR(subdirs)[1] = {"var/lib/mysql"};
 const static int UNIQUE_VAR(num_filenames) = 1;
-const static char* UNIQUE_VAR(filenames)[1] = {"./var/lib/mysql/performance_schem"};
+const static char* UNIQUE_VAR(filenames)[1] = {"./var/lib/mysql/performance_schema"};
 const static int UNIQUE_VAR(num_filesizes) = 1;
 const static uint64_t UNIQUE_VAR(filesizes)[1] = {0};
 
@@ -131,7 +115,7 @@ static inline int UNIQUE_FUNC(bm_dispatch_operation)(thread_ctx_t* ctx, size_t o
 //  newfstatat arguments: [
 //    dfd: const = 0xffffffffffffff9c (8 bytes)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 70 65 72 66 6f 72 6d 61 6e 63 65 5f 73 63 68 65 6d 61 00} (length 0x23)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 70 65 72 66 6f 72 6d 61 6e 63 65 5f 73 63 68 65 6d 61} (length 0x22)
 //    }
 //    statbuf: ptr[out, stat] {
 //      stat {
@@ -159,27 +143,27 @@ static inline int UNIQUE_FUNC(bm_dispatch_operation)(thread_ctx_t* ctx, size_t o
 //    }
 //    flag: statx_flags = 0x0 (8 bytes)
 //  ]
-memcpy((void*)(0x2010c340ul+PTR_OFFSET), "./var/lib/mysql/performance_schema\000", 35);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2010c340ul+PTR_OFFSET, /*statbuf=*/0x2010c380ul+PTR_OFFSET, /*flag=*/0ul);
+memcpy((void*)(0x20000010c500ul+PTR_OFFSET), "./var/lib/mysql/performance_schema", 34);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20000010c500ul+PTR_OFFSET, /*statbuf=*/0x20000010c540ul+PTR_OFFSET, /*flag=*/0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 70 65 72 66 6f 72 6d 61 6e 63 65 5f 73 63 68 65 6d 61 00} (length 0x23)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 70 65 72 66 6f 72 6d 61 6e 63 65 5f 73 63 68 65 6d 61} (length 0x22)
 //    }
-//    flags: open_flags = 0x84800 (4 bytes)
+//    flags: open_flags = 0x80840 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20113180ul+PTR_OFFSET), "./var/lib/mysql/performance_schema\000", 35);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20113180ul+PTR_OFFSET, /*flags=O_NONBLOCK|O_DIRECTORY|O_CLOEXEC*/0x84800, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x200000113140ul+PTR_OFFSET), "./var/lib/mysql/performance_schema", 34);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200000113140ul+PTR_OFFSET, /*flags=O_NONBLOCK|O_CREAT|O_CLOEXEC*/0x80840, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[0] = res;
 //  newfstatat arguments: [
 //    dfd: const = 0xffffffffffffff9c (8 bytes)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 70 65 72 66 6f 72 6d 61 6e 63 65 5f 73 63 68 65 6d 61 00} (length 0x23)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 70 65 72 66 6f 72 6d 61 6e 63 65 5f 73 63 68 65 6d 61} (length 0x22)
 //    }
 //    statbuf: ptr[out, stat] {
 //      stat {
@@ -207,8 +191,8 @@ memcpy((void*)(0x20113180ul+PTR_OFFSET), "./var/lib/mysql/performance_schema\000
 //    }
 //    flag: statx_flags = 0x0 (8 bytes)
 //  ]
-memcpy((void*)(0x20113280ul+PTR_OFFSET), "./var/lib/mysql/performance_schema\000", 35);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20113280ul+PTR_OFFSET, /*statbuf=*/0x201132c0ul+PTR_OFFSET, /*flag=*/0ul);
+memcpy((void*)(0x200000113240ul+PTR_OFFSET), "./var/lib/mysql/performance_schema", 34);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200000113240ul+PTR_OFFSET, /*statbuf=*/0x200000113280ul+PTR_OFFSET, /*flag=*/0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  getdents64 arguments: [
 //    fd: fd_dir (resource)
@@ -217,7 +201,7 @@ memcpy((void*)(0x20113280ul+PTR_OFFSET), "./var/lib/mysql/performance_schema\000
 //    }
 //    count: len = 0x8000 (8 bytes)
 //  ]
-	res = syscall(__NR_getdents64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*ent=*/0x20113340ul+PTR_OFFSET, /*count=*/0x8000ul);
+	res = syscall(__NR_getdents64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*ent=*/0x200000113300ul+PTR_OFFSET, /*count=*/0x8000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  getdents64 arguments: [
 //    fd: fd_dir (resource)
@@ -226,7 +210,7 @@ memcpy((void*)(0x20113280ul+PTR_OFFSET), "./var/lib/mysql/performance_schema\000
 //    }
 //    count: len = 0x8000 (8 bytes)
 //  ]
-	res = syscall(__NR_getdents64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*ent=*/0x2011d880ul+PTR_OFFSET, /*count=*/0x8000ul);
+	res = syscall(__NR_getdents64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*ent=*/0x20000011d900ul+PTR_OFFSET, /*count=*/0x8000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  close arguments: [
 //    fd: fd (resource)
@@ -236,7 +220,7 @@ memcpy((void*)(0x20113280ul+PTR_OFFSET), "./var/lib/mysql/performance_schema\000
 //  newfstatat arguments: [
 //    dfd: const = 0xffffffffffffff9c (8 bytes)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 70 65 72 66 6f 72 6d 61 6e 63 65 5f 73 63 68 65 6d 61 00} (length 0x23)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 70 65 72 66 6f 72 6d 61 6e 63 65 5f 73 63 68 65 6d 61} (length 0x22)
 //    }
 //    statbuf: ptr[out, stat] {
 //      stat {
@@ -264,13 +248,13 @@ memcpy((void*)(0x20113280ul+PTR_OFFSET), "./var/lib/mysql/performance_schema\000
 //    }
 //    flag: statx_flags = 0x0 (8 bytes)
 //  ]
-memcpy((void*)(0x20154640ul+PTR_OFFSET), "./var/lib/mysql/performance_schema\000", 35);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20154640ul+PTR_OFFSET, /*statbuf=*/0x20154680ul+PTR_OFFSET, /*flag=*/0ul);
+memcpy((void*)(0x200000153fc0ul+PTR_OFFSET), "./var/lib/mysql/performance_schema", 34);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200000153fc0ul+PTR_OFFSET, /*statbuf=*/0x200000154000ul+PTR_OFFSET, /*flag=*/0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  newfstatat arguments: [
 //    dfd: const = 0xffffffffffffff9c (8 bytes)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 70 65 72 66 6f 72 6d 61 6e 63 65 5f 73 63 68 65 6d 61 00} (length 0x23)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 70 65 72 66 6f 72 6d 61 6e 63 65 5f 73 63 68 65 6d 61} (length 0x22)
 //    }
 //    statbuf: ptr[out, stat] {
 //      stat {
@@ -298,13 +282,13 @@ memcpy((void*)(0x20154640ul+PTR_OFFSET), "./var/lib/mysql/performance_schema\000
 //    }
 //    flag: statx_flags = 0x0 (8 bytes)
 //  ]
-memcpy((void*)(0x20154700ul+PTR_OFFSET), "./var/lib/mysql/performance_schema\000", 35);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20154700ul+PTR_OFFSET, /*statbuf=*/0x20154740ul+PTR_OFFSET, /*flag=*/0ul);
+memcpy((void*)(0x200000154080ul+PTR_OFFSET), "./var/lib/mysql/performance_schema", 34);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200000154080ul+PTR_OFFSET, /*statbuf=*/0x2000001540c0ul+PTR_OFFSET, /*flag=*/0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  newfstatat arguments: [
 //    dfd: const = 0xffffffffffffff9c (8 bytes)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 70 65 72 66 6f 72 6d 61 6e 63 65 5f 73 63 68 65 6d 61 00} (length 0x23)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 70 65 72 66 6f 72 6d 61 6e 63 65 5f 73 63 68 65 6d 61} (length 0x22)
 //    }
 //    statbuf: ptr[out, stat] {
 //      stat {
@@ -332,13 +316,13 @@ memcpy((void*)(0x20154700ul+PTR_OFFSET), "./var/lib/mysql/performance_schema\000
 //    }
 //    flag: statx_flags = 0x0 (8 bytes)
 //  ]
-memcpy((void*)(0x2019b540ul+PTR_OFFSET), "./var/lib/mysql/performance_schema\000", 35);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2019b540ul+PTR_OFFSET, /*statbuf=*/0x2019b580ul+PTR_OFFSET, /*flag=*/0ul);
+memcpy((void*)(0x20000019af40ul+PTR_OFFSET), "./var/lib/mysql/performance_schema", 34);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20000019af40ul+PTR_OFFSET, /*statbuf=*/0x20000019af80ul+PTR_OFFSET, /*flag=*/0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  newfstatat arguments: [
 //    dfd: const = 0xffffffffffffff9c (8 bytes)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 70 65 72 66 6f 72 6d 61 6e 63 65 5f 73 63 68 65 6d 61 00} (length 0x23)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 70 65 72 66 6f 72 6d 61 6e 63 65 5f 73 63 68 65 6d 61} (length 0x22)
 //    }
 //    statbuf: ptr[out, stat] {
 //      stat {
@@ -366,8 +350,8 @@ memcpy((void*)(0x2019b540ul+PTR_OFFSET), "./var/lib/mysql/performance_schema\000
 //    }
 //    flag: statx_flags = 0x0 (8 bytes)
 //  ]
-memcpy((void*)(0x2019b600ul+PTR_OFFSET), "./var/lib/mysql/performance_schema\000", 35);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2019b600ul+PTR_OFFSET, /*statbuf=*/0x2019b640ul+PTR_OFFSET, /*flag=*/0ul);
+memcpy((void*)(0x20000019b000ul+PTR_OFFSET), "./var/lib/mysql/performance_schema", 34);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20000019b000ul+PTR_OFFSET, /*statbuf=*/0x20000019b040ul+PTR_OFFSET, /*flag=*/0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	return 0;
 }

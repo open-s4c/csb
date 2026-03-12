@@ -18,7 +18,7 @@
 #define UNIQUE_GOTO(mark) UNIQUE_NAME(mark, RESOLVE(UNIQUE_ID_TOK))
 #define UNIQUE_STR_STR(str) #str
 #define UNIQUE_STR() UNIQUE_STR_STR(RESOLVE(UNIQUE_ID))
-#define MMAP_OFFSET 0x20000000ul
+#define MMAP_OFFSET 0x200000000000ul
 #define MMAP_LENGTH 0x1000000ul
 const static uint64_t UNIQUE_VAR(maxWriteBufferSize) = 0ul;
 const char* UNIQUE_VAR(netops_connect)[0] = {};
@@ -34,13 +34,6 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 #include <sys/syscall.h>
 #include <sys/types.h>
 #include <unistd.h>
-
-#ifndef __NR_mmap
-#define __NR_mmap 222
-#endif
-#ifndef __NR_readlinkat
-#define __NR_readlinkat 78
-#endif
 
 #include <fcntl.h> /* Definition of AT_* constants */
 #ifndef BM_THREAD_NUM
@@ -119,4162 +112,4162 @@ static inline int UNIQUE_FUNC(bm_dispatch_operation)(thread_ctx_t* ctx, size_t o
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20d8e540ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20d8e540ul+PTR_OFFSET, /*buf=*/0x20d8e580ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000d13700ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000d13700ul+PTR_OFFSET, /*buf=*/0x200000d13740ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20fad700ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20fad700ul+PTR_OFFSET, /*buf=*/0x20fad740ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000f328c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000f328c0ul+PTR_OFFSET, /*buf=*/0x200000f32900ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x200f6b00ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200f6b00ul+PTR_OFFSET, /*buf=*/0x200f6b40ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000079880ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000079880ul+PTR_OFFSET, /*buf=*/0x2000000798c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x202be480ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x202be480ul+PTR_OFFSET, /*buf=*/0x202be4c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000241200ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000241200ul+PTR_OFFSET, /*buf=*/0x200000241240ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x205c2a80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x205c2a80ul+PTR_OFFSET, /*buf=*/0x205c2ac0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000545780ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000545780ul+PTR_OFFSET, /*buf=*/0x2000005457c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20758900ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20758900ul+PTR_OFFSET, /*buf=*/0x20758940ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000006db600ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000006db600ul+PTR_OFFSET, /*buf=*/0x2000006db640ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20933040ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20933040ul+PTR_OFFSET, /*buf=*/0x20933080ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000008b5d40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000008b5d40ul+PTR_OFFSET, /*buf=*/0x2000008b5d80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20a77ec0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20a77ec0ul+PTR_OFFSET, /*buf=*/0x20a77f00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000009fabc0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000009fabc0ul+PTR_OFFSET, /*buf=*/0x2000009fac00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20ddffc0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20ddffc0ul+PTR_OFFSET, /*buf=*/0x20de0000ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000d624c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000d624c0ul+PTR_OFFSET, /*buf=*/0x200000d62500ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20f41180ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20f41180ul+PTR_OFFSET, /*buf=*/0x20f411c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000ec3680ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000ec3680ul+PTR_OFFSET, /*buf=*/0x200000ec36c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x200d4bc0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200d4bc0ul+PTR_OFFSET, /*buf=*/0x200d4c00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000056880ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000056880ul+PTR_OFFSET, /*buf=*/0x2000000568c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2018dec0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2018dec0ul+PTR_OFFSET, /*buf=*/0x2018df00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000010fb80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000010fb80ul+PTR_OFFSET, /*buf=*/0x20000010fbc0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x203d4780ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x203d4780ul+PTR_OFFSET, /*buf=*/0x203d47c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000356240ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000356240ul+PTR_OFFSET, /*buf=*/0x200000356280ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20581880ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20581880ul+PTR_OFFSET, /*buf=*/0x205818c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000503340ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000503340ul+PTR_OFFSET, /*buf=*/0x200000503380ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2094e900ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2094e900ul+PTR_OFFSET, /*buf=*/0x2094e940ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000008d03c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000008d03c0ul+PTR_OFFSET, /*buf=*/0x2000008d0400ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x209f7a80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x209f7a80ul+PTR_OFFSET, /*buf=*/0x209f7ac0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000979540ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000979540ul+PTR_OFFSET, /*buf=*/0x200000979580ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20af9e40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20af9e40ul+PTR_OFFSET, /*buf=*/0x20af9e80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000a7b900ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000a7b900ul+PTR_OFFSET, /*buf=*/0x200000a7b940ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20c736c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20c736c0ul+PTR_OFFSET, /*buf=*/0x20c73700ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000bf5180ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000bf5180ul+PTR_OFFSET, /*buf=*/0x200000bf51c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20185040ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20185040ul+PTR_OFFSET, /*buf=*/0x20185080ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000104ec0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000104ec0ul+PTR_OFFSET, /*buf=*/0x200000104f00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20264040ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20264040ul+PTR_OFFSET, /*buf=*/0x20264080ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000001e3ec0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000001e3ec0ul+PTR_OFFSET, /*buf=*/0x2000001e3f00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x202f02c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x202f02c0ul+PTR_OFFSET, /*buf=*/0x202f0300ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000002700c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000002700c0ul+PTR_OFFSET, /*buf=*/0x200000270100ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x203b39c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x203b39c0ul+PTR_OFFSET, /*buf=*/0x203b3a00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000003337c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000003337c0ul+PTR_OFFSET, /*buf=*/0x200000333800ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2092b5c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2092b5c0ul+PTR_OFFSET, /*buf=*/0x2092b600ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000008ab3c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000008ab3c0ul+PTR_OFFSET, /*buf=*/0x2000008ab400ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20a0b100ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20a0b100ul+PTR_OFFSET, /*buf=*/0x20a0b140ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000098af00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000098af00ul+PTR_OFFSET, /*buf=*/0x20000098af40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20a7d080ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20a7d080ul+PTR_OFFSET, /*buf=*/0x20a7d0c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000009fce80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000009fce80ul+PTR_OFFSET, /*buf=*/0x2000009fcec0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20b35900ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20b35900ul+PTR_OFFSET, /*buf=*/0x20b35940ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000ab5700ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000ab5700ul+PTR_OFFSET, /*buf=*/0x200000ab5740ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20feb9c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20feb9c0ul+PTR_OFFSET, /*buf=*/0x20feba00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000f6afc0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000f6afc0ul+PTR_OFFSET, /*buf=*/0x200000f6b000ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20064200ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20064200ul+PTR_OFFSET, /*buf=*/0x20064240ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000fdcac0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000fdcac0ul+PTR_OFFSET, /*buf=*/0x200000fdcb00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x200b3500ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200b3500ul+PTR_OFFSET, /*buf=*/0x200b3540ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000002c380ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000002c380ul+PTR_OFFSET, /*buf=*/0x20000002c3c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x200e9dc0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200e9dc0ul+PTR_OFFSET, /*buf=*/0x200e9e00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000062c40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000062c40ul+PTR_OFFSET, /*buf=*/0x200000062c80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20742e40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20742e40ul+PTR_OFFSET, /*buf=*/0x20742e80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000006bb6c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000006bb6c0ul+PTR_OFFSET, /*buf=*/0x2000006bb700ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x207e8840ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x207e8840ul+PTR_OFFSET, /*buf=*/0x207e8880ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000007610c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000007610c0ul+PTR_OFFSET, /*buf=*/0x200000761100ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2083bc40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2083bc40ul+PTR_OFFSET, /*buf=*/0x2083bc80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000007b44c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000007b44c0ul+PTR_OFFSET, /*buf=*/0x2000007b4500ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20880a40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20880a40ul+PTR_OFFSET, /*buf=*/0x20880a80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000007f92c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000007f92c0ul+PTR_OFFSET, /*buf=*/0x2000007f9300ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20c23140ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20c23140ul+PTR_OFFSET, /*buf=*/0x20c23180ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000b9b1c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000b9b1c0ul+PTR_OFFSET, /*buf=*/0x200000b9b200ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20d38500ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20d38500ul+PTR_OFFSET, /*buf=*/0x20d38540ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000cb0580ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000cb0580ul+PTR_OFFSET, /*buf=*/0x200000cb05c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20e77cc0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20e77cc0ul+PTR_OFFSET, /*buf=*/0x20e77d00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000defd40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000defd40ul+PTR_OFFSET, /*buf=*/0x200000defd80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20f55fc0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20f55fc0ul+PTR_OFFSET, /*buf=*/0x20f56000ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000ece040ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000ece040ul+PTR_OFFSET, /*buf=*/0x200000ece080ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20326e40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20326e40ul+PTR_OFFSET, /*buf=*/0x20326e80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000029dd00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000029dd00ul+PTR_OFFSET, /*buf=*/0x20000029dd40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20480840ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20480840ul+PTR_OFFSET, /*buf=*/0x20480880ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000003f7700ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000003f7700ul+PTR_OFFSET, /*buf=*/0x2000003f7740ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2090c1c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2090c1c0ul+PTR_OFFSET, /*buf=*/0x2090c200ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000881a00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000881a00ul+PTR_OFFSET, /*buf=*/0x200000881a40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20a02000ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20a02000ul+PTR_OFFSET, /*buf=*/0x20a02040ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000009776c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000009776c0ul+PTR_OFFSET, /*buf=*/0x200000977700ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20b65d40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20b65d40ul+PTR_OFFSET, /*buf=*/0x20b65d80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000adb280ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000adb280ul+PTR_OFFSET, /*buf=*/0x200000adb2c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20ca4c00ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20ca4c00ul+PTR_OFFSET, /*buf=*/0x20ca4c40ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000c1a0c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000c1a0c0ul+PTR_OFFSET, /*buf=*/0x200000c1a100ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20020280ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20020280ul+PTR_OFFSET, /*buf=*/0x200202c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000f94e40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000f94e40ul+PTR_OFFSET, /*buf=*/0x200000f94e80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2008fd80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2008fd80ul+PTR_OFFSET, /*buf=*/0x2008fdc0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000007280ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000007280ul+PTR_OFFSET, /*buf=*/0x2000000072c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20119280ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20119280ul+PTR_OFFSET, /*buf=*/0x201192c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000090580ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000090580ul+PTR_OFFSET, /*buf=*/0x2000000905c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20176c80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20176c80ul+PTR_OFFSET, /*buf=*/0x20176cc0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000000edc80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000000edc80ul+PTR_OFFSET, /*buf=*/0x2000000edcc0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20982380ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20982380ul+PTR_OFFSET, /*buf=*/0x209823c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000008f7c00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000008f7c00ul+PTR_OFFSET, /*buf=*/0x2000008f7c40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20a473c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20a473c0ul+PTR_OFFSET, /*buf=*/0x20a47400ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000009bcc40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000009bcc40ul+PTR_OFFSET, /*buf=*/0x2000009bcc80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20b5d7c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20b5d7c0ul+PTR_OFFSET, /*buf=*/0x20b5d800ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000ad3040ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000ad3040ul+PTR_OFFSET, /*buf=*/0x200000ad3080ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20c4c580ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20c4c580ul+PTR_OFFSET, /*buf=*/0x20c4c5c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000bc1e00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000bc1e00ul+PTR_OFFSET, /*buf=*/0x200000bc1e40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x201333c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x201333c0ul+PTR_OFFSET, /*buf=*/0x20133400ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000000a7680ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000000a7680ul+PTR_OFFSET, /*buf=*/0x2000000a76c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x201ac8c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x201ac8c0ul+PTR_OFFSET, /*buf=*/0x201ac900ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000120b80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000120b80ul+PTR_OFFSET, /*buf=*/0x200000120bc0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x202606c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x202606c0ul+PTR_OFFSET, /*buf=*/0x20260700ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000001d4980ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000001d4980ul+PTR_OFFSET, /*buf=*/0x2000001d49c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x202f7600ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x202f7600ul+PTR_OFFSET, /*buf=*/0x202f7640ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000026b840ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000026b840ul+PTR_OFFSET, /*buf=*/0x20000026b880ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x208c47c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x208c47c0ul+PTR_OFFSET, /*buf=*/0x208c4800ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000837b00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000837b00ul+PTR_OFFSET, /*buf=*/0x200000837b40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20974000ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20974000ul+PTR_OFFSET, /*buf=*/0x20974040ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000008e7040ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000008e7040ul+PTR_OFFSET, /*buf=*/0x2000008e7080ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20a4c040ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20a4c040ul+PTR_OFFSET, /*buf=*/0x20a4c080ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000009bf000ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000009bf000ul+PTR_OFFSET, /*buf=*/0x2000009bf040ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20b6a000ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20b6a000ul+PTR_OFFSET, /*buf=*/0x20b6a040ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000adcfc0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000adcfc0ul+PTR_OFFSET, /*buf=*/0x200000add000ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x200dea00ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200dea00ul+PTR_OFFSET, /*buf=*/0x200dea40ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000005cc00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000005cc00ul+PTR_OFFSET, /*buf=*/0x20000005cc40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20175480ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20175480ul+PTR_OFFSET, /*buf=*/0x201754c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000000f3300ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000000f3300ul+PTR_OFFSET, /*buf=*/0x2000000f3340ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2029f140ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2029f140ul+PTR_OFFSET, /*buf=*/0x2029f180ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000021cfc0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000021cfc0ul+PTR_OFFSET, /*buf=*/0x20000021d000ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2039bcc0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2039bcc0ul+PTR_OFFSET, /*buf=*/0x2039bd00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000319b40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000319b40ul+PTR_OFFSET, /*buf=*/0x200000319b80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x207b0d40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x207b0d40ul+PTR_OFFSET, /*buf=*/0x207b0d80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000072e940ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000072e940ul+PTR_OFFSET, /*buf=*/0x20000072e980ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x207e9d40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x207e9d40ul+PTR_OFFSET, /*buf=*/0x207e9d80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000767940ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000767940ul+PTR_OFFSET, /*buf=*/0x200000767980ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20d72900ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20d72900ul+PTR_OFFSET, /*buf=*/0x20d72940ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000cefd00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000cefd00ul+PTR_OFFSET, /*buf=*/0x200000cefd40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20dec440ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20dec440ul+PTR_OFFSET, /*buf=*/0x20dec480ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000d69840ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000d69840ul+PTR_OFFSET, /*buf=*/0x200000d69880ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20e293c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20e293c0ul+PTR_OFFSET, /*buf=*/0x20e29400ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000da67c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000da67c0ul+PTR_OFFSET, /*buf=*/0x200000da6800ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20e66a00ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20e66a00ul+PTR_OFFSET, /*buf=*/0x20e66a40ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000de3e00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000de3e00ul+PTR_OFFSET, /*buf=*/0x200000de3e40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x204b7300ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x204b7300ul+PTR_OFFSET, /*buf=*/0x204b7340ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000004350c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000004350c0ul+PTR_OFFSET, /*buf=*/0x200000435100ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2054eec0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2054eec0ul+PTR_OFFSET, /*buf=*/0x2054ef00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000004ccc80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000004ccc80ul+PTR_OFFSET, /*buf=*/0x2000004cccc0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x205a9dc0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x205a9dc0ul+PTR_OFFSET, /*buf=*/0x205a9e00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000527b80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000527b80ul+PTR_OFFSET, /*buf=*/0x200000527bc0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20618bc0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20618bc0ul+PTR_OFFSET, /*buf=*/0x20618c00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000596980ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000596980ul+PTR_OFFSET, /*buf=*/0x2000005969c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20ce6a80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20ce6a80ul+PTR_OFFSET, /*buf=*/0x20ce6ac0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000c630c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000c630c0ul+PTR_OFFSET, /*buf=*/0x200000c63100ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20ddd540ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20ddd540ul+PTR_OFFSET, /*buf=*/0x20ddd580ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000d59b00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000d59b00ul+PTR_OFFSET, /*buf=*/0x200000d59b40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20341100ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20341100ul+PTR_OFFSET, /*buf=*/0x20341140ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000002be380ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000002be380ul+PTR_OFFSET, /*buf=*/0x2000002be3c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20451b40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20451b40ul+PTR_OFFSET, /*buf=*/0x20451b80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000003ced40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000003ced40ul+PTR_OFFSET, /*buf=*/0x2000003ced80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20531640ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20531640ul+PTR_OFFSET, /*buf=*/0x20531680ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000004ae840ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000004ae840ul+PTR_OFFSET, /*buf=*/0x2000004ae880ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20605fc0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20605fc0ul+PTR_OFFSET, /*buf=*/0x20606000ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000005831c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000005831c0ul+PTR_OFFSET, /*buf=*/0x200000583200ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20a8a4c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20a8a4c0ul+PTR_OFFSET, /*buf=*/0x20a8a500ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000a06bc0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000a06bc0ul+PTR_OFFSET, /*buf=*/0x200000a06c00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20b40000ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20b40000ul+PTR_OFFSET, /*buf=*/0x20b40040ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000abc700ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000abc700ul+PTR_OFFSET, /*buf=*/0x200000abc740ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20c03840ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20c03840ul+PTR_OFFSET, /*buf=*/0x20c03880ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000b7ff40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000b7ff40ul+PTR_OFFSET, /*buf=*/0x200000b7ff80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20c8c3c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20c8c3c0ul+PTR_OFFSET, /*buf=*/0x20c8c400ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000c089c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000c089c0ul+PTR_OFFSET, /*buf=*/0x200000c08a00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x201cb000ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x201cb000ul+PTR_OFFSET, /*buf=*/0x201cb040ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000145a80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000145a80ul+PTR_OFFSET, /*buf=*/0x200000145ac0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2025bc40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2025bc40ul+PTR_OFFSET, /*buf=*/0x2025bc80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000001d66c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000001d66c0ul+PTR_OFFSET, /*buf=*/0x2000001d6700ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x203370c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x203370c0ul+PTR_OFFSET, /*buf=*/0x20337100ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000002b1b40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000002b1b40ul+PTR_OFFSET, /*buf=*/0x2000002b1b80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x203bf740ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x203bf740ul+PTR_OFFSET, /*buf=*/0x203bf780ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000033a1c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000033a1c0ul+PTR_OFFSET, /*buf=*/0x20000033a200ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20b27880ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20b27880ul+PTR_OFFSET, /*buf=*/0x20b278c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000aa0f00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000aa0f00ul+PTR_OFFSET, /*buf=*/0x200000aa0f40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20b62080ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20b62080ul+PTR_OFFSET, /*buf=*/0x20b620c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000adb700ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000adb700ul+PTR_OFFSET, /*buf=*/0x200000adb740ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20bb7c40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20bb7c40ul+PTR_OFFSET, /*buf=*/0x20bb7c80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000b312c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000b312c0ul+PTR_OFFSET, /*buf=*/0x200000b31300ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20c03440ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20c03440ul+PTR_OFFSET, /*buf=*/0x20c03480ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000b7cac0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000b7cac0ul+PTR_OFFSET, /*buf=*/0x200000b7cb00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x200f2700ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200f2700ul+PTR_OFFSET, /*buf=*/0x200f2740ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000006be00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000006be00ul+PTR_OFFSET, /*buf=*/0x20000006be40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x201f8080ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x201f8080ul+PTR_OFFSET, /*buf=*/0x201f80c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000171480ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000171480ul+PTR_OFFSET, /*buf=*/0x2000001714c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x202e1140ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x202e1140ul+PTR_OFFSET, /*buf=*/0x202e1180ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000025a540ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000025a540ul+PTR_OFFSET, /*buf=*/0x20000025a580ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20388e80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20388e80ul+PTR_OFFSET, /*buf=*/0x20388ec0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000302200ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000302200ul+PTR_OFFSET, /*buf=*/0x200000302240ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2090ee00ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2090ee00ul+PTR_OFFSET, /*buf=*/0x2090ee40ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000887500ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000887500ul+PTR_OFFSET, /*buf=*/0x200000887540ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20a94280ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20a94280ul+PTR_OFFSET, /*buf=*/0x20a942c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000a0c980ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000a0c980ul+PTR_OFFSET, /*buf=*/0x200000a0c9c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20ea7680ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20ea7680ul+PTR_OFFSET, /*buf=*/0x20ea76c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000e1f500ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000e1f500ul+PTR_OFFSET, /*buf=*/0x200000e1f540ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20f43ec0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20f43ec0ul+PTR_OFFSET, /*buf=*/0x20f43f00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000ebbd40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000ebbd40ul+PTR_OFFSET, /*buf=*/0x200000ebbd80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x200348c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200348c0ul+PTR_OFFSET, /*buf=*/0x20034900ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000fa8bc0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000fa8bc0ul+PTR_OFFSET, /*buf=*/0x200000fa8c00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x200fcf40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200fcf40ul+PTR_OFFSET, /*buf=*/0x200fcf80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000072d00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000072d00ul+PTR_OFFSET, /*buf=*/0x200000072d40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x206d3a80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x206d3a80ul+PTR_OFFSET, /*buf=*/0x206d3ac0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000006483c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000006483c0ul+PTR_OFFSET, /*buf=*/0x200000648400ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x207a4dc0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x207a4dc0ul+PTR_OFFSET, /*buf=*/0x207a4e00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000719700ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000719700ul+PTR_OFFSET, /*buf=*/0x200000719740ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20caae40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20caae40ul+PTR_OFFSET, /*buf=*/0x20caae80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000c1e780ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000c1e780ul+PTR_OFFSET, /*buf=*/0x200000c1e7c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20db84c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20db84c0ul+PTR_OFFSET, /*buf=*/0x20db8500ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000d2be00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000d2be00ul+PTR_OFFSET, /*buf=*/0x200000d2be40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2035f8c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2035f8c0ul+PTR_OFFSET, /*buf=*/0x2035f900ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000002ce900ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000002ce900ul+PTR_OFFSET, /*buf=*/0x2000002ce940ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2040c100ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2040c100ul+PTR_OFFSET, /*buf=*/0x2040c140ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000037b140ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000037b140ul+PTR_OFFSET, /*buf=*/0x20000037b180ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2050ae00ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2050ae00ul+PTR_OFFSET, /*buf=*/0x2050ae40ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000479e40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000479e40ul+PTR_OFFSET, /*buf=*/0x200000479e80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x205d4c00ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x205d4c00ul+PTR_OFFSET, /*buf=*/0x205d4c40ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000543c40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000543c40ul+PTR_OFFSET, /*buf=*/0x200000543c80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20abbf40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20abbf40ul+PTR_OFFSET, /*buf=*/0x20abbf80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000a2a300ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000a2a300ul+PTR_OFFSET, /*buf=*/0x200000a2a340ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20bb6880ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20bb6880ul+PTR_OFFSET, /*buf=*/0x20bb68c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000b24bc0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000b24bc0ul+PTR_OFFSET, /*buf=*/0x200000b24c00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20ca7a00ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20ca7a00ul+PTR_OFFSET, /*buf=*/0x20ca7a40ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000c159c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000c159c0ul+PTR_OFFSET, /*buf=*/0x200000c15a00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20d5efc0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20d5efc0ul+PTR_OFFSET, /*buf=*/0x20d5f000ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000cccf80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000cccf80ul+PTR_OFFSET, /*buf=*/0x200000cccfc0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x201f94c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x201f94c0ul+PTR_OFFSET, /*buf=*/0x201f9500ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000165ec0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000165ec0ul+PTR_OFFSET, /*buf=*/0x200000165f00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x202d1b80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x202d1b80ul+PTR_OFFSET, /*buf=*/0x202d1bc0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000023e580ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000023e580ul+PTR_OFFSET, /*buf=*/0x20000023e5c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x203aaa80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x203aaa80ul+PTR_OFFSET, /*buf=*/0x203aaac0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000317400ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000317400ul+PTR_OFFSET, /*buf=*/0x200000317440ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x204b7900ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x204b7900ul+PTR_OFFSET, /*buf=*/0x204b7940ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000424100ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000424100ul+PTR_OFFSET, /*buf=*/0x200000424140ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x209b0080ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x209b0080ul+PTR_OFFSET, /*buf=*/0x209b00c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000091ba80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000091ba80ul+PTR_OFFSET, /*buf=*/0x20000091bac0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20a2e880ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20a2e880ul+PTR_OFFSET, /*buf=*/0x20a2e8c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000099a280ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000099a280ul+PTR_OFFSET, /*buf=*/0x20000099a2c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20b5c200ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20b5c200ul+PTR_OFFSET, /*buf=*/0x20b5c240ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000ac7800ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000ac7800ul+PTR_OFFSET, /*buf=*/0x200000ac7840ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20bfcf00ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20bfcf00ul+PTR_OFFSET, /*buf=*/0x20bfcf40ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000b68500ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000b68500ul+PTR_OFFSET, /*buf=*/0x200000b68540ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20196580ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20196580ul+PTR_OFFSET, /*buf=*/0x201965c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000101600ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000101600ul+PTR_OFFSET, /*buf=*/0x200000101640ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x201e91c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x201e91c0ul+PTR_OFFSET, /*buf=*/0x201e9200ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000154240ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000154240ul+PTR_OFFSET, /*buf=*/0x200000154280ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2025f580ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2025f580ul+PTR_OFFSET, /*buf=*/0x2025f5c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000001ca600ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000001ca600ul+PTR_OFFSET, /*buf=*/0x2000001ca640ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x202c4c80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x202c4c80ul+PTR_OFFSET, /*buf=*/0x202c4cc0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000022fd00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000022fd00ul+PTR_OFFSET, /*buf=*/0x20000022fd40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20942a40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20942a40ul+PTR_OFFSET, /*buf=*/0x20942a80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000008ad040ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000008ad040ul+PTR_OFFSET, /*buf=*/0x2000008ad080ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x209a7340ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x209a7340ul+PTR_OFFSET, /*buf=*/0x209a7380ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000911740ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000911740ul+PTR_OFFSET, /*buf=*/0x200000911780ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2000b740ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000b740ul+PTR_OFFSET, /*buf=*/0x2000b780ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000f73e40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000f73e40ul+PTR_OFFSET, /*buf=*/0x200000f73e80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x200b74c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200b74c0ul+PTR_OFFSET, /*buf=*/0x200b7500ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000026700ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000026700ul+PTR_OFFSET, /*buf=*/0x200000026740ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2011cc80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2011cc80ul+PTR_OFFSET, /*buf=*/0x2011ccc0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000008bdc0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000008bdc0ul+PTR_OFFSET, /*buf=*/0x20000008be00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20176a80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20176a80ul+PTR_OFFSET, /*buf=*/0x20176ac0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000000e5bc0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000000e5bc0ul+PTR_OFFSET, /*buf=*/0x2000000e5c00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x205cb6c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x205cb6c0ul+PTR_OFFSET, /*buf=*/0x205cb700ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000053a080ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000053a080ul+PTR_OFFSET, /*buf=*/0x20000053a0c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x206f6380ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x206f6380ul+PTR_OFFSET, /*buf=*/0x206f63c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000664d40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000664d40ul+PTR_OFFSET, /*buf=*/0x200000664d80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20b63fc0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20b63fc0ul+PTR_OFFSET, /*buf=*/0x20b64000ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000ad2180ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000ad2180ul+PTR_OFFSET, /*buf=*/0x200000ad21c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20c4ee40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20c4ee40ul+PTR_OFFSET, /*buf=*/0x20c4ee80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000bbd000ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000bbd000ul+PTR_OFFSET, /*buf=*/0x200000bbd040ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20d7bd00ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20d7bd00ul+PTR_OFFSET, /*buf=*/0x20d7bd40ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000ce9e40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000ce9e40ul+PTR_OFFSET, /*buf=*/0x200000ce9e80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20e89600ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20e89600ul+PTR_OFFSET, /*buf=*/0x20e89640ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000df7540ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000df7540ul+PTR_OFFSET, /*buf=*/0x200000df7580ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20473000ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20473000ul+PTR_OFFSET, /*buf=*/0x20473040ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000003e1140ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000003e1140ul+PTR_OFFSET, /*buf=*/0x2000003e1180ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x205c1ac0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x205c1ac0ul+PTR_OFFSET, /*buf=*/0x205c1b00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000052f880ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000052f880ul+PTR_OFFSET, /*buf=*/0x20000052f8c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x206f8400ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x206f8400ul+PTR_OFFSET, /*buf=*/0x206f8440ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000006661c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000006661c0ul+PTR_OFFSET, /*buf=*/0x200000666200ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2080e2c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2080e2c0ul+PTR_OFFSET, /*buf=*/0x2080e300ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000077c080ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000077c080ul+PTR_OFFSET, /*buf=*/0x20000077c0c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20ca4c80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20ca4c80ul+PTR_OFFSET, /*buf=*/0x20ca4cc0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000c115c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000c115c0ul+PTR_OFFSET, /*buf=*/0x200000c11600ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20dd8bc0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20dd8bc0ul+PTR_OFFSET, /*buf=*/0x20dd8c00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000d45180ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000d45180ul+PTR_OFFSET, /*buf=*/0x200000d451c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x203bb400ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x203bb400ul+PTR_OFFSET, /*buf=*/0x203bb440ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000328540ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000328540ul+PTR_OFFSET, /*buf=*/0x200000328580ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20469d80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20469d80ul+PTR_OFFSET, /*buf=*/0x20469dc0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000003d6b40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000003d6b40ul+PTR_OFFSET, /*buf=*/0x2000003d6b80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x204c0fc0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x204c0fc0ul+PTR_OFFSET, /*buf=*/0x204c1000ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000042dd80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000042dd80ul+PTR_OFFSET, /*buf=*/0x20000042ddc0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2050f180ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2050f180ul+PTR_OFFSET, /*buf=*/0x2050f1c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000047bf40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000047bf40ul+PTR_OFFSET, /*buf=*/0x20000047bf80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20ae5240ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20ae5240ul+PTR_OFFSET, /*buf=*/0x20ae5280ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000a51800ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000a51800ul+PTR_OFFSET, /*buf=*/0x200000a51840ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20b66380ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20b66380ul+PTR_OFFSET, /*buf=*/0x20b663c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000ad2940ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000ad2940ul+PTR_OFFSET, /*buf=*/0x200000ad2980ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20bc1c00ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20bc1c00ul+PTR_OFFSET, /*buf=*/0x20bc1c40ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000b2e1c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000b2e1c0ul+PTR_OFFSET, /*buf=*/0x200000b2e200ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20c1e180ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20c1e180ul+PTR_OFFSET, /*buf=*/0x20c1e1c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000b8a740ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000b8a740ul+PTR_OFFSET, /*buf=*/0x200000b8a780ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2017dd40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2017dd40ul+PTR_OFFSET, /*buf=*/0x2017dd80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000000e6f80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000000e6f80ul+PTR_OFFSET, /*buf=*/0x2000000e6fc0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x202726c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x202726c0ul+PTR_OFFSET, /*buf=*/0x20272700ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000001db900ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000001db900ul+PTR_OFFSET, /*buf=*/0x2000001db940ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x202de240ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x202de240ul+PTR_OFFSET, /*buf=*/0x202de280ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000247480ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000247480ul+PTR_OFFSET, /*buf=*/0x2000002474c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20364800ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20364800ul+PTR_OFFSET, /*buf=*/0x20364840ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000002cd9c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000002cd9c0ul+PTR_OFFSET, /*buf=*/0x2000002cda00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20956bc0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20956bc0ul+PTR_OFFSET, /*buf=*/0x20956c00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000008bf300ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000008bf300ul+PTR_OFFSET, /*buf=*/0x2000008bf340ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x209fcc80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x209fcc80ul+PTR_OFFSET, /*buf=*/0x209fccc0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000009651c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000009651c0ul+PTR_OFFSET, /*buf=*/0x200000965200ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20a9b700ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20a9b700ul+PTR_OFFSET, /*buf=*/0x20a9b740ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000a03c40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000a03c40ul+PTR_OFFSET, /*buf=*/0x200000a03c80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20b55480ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20b55480ul+PTR_OFFSET, /*buf=*/0x20b554c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000abd1c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000abd1c0ul+PTR_OFFSET, /*buf=*/0x200000abd200ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x201049c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x201049c0ul+PTR_OFFSET, /*buf=*/0x20104a00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000006b880ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000006b880ul+PTR_OFFSET, /*buf=*/0x20000006b8c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20182fc0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20182fc0ul+PTR_OFFSET, /*buf=*/0x20183000ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000000e9e00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000000e9e00ul+PTR_OFFSET, /*buf=*/0x2000000e9e40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2022da80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2022da80ul+PTR_OFFSET, /*buf=*/0x2022dac0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000001948c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000001948c0ul+PTR_OFFSET, /*buf=*/0x200000194900ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20296f80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20296f80ul+PTR_OFFSET, /*buf=*/0x20296fc0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000001fddc0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000001fddc0ul+PTR_OFFSET, /*buf=*/0x2000001fde00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20706c00ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20706c00ul+PTR_OFFSET, /*buf=*/0x20706c40ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000066d240ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000066d240ul+PTR_OFFSET, /*buf=*/0x20000066d280ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20883680ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20883680ul+PTR_OFFSET, /*buf=*/0x208836c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000007e99c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000007e99c0ul+PTR_OFFSET, /*buf=*/0x2000007e9a00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20de6100ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20de6100ul+PTR_OFFSET, /*buf=*/0x20de6140ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000d4bdc0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000d4bdc0ul+PTR_OFFSET, /*buf=*/0x200000d4be00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20e41e00ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20e41e00ul+PTR_OFFSET, /*buf=*/0x20e41e40ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000da7ac0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000da7ac0ul+PTR_OFFSET, /*buf=*/0x200000da7b00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20e841c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20e841c0ul+PTR_OFFSET, /*buf=*/0x20e84200ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000de9c80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000de9c80ul+PTR_OFFSET, /*buf=*/0x200000de9cc0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20eda400ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20eda400ul+PTR_OFFSET, /*buf=*/0x20eda440ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000e3fec0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000e3fec0ul+PTR_OFFSET, /*buf=*/0x200000e3ff00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x202c66c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x202c66c0ul+PTR_OFFSET, /*buf=*/0x202c6700ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000022a600ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000022a600ul+PTR_OFFSET, /*buf=*/0x20000022a640ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x203e7580ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x203e7580ul+PTR_OFFSET, /*buf=*/0x203e75c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000034b4c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000034b4c0ul+PTR_OFFSET, /*buf=*/0x20000034b500ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2048e580ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2048e580ul+PTR_OFFSET, /*buf=*/0x2048e5c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000003f2440ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000003f2440ul+PTR_OFFSET, /*buf=*/0x2000003f2480ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20554600ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20554600ul+PTR_OFFSET, /*buf=*/0x20554640ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000004b84c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000004b84c0ul+PTR_OFFSET, /*buf=*/0x2000004b8500ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20a1a500ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20a1a500ul+PTR_OFFSET, /*buf=*/0x20a1a540ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000097dbc0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000097dbc0ul+PTR_OFFSET, /*buf=*/0x20000097dc00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20b365c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20b365c0ul+PTR_OFFSET, /*buf=*/0x20b36600ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000a99980ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000a99980ul+PTR_OFFSET, /*buf=*/0x200000a999c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20be72c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20be72c0ul+PTR_OFFSET, /*buf=*/0x20be7300ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000b49e80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000b49e80ul+PTR_OFFSET, /*buf=*/0x200000b49ec0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20cceec0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20cceec0ul+PTR_OFFSET, /*buf=*/0x20ccef00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000c31a80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000c31a80ul+PTR_OFFSET, /*buf=*/0x200000c31ac0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20fca800ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20fca800ul+PTR_OFFSET, /*buf=*/0x20fca840ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000f2cbc0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000f2cbc0ul+PTR_OFFSET, /*buf=*/0x200000f2cc00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2018e000ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2018e000ul+PTR_OFFSET, /*buf=*/0x2018e040ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000000f1180ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000000f1180ul+PTR_OFFSET, /*buf=*/0x2000000f11c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x202d4480ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x202d4480ul+PTR_OFFSET, /*buf=*/0x202d44c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000237600ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000237600ul+PTR_OFFSET, /*buf=*/0x200000237640ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x203d5440ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x203d5440ul+PTR_OFFSET, /*buf=*/0x203d5480ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000003385c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000003385c0ul+PTR_OFFSET, /*buf=*/0x200000338600ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20843ac0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20843ac0ul+PTR_OFFSET, /*buf=*/0x20843b00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000007a63c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000007a63c0ul+PTR_OFFSET, /*buf=*/0x2000007a6400ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2099c580ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2099c580ul+PTR_OFFSET, /*buf=*/0x2099c5c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000008fea80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000008fea80ul+PTR_OFFSET, /*buf=*/0x2000008feac0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20aaa700ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20aaa700ul+PTR_OFFSET, /*buf=*/0x20aaa740ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000a0cc00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000a0cc00ul+PTR_OFFSET, /*buf=*/0x200000a0cc40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20b58400ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20b58400ul+PTR_OFFSET, /*buf=*/0x20b58440ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000aba900ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000aba900ul+PTR_OFFSET, /*buf=*/0x200000aba940ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20032500ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20032500ul+PTR_OFFSET, /*buf=*/0x20032540ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000f93dc0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000f93dc0ul+PTR_OFFSET, /*buf=*/0x200000f93e00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2020fd00ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2020fd00ul+PTR_OFFSET, /*buf=*/0x2020fd40ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000173c80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000173c80ul+PTR_OFFSET, /*buf=*/0x200000173cc0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x203a8dc0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x203a8dc0ul+PTR_OFFSET, /*buf=*/0x203a8e00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000030c9c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000030c9c0ul+PTR_OFFSET, /*buf=*/0x20000030ca00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x204de540ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x204de540ul+PTR_OFFSET, /*buf=*/0x204de580ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000442140ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000442140ul+PTR_OFFSET, /*buf=*/0x200000442180ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20d194c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20d194c0ul+PTR_OFFSET, /*buf=*/0x20d19500ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000c7bd40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000c7bd40ul+PTR_OFFSET, /*buf=*/0x200000c7bd80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20d2d1c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20d2d1c0ul+PTR_OFFSET, /*buf=*/0x20d2d200ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000c8f940ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000c8f940ul+PTR_OFFSET, /*buf=*/0x200000c8f980ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20d36a40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20d36a40ul+PTR_OFFSET, /*buf=*/0x20d36a80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000c991c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000c991c0ul+PTR_OFFSET, /*buf=*/0x200000c99200ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20d48e40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20d48e40ul+PTR_OFFSET, /*buf=*/0x20d48e80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000cab5c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000cab5c0ul+PTR_OFFSET, /*buf=*/0x200000cab600ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2040eb00ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2040eb00ul+PTR_OFFSET, /*buf=*/0x2040eb40ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000370200ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000370200ul+PTR_OFFSET, /*buf=*/0x200000370240ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20452140ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20452140ul+PTR_OFFSET, /*buf=*/0x20452180ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000003b3840ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000003b3840ul+PTR_OFFSET, /*buf=*/0x2000003b3880ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20485fc0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20485fc0ul+PTR_OFFSET, /*buf=*/0x20486000ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000003e76c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000003e76c0ul+PTR_OFFSET, /*buf=*/0x2000003e7700ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x204aeb40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x204aeb40ul+PTR_OFFSET, /*buf=*/0x204aeb80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000410240ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000410240ul+PTR_OFFSET, /*buf=*/0x200000410280ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20653d80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20653d80ul+PTR_OFFSET, /*buf=*/0x20653dc0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000005b4c80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000005b4c80ul+PTR_OFFSET, /*buf=*/0x2000005b4cc0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20789e80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20789e80ul+PTR_OFFSET, /*buf=*/0x20789ec0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000006ead00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000006ead00ul+PTR_OFFSET, /*buf=*/0x2000006ead40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20974600ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20974600ul+PTR_OFFSET, /*buf=*/0x20974640ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000008d5000ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000008d5000ul+PTR_OFFSET, /*buf=*/0x2000008d5040ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20ab3ec0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20ab3ec0ul+PTR_OFFSET, /*buf=*/0x20ab3f00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000a148c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000a148c0ul+PTR_OFFSET, /*buf=*/0x200000a14900ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20f4b040ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20f4b040ul+PTR_OFFSET, /*buf=*/0x20f4b080ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000eaab40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000eaab40ul+PTR_OFFSET, /*buf=*/0x200000eaab80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20082f40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20082f40ul+PTR_OFFSET, /*buf=*/0x20082f80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000fe2500ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000fe2500ul+PTR_OFFSET, /*buf=*/0x200000fe2540ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20207c00ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20207c00ul+PTR_OFFSET, /*buf=*/0x20207c40ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000168580ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000168580ul+PTR_OFFSET, /*buf=*/0x2000001685c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20306500ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20306500ul+PTR_OFFSET, /*buf=*/0x20306540ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000266e80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000266e80ul+PTR_OFFSET, /*buf=*/0x200000266ec0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2077f980ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2077f980ul+PTR_OFFSET, /*buf=*/0x2077f9c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000006df700ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000006df700ul+PTR_OFFSET, /*buf=*/0x2000006df740ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x208b0cc0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x208b0cc0ul+PTR_OFFSET, /*buf=*/0x208b0d00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000008109c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000008109c0ul+PTR_OFFSET, /*buf=*/0x200000810a00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20da8a00ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20da8a00ul+PTR_OFFSET, /*buf=*/0x20da8a40ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000d07d00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000d07d00ul+PTR_OFFSET, /*buf=*/0x200000d07d40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20ea2440ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20ea2440ul+PTR_OFFSET, /*buf=*/0x20ea2480ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000e01640ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000e01640ul+PTR_OFFSET, /*buf=*/0x200000e01680ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20f79280ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20f79280ul+PTR_OFFSET, /*buf=*/0x20f792c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000ed8480ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000ed8480ul+PTR_OFFSET, /*buf=*/0x200000ed84c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2004da40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2004da40ul+PTR_OFFSET, /*buf=*/0x2004da80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000fa3c40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000fa3c40ul+PTR_OFFSET, /*buf=*/0x200000fa3c80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2054ff40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2054ff40ul+PTR_OFFSET, /*buf=*/0x2054ff80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000004a8140ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000004a8140ul+PTR_OFFSET, /*buf=*/0x2000004a8180ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x206c6b80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x206c6b80ul+PTR_OFFSET, /*buf=*/0x206c6bc0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000061ea00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000061ea00ul+PTR_OFFSET, /*buf=*/0x20000061ea40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x207d1e80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x207d1e80ul+PTR_OFFSET, /*buf=*/0x207d1ec0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000729d00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000729d00ul+PTR_OFFSET, /*buf=*/0x200000729d40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x208e7c80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x208e7c80ul+PTR_OFFSET, /*buf=*/0x208e7cc0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000083fb00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000083fb00ul+PTR_OFFSET, /*buf=*/0x20000083fb40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20d696c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20d696c0ul+PTR_OFFSET, /*buf=*/0x20d69700ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000cc06c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000cc06c0ul+PTR_OFFSET, /*buf=*/0x200000cc0700ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20e6c000ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20e6c000ul+PTR_OFFSET, /*buf=*/0x20e6c040ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000dc3000ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000dc3000ul+PTR_OFFSET, /*buf=*/0x200000dc3040ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20f8b680ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20f8b680ul+PTR_OFFSET, /*buf=*/0x20f8b6c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000ee2500ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000ee2500ul+PTR_OFFSET, /*buf=*/0x200000ee2540ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20046040ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20046040ul+PTR_OFFSET, /*buf=*/0x20046080ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000f9bf40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000f9bf40ul+PTR_OFFSET, /*buf=*/0x200000f9bf80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2002e740ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2002e740ul+PTR_OFFSET, /*buf=*/0x2002e780ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000f844c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000f844c0ul+PTR_OFFSET, /*buf=*/0x200000f84500ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2011e400ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2011e400ul+PTR_OFFSET, /*buf=*/0x2011e440ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000076440ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000076440ul+PTR_OFFSET, /*buf=*/0x200000076480ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20285400ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20285400ul+PTR_OFFSET, /*buf=*/0x20285440ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000001dd3c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000001dd3c0ul+PTR_OFFSET, /*buf=*/0x2000001dd400ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20354a80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20354a80ul+PTR_OFFSET, /*buf=*/0x20354ac0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000002aca40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000002aca40ul+PTR_OFFSET, /*buf=*/0x2000002aca80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x208719c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x208719c0ul+PTR_OFFSET, /*buf=*/0x20871a00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000007c8d80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000007c8d80ul+PTR_OFFSET, /*buf=*/0x2000007c8dc0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2099d640ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2099d640ul+PTR_OFFSET, /*buf=*/0x2099d680ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000008f4200ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000008f4200ul+PTR_OFFSET, /*buf=*/0x2000008f4240ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20b0a4c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20b0a4c0ul+PTR_OFFSET, /*buf=*/0x20b0a500ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000a60f80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000a60f80ul+PTR_OFFSET, /*buf=*/0x200000a60fc0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20be8ac0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20be8ac0ul+PTR_OFFSET, /*buf=*/0x20be8b00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000b3f400ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000b3f400ul+PTR_OFFSET, /*buf=*/0x200000b3f440ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x200dd440ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200dd440ul+PTR_OFFSET, /*buf=*/0x200dd480ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000002f940ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000002f940ul+PTR_OFFSET, /*buf=*/0x20000002f980ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20272640ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20272640ul+PTR_OFFSET, /*buf=*/0x20272680ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000001c4b40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000001c4b40ul+PTR_OFFSET, /*buf=*/0x2000001c4b80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x203f9100ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x203f9100ul+PTR_OFFSET, /*buf=*/0x203f9140ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000034b600ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000034b600ul+PTR_OFFSET, /*buf=*/0x20000034b640ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x204f5500ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x204f5500ul+PTR_OFFSET, /*buf=*/0x204f5540ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000447a00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000447a00ul+PTR_OFFSET, /*buf=*/0x200000447a40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2095d380ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2095d380ul+PTR_OFFSET, /*buf=*/0x2095d3c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000008aef80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000008aef80ul+PTR_OFFSET, /*buf=*/0x2000008aefc0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20a50940ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20a50940ul+PTR_OFFSET, /*buf=*/0x20a50980ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000009a21c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000009a21c0ul+PTR_OFFSET, /*buf=*/0x2000009a2200ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20b21880ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20b21880ul+PTR_OFFSET, /*buf=*/0x20b218c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000a73080ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000a73080ul+PTR_OFFSET, /*buf=*/0x200000a730c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20bd9d80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20bd9d80ul+PTR_OFFSET, /*buf=*/0x20bd9dc0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000b2b580ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000b2b580ul+PTR_OFFSET, /*buf=*/0x200000b2b5c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x200fd0c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200fd0c0ul+PTR_OFFSET, /*buf=*/0x200fd100ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000053140ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000053140ul+PTR_OFFSET, /*buf=*/0x200000053180ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x201be9c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x201be9c0ul+PTR_OFFSET, /*buf=*/0x201bea00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000114a40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000114a40ul+PTR_OFFSET, /*buf=*/0x200000114a80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20261840ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20261840ul+PTR_OFFSET, /*buf=*/0x20261880ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000001b78c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000001b78c0ul+PTR_OFFSET, /*buf=*/0x2000001b7900ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x202ea800ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x202ea800ul+PTR_OFFSET, /*buf=*/0x202ea840ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000240880ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000240880ul+PTR_OFFSET, /*buf=*/0x2000002408c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x208025c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x208025c0ul+PTR_OFFSET, /*buf=*/0x20802600ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000757640ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000757640ul+PTR_OFFSET, /*buf=*/0x200000757680ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x208cb580ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x208cb580ul+PTR_OFFSET, /*buf=*/0x208cb5c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000820600ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000820600ul+PTR_OFFSET, /*buf=*/0x200000820640ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20996a80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20996a80ul+PTR_OFFSET, /*buf=*/0x20996ac0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000008eba80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000008eba80ul+PTR_OFFSET, /*buf=*/0x2000008ebac0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20a64800ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20a64800ul+PTR_OFFSET, /*buf=*/0x20a64840ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000009b9580ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000009b9580ul+PTR_OFFSET, /*buf=*/0x2000009b95c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20ffbbc0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20ffbbc0ul+PTR_OFFSET, /*buf=*/0x20ffbc00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000f4fec0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000f4fec0ul+PTR_OFFSET, /*buf=*/0x200000f4ff00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x200c94c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200c94c0ul+PTR_OFFSET, /*buf=*/0x200c9500ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000001b580ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000001b580ul+PTR_OFFSET, /*buf=*/0x20000001b5c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x201cd880ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x201cd880ul+PTR_OFFSET, /*buf=*/0x201cd8c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000011f940ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000011f940ul+PTR_OFFSET, /*buf=*/0x20000011f980ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x202977c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x202977c0ul+PTR_OFFSET, /*buf=*/0x20297800ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000001e9500ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000001e9500ul+PTR_OFFSET, /*buf=*/0x2000001e9540ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x206fad80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x206fad80ul+PTR_OFFSET, /*buf=*/0x206fadc0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000064c240ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000064c240ul+PTR_OFFSET, /*buf=*/0x20000064c280ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x207fd800ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x207fd800ul+PTR_OFFSET, /*buf=*/0x207fd840ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000074ec40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000074ec40ul+PTR_OFFSET, /*buf=*/0x20000074ec80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20931b80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20931b80ul+PTR_OFFSET, /*buf=*/0x20931bc0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000882c40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000882c40ul+PTR_OFFSET, /*buf=*/0x200000882c80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20a26e80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20a26e80ul+PTR_OFFSET, /*buf=*/0x20a26ec0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000977f40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000977f40ul+PTR_OFFSET, /*buf=*/0x200000977f80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20dda8c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20dda8c0ul+PTR_OFFSET, /*buf=*/0x20dda900ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000d2ad00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000d2ad00ul+PTR_OFFSET, /*buf=*/0x200000d2ad40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20e86440ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20e86440ul+PTR_OFFSET, /*buf=*/0x20e86480ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000dd6880ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000dd6880ul+PTR_OFFSET, /*buf=*/0x200000dd68c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20f284c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20f284c0ul+PTR_OFFSET, /*buf=*/0x20f28500ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000e78900ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000e78900ul+PTR_OFFSET, /*buf=*/0x200000e78940ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20fddf80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20fddf80ul+PTR_OFFSET, /*buf=*/0x20fddfc0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000f2dfc0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000f2dfc0ul+PTR_OFFSET, /*buf=*/0x200000f2e000ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2058c600ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2058c600ul+PTR_OFFSET, /*buf=*/0x2058c640ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000004db9c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000004db9c0ul+PTR_OFFSET, /*buf=*/0x2000004dba00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2068bb40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2068bb40ul+PTR_OFFSET, /*buf=*/0x2068bb80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000005dad00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000005dad00ul+PTR_OFFSET, /*buf=*/0x2000005dad40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20893cc0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20893cc0ul+PTR_OFFSET, /*buf=*/0x20893d00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000007e2b00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000007e2b00ul+PTR_OFFSET, /*buf=*/0x2000007e2b40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x209fcf80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x209fcf80ul+PTR_OFFSET, /*buf=*/0x209fcfc0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000094bd40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000094bd40ul+PTR_OFFSET, /*buf=*/0x20000094bd80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20df7040ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20df7040ul+PTR_OFFSET, /*buf=*/0x20df7080ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000d45800ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000d45800ul+PTR_OFFSET, /*buf=*/0x200000d45840ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20f59440ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20f59440ul+PTR_OFFSET, /*buf=*/0x20f59480ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000ea7880ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000ea7880ul+PTR_OFFSET, /*buf=*/0x200000ea78c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2057db00ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2057db00ul+PTR_OFFSET, /*buf=*/0x2057db40ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000004ca800ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000004ca800ul+PTR_OFFSET, /*buf=*/0x2000004ca840ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x205a00c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x205a00c0ul+PTR_OFFSET, /*buf=*/0x205a0100ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000004ecdc0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000004ecdc0ul+PTR_OFFSET, /*buf=*/0x2000004ece00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20c9bd40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20c9bd40ul+PTR_OFFSET, /*buf=*/0x20c9bd80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000be75c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000be75c0ul+PTR_OFFSET, /*buf=*/0x200000be7600ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20ce2780ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20ce2780ul+PTR_OFFSET, /*buf=*/0x20ce27c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000c2e000ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000c2e000ul+PTR_OFFSET, /*buf=*/0x200000c2e040ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20d1d240ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20d1d240ul+PTR_OFFSET, /*buf=*/0x20d1d280ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000c68ac0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000c68ac0ul+PTR_OFFSET, /*buf=*/0x200000c68b00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20d58700ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20d58700ul+PTR_OFFSET, /*buf=*/0x20d58740ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000ca3f80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000ca3f80ul+PTR_OFFSET, /*buf=*/0x200000ca3fc0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2018ce00ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2018ce00ul+PTR_OFFSET, /*buf=*/0x2018ce40ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000000d5140ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000000d5140ul+PTR_OFFSET, /*buf=*/0x2000000d5180ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2032d480ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2032d480ul+PTR_OFFSET, /*buf=*/0x2032d4c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000002757c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000002757c0ul+PTR_OFFSET, /*buf=*/0x200000275800ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20492500ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20492500ul+PTR_OFFSET, /*buf=*/0x20492540ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000003da840ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000003da840ul+PTR_OFFSET, /*buf=*/0x2000003da880ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20523780ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20523780ul+PTR_OFFSET, /*buf=*/0x205237c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000046bac0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000046bac0ul+PTR_OFFSET, /*buf=*/0x20000046bb00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2083a300ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2083a300ul+PTR_OFFSET, /*buf=*/0x2083a340ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000781940ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000781940ul+PTR_OFFSET, /*buf=*/0x200000781980ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2097ccc0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2097ccc0ul+PTR_OFFSET, /*buf=*/0x2097cd00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000008c4300ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000008c4300ul+PTR_OFFSET, /*buf=*/0x2000008c4340ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20a6ce80ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20a6ce80ul+PTR_OFFSET, /*buf=*/0x20a6cec0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000009b44c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000009b44c0ul+PTR_OFFSET, /*buf=*/0x2000009b4500ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20b1c340ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20b1c340ul+PTR_OFFSET, /*buf=*/0x20b1c380ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000a63880ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000a63880ul+PTR_OFFSET, /*buf=*/0x200000a638c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20d5a040ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20d5a040ul+PTR_OFFSET, /*buf=*/0x20d5a080ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000c9fd00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000c9fd00ul+PTR_OFFSET, /*buf=*/0x200000c9fd40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20f092c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20f092c0ul+PTR_OFFSET, /*buf=*/0x20f09300ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000e4ee80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000e4ee80ul+PTR_OFFSET, /*buf=*/0x200000e4eec0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20fdad40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20fdad40ul+PTR_OFFSET, /*buf=*/0x20fdad80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000f20900ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000f20900ul+PTR_OFFSET, /*buf=*/0x200000f20940ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x201482c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x201482c0ul+PTR_OFFSET, /*buf=*/0x20148300ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000008ed80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000008ed80ul+PTR_OFFSET, /*buf=*/0x20000008edc0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x203cda00ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x203cda00ul+PTR_OFFSET, /*buf=*/0x203cda40ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000313640ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000313640ul+PTR_OFFSET, /*buf=*/0x200000313680ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2050a940ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2050a940ul+PTR_OFFSET, /*buf=*/0x2050a980ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000450580ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000450580ul+PTR_OFFSET, /*buf=*/0x2000004505c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x206cb900ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x206cb900ul+PTR_OFFSET, /*buf=*/0x206cb940ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000611440ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000611440ul+PTR_OFFSET, /*buf=*/0x200000611480ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x207d3000ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x207d3000ul+PTR_OFFSET, /*buf=*/0x207d3040ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000007189c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000007189c0ul+PTR_OFFSET, /*buf=*/0x200000718a00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20b5a100ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20b5a100ul+PTR_OFFSET, /*buf=*/0x20b5a140ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000a9f4c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000a9f4c0ul+PTR_OFFSET, /*buf=*/0x200000a9f500ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20c68e00ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20c68e00ul+PTR_OFFSET, /*buf=*/0x20c68e40ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000bae1c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000bae1c0ul+PTR_OFFSET, /*buf=*/0x200000bae200ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20dd5c40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20dd5c40ul+PTR_OFFSET, /*buf=*/0x20dd5c80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000d1ac80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000d1ac80ul+PTR_OFFSET, /*buf=*/0x200000d1acc0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20ef5040ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20ef5040ul+PTR_OFFSET, /*buf=*/0x20ef5080ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000e3a080ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000e3a080ul+PTR_OFFSET, /*buf=*/0x200000e3a0c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2025d240ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2025d240ul+PTR_OFFSET, /*buf=*/0x2025d280ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000001a0280ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000001a0280ul+PTR_OFFSET, /*buf=*/0x2000001a02c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2045b200ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2045b200ul+PTR_OFFSET, /*buf=*/0x2045b240ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000039e1c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000039e1c0ul+PTR_OFFSET, /*buf=*/0x20000039e200ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x205a6880ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x205a6880ul+PTR_OFFSET, /*buf=*/0x205a68c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000004e9840ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000004e9840ul+PTR_OFFSET, /*buf=*/0x2000004e9880ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20749780ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20749780ul+PTR_OFFSET, /*buf=*/0x207497c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000068c740ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000068c740ul+PTR_OFFSET, /*buf=*/0x20000068c780ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x209ff2c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x209ff2c0ul+PTR_OFFSET, /*buf=*/0x209ff300ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000093fe80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000093fe80ul+PTR_OFFSET, /*buf=*/0x20000093fec0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20bc94c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20bc94c0ul+PTR_OFFSET, /*buf=*/0x20bc9500ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000b09f80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000b09f80ul+PTR_OFFSET, /*buf=*/0x200000b09fc0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20d1a940ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20d1a940ul+PTR_OFFSET, /*buf=*/0x20d1a980ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000c5b380ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000c5b380ul+PTR_OFFSET, /*buf=*/0x200000c5b3c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20e642c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20e642c0ul+PTR_OFFSET, /*buf=*/0x20e64300ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000da4d00ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000da4d00ul+PTR_OFFSET, /*buf=*/0x200000da4d40ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20150900ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20150900ul+PTR_OFFSET, /*buf=*/0x20150940ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000000906c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000000906c0ul+PTR_OFFSET, /*buf=*/0x200000090700ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20294740ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20294740ul+PTR_OFFSET, /*buf=*/0x20294780ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000001d4500ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000001d4500ul+PTR_OFFSET, /*buf=*/0x2000001d4540ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20477b40ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20477b40ul+PTR_OFFSET, /*buf=*/0x20477b80ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000003b7800ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000003b7800ul+PTR_OFFSET, /*buf=*/0x2000003b7840ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x205c5140ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x205c5140ul+PTR_OFFSET, /*buf=*/0x205c5180ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000504b80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000504b80ul+PTR_OFFSET, /*buf=*/0x200000504bc0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2091c0c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2091c0c0ul+PTR_OFFSET, /*buf=*/0x2091c100ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000085b300ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000085b300ul+PTR_OFFSET, /*buf=*/0x20000085b340ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20a15f00ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20a15f00ul+PTR_OFFSET, /*buf=*/0x20a15f40ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000955140ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000955140ul+PTR_OFFSET, /*buf=*/0x200000955180ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20ba0480ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20ba0480ul+PTR_OFFSET, /*buf=*/0x20ba04c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000adf6c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000adf6c0ul+PTR_OFFSET, /*buf=*/0x200000adf700ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20ce8e00ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20ce8e00ul+PTR_OFFSET, /*buf=*/0x20ce8e40ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000c28040ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000c28040ul+PTR_OFFSET, /*buf=*/0x200000c28080ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x200f1000ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200f1000ul+PTR_OFFSET, /*buf=*/0x200f1040ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20000002e680ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20000002e680ul+PTR_OFFSET, /*buf=*/0x20000002e6c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x201e9640ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x201e9640ul+PTR_OFFSET, /*buf=*/0x201e9680ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000126ac0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000126ac0ul+PTR_OFFSET, /*buf=*/0x200000126b00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2078c240ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2078c240ul+PTR_OFFSET, /*buf=*/0x2078c280ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000006c78c0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000006c78c0ul+PTR_OFFSET, /*buf=*/0x2000006c7900ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2088b800ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2088b800ul+PTR_OFFSET, /*buf=*/0x2088b840ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000007c6e80ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000007c6e80ul+PTR_OFFSET, /*buf=*/0x2000007c6ec0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x209adbc0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x209adbc0ul+PTR_OFFSET, /*buf=*/0x209adc00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000008e8a40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000008e8a40ul+PTR_OFFSET, /*buf=*/0x2000008e8a80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20b150c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20b150c0ul+PTR_OFFSET, /*buf=*/0x20b15100ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000a4ff40ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000a4ff40ul+PTR_OFFSET, /*buf=*/0x200000a4ff80ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20ea4100ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20ea4100ul+PTR_OFFSET, /*buf=*/0x20ea4140ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000dde080ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000dde080ul+PTR_OFFSET, /*buf=*/0x200000dde0c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20f6c080ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20f6c080ul+PTR_OFFSET, /*buf=*/0x20f6c0c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000ea6000ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000ea6000ul+PTR_OFFSET, /*buf=*/0x200000ea6040ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x200e3b00ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200e3b00ul+PTR_OFFSET, /*buf=*/0x200e3b40ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000022340ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000022340ul+PTR_OFFSET, /*buf=*/0x200000022380ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20232280ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20232280ul+PTR_OFFSET, /*buf=*/0x202322c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000170ac0ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000170ac0ul+PTR_OFFSET, /*buf=*/0x200000170b00ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20669700ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20669700ul+PTR_OFFSET, /*buf=*/0x20669740ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000005a7840ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000005a7840ul+PTR_OFFSET, /*buf=*/0x2000005a7880ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2076d5c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2076d5c0ul+PTR_OFFSET, /*buf=*/0x2076d600ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x2000006ab700ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2000006ab700ul+PTR_OFFSET, /*buf=*/0x2000006ab740ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20c0f7c0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20c0f7c0ul+PTR_OFFSET, /*buf=*/0x20c0f800ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000b4c280ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000b4c280ul+PTR_OFFSET, /*buf=*/0x200000b4c2c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20cdfac0ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20cdfac0ul+PTR_OFFSET, /*buf=*/0x20cdfb00ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000c1c580ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000c1c580ul+PTR_OFFSET, /*buf=*/0x200000c1c5c0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20e3f740ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20e3f740ul+PTR_OFFSET, /*buf=*/0x20e3f780ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000d7c200ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000d7c200ul+PTR_OFFSET, /*buf=*/0x200000d7c240ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 00} (length 0xa)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70} (length 0x9)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20f70880ul+PTR_OFFSET), "./var/tmp\000", 10);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20f70880ul+PTR_OFFSET, /*buf=*/0x20f708c0ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x200000ead340ul+PTR_OFFSET), "./var/tmp", 9);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x200000ead340ul+PTR_OFFSET, /*buf=*/0x200000ead380ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	return 0;
 }

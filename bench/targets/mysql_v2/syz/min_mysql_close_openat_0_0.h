@@ -18,7 +18,7 @@
 #define UNIQUE_GOTO(mark) UNIQUE_NAME(mark, RESOLVE(UNIQUE_ID_TOK))
 #define UNIQUE_STR_STR(str) #str
 #define UNIQUE_STR() UNIQUE_STR_STR(RESOLVE(UNIQUE_ID))
-#define MMAP_OFFSET 0x20000000ul
+#define MMAP_OFFSET 0x200000000000ul
 #define MMAP_LENGTH 0x1000000ul
 const static uint64_t UNIQUE_VAR(maxWriteBufferSize) = 0ul;
 const char* UNIQUE_VAR(netops_connect)[0] = {};
@@ -35,22 +35,6 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 #include <sys/types.h>
 #include <unistd.h>
 
-#ifndef __NR_close
-#define __NR_close 57
-#endif
-#ifndef __NR_dup
-#define __NR_dup 23
-#endif
-#ifndef __NR_fcntl
-#define __NR_fcntl 25
-#endif
-#ifndef __NR_mmap
-#define __NR_mmap 222
-#endif
-#ifndef __NR_openat
-#define __NR_openat 56
-#endif
-
 #include <fcntl.h> /* Definition of AT_* constants */
 #ifndef BM_THREAD_NUM
 #define BM_THREAD_NUM 1
@@ -64,10 +48,10 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 #define MMAP_LEN (0x1000 + 0x1000000 + 0x1000)
 #define MMAP_SIZE_TOTAL ((BM_THREAD_NUM) * (MMAP_LEN))
 
-const static int UNIQUE_VAR(num_subdirs) = 2;
-const static char* UNIQUE_VAR(subdirs)[2] = {"var/tmp","./var/tmp/"};
+const static int UNIQUE_VAR(num_subdirs) = 1;
+const static char* UNIQUE_VAR(subdirs)[1] = {"./var/tmp/"};
 const static int UNIQUE_VAR(num_filenames) = 1;
-const static char* UNIQUE_VAR(filenames)[1] = {"./var/tmp"};
+const static char* UNIQUE_VAR(filenames)[1] = {"./var/tmp/"};
 const static int UNIQUE_VAR(num_filesizes) = 1;
 const static uint64_t UNIQUE_VAR(filesizes)[1] = {0};
 
@@ -140,14 +124,14 @@ static inline int UNIQUE_FUNC(bm_dispatch_operation)(thread_ctx_t* ctx, size_t o
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
-//    flags: open_flags = 0x484002 (4 bytes)
+//    flags: open_flags = 0x480042 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2012dd80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2012dd80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20000012dd80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20000012dd80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_CREAT|O_CLOEXEC|O_RDWR*/0x480042, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[0] = res;
@@ -173,14 +157,14 @@ memcpy((void*)(0x2012dd80ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
-//    flags: open_flags = 0x484002 (4 bytes)
+//    flags: open_flags = 0x480042 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2012ddc0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2012ddc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20000012ddc0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20000012ddc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_CREAT|O_CLOEXEC|O_RDWR*/0x480042, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[2] = res;
@@ -206,14 +190,14 @@ memcpy((void*)(0x2012ddc0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
-//    flags: open_flags = 0x484002 (4 bytes)
+//    flags: open_flags = 0x480042 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2012e0c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2012e0c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20000012e080ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20000012e080ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_CREAT|O_CLOEXEC|O_RDWR*/0x480042, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[4] = res;
@@ -238,14 +222,14 @@ memcpy((void*)(0x2012e0c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
-//    flags: open_flags = 0x484002 (4 bytes)
+//    flags: open_flags = 0x480042 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20131e00ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20131e00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2000001317c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2000001317c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_CREAT|O_CLOEXEC|O_RDWR*/0x480042, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[6] = res;
@@ -271,14 +255,14 @@ memcpy((void*)(0x20131e00ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
-//    flags: open_flags = 0x484002 (4 bytes)
+//    flags: open_flags = 0x480042 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x201d1000ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x201d1000ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2000001cfd80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2000001cfd80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_CREAT|O_CLOEXEC|O_RDWR*/0x480042, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[8] = res;
@@ -301,5 +285,9 @@ memcpy((void*)(0x201d1000ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  ]
 	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[9], /*cmd=F_GETFL*/3ul, 0);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	close(UNIQUE_VAR(ctx->r)[1]);
+	close(UNIQUE_VAR(ctx->r)[3]);
+	close(UNIQUE_VAR(ctx->r)[9]);
+	close(UNIQUE_VAR(ctx->r)[7]);
 	return 0;
 }

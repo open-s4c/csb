@@ -18,7 +18,7 @@
 #define UNIQUE_GOTO(mark) UNIQUE_NAME(mark, RESOLVE(UNIQUE_ID_TOK))
 #define UNIQUE_STR_STR(str) #str
 #define UNIQUE_STR() UNIQUE_STR_STR(RESOLVE(UNIQUE_ID))
-#define MMAP_OFFSET 0x20000000ul
+#define MMAP_OFFSET 0x200000000000ul
 #define MMAP_LENGTH 0x1000000ul
 const static uint64_t UNIQUE_VAR(maxWriteBufferSize) = 0ul;
 const char* UNIQUE_VAR(netops_connect)[0] = {};
@@ -34,19 +34,6 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 #include <sys/syscall.h>
 #include <sys/types.h>
 #include <unistd.h>
-
-#ifndef __NR_fcntl
-#define __NR_fcntl 25
-#endif
-#ifndef __NR_mmap
-#define __NR_mmap 222
-#endif
-#ifndef __NR_openat
-#define __NR_openat 56
-#endif
-#ifndef __NR_pread64
-#define __NR_pread64 67
-#endif
 
 #include <fcntl.h> /* Definition of AT_* constants */
 #ifndef BM_THREAD_NUM
@@ -64,7 +51,7 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 const static int UNIQUE_VAR(num_subdirs) = 1;
 const static char* UNIQUE_VAR(subdirs)[1] = {"."};
 const static int UNIQUE_VAR(num_filenames) = 1;
-const static char* UNIQUE_VAR(filenames)[1] = {"./undo_00"};
+const static char* UNIQUE_VAR(filenames)[1] = {"./undo_001"};
 const static int UNIQUE_VAR(num_filesizes) = 1;
 const static uint64_t UNIQUE_VAR(filesizes)[1] = {8388608};
 
@@ -134,8 +121,8 @@ static inline int UNIQUE_FUNC(bm_dispatch_operation)(thread_ctx_t* ctx, size_t o
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2020e8c0ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20000020d580ul+PTR_OFFSET), "./undo_001\000", 11);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20000020d580ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[0] = res;
@@ -144,7 +131,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    cmd: const = 0x4 (8 bytes)
 //    flags: fcntl_status = 0x10000 (8 bytes)
 //  ]
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*cmd=*/4ul, /*flags=O_DIRECT*/0x10000ul);
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*cmd=*/4ul, /*flags=*/0x10000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  fcntl$lock arguments: [
 //    fd: fd (resource)
@@ -161,12 +148,12 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //      }
 //    }
 //  ]
-*(uint16_t*)(0x2020e900ul+PTR_OFFSET) = 1;
-*(uint16_t*)(0x2020e902ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x2020e908ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x2020e910ul+PTR_OFFSET) = 0;
-*(uint32_t*)(0x2020e918ul+PTR_OFFSET) = 0;
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*cmd=F_SETLK*/6ul, /*lock=*/0x2020e900ul+PTR_OFFSET);
+*(uint16_t*)(0x20000020d5c0ul+PTR_OFFSET) = 1;
+*(uint16_t*)(0x20000020d5c2ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x20000020d5c8ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x20000020d5d0ul+PTR_OFFSET) = 0;
+*(uint32_t*)(0x20000020d5d8ul+PTR_OFFSET) = 0;
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*cmd=F_SETLK*/6ul, /*lock=*/0x20000020d5c0ul+PTR_OFFSET);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -176,7 +163,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x204000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x206d4c40ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x204000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2000006d2e80ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x204000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -186,7 +173,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x218000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x206dcc40ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x218000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2000006dae80ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x218000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -196,7 +183,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x498000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x206e8c40ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x498000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2000006e6e80ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x498000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -206,7 +193,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x1ec000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20700d00ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x1ec000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2000006fef40ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x1ec000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -216,7 +203,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x48c000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20710d00ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x48c000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20000070ef40ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x48c000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -226,7 +213,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x1dc000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20728d00ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x1dc000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000726f40ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x1dc000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -236,7 +223,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x7e4000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2074ce00ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x7e4000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20000074b040ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x7e4000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -246,7 +233,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x484000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2075ce00ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x484000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20000075b040ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x484000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -256,7 +243,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x1bc000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20768e00ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x1bc000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000767040ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x1bc000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -266,7 +253,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x2dc000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20788ec0ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x2dc000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000787100ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x2dc000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -276,7 +263,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x760000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x207a5940ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x760000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2000007a3100ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x760000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -286,7 +273,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x1a4000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x207c1940ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x1a4000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2000007bf100ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x1a4000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -296,7 +283,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x7b8000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x207c5940ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x7b8000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2000007c3100ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x7b8000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -306,7 +293,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x2a4000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x207c9940ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x2a4000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2000007c7100ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x2a4000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -316,7 +303,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x198000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x207d5940ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x198000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2000007d3100ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x198000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -326,7 +313,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x234000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x207e1940ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x234000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2000007df100ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x234000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -336,7 +323,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x18c000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x207e9940ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x18c000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2000007e7100ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x18c000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -346,7 +333,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x7b4000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x207f1940ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x7b4000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2000007ef100ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x7b4000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -356,7 +343,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x184000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x207f9940ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x184000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2000007f7100ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x184000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -366,7 +353,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x7dc000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20809940ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x7dc000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000807100ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x7dc000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -376,7 +363,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x178000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20815940ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x178000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000813100ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x178000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -386,7 +373,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x7fc000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20845a40ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x7fc000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000843200ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x7fc000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -396,7 +383,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x154000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20855a40ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x154000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000853200ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x154000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -406,7 +393,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x7cc000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20865a40ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x7cc000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000863200ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x7cc000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -416,7 +403,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x144000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20875a40ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x144000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000873200ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x144000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -426,7 +413,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x7a8000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20885a40ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x7a8000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000883200ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x7a8000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -436,7 +423,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x464000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20895a40ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x464000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000893200ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x464000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -446,7 +433,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x134000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x208c5a40ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x134000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2000008c3200ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x134000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -456,7 +443,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x2b8000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x208d9b00ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x2b8000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2000008d72c0ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x2b8000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -466,7 +453,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x114000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x208e9b00ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x114000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2000008e72c0ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x114000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -476,7 +463,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x2b4000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20935c00ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x2b4000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2000009333c0ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x2b4000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -486,7 +473,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0xe4000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20945c00ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0xe4000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2000009433c0ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0xe4000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -496,7 +483,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x228000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2094dc00ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x228000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20000094b3c0ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x228000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -506,7 +493,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x750000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20959c00ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x750000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2000009573c0ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x750000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -516,7 +503,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0xd8000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20965c00ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0xd8000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2000009633c0ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0xd8000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -526,7 +513,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x778000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x209b1cc0ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x778000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2000009af480ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x778000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -536,7 +523,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x454000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x209c1cc0ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x454000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2000009bf480ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x454000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -546,7 +533,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0xa0000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x209cdcc0ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0xa0000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2000009cb480ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0xa0000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -556,7 +543,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x28c000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x209d9cc0ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x28c000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2000009d7480ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x28c000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -566,7 +553,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x98000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x209e9cc0ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x98000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2000009e7480ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x98000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -576,7 +563,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x7f4000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a51dc0ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x7f4000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000a4f580ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x7f4000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -586,7 +573,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x64000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a5ddc0ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x64000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000a5b580ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x64000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -596,7 +583,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x430000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a61dc0ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x430000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000a5f580ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x430000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -606,7 +593,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x58000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a65dc0ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x58000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000a63580ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x58000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -616,7 +603,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x42c000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a71dc0ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x42c000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000a6f580ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x42c000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -626,7 +613,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x54000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a8ddc0ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x54000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000a8b580ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x54000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -636,7 +623,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x428000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a99e80ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x428000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000a97640ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x428000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -646,7 +633,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x3c000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20aa5e80ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x3c000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000aa3640ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x3c000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -656,7 +643,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x2c8000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ab5e80ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x2c8000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000ab3640ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x2c8000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -666,7 +653,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x30000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20abde80ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x30000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000abb640ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x30000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -676,7 +663,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x2e4000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ac5e80ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x2e4000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000ac3640ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x2e4000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -686,7 +673,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x4a4000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20acde80ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x4a4000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000acb640ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x4a4000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -696,7 +683,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x28000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ad5e80ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x28000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000ad3640ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x28000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -706,7 +693,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x424000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20adde80ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x424000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000adb640ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x424000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -716,7 +703,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x4a0000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ae5e80ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x4a0000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000ae3640ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x4a0000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -726,7 +713,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x1c000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20aede80ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x1c000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000aeb640ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x1c000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -736,7 +723,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x220000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20af1e80ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x220000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000aef640ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x220000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -746,7 +733,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x764000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20af5e80ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x764000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000af3640ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x764000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -756,7 +743,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x18000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20afde80ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x18000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000afb640ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x18000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -766,7 +753,7 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x4ac000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b11e80ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x4ac000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000b0f640ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x4ac000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -776,7 +763,8 @@ memcpy((void*)(0x2020e8c0ul+PTR_OFFSET), "./undo_001\000", 11);
 //    count: len = 0x4000 (8 bytes)
 //    pos: intptr = 0x740000 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b19e80ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x740000ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200000b17640ul+PTR_OFFSET, /*count=*/0x4000ul, /*pos=*/0x740000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	close(UNIQUE_VAR(ctx->r)[0]);
 	return 0;
 }

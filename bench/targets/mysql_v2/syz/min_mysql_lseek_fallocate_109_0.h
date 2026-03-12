@@ -18,7 +18,7 @@
 #define UNIQUE_GOTO(mark) UNIQUE_NAME(mark, RESOLVE(UNIQUE_ID_TOK))
 #define UNIQUE_STR_STR(str) #str
 #define UNIQUE_STR() UNIQUE_STR_STR(RESOLVE(UNIQUE_ID))
-#define MMAP_OFFSET 0x20000000ul
+#define MMAP_OFFSET 0x200000000000ul
 #define MMAP_LENGTH 0x1000000ul
 const static uint64_t UNIQUE_VAR(maxWriteBufferSize) = 0ul;
 const char* UNIQUE_VAR(netops_connect)[0] = {};
@@ -34,25 +34,6 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 #include <sys/syscall.h>
 #include <sys/types.h>
 #include <unistd.h>
-
-#ifndef __NR_fallocate
-#define __NR_fallocate 47
-#endif
-#ifndef __NR_fcntl
-#define __NR_fcntl 25
-#endif
-#ifndef __NR_fsync
-#define __NR_fsync 82
-#endif
-#ifndef __NR_lseek
-#define __NR_lseek 62
-#endif
-#ifndef __NR_mmap
-#define __NR_mmap 222
-#endif
-#ifndef __NR_openat
-#define __NR_openat 56
-#endif
 
 #include <fcntl.h> /* Definition of AT_* constants */
 #ifndef BM_THREAD_NUM
@@ -70,7 +51,7 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 const static int UNIQUE_VAR(num_subdirs) = 1;
 const static char* UNIQUE_VAR(subdirs)[1] = {"sbtest"};
 const static int UNIQUE_VAR(num_filenames) = 1;
-const static char* UNIQUE_VAR(filenames)[1] = {"./sbtest/sbtest6.ib"};
+const static char* UNIQUE_VAR(filenames)[1] = {"./sbtest/sbtest6.ibd"};
 const static int UNIQUE_VAR(num_filesizes) = 1;
 const static uint64_t UNIQUE_VAR(filesizes)[1] = {376832};
 
@@ -140,8 +121,8 @@ static inline int UNIQUE_FUNC(bm_dispatch_operation)(thread_ctx_t* ctx, size_t o
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20c2e4c0ul+PTR_OFFSET), "./sbtest/sbtest6.ibd\000", 21);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20c2e4c0ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x200000c11ec0ul+PTR_OFFSET), "./sbtest/sbtest6.ibd\000", 21);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200000c11ec0ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[0] = res;
@@ -150,7 +131,7 @@ memcpy((void*)(0x20c2e4c0ul+PTR_OFFSET), "./sbtest/sbtest6.ibd\000", 21);
 //    cmd: const = 0x4 (8 bytes)
 //    flags: fcntl_status = 0x10000 (8 bytes)
 //  ]
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*cmd=*/4ul, /*flags=O_DIRECT*/0x10000ul);
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*cmd=*/4ul, /*flags=*/0x10000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  fcntl$lock arguments: [
 //    fd: fd (resource)
@@ -167,12 +148,12 @@ memcpy((void*)(0x20c2e4c0ul+PTR_OFFSET), "./sbtest/sbtest6.ibd\000", 21);
 //      }
 //    }
 //  ]
-*(uint16_t*)(0x20c2e500ul+PTR_OFFSET) = 1;
-*(uint16_t*)(0x20c2e502ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x20c2e508ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x20c2e510ul+PTR_OFFSET) = 0;
-*(uint32_t*)(0x20c2e518ul+PTR_OFFSET) = 0;
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*cmd=F_SETLK*/6ul, /*lock=*/0x20c2e500ul+PTR_OFFSET);
+*(uint16_t*)(0x200000c11f00ul+PTR_OFFSET) = 1;
+*(uint16_t*)(0x200000c11f02ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x200000c11f08ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x200000c11f10ul+PTR_OFFSET) = 0;
+*(uint32_t*)(0x200000c11f18ul+PTR_OFFSET) = 0;
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*cmd=F_SETLK*/6ul, /*lock=*/0x200000c11f00ul+PTR_OFFSET);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  lseek arguments: [
 //    fd: fd (resource)
@@ -999,5 +980,6 @@ memcpy((void*)(0x20c2e4c0ul+PTR_OFFSET), "./sbtest/sbtest6.ibd\000", 21);
 //  ]
 	res = syscall(__NR_fsync, /*fd=*/UNIQUE_VAR(ctx->r)[0]);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	close(UNIQUE_VAR(ctx->r)[0]);
 	return 0;
 }
