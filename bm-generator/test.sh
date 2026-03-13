@@ -19,8 +19,11 @@ echo "STEP#4: Preparing ..."
 ./04_prepare.sh
 echo "STEP#5: Generating ..."
 ./05_generate.sh
+echo "STEP#6 Selecting microbenchmarks using flamegraph-diff"
+# Commented out until CI runner has python enabled.
+# ./06_select.sh
 
-echo "STEP#6: Build and test ..."
+echo "STEP#7: Build and test ..."
 cd ../build
 # We only want to build related targets not everything.
 WS=$(get_workspace_dir)
