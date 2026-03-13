@@ -64,7 +64,7 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 const static int UNIQUE_VAR(num_subdirs) = 1;
 const static char* UNIQUE_VAR(subdirs)[1] = {"etc/pki/tls"};
 const static int UNIQUE_VAR(num_filenames) = 1;
-const static char* UNIQUE_VAR(filenames)[1] = {"./etc/pki/tls/cert.pe"};
+const static char* UNIQUE_VAR(filenames)[1] = {"./etc/pki/tls/cert.pem"};
 const static int UNIQUE_VAR(num_filesizes) = 1;
 const static uint64_t UNIQUE_VAR(filesizes)[1] = {0};
 
@@ -128,14 +128,14 @@ static inline int UNIQUE_FUNC(bm_dispatch_operation)(thread_ctx_t* ctx, size_t o
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 65 74 63 2f 70 6b 69 2f 74 6c 73 2f 63 65 72 74 2e 70 65 6d 00} (length 0x17)
+//      buffer: {2e 2f 65 74 63 2f 70 6b 69 2f 74 6c 73 2f 63 65 72 74 2e 70 65 6d} (length 0x16)
 //    }
 //    flags: open_flags = 0x40 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2035a1c0ul+PTR_OFFSET, /*flags=O_CREAT*/0x40, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2034ca80ul+PTR_OFFSET), "./etc/pki/tls/cert.pem", 22);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2034ca80ul+PTR_OFFSET, /*flags=O_CREAT*/0x40, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[0] = res;
@@ -146,7 +146,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2035a2c0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2034cb80ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -155,7 +155,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2035b340ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2034dc00ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -164,7 +164,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2035c3c0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2034ec80ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -173,7 +173,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2035d440ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2034fd00ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -182,7 +182,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2035e540ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20350e00ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -191,7 +191,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2035f640ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20351f00ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -200,7 +200,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203606c0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20352f80ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -209,7 +209,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20361740ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20354000ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -218,7 +218,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203627c0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20355080ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -227,7 +227,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20363840ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20356100ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -236,7 +236,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203648c0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20357180ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -245,7 +245,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20365940ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20358200ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -254,7 +254,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20366a40ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20359300ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -263,7 +263,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20367ac0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2035a380ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -272,7 +272,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20368b40ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2035b400ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -281,7 +281,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20369c40ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2035c500ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -290,7 +290,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2036acc0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2035d580ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -299,7 +299,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2036bd40ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2035e600ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -308,7 +308,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2036ce40ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2035f700ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -317,7 +317,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2036dec0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20360780ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -326,7 +326,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2036efc0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20361880ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -335,7 +335,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20370040ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20362900ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -344,7 +344,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203710c0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20363980ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -353,7 +353,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20372140ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20364a00ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -362,7 +362,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203731c0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20365a80ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -371,7 +371,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20374240ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20366b00ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -380,7 +380,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203752c0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20367b80ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -389,7 +389,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203763c0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20368c80ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -398,7 +398,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203774c0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20369d80ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -407,7 +407,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20378540ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2036ae00ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -416,7 +416,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203795c0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2036be80ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -425,7 +425,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2037a6c0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2036cf80ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -434,7 +434,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2037b740ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2036e000ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -443,7 +443,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2037c7c0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2036f080ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -452,7 +452,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2037d840ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20370100ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -461,7 +461,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2037e8c0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20371180ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -470,7 +470,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2037f9c0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20372280ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -479,7 +479,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203809c0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20373280ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -488,7 +488,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20381ac0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20374380ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -497,7 +497,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20382b40ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20375400ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -506,7 +506,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20383bc0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20376480ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -515,7 +515,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20384c40ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20377500ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -524,7 +524,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20385cc0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20378580ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -533,7 +533,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20386dc0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20379680ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -542,7 +542,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20387e40ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2037a700ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -551,7 +551,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20388ec0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2037b780ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -560,7 +560,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20389f40ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2037c800ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -569,7 +569,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2038afc0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2037d880ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -578,7 +578,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2038c040ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2037e900ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -587,7 +587,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2038d140ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2037fa00ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -596,7 +596,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2038e1c0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20380a80ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -605,7 +605,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2038f240ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20381b00ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -614,7 +614,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203902c0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20382b80ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -623,7 +623,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20391340ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20383c00ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -632,7 +632,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20392440ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20384d00ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -641,7 +641,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20393540ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20385e00ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -650,7 +650,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20394540ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20386e00ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -659,7 +659,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20395640ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20387f00ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -668,7 +668,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203966c0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20388f80ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -677,7 +677,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203977c0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2038a080ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -686,7 +686,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20398840ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2038b100ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -695,7 +695,7 @@ memcpy((void*)(0x2035a1c0ul+PTR_OFFSET), "./etc/pki/tls/cert.pem\000", 23);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20399640ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2038bf00ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  close arguments: [
 //    fd: fd (resource)

@@ -61,10 +61,10 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 #define MMAP_LEN (0x1000 + 0x1000000 + 0x1000)
 #define MMAP_SIZE_TOTAL ((BM_THREAD_NUM) * (MMAP_LEN))
 
-const static int UNIQUE_VAR(num_subdirs) = 2;
-const static char* UNIQUE_VAR(subdirs)[2] = {"var/tmp","./var/tmp/"};
+const static int UNIQUE_VAR(num_subdirs) = 1;
+const static char* UNIQUE_VAR(subdirs)[1] = {"./var/tmp/"};
 const static int UNIQUE_VAR(num_filenames) = 1;
-const static char* UNIQUE_VAR(filenames)[1] = {"./var/tmp"};
+const static char* UNIQUE_VAR(filenames)[1] = {"./var/tmp/"};
 const static int UNIQUE_VAR(num_filesizes) = 1;
 const static uint64_t UNIQUE_VAR(filesizes)[1] = {0};
 
@@ -284,26 +284,26 @@ static inline int UNIQUE_FUNC(bm_dispatch_operation)(thread_ctx_t* ctx, size_t o
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20d12800ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d12800ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20c979c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20c979c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20f7e840ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20f7e840ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20f03a00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20f03a00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[0] = res;
@@ -317,26 +317,26 @@ memcpy((void*)(0x20f7e840ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x200e4880ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200e4880ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20067600ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20067600ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x202b8240ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202b8240ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2023afc0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2023afc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[1] = res;
@@ -350,26 +350,26 @@ memcpy((void*)(0x202b8240ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x205c28c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x205c28c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x205455c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x205455c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2074f600ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2074f600ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x206d2300ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x206d2300ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[2] = res;
@@ -383,26 +383,26 @@ memcpy((void*)(0x2074f600ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20943800ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20943800ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x208c6500ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x208c6500ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20a87680ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a87680ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20a0a380ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a0a380ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[3] = res;
@@ -416,26 +416,26 @@ memcpy((void*)(0x20a87680ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20ebeb80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ebeb80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20e41080ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20e41080ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2003e740ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2003e740ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20fbef00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20fbef00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[4] = res;
@@ -449,26 +449,26 @@ memcpy((void*)(0x2003e740ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20162780ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20162780ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x200e4440ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200e4440ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x201e7200ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x201e7200ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20168ec0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20168ec0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[5] = res;
@@ -482,26 +482,26 @@ memcpy((void*)(0x201e7200ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x202a7080ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202a7080ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20228b40ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20228b40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x203edf80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x203edf80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2036fa40ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2036fa40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[6] = res;
@@ -515,26 +515,26 @@ memcpy((void*)(0x203edf80ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2094e780ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2094e780ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x208d0240ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x208d0240ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x209f7880ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x209f7880ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20979340ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20979340ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[7] = res;
@@ -548,26 +548,26 @@ memcpy((void*)(0x209f7880ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20af5ac0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20af5ac0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20a77580ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a77580ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20c67600ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20c67600ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20be90c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20be90c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[8] = res;
@@ -581,26 +581,26 @@ memcpy((void*)(0x20c67600ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x201a3a80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x201a3a80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20123900ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20123900ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2027b8c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2027b8c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x201fb740ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x201fb740ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[9] = res;
@@ -614,26 +614,26 @@ memcpy((void*)(0x2027b8c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x202fe640ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202fe640ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2027e440ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2027e440ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x203c5a80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x203c5a80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20345880ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20345880ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[10] = res;
@@ -647,26 +647,26 @@ memcpy((void*)(0x203c5a80ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2092f840ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2092f840ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x208af640ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x208af640ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20a12240ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a12240ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20992040ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20992040ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[11] = res;
@@ -680,26 +680,26 @@ memcpy((void*)(0x20a12240ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20a7cf80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a7cf80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x209fcd80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x209fcd80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20b35740ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b35740ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20ab5540ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ab5540ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[12] = res;
@@ -713,26 +713,26 @@ memcpy((void*)(0x20b35740ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20ff2000ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ff2000ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20f71600ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20f71600ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20065840ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20065840ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20fde100ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20fde100ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[13] = res;
@@ -746,26 +746,26 @@ memcpy((void*)(0x20065840ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x200bfd40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200bfd40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20038bc0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20038bc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x200f3700ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200f3700ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2006c580ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2006c580ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[14] = res;
@@ -779,26 +779,26 @@ memcpy((void*)(0x200f3700ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2076f240ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2076f240ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x206e7ac0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x206e7ac0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20802180ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20802180ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2077aa00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2077aa00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[15] = res;
@@ -812,26 +812,26 @@ memcpy((void*)(0x20802180ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2086f7c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2086f7c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x207e8040ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x207e8040ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x208b2a80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x208b2a80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2082b300ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2082b300ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[16] = res;
@@ -845,26 +845,26 @@ memcpy((void*)(0x208b2a80ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20045380ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20045380ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20fbb480ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20fbb480ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20091b00ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20091b00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20008ec0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20008ec0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[17] = res;
@@ -878,26 +878,26 @@ memcpy((void*)(0x20091b00ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x200d0ec0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200d0ec0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20048280ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20048280ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2011c640ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2011c640ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20093a00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20093a00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[18] = res;
@@ -911,26 +911,26 @@ memcpy((void*)(0x2011c640ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2066cec0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2066cec0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x205e3a00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x205e3a00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20702b00ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20702b00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20679640ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20679640ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[19] = res;
@@ -944,26 +944,26 @@ memcpy((void*)(0x20702b00ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x207544c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x207544c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x206cb000ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x206cb000ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2078d400ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2078d400ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20703f40ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20703f40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[20] = res;
@@ -977,26 +977,26 @@ memcpy((void*)(0x2078d400ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20a5b100ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a5b100ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x209d07c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x209d07c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20b8a280ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b8a280ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20aff7c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20aff7c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[21] = res;
@@ -1010,26 +1010,26 @@ memcpy((void*)(0x20b8a280ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x200472c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200472c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20fbbe80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20fbbe80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x200bc380ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200bc380ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20033880ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20033880ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[22] = res;
@@ -1043,26 +1043,26 @@ memcpy((void*)(0x200bc380ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20153500ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20153500ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x200ca580ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200ca580ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x201928c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x201928c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x201098c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x201098c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[23] = res;
@@ -1076,26 +1076,26 @@ memcpy((void*)(0x201928c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x207b4bc0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x207b4bc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2072afc0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2072afc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20819c80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20819c80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20790080ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20790080ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[24] = res;
@@ -1109,26 +1109,26 @@ memcpy((void*)(0x20819c80ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20e36c00ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20e36c00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20dac080ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20dac080ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20f0c640ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20f0c640ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20e81ac0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20e81ac0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[25] = res;
@@ -1142,26 +1142,26 @@ memcpy((void*)(0x20f0c640ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20f7f100ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20f7f100ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20ef4580ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ef4580ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20044280ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20044280ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20fb7480ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20fb7480ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[26] = res;
@@ -1175,26 +1175,26 @@ memcpy((void*)(0x20044280ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20478280ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20478280ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x203ebec0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x203ebec0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x205811c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x205811c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x204f4e00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x204f4e00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[27] = res;
@@ -1208,26 +1208,26 @@ memcpy((void*)(0x205811c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2066f8c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2066f8c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x205e3080ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x205e3080ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20759440ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20759440ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x206ccc00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x206ccc00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[28] = res;
@@ -1241,26 +1241,26 @@ memcpy((void*)(0x20759440ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20b018c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b018c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20a74880ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a74880ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20c80040ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20c80040ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20bf2f80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20bf2f80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[29] = res;
@@ -1274,26 +1274,26 @@ memcpy((void*)(0x20c80040ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20db4cc0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20db4cc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20d27b80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d27b80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20eaf480ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20eaf480ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20e22040ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20e22040ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[30] = res;
@@ -1307,26 +1307,26 @@ memcpy((void*)(0x20eaf480ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x202c3980ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202c3980ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20241800ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20241800ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20412700ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20412700ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20390580ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20390580ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[31] = res;
@@ -1340,26 +1340,26 @@ memcpy((void*)(0x20412700ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2054fc00ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2054fc00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x204cda00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x204cda00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20607ec0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20607ec0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20585ac0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20585ac0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[32] = res;
@@ -1373,26 +1373,26 @@ memcpy((void*)(0x20607ec0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x209cf0c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x209cf0c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2094c8c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2094c8c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20ad2580ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ad2580ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20a4fd80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a4fd80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[33] = res;
@@ -1406,26 +1406,26 @@ memcpy((void*)(0x20ad2580ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20bffcc0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20bffcc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20b7d140ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b7d140ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20cc4000ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20cc4000ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20c41400ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20c41400ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[34] = res;
@@ -1439,26 +1439,26 @@ memcpy((void*)(0x20cc4000ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20137900ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20137900ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x200b5b40ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200b5b40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2023ba40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2023ba40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x201b9980ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x201b9980ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[35] = res;
@@ -1472,26 +1472,26 @@ memcpy((void*)(0x2023ba40ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20c54240ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20c54240ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20bd0880ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20bd0880ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20d3db40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d3db40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20cba180ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20cba180ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[36] = res;
@@ -1505,26 +1505,26 @@ memcpy((void*)(0x20d3db40ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20e5c800ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20e5c800ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20dd8cc0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20dd8cc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20f2d540ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20f2d540ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20ea9700ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ea9700ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[37] = res;
@@ -1538,26 +1538,26 @@ memcpy((void*)(0x20f2d540ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20350c00ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20350c00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x202cde80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202cde80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20475080ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20475080ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x203f2280ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x203f2280ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[38] = res;
@@ -1571,26 +1571,26 @@ memcpy((void*)(0x20475080ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20577f40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20577f40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x204f5140ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x204f5140ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20643a00ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20643a00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x205c0c00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x205c0c00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[39] = res;
@@ -1604,26 +1604,26 @@ memcpy((void*)(0x20643a00ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20b2da80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b2da80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20aaa180ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20aaa180ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20beb5c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20beb5c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20b67cc0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b67cc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[40] = res;
@@ -1637,26 +1637,26 @@ memcpy((void*)(0x20beb5c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20cbdf40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20cbdf40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20c3a540ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20c3a540ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20d63f00ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d63f00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20ce0180ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ce0180ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[41] = res;
@@ -1670,26 +1670,26 @@ memcpy((void*)(0x20d63f00ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20272c40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20272c40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x201ed6c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x201ed6c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2033d640ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2033d640ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x202b80c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202b80c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[42] = res;
@@ -1703,26 +1703,26 @@ memcpy((void*)(0x2033d640ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2040e240ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2040e240ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20388cc0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20388cc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20487480ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20487480ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20401f00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20401f00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[43] = res;
@@ -1736,26 +1736,26 @@ memcpy((void*)(0x20487480ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20b4ef80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b4ef80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20ac8600ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ac8600ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20ba3b40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ba3b40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20b1d1c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b1d1c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[44] = res;
@@ -1769,26 +1769,26 @@ memcpy((void*)(0x20ba3b40ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20bedac0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20bedac0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20b67140ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b67140ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20c6cbc0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20c6cbc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20be6240ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20be6240ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[45] = res;
@@ -1802,26 +1802,26 @@ memcpy((void*)(0x20c6cbc0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20056f00ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20056f00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20fcff00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20fcff00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20170c00ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20170c00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x200ea180ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200ea180ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[46] = res;
@@ -1835,26 +1835,26 @@ memcpy((void*)(0x20170c00ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x202572c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202572c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x201d06c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x201d06c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20339180ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20339180ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x202b2580ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202b2580ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[47] = res;
@@ -1868,26 +1868,26 @@ memcpy((void*)(0x20339180ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2085b140ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2085b140ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x207d3b40ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x207d3b40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x209aef80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x209aef80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20927680ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20927680ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[48] = res;
@@ -1901,26 +1901,26 @@ memcpy((void*)(0x209aef80ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20ba20c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ba20c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20b1a3c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b1a3c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20ccc480ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ccc480ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20c44780ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20c44780ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[49] = res;
@@ -1934,26 +1934,26 @@ memcpy((void*)(0x20ccc480ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2057e480ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2057e480ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x204f31c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x204f31c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x205ef940ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x205ef940ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20564680ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20564680ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[50] = res;
@@ -1967,26 +1967,26 @@ memcpy((void*)(0x205ef940ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x206b0e80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x206b0e80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x206257c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x206257c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20782bc0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20782bc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x206f7500ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x206f7500ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[51] = res;
@@ -2000,26 +2000,26 @@ memcpy((void*)(0x20782bc0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20c96cc0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20c96cc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20c0a680ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20c0a680ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20d9d080ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d9d080ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20d109c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d109c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[52] = res;
@@ -2033,26 +2033,26 @@ memcpy((void*)(0x20d9d080ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20ef6fc0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ef6fc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20e6a580ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20e6a580ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20fd9c00ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20fd9c00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20f4d140ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20f4d140ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[53] = res;
@@ -2066,26 +2066,26 @@ memcpy((void*)(0x20fd9c00ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20497080ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20497080ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x204060c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x204060c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x205851c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x205851c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x204f4200ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x204f4200ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[54] = res;
@@ -2099,26 +2099,26 @@ memcpy((void*)(0x205851c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2067f200ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2067f200ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x205ee240ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x205ee240ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x206d7980ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x206d7980ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x206469c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x206469c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[55] = res;
@@ -2132,26 +2132,26 @@ memcpy((void*)(0x206d7980ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20b3d8c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b3d8c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20aabc00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20aabc00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20c32200ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20c32200ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20ba0540ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ba0540ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[56] = res;
@@ -2165,26 +2165,26 @@ memcpy((void*)(0x20c32200ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20d406c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d406c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20cae680ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20cae680ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20dbff80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20dbff80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20d2df40ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d2df40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[57] = res;
@@ -2198,26 +2198,26 @@ memcpy((void*)(0x20dbff80ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x202f0300ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202f0300ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2025cd00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2025cd00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x203aa9c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x203aa9c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20317340ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20317340ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[58] = res;
@@ -2231,26 +2231,26 @@ memcpy((void*)(0x203aa9c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x204dde00ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x204dde00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2044a480ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2044a480ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20587340ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20587340ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x204f3940ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x204f3940ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[59] = res;
@@ -2264,26 +2264,26 @@ memcpy((void*)(0x20587340ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20a1a6c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a1a6c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x209860c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x209860c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20b114c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b114c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20a7cdc0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a7cdc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[60] = res;
@@ -2297,26 +2297,26 @@ memcpy((void*)(0x20b114c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20bf1440ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20bf1440ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20b5ca40ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b5ca40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20cd04c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20cd04c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20c3ba40ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20c3ba40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[61] = res;
@@ -2330,26 +2330,26 @@ memcpy((void*)(0x20cd04c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x203d1cc0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x203d1cc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2033c9c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2033c9c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20549a80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20549a80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x204b4480ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x204b4480ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[62] = res;
@@ -2363,26 +2363,26 @@ memcpy((void*)(0x20549a80ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x206a4400ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x206a4400ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2060ed80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2060ed80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x207df280ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x207df280ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20749b00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20749b00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[63] = res;
@@ -2396,26 +2396,26 @@ memcpy((void*)(0x207df280ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20b0da40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b0da40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20a77640ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a77640ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20bfb540ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20bfb540ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20b65140ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b65140ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[64] = res;
@@ -2429,26 +2429,26 @@ memcpy((void*)(0x20bfb540ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20d98680ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d98680ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20d01880ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d01880ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20e95040ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20e95040ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20dfe240ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20dfe240ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[65] = res;
@@ -2462,26 +2462,26 @@ memcpy((void*)(0x20e95040ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x203d7180ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x203d7180ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20345b40ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20345b40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x204cd680ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x204cd680ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2043c040ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2043c040ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[66] = res;
@@ -2495,26 +2495,26 @@ memcpy((void*)(0x204cd680ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20610940ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20610940ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2057f300ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2057f300ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2072e000ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2072e000ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2069c9c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2069c9c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[67] = res;
@@ -2528,26 +2528,26 @@ memcpy((void*)(0x2072e000ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20b77300ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b77300ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20ae54c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ae54c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20c7e300ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20c7e300ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20bec4c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20bec4c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[68] = res;
@@ -2561,26 +2561,26 @@ memcpy((void*)(0x20c7e300ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20dac200ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20dac200ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20d1a340ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d1a340ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20ead8c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ead8c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20e1b800ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20e1b800ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[69] = res;
@@ -2594,26 +2594,26 @@ memcpy((void*)(0x20ead8c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2044f880ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2044f880ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x203bdbc0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x203bdbc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20576f00ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20576f00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x204e4d40ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x204e4d40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[70] = res;
@@ -2627,26 +2627,26 @@ memcpy((void*)(0x20576f00ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x206f8280ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x206f8280ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20666040ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20666040ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2080e100ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2080e100ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2077bec0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2077bec0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[71] = res;
@@ -2660,26 +2660,26 @@ memcpy((void*)(0x2080e100ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20db9880ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20db9880ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20d25f40ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d25f40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20ec36c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ec36c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20e2fc80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20e2fc80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[72] = res;
@@ -2693,26 +2693,26 @@ memcpy((void*)(0x20ec36c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x203d6ec0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x203d6ec0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20344000ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20344000ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20471880ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20471880ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x203de640ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x203de640ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[73] = res;
@@ -2726,26 +2726,26 @@ memcpy((void*)(0x20471880ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20ae51c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ae51c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20a51780ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a51780ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20b72e80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b72e80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20adf440ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20adf440ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[74] = res;
@@ -2759,26 +2759,26 @@ memcpy((void*)(0x20b72e80ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20bd00c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20bd00c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20b3c680ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b3c680ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20c28900ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20c28900ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20b94ec0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b94ec0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[75] = res;
@@ -2792,26 +2792,26 @@ memcpy((void*)(0x20c28900ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20170200ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20170200ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x200d9440ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200d9440ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20272600ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20272600ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x201db840ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x201db840ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[76] = res;
@@ -2825,26 +2825,26 @@ memcpy((void*)(0x20272600ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x202ddd80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202ddd80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20246fc0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20246fc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20364580ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20364580ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x202cd740ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202cd740ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[77] = res;
@@ -2858,26 +2858,26 @@ memcpy((void*)(0x20364580ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x209b1980ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x209b1980ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2091a0c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2091a0c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20a34300ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a34300ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2099c840ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2099c840ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[78] = res;
@@ -2891,26 +2891,26 @@ memcpy((void*)(0x20a34300ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20af3700ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20af3700ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20a5b440ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a5b440ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20b8c440ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b8c440ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20af3e00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20af3e00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[79] = res;
@@ -2924,26 +2924,26 @@ memcpy((void*)(0x20b8c440ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2011b900ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2011b900ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x200827c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200827c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x201d93c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x201d93c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20140200ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20140200ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[80] = res;
@@ -2957,26 +2957,26 @@ memcpy((void*)(0x201d93c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2025d180ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2025d180ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x201c3fc0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x201c3fc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x202e6a80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202e6a80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2024d8c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2024d8c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[81] = res;
@@ -2990,26 +2990,26 @@ memcpy((void*)(0x202e6a80ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2074a680ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2074a680ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x206b0c40ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x206b0c40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x208acc40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x208acc40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20812f80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20812f80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[82] = res;
@@ -3023,26 +3023,26 @@ memcpy((void*)(0x208acc40ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20969480ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20969480ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x208cf7c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x208cf7c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20a4cd40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a4cd40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x209b2d00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x209b2d00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[83] = res;
@@ -3056,26 +3056,26 @@ memcpy((void*)(0x20a4cd40ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20009280ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20009280ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20f6d480ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20f6d480ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x200a6100ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200a6100ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2000a440ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2000a440ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[84] = res;
@@ -3089,26 +3089,26 @@ memcpy((void*)(0x200a6100ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2017c200ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2017c200ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x200e0540ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200e0540ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x201f9c80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x201f9c80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2015dfc0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2015dfc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[85] = res;
@@ -3122,26 +3122,26 @@ memcpy((void*)(0x201f9c80ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x206fb300ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x206fb300ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2065f1c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2065f1c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x207fe740ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x207fe740ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20762600ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20762600ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[86] = res;
@@ -3155,26 +3155,26 @@ memcpy((void*)(0x207fe740ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x208d7200ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x208d7200ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2083abc0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2083abc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2095a240ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2095a240ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x208bdb00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x208bdb00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[87] = res;
@@ -3188,26 +3188,26 @@ memcpy((void*)(0x2095a240ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20ea3600ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ea3600ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20e059c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20e059c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20f88880ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20f88880ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20eeac40ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20eeac40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[88] = res;
@@ -3221,26 +3221,26 @@ memcpy((void*)(0x20f88880ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x201612c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x201612c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x200c4440ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200c4440ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20288800ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20288800ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x201eb980ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x201eb980ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[89] = res;
@@ -3254,26 +3254,26 @@ memcpy((void*)(0x20288800ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x206d6b80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x206d6b80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20639500ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20639500ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x207944c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x207944c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x206f6e40ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x206f6e40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[90] = res;
@@ -3287,26 +3287,26 @@ memcpy((void*)(0x207944c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20e6e400ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20e6e400ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20dd0080ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20dd0080ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20f7dc40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20f7dc40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20edf5c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20edf5c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[91] = res;
@@ -3320,26 +3320,26 @@ memcpy((void*)(0x20f7dc40ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2016e100ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2016e100ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x200d2080ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200d2080ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x202c8b40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202c8b40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2022cac0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2022cac0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[92] = res;
@@ -3353,26 +3353,26 @@ memcpy((void*)(0x202c8b40ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x207ea780ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x207ea780ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2074d380ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2074d380ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20983ec0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20983ec0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x208e6ac0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x208e6ac0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[93] = res;
@@ -3386,26 +3386,26 @@ memcpy((void*)(0x20983ec0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20b39640ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b39640ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20a9c1c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a9c1c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20c80e40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20c80e40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20be39c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20be39c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[94] = res;
@@ -3419,26 +3419,26 @@ memcpy((void*)(0x20c80e40ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20e7be80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20e7be80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20dde280ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20dde280ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20fedb00ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20fedb00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20f4fa80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20f4fa80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[95] = res;
@@ -3452,26 +3452,26 @@ memcpy((void*)(0x20fedb00ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2018eb40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2018eb40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x200f05c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200f05c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x202f3b40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202f3b40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20255240ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20255240ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[96] = res;
@@ -3485,26 +3485,26 @@ memcpy((void*)(0x202f3b40ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20be3e80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20be3e80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20b44500ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b44500ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20c252c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20c252c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20b85940ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b85940ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[97] = res;
@@ -3518,26 +3518,26 @@ memcpy((void*)(0x20c252c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20c44e40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20c44e40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20ba54c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ba54c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20c66740ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20c66740ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20bc6dc0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20bc6dc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[98] = res;
@@ -3551,26 +3551,26 @@ memcpy((void*)(0x20c66740ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20047e80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20047e80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20fa7440ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20fa7440ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x201816c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x201816c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x200e2040ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200e2040ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[99] = res;
@@ -3584,26 +3584,26 @@ memcpy((void*)(0x201816c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x202fdd40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202fdd40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2025e6c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2025e6c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2037c740ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2037c740ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x202dd0c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202dd0c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[100] = res;
@@ -3617,26 +3617,26 @@ memcpy((void*)(0x2037c740ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x207dcb40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x207dcb40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2073c8c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2073c8c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x208ed600ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x208ed600ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2084d080ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2084d080ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[101] = res;
@@ -3650,26 +3650,26 @@ memcpy((void*)(0x208ed600ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x209ee380ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x209ee380ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2094dd80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2094dd80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20a68b00ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a68b00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x209c8500ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x209c8500ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[102] = res;
@@ -3683,26 +3683,26 @@ memcpy((void*)(0x20a68b00ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20dea900ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20dea900ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20d49b00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d49b00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20ed8640ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ed8640ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20e37840ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20e37840ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[103] = res;
@@ -3716,26 +3716,26 @@ memcpy((void*)(0x20ed8640ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20fbba80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20fbba80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20f1ac80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20f1ac80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20086bc0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20086bc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20fdcdc0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20fdcdc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[104] = res;
@@ -3749,26 +3749,26 @@ memcpy((void*)(0x20086bc0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20634700ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20634700ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2058c600ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2058c600ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20745640ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20745640ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2069d4c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2069d4c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[105] = res;
@@ -3782,26 +3782,26 @@ memcpy((void*)(0x20745640ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x208a6ec0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x208a6ec0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x207fed40ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x207fed40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x209729c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x209729c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x208ca840ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x208ca840ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[106] = res;
@@ -3815,26 +3815,26 @@ memcpy((void*)(0x209729c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x200a4240ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200a4240ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20ffa140ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ffa140ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x200cbb00ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200cbb00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20025340ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20025340ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[107] = res;
@@ -3848,26 +3848,26 @@ memcpy((void*)(0x200cbb00ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x200e7c00ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200e7c00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20041440ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20041440ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20107300ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20107300ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20060b40ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20060b40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[108] = res;
@@ -3881,26 +3881,26 @@ memcpy((void*)(0x20107300ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2034bec0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2034bec0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x202a4f00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202a4f00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20496380ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20496380ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x203ef3c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x203ef3c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[109] = res;
@@ -3914,26 +3914,26 @@ memcpy((void*)(0x20496380ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20594440ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20594440ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x204ed480ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x204ed480ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x206b0700ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x206b0700ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20609740ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20609740ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[110] = res;
@@ -3947,26 +3947,26 @@ memcpy((void*)(0x206b0700ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20a35b40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a35b40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2098e900ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2098e900ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20b34d00ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b34d00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20a8d940ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a8d940ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[111] = res;
@@ -3980,26 +3980,26 @@ memcpy((void*)(0x20b34d00ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20f5c2c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20f5c2c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20eb4700ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20eb4700ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20004100ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20004100ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20f59e80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20f59e80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[112] = res;
@@ -4013,26 +4013,26 @@ memcpy((void*)(0x20004100ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20119d40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20119d40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20071d80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20071d80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2023b580ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2023b580ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20193540ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20193540ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[113] = res;
@@ -4046,26 +4046,26 @@ memcpy((void*)(0x2023b580ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x206f8ac0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x206f8ac0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2064ff00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2064ff00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x207ea040ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x207ea040ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20741400ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20741400ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[114] = res;
@@ -4079,26 +4079,26 @@ memcpy((void*)(0x207ea040ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20957140ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20957140ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x208add00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x208add00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20a541c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a541c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x209aad00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x209aad00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[115] = res;
@@ -4112,26 +4112,26 @@ memcpy((void*)(0x20a541c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20f91500ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20f91500ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20ee7440ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ee7440ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x200d1a40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200d1a40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20023f40ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20023f40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[116] = res;
@@ -4145,26 +4145,26 @@ memcpy((void*)(0x200d1a40ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x202d9c80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202d9c80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2022c180ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2022c180ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x203f3ec0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x203f3ec0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x203463c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x203463c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[117] = res;
@@ -4178,26 +4178,26 @@ memcpy((void*)(0x203f3ec0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20908700ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20908700ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2085a300ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2085a300ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x209f1fc0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x209f1fc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20943bc0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20943bc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[118] = res;
@@ -4211,26 +4211,26 @@ memcpy((void*)(0x209f1fc0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x200b3240ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200b3240ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x200092c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200092c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2016bc80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2016bc80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x200c1d00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200c1d00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[119] = res;
@@ -4244,26 +4244,26 @@ memcpy((void*)(0x2016bc80ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20222a00ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20222a00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20178a80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20178a80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x202af400ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202af400ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20205480ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20205480ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[120] = res;
@@ -4277,26 +4277,26 @@ memcpy((void*)(0x202af400ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x207e0240ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x207e0240ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x207352c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x207352c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x208894c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x208894c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x207de540ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x207de540ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[121] = res;
@@ -4310,26 +4310,26 @@ memcpy((void*)(0x208894c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2096b640ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2096b640ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x208c0640ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x208c0640ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20a16e80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a16e80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2096bd80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2096bd80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[122] = res;
@@ -4343,26 +4343,26 @@ memcpy((void*)(0x20a16e80ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20019480ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20019480ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20f6a900ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20f6a900ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x200da280ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200da280ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2002c340ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2002c340ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[123] = res;
@@ -4376,26 +4376,26 @@ memcpy((void*)(0x200da280ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x202045c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202045c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20156680ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20156680ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x202ae680ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202ae680ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x202003c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202003c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[124] = res;
@@ -4409,26 +4409,26 @@ memcpy((void*)(0x202ae680ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2081a6c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2081a6c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2076bb00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2076bb00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20933200ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20933200ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x208842c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x208842c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[125] = res;
@@ -4442,26 +4442,26 @@ memcpy((void*)(0x20933200ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20a5b9c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a5b9c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x209aca80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x209aca80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20aea9c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20aea9c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20a3ba80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a3ba80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[126] = res;
@@ -4475,26 +4475,26 @@ memcpy((void*)(0x20aea9c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2013dc80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2013dc80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2008dac0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2008dac0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20217f00ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20217f00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20167cc0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20167cc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[127] = res;
@@ -4508,26 +4508,26 @@ memcpy((void*)(0x20217f00ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x202e7700ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202e7700ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x202374c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202374c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x203ba400ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x203ba400ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2030a1c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2030a1c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[128] = res;
@@ -4541,26 +4541,26 @@ memcpy((void*)(0x203ba400ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x207023c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x207023c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20651580ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20651580ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x208fbf40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x208fbf40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2084ad00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2084ad00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[129] = res;
@@ -4574,26 +4574,26 @@ memcpy((void*)(0x208fbf40ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20ab9840ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ab9840ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20a08600ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a08600ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20bfea00ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20bfea00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20b4d640ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b4d640ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[130] = res;
@@ -4607,26 +4607,26 @@ memcpy((void*)(0x20bfea00ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20eff840ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20eff840ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20e4dc80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20e4dc80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20075080ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20075080ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20fc0580ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20fc0580ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[131] = res;
@@ -4640,26 +4640,26 @@ memcpy((void*)(0x20075080ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x201a8a00ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x201a8a00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x200f5f80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200f5f80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x202e1580ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202e1580ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2022ea00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2022ea00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[132] = res;
@@ -4673,26 +4673,26 @@ memcpy((void*)(0x202e1580ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20cd5ec0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20cd5ec0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20c21740ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20c21740ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20d13640ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d13640ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20c5eec0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20c5eec0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[133] = res;
@@ -4706,26 +4706,26 @@ memcpy((void*)(0x20d13640ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2012cdc0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2012cdc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20075100ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20075100ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x202c7740ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202c7740ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2020fa80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2020fa80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[134] = res;
@@ -4739,26 +4739,26 @@ memcpy((void*)(0x202c7740ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20bce2c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20bce2c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20b14b00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b14b00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20c3c4c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20c3c4c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20b82d00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b82d00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[135] = res;
@@ -4772,26 +4772,26 @@ memcpy((void*)(0x20c3c4c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20213f80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20213f80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2015a840ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2015a840ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x202430c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202430c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20189900ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20189900ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[136] = res;
@@ -4805,26 +4805,26 @@ memcpy((void*)(0x202430c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x205d66c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x205d66c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2051c280ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2051c280ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2075d540ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2075d540ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x206a2f00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x206a2f00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[137] = res;
@@ -4838,26 +4838,26 @@ memcpy((void*)(0x2075d540ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x208998c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x208998c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x207df280ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x207df280ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x209357c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x209357c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2087b180ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2087b180ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[138] = res;
@@ -4871,26 +4871,26 @@ memcpy((void*)(0x209357c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20d82cc0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d82cc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20cc7f00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20cc7f00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20ebcfc0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ebcfc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20e02000ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20e02000ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[139] = res;
@@ -4904,26 +4904,26 @@ memcpy((void*)(0x20ebcfc0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20241980ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20241980ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20184b40ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20184b40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20440380ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20440380ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20383340ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20383340ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[140] = res;
@@ -4937,26 +4937,26 @@ memcpy((void*)(0x20440380ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20949500ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20949500ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2088a140ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2088a140ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20a1db40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a1db40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2095e700ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2095e700ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[141] = res;
@@ -4970,26 +4970,26 @@ memcpy((void*)(0x20a1db40ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20bf1840ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20bf1840ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20b32300ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b32300ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20ce0780ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20ce0780ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20c211c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20c211c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[142] = res;
@@ -5003,26 +5003,26 @@ memcpy((void*)(0x20ce0780ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x200e8000ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200e8000ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20027dc0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20027dc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x201fd900ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x201fd900ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2013d6c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2013d6c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[143] = res;
@@ -5036,26 +5036,26 @@ memcpy((void*)(0x201fd900ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x203d62c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x203d62c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20316080ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20316080ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x205254c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x205254c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20464f80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20464f80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[144] = res;
@@ -5069,26 +5069,26 @@ memcpy((void*)(0x205254c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20932500ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20932500ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20871740ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20871740ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20a37c40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a37c40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20976e80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20976e80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[145] = res;
@@ -5102,26 +5102,26 @@ memcpy((void*)(0x20a37c40ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20be1b40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20be1b40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20b20d80ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20b20d80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20d0a700ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d0a700ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20c49940ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20c49940ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[146] = res;
@@ -5135,26 +5135,26 @@ memcpy((void*)(0x20d0a700ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20168e80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20168e80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x200a6500ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200a6500ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x202af5c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x202af5c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x201ec8c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x201ec8c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[147] = res;
@@ -5168,26 +5168,26 @@ memcpy((void*)(0x202af5c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x203f7880ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x203f7880ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20334b00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20334b00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x204e2bc0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x204e2bc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2041fe40ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2041fe40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[148] = res;
@@ -5201,26 +5201,26 @@ memcpy((void*)(0x204e2bc0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x209199c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x209199c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20854fc0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20854fc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20a76600ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20a76600ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x209b1480ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x209b1480ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[149] = res;
@@ -5234,26 +5234,26 @@ memcpy((void*)(0x20a76600ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20f190c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20f190c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20e53040ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20e53040ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2001ea40ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2001ea40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20f583c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20f583c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[150] = res;
@@ -5267,26 +5267,26 @@ memcpy((void*)(0x2001ea40ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x201c5ec0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x201c5ec0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20104700ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20104700ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2021c1c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2021c1c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2015aa00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2015aa00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[151] = res;
@@ -5300,26 +5300,26 @@ memcpy((void*)(0x2021c1c0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2063f080ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2063f080ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2057d1c0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2057d1c0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20761e00ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20761e00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2069ff40ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2069ff40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[152] = res;
@@ -5333,26 +5333,26 @@ memcpy((void*)(0x20761e00ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x208b8e80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x208b8e80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x207f6fc0ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x207f6fc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x209dc500ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x209dc500ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x2091a640ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2091a640ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[153] = res;
@@ -5366,26 +5366,26 @@ memcpy((void*)(0x209dc500ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20e10d80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20e10d80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20d4d840ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d4d840ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20f63280ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20f63280ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20e9fd40ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20e9fd40ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[154] = res;
@@ -5399,14 +5399,14 @@ memcpy((void*)(0x20f63280ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2004bfc0ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2004bfc0ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20f85340ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20f85340ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[155] = res;
@@ -5418,26 +5418,26 @@ memcpy((void*)(0x2004bfc0ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x200e7340ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200e7340ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20027e00ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20027e00ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f 00} (length 0xb)
+//      buffer: {2e 2f 76 61 72 2f 74 6d 70 2f} (length 0xa)
 //    }
 //    flags: open_flags = 0x484002 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x201b1d80ul+PTR_OFFSET), "./var/tmp/\000", 11);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x201b1d80ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x200f2840ul+PTR_OFFSET), "./var/tmp/", 10);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200f2840ul+PTR_OFFSET, /*flags=__O_TMPFILE|O_DIRECTORY|O_CLOEXEC|O_RDWR*/0x484002, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[156] = res;
@@ -5448,5 +5448,161 @@ memcpy((void*)(0x201b1d80ul+PTR_OFFSET), "./var/tmp/\000", 11);
 //  ]
 	res = syscall(__NR_lseek, /*fd=*/UNIQUE_VAR(ctx->r)[156], /*offset=*/0ul, /*whence=*/0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	close(UNIQUE_VAR(ctx->r)[62]);
+	close(UNIQUE_VAR(ctx->r)[100]);
+	close(UNIQUE_VAR(ctx->r)[114]);
+	close(UNIQUE_VAR(ctx->r)[145]);
+	close(UNIQUE_VAR(ctx->r)[150]);
+	close(UNIQUE_VAR(ctx->r)[47]);
+	close(UNIQUE_VAR(ctx->r)[50]);
+	close(UNIQUE_VAR(ctx->r)[55]);
+	close(UNIQUE_VAR(ctx->r)[116]);
+	close(UNIQUE_VAR(ctx->r)[126]);
+	close(UNIQUE_VAR(ctx->r)[28]);
+	close(UNIQUE_VAR(ctx->r)[45]);
+	close(UNIQUE_VAR(ctx->r)[76]);
+	close(UNIQUE_VAR(ctx->r)[86]);
+	close(UNIQUE_VAR(ctx->r)[96]);
+	close(UNIQUE_VAR(ctx->r)[107]);
+	close(UNIQUE_VAR(ctx->r)[24]);
+	close(UNIQUE_VAR(ctx->r)[4]);
+	close(UNIQUE_VAR(ctx->r)[8]);
+	close(UNIQUE_VAR(ctx->r)[89]);
+	close(UNIQUE_VAR(ctx->r)[144]);
+	close(UNIQUE_VAR(ctx->r)[7]);
+	close(UNIQUE_VAR(ctx->r)[17]);
+	close(UNIQUE_VAR(ctx->r)[34]);
+	close(UNIQUE_VAR(ctx->r)[49]);
+	close(UNIQUE_VAR(ctx->r)[101]);
+	close(UNIQUE_VAR(ctx->r)[1]);
+	close(UNIQUE_VAR(ctx->r)[10]);
+	close(UNIQUE_VAR(ctx->r)[20]);
+	close(UNIQUE_VAR(ctx->r)[65]);
+	close(UNIQUE_VAR(ctx->r)[92]);
+	close(UNIQUE_VAR(ctx->r)[94]);
+	close(UNIQUE_VAR(ctx->r)[31]);
+	close(UNIQUE_VAR(ctx->r)[97]);
+	close(UNIQUE_VAR(ctx->r)[111]);
+	close(UNIQUE_VAR(ctx->r)[124]);
+	close(UNIQUE_VAR(ctx->r)[147]);
+	close(UNIQUE_VAR(ctx->r)[3]);
+	close(UNIQUE_VAR(ctx->r)[37]);
+	close(UNIQUE_VAR(ctx->r)[41]);
+	close(UNIQUE_VAR(ctx->r)[66]);
+	close(UNIQUE_VAR(ctx->r)[141]);
+	close(UNIQUE_VAR(ctx->r)[29]);
+	close(UNIQUE_VAR(ctx->r)[88]);
+	close(UNIQUE_VAR(ctx->r)[99]);
+	close(UNIQUE_VAR(ctx->r)[110]);
+	close(UNIQUE_VAR(ctx->r)[118]);
+	close(UNIQUE_VAR(ctx->r)[143]);
+	close(UNIQUE_VAR(ctx->r)[59]);
+	close(UNIQUE_VAR(ctx->r)[67]);
+	close(UNIQUE_VAR(ctx->r)[72]);
+	close(UNIQUE_VAR(ctx->r)[109]);
+	close(UNIQUE_VAR(ctx->r)[108]);
+	close(UNIQUE_VAR(ctx->r)[125]);
+	close(UNIQUE_VAR(ctx->r)[132]);
+	close(UNIQUE_VAR(ctx->r)[13]);
+	close(UNIQUE_VAR(ctx->r)[58]);
+	close(UNIQUE_VAR(ctx->r)[129]);
+	close(UNIQUE_VAR(ctx->r)[136]);
+	close(UNIQUE_VAR(ctx->r)[139]);
+	close(UNIQUE_VAR(ctx->r)[156]);
+	close(UNIQUE_VAR(ctx->r)[57]);
+	close(UNIQUE_VAR(ctx->r)[138]);
+	close(UNIQUE_VAR(ctx->r)[64]);
+	close(UNIQUE_VAR(ctx->r)[90]);
+	close(UNIQUE_VAR(ctx->r)[98]);
+	close(UNIQUE_VAR(ctx->r)[104]);
+	close(UNIQUE_VAR(ctx->r)[32]);
+	close(UNIQUE_VAR(ctx->r)[44]);
+	close(UNIQUE_VAR(ctx->r)[53]);
+	close(UNIQUE_VAR(ctx->r)[123]);
+	close(UNIQUE_VAR(ctx->r)[127]);
+	close(UNIQUE_VAR(ctx->r)[18]);
+	close(UNIQUE_VAR(ctx->r)[33]);
+	close(UNIQUE_VAR(ctx->r)[35]);
+	close(UNIQUE_VAR(ctx->r)[42]);
+	close(UNIQUE_VAR(ctx->r)[46]);
+	close(UNIQUE_VAR(ctx->r)[51]);
+	close(UNIQUE_VAR(ctx->r)[83]);
+	close(UNIQUE_VAR(ctx->r)[148]);
+	close(UNIQUE_VAR(ctx->r)[40]);
+	close(UNIQUE_VAR(ctx->r)[43]);
+	close(UNIQUE_VAR(ctx->r)[95]);
+	close(UNIQUE_VAR(ctx->r)[121]);
+	close(UNIQUE_VAR(ctx->r)[134]);
+	close(UNIQUE_VAR(ctx->r)[14]);
+	close(UNIQUE_VAR(ctx->r)[22]);
+	close(UNIQUE_VAR(ctx->r)[120]);
+	close(UNIQUE_VAR(ctx->r)[25]);
+	close(UNIQUE_VAR(ctx->r)[12]);
+	close(UNIQUE_VAR(ctx->r)[15]);
+	close(UNIQUE_VAR(ctx->r)[70]);
+	close(UNIQUE_VAR(ctx->r)[152]);
+	close(UNIQUE_VAR(ctx->r)[154]);
+	close(UNIQUE_VAR(ctx->r)[11]);
+	close(UNIQUE_VAR(ctx->r)[56]);
+	close(UNIQUE_VAR(ctx->r)[63]);
+	close(UNIQUE_VAR(ctx->r)[151]);
+	close(UNIQUE_VAR(ctx->r)[78]);
+	close(UNIQUE_VAR(ctx->r)[102]);
+	close(UNIQUE_VAR(ctx->r)[131]);
+	close(UNIQUE_VAR(ctx->r)[2]);
+	close(UNIQUE_VAR(ctx->r)[9]);
+	close(UNIQUE_VAR(ctx->r)[39]);
+	close(UNIQUE_VAR(ctx->r)[112]);
+	close(UNIQUE_VAR(ctx->r)[117]);
+	close(UNIQUE_VAR(ctx->r)[26]);
+	close(UNIQUE_VAR(ctx->r)[0]);
+	close(UNIQUE_VAR(ctx->r)[21]);
+	close(UNIQUE_VAR(ctx->r)[81]);
+	close(UNIQUE_VAR(ctx->r)[84]);
+	close(UNIQUE_VAR(ctx->r)[27]);
+	close(UNIQUE_VAR(ctx->r)[5]);
+	close(UNIQUE_VAR(ctx->r)[60]);
+	close(UNIQUE_VAR(ctx->r)[68]);
+	close(UNIQUE_VAR(ctx->r)[82]);
+	close(UNIQUE_VAR(ctx->r)[73]);
+	close(UNIQUE_VAR(ctx->r)[77]);
+	close(UNIQUE_VAR(ctx->r)[80]);
+	close(UNIQUE_VAR(ctx->r)[85]);
+	close(UNIQUE_VAR(ctx->r)[135]);
+	close(UNIQUE_VAR(ctx->r)[146]);
+	close(UNIQUE_VAR(ctx->r)[30]);
+	close(UNIQUE_VAR(ctx->r)[54]);
+	close(UNIQUE_VAR(ctx->r)[91]);
+	close(UNIQUE_VAR(ctx->r)[113]);
+	close(UNIQUE_VAR(ctx->r)[130]);
+	close(UNIQUE_VAR(ctx->r)[23]);
+	close(UNIQUE_VAR(ctx->r)[79]);
+	close(UNIQUE_VAR(ctx->r)[87]);
+	close(UNIQUE_VAR(ctx->r)[128]);
+	close(UNIQUE_VAR(ctx->r)[133]);
+	close(UNIQUE_VAR(ctx->r)[153]);
+	close(UNIQUE_VAR(ctx->r)[6]);
+	close(UNIQUE_VAR(ctx->r)[16]);
+	close(UNIQUE_VAR(ctx->r)[52]);
+	close(UNIQUE_VAR(ctx->r)[106]);
+	close(UNIQUE_VAR(ctx->r)[142]);
+	close(UNIQUE_VAR(ctx->r)[48]);
+	close(UNIQUE_VAR(ctx->r)[71]);
+	close(UNIQUE_VAR(ctx->r)[74]);
+	close(UNIQUE_VAR(ctx->r)[75]);
+	close(UNIQUE_VAR(ctx->r)[103]);
+	close(UNIQUE_VAR(ctx->r)[122]);
+	close(UNIQUE_VAR(ctx->r)[61]);
+	close(UNIQUE_VAR(ctx->r)[93]);
+	close(UNIQUE_VAR(ctx->r)[105]);
+	close(UNIQUE_VAR(ctx->r)[140]);
+	close(UNIQUE_VAR(ctx->r)[19]);
+	close(UNIQUE_VAR(ctx->r)[36]);
+	close(UNIQUE_VAR(ctx->r)[69]);
+	close(UNIQUE_VAR(ctx->r)[115]);
+	close(UNIQUE_VAR(ctx->r)[119]);
+	close(UNIQUE_VAR(ctx->r)[137]);
+	close(UNIQUE_VAR(ctx->r)[149]);
+	close(UNIQUE_VAR(ctx->r)[38]);
 	return 0;
 }

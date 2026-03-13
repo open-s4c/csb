@@ -79,7 +79,7 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 const static int UNIQUE_VAR(num_subdirs) = 2;
 const static char* UNIQUE_VAR(subdirs)[2] = {"var/lib/mysql","./var/lib/mysql/ib_buffer_pool"};
 const static int UNIQUE_VAR(num_filenames) = 1;
-const static char* UNIQUE_VAR(filenames)[1] = {"./var/lib/mysql/ib_buffer_poo"};
+const static char* UNIQUE_VAR(filenames)[1] = {"./var/lib/mysql/ib_buffer_pool"};
 const static int UNIQUE_VAR(num_filesizes) = 1;
 const static uint64_t UNIQUE_VAR(filesizes)[1] = {0};
 
@@ -144,27 +144,27 @@ static inline int UNIQUE_FUNC(bm_dispatch_operation)(thread_ctx_t* ctx, size_t o
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 69 62 5f 62 75 66 66 65 72 5f 70 6f 6f 6c 00} (length 0x1f)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 69 62 5f 62 75 66 66 65 72 5f 70 6f 6f 6c} (length 0x1e)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x2004d600ul+PTR_OFFSET), "./var/lib/mysql/ib_buffer_pool\000", 31);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x2004d600ul+PTR_OFFSET, /*buf=*/0x2004d640ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x20048b80ul+PTR_OFFSET), "./var/lib/mysql/ib_buffer_pool", 30);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20048b80ul+PTR_OFFSET, /*buf=*/0x20048bc0ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 69 62 5f 62 75 66 66 65 72 5f 70 6f 6f 6c 00} (length 0x1f)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 69 62 5f 62 75 66 66 65 72 5f 70 6f 6f 6c} (length 0x1e)
 //    }
 //    flags: open_flags = 0x40 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x2004d800ul+PTR_OFFSET), "./var/lib/mysql/ib_buffer_pool\000", 31);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2004d800ul+PTR_OFFSET, /*flags=O_CREAT*/0x40, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20048d80ul+PTR_OFFSET), "./var/lib/mysql/ib_buffer_pool", 30);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20048d80ul+PTR_OFFSET, /*flags=O_CREAT*/0x40, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[0] = res;
@@ -175,7 +175,7 @@ memcpy((void*)(0x2004d800ul+PTR_OFFSET), "./var/lib/mysql/ib_buffer_pool\000", 3
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2004d900ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20048e80ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -184,7 +184,7 @@ memcpy((void*)(0x2004d800ul+PTR_OFFSET), "./var/lib/mysql/ib_buffer_pool\000", 3
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2004e880ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20049e00ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  lseek arguments: [
 //    fd: fd (resource)
@@ -200,7 +200,7 @@ memcpy((void*)(0x2004d800ul+PTR_OFFSET), "./var/lib/mysql/ib_buffer_pool\000", 3
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2004e8c0ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20049e40ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  close arguments: [
 //    fd: fd (resource)
@@ -210,27 +210,27 @@ memcpy((void*)(0x2004d800ul+PTR_OFFSET), "./var/lib/mysql/ib_buffer_pool\000", 3
 //  readlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 69 62 5f 62 75 66 66 65 72 5f 70 6f 6f 6c 00} (length 0x1f)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 69 62 5f 62 75 66 66 65 72 5f 70 6f 6f 6c} (length 0x1e)
 //    }
 //    buf: ptr[out, buffer] {
 //      buffer: (DirOut)
 //    }
 //    siz: len = 0x3ff (8 bytes)
 //  ]
-memcpy((void*)(0x20884200ul+PTR_OFFSET), "./var/lib/mysql/ib_buffer_pool\000", 31);
-	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20884200ul+PTR_OFFSET, /*buf=*/0x20884240ul+PTR_OFFSET, /*siz=*/0x3fful);
+memcpy((void*)(0x207a6740ul+PTR_OFFSET), "./var/lib/mysql/ib_buffer_pool", 30);
+	res = syscall(__NR_readlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x207a6740ul+PTR_OFFSET, /*buf=*/0x207a6780ul+PTR_OFFSET, /*siz=*/0x3fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 69 62 5f 62 75 66 66 65 72 5f 70 6f 6f 6c 2e 69 6e 63 6f 6d 70 6c 65 74 65 00} (length 0x2a)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 69 62 5f 62 75 66 66 65 72 5f 70 6f 6f 6c 2e 69 6e 63 6f 6d 70 6c 65 74 65} (length 0x29)
 //    }
 //    flags: open_flags = 0x241 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20884300ul+PTR_OFFSET), "./var/lib/mysql/ib_buffer_pool.incomplete\000", 42);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20884300ul+PTR_OFFSET, /*flags=O_TRUNC|O_CREAT|O_WRONLY*/0x241, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x207a6840ul+PTR_OFFSET), "./var/lib/mysql/ib_buffer_pool.incomplete", 41);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x207a6840ul+PTR_OFFSET, /*flags=O_TRUNC|O_CREAT|O_WRONLY*/0x241, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[1] = res;
@@ -260,12 +260,12 @@ memcpy((void*)(0x20884300ul+PTR_OFFSET), "./var/lib/mysql/ib_buffer_pool.incompl
 //  unlinkat arguments: [
 //    fd: fd_dir (resource)
 //    path: ptr[in, buffer] {
-//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 69 62 5f 62 75 66 66 65 72 5f 70 6f 6f 6c 00} (length 0x1f)
+//      buffer: {2e 2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 69 62 5f 62 75 66 66 65 72 5f 70 6f 6f 6c} (length 0x1e)
 //    }
 //    flags: unlinkat_flags = 0x0 (8 bytes)
 //  ]
-memcpy((void*)(0x20885580ul+PTR_OFFSET), "./var/lib/mysql/ib_buffer_pool\000", 31);
-	res = syscall(__NR_unlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x20885580ul+PTR_OFFSET, /*flags=*/0ul);
+memcpy((void*)(0x207a7ac0ul+PTR_OFFSET), "./var/lib/mysql/ib_buffer_pool", 30);
+	res = syscall(__NR_unlinkat, UNIQUE_VAR(ctx->dirfd), /*path=*/0x207a7ac0ul+PTR_OFFSET, /*flags=*/0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  renameat arguments: [
 //    oldfd: fd_dir (resource)
@@ -277,9 +277,9 @@ memcpy((void*)(0x20885580ul+PTR_OFFSET), "./var/lib/mysql/ib_buffer_pool\000", 3
 //      buffer: {2f 76 61 72 2f 6c 69 62 2f 6d 79 73 71 6c 2f 69 62 5f 62 75 66 66 65 72 5f 70 6f 6f 6c 00} (length 0x1e)
 //    }
 //  ]
-memcpy((void*)(0x20885640ul+PTR_OFFSET), "/var/lib/mysql/ib_buffer_pool.incomplete\000", 41);
-memcpy((void*)(0x20885680ul+PTR_OFFSET), "/var/lib/mysql/ib_buffer_pool\000", 30);
-	res = syscall(__NR_renameat, /*oldfd=*/0xffffff9c, /*old=*/0x20885640ul+PTR_OFFSET, /*newfd=*/0xffffff9c, /*new=*/0x20885680ul+PTR_OFFSET);
+memcpy((void*)(0x207a7b80ul+PTR_OFFSET), "/var/lib/mysql/ib_buffer_pool.incomplete\000", 41);
+memcpy((void*)(0x207a7bc0ul+PTR_OFFSET), "/var/lib/mysql/ib_buffer_pool\000", 30);
+	res = syscall(__NR_renameat, /*oldfd=*/0xffffff9c, /*old=*/0x207a7b80ul+PTR_OFFSET, /*newfd=*/0xffffff9c, /*new=*/0x207a7bc0ul+PTR_OFFSET);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	return 0;
 }

@@ -73,7 +73,7 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 const static int UNIQUE_VAR(num_subdirs) = 1;
 const static char* UNIQUE_VAR(subdirs)[1] = {"sbtest"};
 const static int UNIQUE_VAR(num_filenames) = 1;
-const static char* UNIQUE_VAR(filenames)[1] = {"./sbtest/sbtest16.ib"};
+const static char* UNIQUE_VAR(filenames)[1] = {"./sbtest/sbtest16.ibd"};
 const static int UNIQUE_VAR(num_filesizes) = 1;
 const static uint64_t UNIQUE_VAR(filesizes)[1] = {376832};
 
@@ -143,8 +143,8 @@ static inline int UNIQUE_FUNC(bm_dispatch_operation)(thread_ctx_t* ctx, size_t o
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x207a35c0ul+PTR_OFFSET), "./sbtest/sbtest16.ibd\000", 22);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x207a35c0ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20777cc0ul+PTR_OFFSET), "./sbtest/sbtest16.ibd\000", 22);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20777cc0ul+PTR_OFFSET, /*flags=O_CREAT|O_RDWR*/0x42, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
 		UNIQUE_VAR(ctx->r)[0] = res;
@@ -170,12 +170,12 @@ memcpy((void*)(0x207a35c0ul+PTR_OFFSET), "./sbtest/sbtest16.ibd\000", 22);
 //      }
 //    }
 //  ]
-*(uint16_t*)(0x207a3600ul+PTR_OFFSET) = 1;
-*(uint16_t*)(0x207a3602ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x207a3608ul+PTR_OFFSET) = 0;
-*(uint64_t*)(0x207a3610ul+PTR_OFFSET) = 0;
-*(uint32_t*)(0x207a3618ul+PTR_OFFSET) = 0;
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*cmd=F_SETLK*/6ul, /*lock=*/0x207a3600ul+PTR_OFFSET);
+*(uint16_t*)(0x20777d00ul+PTR_OFFSET) = 1;
+*(uint16_t*)(0x20777d02ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x20777d08ul+PTR_OFFSET) = 0;
+*(uint64_t*)(0x20777d10ul+PTR_OFFSET) = 0;
+*(uint32_t*)(0x20777d18ul+PTR_OFFSET) = 0;
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*cmd=F_SETLK*/6ul, /*lock=*/0x20777d00ul+PTR_OFFSET);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  lseek arguments: [
 //    fd: fd (resource)
@@ -992,5 +992,6 @@ memcpy((void*)(0x207a35c0ul+PTR_OFFSET), "./sbtest/sbtest16.ibd\000", 22);
 //  ]
 	res = syscall(__NR_fsync, /*fd=*/UNIQUE_VAR(ctx->r)[0]);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+	close(UNIQUE_VAR(ctx->r)[0]);
 	return 0;
 }
