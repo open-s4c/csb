@@ -64,7 +64,7 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 const static int UNIQUE_VAR(num_subdirs) = 1;
 const static char* UNIQUE_VAR(subdirs)[1] = {"tmp/rocksdb_db"};
 const static int UNIQUE_VAR(num_filenames) = 1;
-const static char* UNIQUE_VAR(filenames)[1] = {"./tmp/rocksdb_db/000032.ss"};
+const static char* UNIQUE_VAR(filenames)[1] = {"./tmp/rocksdb_db/000032.sst"};
 const static int UNIQUE_VAR(num_filesizes) = 1;
 const static uint64_t UNIQUE_VAR(filesizes)[1] = {4901915};
 
@@ -103,38 +103,54 @@ static void __attribute__((noinline)) UNIQUE_FUNC(remove_tmp_dir)(const char* di
 }
 
 static inline int
-UNIQUE_FUNC(bm_dispatch_operation)(thread_ctx_t* ctx, size_t op_id)
+UNIQUE_FUNC(bm_target_reg)(thread_ctx_t* ctx)
+{
+		intptr_t res = 0;
+	V_UNUSED(res);
+	UNIQUE_VAR(ctx->r) = (uint64_t*)malloc(sizeof(uint64_t)*1);
+	UNIQUE_VAR(ctx->r)[0] = 0xffffffffffffffff;
+	return 0;
+}
+static inline int
+UNIQUE_FUNC(bm_target_dereg)(thread_ctx_t* ctx)
+{
+		free(UNIQUE_VAR(ctx->r));
+	return 0;
+}
+
+static inline int UNIQUE_FUNC(bm_dispatch_operation)(thread_ctx_t* ctx, size_t op_id)
 {
 	const char* reason;
 	(void)reason;
-			uint64_t UNIQUE_VAR(r)[1] = {0xffffffffffffffff};
+			
 	intptr_t res = 0;
+	V_UNUSED(res);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 74 6d 70 2f 72 6f 63 6b 73 64 62 5f 64 62 2f 30 30 30 30 33 32 2e 73 73 74 00} (length 0x1c)
+//      buffer: {2e 2f 74 6d 70 2f 72 6f 63 6b 73 64 62 5f 64 62 2f 30 30 30 30 33 32 2e 73 73 74} (length 0x1b)
 //    }
 //    flags: open_flags = 0x80040 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d24b40ul+PTR_OFFSET, /*flags=O_CREAT|O_CLOEXEC*/0x80040, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20d24c00ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst", 27);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d24c00ul+PTR_OFFSET, /*flags=O_CREAT|O_CLOEXEC*/0x80040, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
-		UNIQUE_VAR(r)[0] = res;
+		UNIQUE_VAR(ctx->r)[0] = res;
 //  fcntl$getflags arguments: [
 //    fd: fd (resource)
 //    cmd: fcntl_getflags = 0x1 (8 bytes)
 //  ]
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(r)[0], /*cmd=F_GETFD*/1ul, 0);
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*cmd=F_GETFD*/1ul, 0);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  fcntl$setflags arguments: [
 //    fd: fd (resource)
 //    cmd: const = 0x2 (8 bytes)
 //    flags: fcntl_flags = 0x1 (8 bytes)
 //  ]
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(r)[0], /*cmd=*/2ul, /*flags=FD_CLOEXEC*/1ul);
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*cmd=*/2ul, /*flags=FD_CLOEXEC*/1ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -144,7 +160,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x36fb8b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20cf5300ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x36fb8bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20cf5300ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x36fb8bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -154,7 +170,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x2a192b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d252c0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x2a192bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d252c0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x2a192bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -164,7 +180,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x17f0c9 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d4dd80ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x17f0c9ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d4dd80ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x17f0c9ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -174,7 +190,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x4ab219 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d6f680ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x4ab219ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d6f680ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x4ab219ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -184,7 +200,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x247c6e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d939c0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x247c6eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d939c0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x247c6eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -194,7 +210,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x285fdb (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d95c00ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x285fdbul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d95c00ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x285fdbul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -204,7 +220,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x400b69 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e73bc0ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x400b69ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e73bc0ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x400b69ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -214,7 +230,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x8d36c (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e86f40ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x8d36cul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e86f40ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x8d36cul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -224,7 +240,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x15a69 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e92b80ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x15a69ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e92b80ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x15a69ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -234,7 +250,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x1939ef (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20eba2c0ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x1939eful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20eba2c0ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x1939eful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -244,7 +260,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0xfed5e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ee7980ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0xfed5eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ee7980ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0xfed5eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -254,7 +270,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x33d68f (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f09d80ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x33d68ful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f09d80ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x33d68ful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -264,7 +280,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x374975 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f35b00ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x374975ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f35b00ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x374975ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -274,7 +290,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x2e64e4 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f3dac0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x2e64e4ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f3dac0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x2e64e4ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -284,7 +300,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x38671f (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f50e80ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x38671ful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f50e80ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x38671ful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -294,7 +310,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x39b8e0 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f6ec00ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x39b8e0ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f6ec00ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x39b8e0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -304,7 +320,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0xfa816 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20fadcc0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0xfa816ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20fadcc0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0xfa816ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -314,7 +330,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b1 (8 bytes)
 //    pos: intptr = 0x301e54 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20fbcc80ul+PTR_OFFSET, /*count=*/0x8b1ul, /*pos=*/0x301e54ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20fbcc80ul+PTR_OFFSET, /*count=*/0x8b1ul, /*pos=*/0x301e54ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -324,7 +340,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x43c3cf (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20fc4400ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x43c3cful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20fc4400ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x43c3cful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -334,7 +350,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x3eeddb (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ffc980ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x3eeddbul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ffc980ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x3eeddbul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -344,7 +360,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x1e0713 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20019a00ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x1e0713ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20019a00ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x1e0713ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -354,7 +370,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x9f99c (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x200509c0ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x9f99cul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200509c0ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x9f99cul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -364,7 +380,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x18840c (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2006cf40ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x18840cul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2006cf40ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x18840cul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -374,7 +390,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x361f3 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2007ad00ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x361f3ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2007ad00ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x361f3ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -384,7 +400,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x275c26 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20080280ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x275c26ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20080280ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x275c26ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -394,7 +410,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a0 (8 bytes)
 //    pos: intptr = 0x29976d (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x201417c0ul+PTR_OFFSET, /*count=*/0x8a0ul, /*pos=*/0x29976dul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x201417c0ul+PTR_OFFSET, /*count=*/0x8a0ul, /*pos=*/0x29976dul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -404,7 +420,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a1 (8 bytes)
 //    pos: intptr = 0x19e706 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2014ffc0ul+PTR_OFFSET, /*count=*/0x8a1ul, /*pos=*/0x19e706ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2014ffc0ul+PTR_OFFSET, /*count=*/0x8a1ul, /*pos=*/0x19e706ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -414,7 +430,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x10f9af (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20163c00ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x10f9aful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20163c00ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x10f9aful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -424,7 +440,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x1438ad (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20178a40ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x1438adul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20178a40ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x1438adul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -434,7 +450,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x9334 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2018fa00ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x9334ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2018fa00ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x9334ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -444,7 +460,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0xc9cf8 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2019bf00ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0xc9cf8ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2019bf00ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0xc9cf8ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -454,7 +470,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x32146a (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x201a0b80ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x32146aul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x201a0b80ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x32146aul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -464,7 +480,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x420a34 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x201c3fc0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x420a34ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x201c3fc0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x420a34ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -474,7 +490,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x333ac1 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x201d6300ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x333ac1ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x201d6300ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x333ac1ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -484,7 +500,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x2e5c41 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x201da740ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x2e5c41ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x201da740ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x2e5c41ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -494,7 +510,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x45f676 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20215d00ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x45f676ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20215d00ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x45f676ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -504,7 +520,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a2 (8 bytes)
 //    pos: intptr = 0x3189ec (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20229140ul+PTR_OFFSET, /*count=*/0x8a2ul, /*pos=*/0x3189ecul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20229140ul+PTR_OFFSET, /*count=*/0x8a2ul, /*pos=*/0x3189ecul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -514,7 +530,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x98088 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20238940ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x98088ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20238940ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x98088ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -524,7 +540,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8af (8 bytes)
 //    pos: intptr = 0x18ebfb (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20251240ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x18ebfbul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20251240ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x18ebfbul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -534,7 +550,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x1bee6b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20272c40ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x1bee6bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20272c40ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x1bee6bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -544,7 +560,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a1 (8 bytes)
 //    pos: intptr = 0x14c30f (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2027cec0ul+PTR_OFFSET, /*count=*/0x8a1ul, /*pos=*/0x14c30ful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2027cec0ul+PTR_OFFSET, /*count=*/0x8a1ul, /*pos=*/0x14c30ful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -554,7 +570,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x283d35 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x202cca00ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x283d35ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x202cca00ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x283d35ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -564,7 +580,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x1b8683 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2030c180ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x1b8683ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2030c180ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x1b8683ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -574,7 +590,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x30cb73 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20319780ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x30cb73ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20319780ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x30cb73ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -584,7 +600,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x2635db (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20363380ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x2635dbul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20363380ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x2635dbul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -594,7 +610,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x260aa1 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20374580ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x260aa1ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20374580ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x260aa1ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -604,7 +620,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x43ddc6 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2037bd80ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x43ddc6ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2037bd80ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x43ddc6ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -614,7 +630,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x194b3d (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x203824c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x194b3dul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203824c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x194b3dul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -624,7 +640,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x1e9a24 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2039d880ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x1e9a24ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2039d880ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x1e9a24ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -634,7 +650,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x1c704c (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2040ba40ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x1c704cul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2040ba40ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x1c704cul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -644,7 +660,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x1ba07e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2042ed40ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x1ba07eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2042ed40ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x1ba07eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -654,7 +670,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8af (8 bytes)
 //    pos: intptr = 0x319b38 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x204331c0ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x319b38ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x204331c0ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x319b38ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -664,7 +680,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x2f9c80 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x204722c0ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x2f9c80ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x204722c0ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x2f9c80ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -674,7 +690,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x19aa6d (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20478900ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x19aa6dul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20478900ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x19aa6dul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -684,7 +700,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x41f03c (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20486fc0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x41f03cul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20486fc0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x41f03cul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -694,7 +710,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x37b9fb (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x204b5a00ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x37b9fbul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x204b5a00ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x37b9fbul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -704,7 +720,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x2bf567 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x204bb800ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x2bf567ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x204bb800ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x2bf567ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -714,7 +730,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x290453 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x204f86c0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x290453ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x204f86c0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x290453ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -724,7 +740,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x23a404 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20545500ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x23a404ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20545500ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x23a404ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -734,7 +750,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x306c3f (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20548880ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x306c3ful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20548880ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x306c3ful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -744,7 +760,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x12cd1f (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2058acc0ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x12cd1ful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2058acc0ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x12cd1ful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -754,7 +770,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x129085 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20595000ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x129085ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20595000ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x129085ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -764,7 +780,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x2dc8ff (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x205a1480ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x2dc8fful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x205a1480ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x2dc8fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -774,7 +790,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x4666f1 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x205aae40ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x4666f1ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x205aae40ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x4666f1ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -784,7 +800,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x1b5294 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x205c6c00ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x1b5294ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x205c6c00ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x1b5294ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -794,7 +810,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0xba1e8 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x205eb200ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0xba1e8ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x205eb200ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0xba1e8ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -804,7 +820,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8af (8 bytes)
 //    pos: intptr = 0xffeae (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x205f2100ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0xffeaeul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x205f2100ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0xffeaeul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -814,7 +830,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x2fadcb (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20629ac0ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x2fadcbul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20629ac0ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x2fadcbul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -824,7 +840,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x4e76c (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2062f900ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x4e76cul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2062f900ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x4e76cul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -834,7 +850,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x61646 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2063fa00ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x61646ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2063fa00ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x61646ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -844,7 +860,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x296c2a (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2065e140ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x296c2aul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2065e140ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x296c2aul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -854,7 +870,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x33436b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2067ad80ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x33436bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2067ad80ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x33436bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -864,7 +880,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x423e28 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x206b36c0ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x423e28ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x206b36c0ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x423e28ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -874,7 +890,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x356d3c (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x206dd280ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x356d3cul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x206dd280ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x356d3cul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -884,7 +900,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x195c8c (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2071e500ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x195c8cul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2071e500ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x195c8cul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -894,7 +910,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x342468 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2074bc80ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x342468ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2074bc80ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x342468ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -904,7 +920,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x1662ab (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20773600ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x1662abul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20773600ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x1662abul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -914,7 +930,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x407bf1 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x207a2540ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x407bf1ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x207a2540ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x407bf1ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -924,7 +940,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x3b3e69 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x207b9dc0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x3b3e69ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x207b9dc0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x3b3e69ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -934,7 +950,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a2 (8 bytes)
 //    pos: intptr = 0x209037 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x207c7480ul+PTR_OFFSET, /*count=*/0x8a2ul, /*pos=*/0x209037ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x207c7480ul+PTR_OFFSET, /*count=*/0x8a2ul, /*pos=*/0x209037ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -944,7 +960,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0xf7cce (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x207e3940ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0xf7cceul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x207e3940ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0xf7cceul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -954,7 +970,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0xcd0da (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2081d380ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0xcd0daul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2081d380ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0xcd0daul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -964,7 +980,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x34d171 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20829700ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x34d171ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20829700ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x34d171ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -974,7 +990,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x3f55ad (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20886ec0ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x3f55adul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20886ec0ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x3f55adul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -984,7 +1000,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x9ce61 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2089f780ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x9ce61ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2089f780ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x9ce61ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -994,7 +1010,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x2a2a7b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x208dadc0ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x2a2a7bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x208dadc0ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x2a2a7bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1004,7 +1020,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b2 (8 bytes)
 //    pos: intptr = 0xa2d7e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x208f3600ul+PTR_OFFSET, /*count=*/0x8b2ul, /*pos=*/0xa2d7eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x208f3600ul+PTR_OFFSET, /*count=*/0x8b2ul, /*pos=*/0xa2d7eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1014,7 +1030,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x2d83aa (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2091bf40ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x2d83aaul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2091bf40ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x2d83aaul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1024,7 +1040,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a1 (8 bytes)
 //    pos: intptr = 0x3959b1 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x209247c0ul+PTR_OFFSET, /*count=*/0x8a1ul, /*pos=*/0x3959b1ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x209247c0ul+PTR_OFFSET, /*count=*/0x8a1ul, /*pos=*/0x3959b1ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1034,7 +1050,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a1 (8 bytes)
 //    pos: intptr = 0x44e178 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2092ae40ul+PTR_OFFSET, /*count=*/0x8a1ul, /*pos=*/0x44e178ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2092ae40ul+PTR_OFFSET, /*count=*/0x8a1ul, /*pos=*/0x44e178ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1044,7 +1060,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x1cd821 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2093e100ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x1cd821ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2093e100ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x1cd821ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1054,7 +1070,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x27f7f4 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x209551c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x27f7f4ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x209551c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x27f7f4ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1064,7 +1080,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x11dac9 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20960540ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x11dac9ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20960540ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x11dac9ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1074,7 +1090,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x0 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2099f640ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2099f640ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1084,7 +1100,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x235ebd (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x209d6700ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x235ebdul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x209d6700ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x235ebdul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1094,7 +1110,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x1404c0 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a2bc00ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x1404c0ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a2bc00ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x1404c0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1104,7 +1120,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x430ddc (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a30080ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x430ddcul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a30080ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x430ddcul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1114,7 +1130,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x388128 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a3ce40ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x388128ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a3ce40ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x388128ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1124,7 +1140,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x1ba921 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a44580ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x1ba921ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a44580ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x1ba921ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1134,7 +1150,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x41546e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a5f100ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x41546eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a5f100ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x41546eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1144,7 +1160,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x458e97 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a73740ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x458e97ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a73740ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x458e97ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1154,7 +1170,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x1cb57d (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a77bc0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x1cb57dul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a77bc0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x1cb57dul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1164,7 +1180,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x362315 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a8b940ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x362315ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a8b940ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x362315ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1174,7 +1190,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x3ecb3e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20aaa700ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x3ecb3eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20aaa700ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x3ecb3eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1184,7 +1200,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0xecfb5 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ab8f40ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0xecfb5ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ab8f40ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0xecfb5ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1194,7 +1210,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x3ff169 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ac4200ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x3ff169ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ac4200ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x3ff169ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1204,7 +1220,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x384474 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ae6d00ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x384474ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ae6d00ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x384474ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1214,7 +1230,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x1c92e1 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b042c0ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x1c92e1ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b042c0ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x1c92e1ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1224,7 +1240,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x3db20 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b186c0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x3db20ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b186c0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x3db20ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1234,7 +1250,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x153c45 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b2b900ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x153c45ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b2b900ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x153c45ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1244,7 +1260,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x2134ab (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b386c0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x2134abul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b386c0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x2134abul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1254,7 +1270,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x493e0e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b3a940ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x493e0eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b3a940ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x493e0eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1264,7 +1280,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x3acddf (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b407c0ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x3acddful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b407c0ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x3acddful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1274,7 +1290,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x4050a6 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b490c0ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x4050a6ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b490c0ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x4050a6ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1284,7 +1300,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0xe9d5 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b4b300ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0xe9d5ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b4b300ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0xe9d5ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1294,7 +1310,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x39e95 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b598c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x39e95ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b598c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x39e95ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1304,7 +1320,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x363462 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b69980ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x363462ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b69980ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x363462ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1314,7 +1330,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x36b64b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b6bc00ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x36b64bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b6bc00ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x36b64bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1324,7 +1340,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x20a17e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20baac80ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x20a17eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20baac80ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x20a17eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1334,7 +1350,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a1 (8 bytes)
 //    pos: intptr = 0x3f446a (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20bb81c0ul+PTR_OFFSET, /*count=*/0x8a1ul, /*pos=*/0x3f446aul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20bb81c0ul+PTR_OFFSET, /*count=*/0x8a1ul, /*pos=*/0x3f446aul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1344,7 +1360,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0xcfc26 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20bce800ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0xcfc26ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20bce800ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0xcfc26ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1354,7 +1370,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x45dc85 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20bfb500ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x45dc85ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20bfb500ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x45dc85ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1364,7 +1380,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x3a1817 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20bfe000ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x3a1817ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20bfe000ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x3a1817ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1374,7 +1390,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0xbc47e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20c03e00ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0xbc47eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20c03e00ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0xbc47eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1384,7 +1400,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x34699e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20c18c40ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x34699eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20c18c40ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x34699eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1394,7 +1410,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x393708 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20c51e40ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x393708ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20c51e40ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x393708ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1404,7 +1420,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x1faf13 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20c5f440ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x1faf13ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20c5f440ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x1faf13ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1414,7 +1430,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x16bb2 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20c68e80ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x16bb2ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20c68e80ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x16bb2ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1424,7 +1440,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0xdcc00 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20c86dc0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0xdcc00ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20c86dc0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0xdcc00ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1434,7 +1450,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x456353 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20c9d400ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x456353ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20c9d400ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x456353ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1444,7 +1460,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8af (8 bytes)
 //    pos: intptr = 0x1c4daa (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ccf880ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x1c4daaul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ccf880ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x1c4daaul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1454,7 +1470,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x13b6df (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d02440ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x13b6dful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d02440ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x13b6dful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1464,7 +1480,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x3fe00d (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d1e800ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x3fe00dul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d1e800ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x3fe00dul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1474,7 +1490,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x3e8609 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d28b00ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x3e8609ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d28b00ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x3e8609ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1484,7 +1500,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x36ea43 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d2b580ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x36ea43ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d2b580ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x36ea43ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1494,7 +1510,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x3d0083 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d52e80ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x3d0083ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d52e80ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x3d0083ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1504,7 +1520,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b4 (8 bytes)
 //    pos: intptr = 0xb87e8 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d9f600ul+PTR_OFFSET, /*count=*/0x8b4ul, /*pos=*/0xb87e8ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d9f600ul+PTR_OFFSET, /*count=*/0x8b4ul, /*pos=*/0xb87e8ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1514,7 +1530,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x22dccb (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20dd31c0ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x22dccbul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20dd31c0ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x22dccbul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1524,7 +1540,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8af (8 bytes)
 //    pos: intptr = 0x39a786 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20dee4c0ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x39a786ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20dee4c0ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x39a786ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1534,7 +1550,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x3dd042 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20df5d40ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x3dd042ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20df5d40ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x3dd042ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1544,7 +1560,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x2d3e6b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e19a80ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x2d3e6bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e19a80ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x2d3e6bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1554,7 +1570,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x31ca7 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e3acc0ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x31ca7ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e3acc0ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x31ca7ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1564,7 +1580,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x4dec4 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e60300ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x4dec4ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e60300ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x4dec4ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1574,7 +1590,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0xa9e17 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e74940ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0xa9e17ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e74940ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0xa9e17ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1584,7 +1600,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x4a41a5 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e91800ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x4a41a5ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e91800ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x4a41a5ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1594,7 +1610,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x285fdb (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e94bc0ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x285fdbul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e94bc0ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x285fdbul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1604,7 +1620,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x33b3f6 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20eeff80ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x33b3f6ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20eeff80ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x33b3f6ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1614,7 +1630,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x17665b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ef7780ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x17665bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ef7780ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x17665bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1624,7 +1640,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x20aa23 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f01200ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x20aa23ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f01200ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x20aa23ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1634,7 +1650,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x71155 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f37140ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x71155ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f37140ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x71155ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1644,7 +1660,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x2683c7 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f3b5c0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x2683c7ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f3b5c0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x2683c7ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1654,7 +1670,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x106f2b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f6bfc0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x106f2bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f6bfc0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x106f2bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1664,7 +1680,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x27aa05 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f8f380ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x27aa05ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f8f380ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x27aa05ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1674,7 +1690,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8af (8 bytes)
 //    pos: intptr = 0x385e70 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20fadc40ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x385e70ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20fadc40ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x385e70ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1684,7 +1700,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x291e47 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20fba100ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x291e47ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20fba100ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x291e47ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1694,7 +1710,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x30ee15 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20fc9000ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x30ee15ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20fc9000ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x30ee15ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1704,7 +1720,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x22ba2b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20013280ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x22ba2bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20013280ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x22ba2bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1714,7 +1730,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x88591 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x200391c0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x88591ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200391c0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x88591ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1724,7 +1740,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x16969e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2005c780ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x16969eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2005c780ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x16969eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1734,7 +1750,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x3b94f6 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x200c7b80ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x3b94f6ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200c7b80ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x3b94f6ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1744,7 +1760,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x21e1c9 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x200f48c0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x21e1c9ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200f48c0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x21e1c9ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1754,7 +1770,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x442bbe (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x201115c0ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x442bbeul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x201115c0ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x442bbeul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1764,7 +1780,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0xef250 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20119ec0ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0xef250ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20119ec0ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0xef250ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1774,7 +1790,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x22e577 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20130580ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x22e577ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20130580ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x22e577ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1784,7 +1800,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x120609 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2013ecc0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x120609ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2013ecc0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x120609ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1794,7 +1810,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x6eeba (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2018a040ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x6eebaul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2018a040ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x6eebaul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1804,7 +1820,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x3f6700 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2018e4c0ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x3f6700ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2018e4c0ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x3f6700ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1814,7 +1830,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b2 (8 bytes)
 //    pos: intptr = 0x4795ef (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2020ea40ul+PTR_OFFSET, /*count=*/0x8b2ul, /*pos=*/0x4795eful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2020ea40ul+PTR_OFFSET, /*count=*/0x8b2ul, /*pos=*/0x4795eful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1824,7 +1840,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x48884e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2021ea40ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x48884eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2021ea40ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x48884eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1834,7 +1850,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x2ea184 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20224080ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x2ea184ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20224080ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x2ea184ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1844,7 +1860,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x38c67b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2025cbc0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x38c67bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2025cbc0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x38c67bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1854,7 +1870,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x2a9b09 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2029a300ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x2a9b09ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2029a300ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x2a9b09ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1864,7 +1880,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x25bcb1 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x202cb5c0ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x25bcb1ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x202cb5c0ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x25bcb1ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1874,7 +1890,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x11b82d (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x202da4c0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x11b82dul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x202da4c0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x11b82dul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1884,7 +1900,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x19aa6d (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x202f7300ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x19aa6dul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x202f7300ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x19aa6dul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1894,7 +1910,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8af (8 bytes)
 //    pos: intptr = 0x29202 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20308e00ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x29202ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20308e00ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x29202ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1904,7 +1920,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x3c98b5 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20317c80ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x3c98b5ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20317c80ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x3c98b5ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1914,7 +1930,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b0 (8 bytes)
 //    pos: intptr = 0x2ee6b5 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20331640ul+PTR_OFFSET, /*count=*/0x8b0ul, /*pos=*/0x2ee6b5ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20331640ul+PTR_OFFSET, /*count=*/0x8b0ul, /*pos=*/0x2ee6b5ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1924,7 +1940,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x8519e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20340f00ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x8519eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20340f00ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x8519eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1934,7 +1950,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x167ca1 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20343a00ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x167ca1ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20343a00ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x167ca1ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1944,7 +1960,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ae (8 bytes)
 //    pos: intptr = 0x3d5fb2 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x203a54c0ul+PTR_OFFSET, /*count=*/0x8aeul, /*pos=*/0x3d5fb2ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203a54c0ul+PTR_OFFSET, /*count=*/0x8aeul, /*pos=*/0x3d5fb2ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1954,7 +1970,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x27d54e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x203d4c00ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x27d54eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203d4c00ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x27d54eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1964,7 +1980,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x261bec (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x203e4d40ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x261becul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203e4d40ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x261becul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1974,7 +1990,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x47f528 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20404e00ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x47f528ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20404e00ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x47f528ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1984,7 +2000,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x5a5c7 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2040b540ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x5a5c7ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2040b540ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x5a5c7ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -1994,7 +2010,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x24148f (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20410b40ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x24148ful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20410b40ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x24148ful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2004,7 +2020,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x4212da (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x204624c0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x4212daul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x204624c0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x4212daul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2014,7 +2030,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8af (8 bytes)
 //    pos: intptr = 0x1368f7 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20474f80ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x1368f7ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20474f80ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x1368f7ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2024,7 +2040,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x2d470e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x204a5200ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x2d470eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x204a5200ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x2d470eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2034,7 +2050,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x162eb9 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x204e1140ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x162eb9ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x204e1140ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x162eb9ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2044,7 +2060,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a1 (8 bytes)
 //    pos: intptr = 0x4784aa (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x204f3380ul+PTR_OFFSET, /*count=*/0x8a1ul, /*pos=*/0x4784aaul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x204f3380ul+PTR_OFFSET, /*count=*/0x8a1ul, /*pos=*/0x4784aaul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2054,7 +2070,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x2c7750 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x204fab40ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x2c7750ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x204fab40ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x2c7750ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2064,7 +2080,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x943ee (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20502340ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x943eeul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20502340ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x943eeul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2074,7 +2090,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b2 (8 bytes)
 //    pos: intptr = 0x15be24 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20534480ul+PTR_OFFSET, /*count=*/0x8b2ul, /*pos=*/0x15be24ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20534480ul+PTR_OFFSET, /*count=*/0x8b2ul, /*pos=*/0x15be24ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2084,7 +2100,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x3679b0 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20543b40ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x3679b0ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20543b40ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x3679b0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2094,7 +2110,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x358fe3 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2054dd00ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x358fe3ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2054dd00ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x358fe3ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2104,7 +2120,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0xe089c (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20550840ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0xe089cul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20550840ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0xe089cul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2114,7 +2130,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8af (8 bytes)
 //    pos: intptr = 0x183607 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2055aa80ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x183607ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2055aa80ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x183607ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2124,7 +2140,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x20c421 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2055d580ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x20c421ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2055d580ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x20c421ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2134,7 +2150,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x2b143f (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2056c5c0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x2b143ful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2056c5c0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x2b143ful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2144,7 +2160,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x274ad9 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2057b500ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x274ad9ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2057b500ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x274ad9ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2154,7 +2170,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x355bf3 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20587a00ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x355bf3ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20587a00ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x355bf3ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2164,7 +2180,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x2378be (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20594740ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x2378beul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20594740ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x2378beul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2174,7 +2190,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8af (8 bytes)
 //    pos: intptr = 0x3c9006 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x205a8d00ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x3c9006ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x205a8d00ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x3c9006ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2184,7 +2200,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x2e1f9c (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x205ae200ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x2e1f9cul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x205ae200ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x2e1f9cul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2194,7 +2210,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x212362 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20606500ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x212362ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20606500ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x212362ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2204,7 +2220,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x41b3a6 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20662140ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x41b3a6ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20662140ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x41b3a6ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2214,7 +2230,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x2e64e4 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20669100ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x2e64e4ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20669100ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x2e64e4ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2224,7 +2240,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x1f9dbd (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20673480ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x1f9dbdul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20673480ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x1f9dbdul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2234,7 +2250,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x484bb1 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x206b9dc0ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x484bb1ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x206b9dc0ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x484bb1ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2244,7 +2260,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x335d63 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x206ca780ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x335d63ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x206ca780ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x335d63ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2254,7 +2270,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x1d6b45 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x206e7540ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x1d6b45ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x206e7540ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x1d6b45ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2264,7 +2280,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0xe1143 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x206ea040ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0xe1143ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x206ea040ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0xe1143ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2274,7 +2290,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x35a9e4 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x207309c0ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x35a9e4ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x207309c0ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x35a9e4ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2284,7 +2300,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x48cd8d (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20773f80ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x48cd8dul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20773f80ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x48cd8dul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2294,7 +2310,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0xe33e4 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x207b6480ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0xe33e4ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x207b6480ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0xe33e4ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2304,7 +2320,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x1e6eeb (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x207f6f00ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x1e6eebul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x207f6f00ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x1e6eebul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2314,7 +2330,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x418857 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2081f840ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x418857ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2081f840ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x418857ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2324,7 +2340,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x3c2820 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2084b000ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x3c2820ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2084b000ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x3c2820ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2334,7 +2350,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x2179eb (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x208866c0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x2179ebul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x208866c0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x2179ebul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2344,7 +2360,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x3e26d5 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2088ff80ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x3e26d5ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2088ff80ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x3e26d5ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2354,7 +2370,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x423e28 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20892b00ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x423e28ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20892b00ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x423e28ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2364,7 +2380,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x3b132a (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2092d200ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x3b132aul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2092d200ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x3b132aul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2374,7 +2390,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x253ad5 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20986d00ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x253ad5ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20986d00ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x253ad5ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2384,7 +2400,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x11a6e1 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x209dee80ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x11a6e1ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x209dee80ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x11a6e1ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2394,7 +2410,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x16d33a (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a08000ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x16d33aul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a08000ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x16d33aul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2404,7 +2420,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b1 (8 bytes)
 //    pos: intptr = 0x2deba5 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a2b240ul+PTR_OFFSET, /*count=*/0x8b1ul, /*pos=*/0x2deba5ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a2b240ul+PTR_OFFSET, /*count=*/0x8b1ul, /*pos=*/0x2deba5ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2414,7 +2430,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x1febaf (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a53300ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x1febaful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a53300ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x1febaful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2424,7 +2440,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0xfed5e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a722c0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0xfed5eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a722c0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0xfed5eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2434,7 +2450,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0xf279 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a79a40ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0xf279ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a79a40ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0xf279ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2444,7 +2460,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x469ae5 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a7ce00ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x469ae5ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a7ce00ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x469ae5ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2454,7 +2470,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x79bd6 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a81240ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x79bd6ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a81240ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x79bd6ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2464,7 +2480,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x46ced8 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a9ef80ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x46ced8ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a9ef80ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x46ced8ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2474,7 +2490,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b0 (8 bytes)
 //    pos: intptr = 0x3527ef (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20aabd00ul+PTR_OFFSET, /*count=*/0x8b0ul, /*pos=*/0x3527eful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20aabd00ul+PTR_OFFSET, /*count=*/0x8b0ul, /*pos=*/0x3527eful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2484,7 +2500,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b3 (8 bytes)
 //    pos: intptr = 0x210964 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ace100ul+PTR_OFFSET, /*count=*/0x8b3ul, /*pos=*/0x210964ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ace100ul+PTR_OFFSET, /*count=*/0x8b3ul, /*pos=*/0x210964ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2494,7 +2510,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x473f67 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b0c900ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x473f67ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b0c900ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x473f67ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2504,7 +2520,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b1 (8 bytes)
 //    pos: intptr = 0x2f158 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b0f3c0ul+PTR_OFFSET, /*count=*/0x8b1ul, /*pos=*/0x2f158ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b0f3c0ul+PTR_OFFSET, /*count=*/0x8b1ul, /*pos=*/0x2f158ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2514,7 +2530,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x4865ae (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b11ec0ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x4865aeul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b11ec0ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x4865aeul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2524,7 +2540,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x3c3973 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b163c0ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x3c3973ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b163c0ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x3c3973ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2534,7 +2550,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0xf0c4b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b2b1c0ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0xf0c4bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b2b1c0ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0xf0c4bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2544,7 +2560,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x153c45 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b46600ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x153c45ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b46600ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x153c45ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2554,7 +2570,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x417fad (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b4dec0ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x417fadul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b4dec0ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x417fadul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2564,7 +2580,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x3da4f9 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b71a80ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x3da4f9ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b71a80ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x3da4f9ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2574,7 +2590,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x46e8d1 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20c46d80ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x46e8d1ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20c46d80ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x46e8d1ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2584,7 +2600,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x31080b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20c91080ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x31080bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20c91080ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x31080bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2594,7 +2610,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x3c16d2 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ca2900ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x3c16d2ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ca2900ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x3c16d2ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2604,7 +2620,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x3fc61b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20cc2140ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x3fc61bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20cc2140ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x3fc61bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2614,7 +2630,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0xa8cc8 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20cce640ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0xa8cc8ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20cce640ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0xa8cc8ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2624,7 +2640,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x3ba641 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ce7f00ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x3ba641ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ce7f00ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x3ba641ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2634,7 +2650,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x450cba (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20cf3a40ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x450cbaul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20cf3a40ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x450cbaul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2644,7 +2660,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x27cca7 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d1e540ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x27cca7ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d1e540ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x27cca7ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2654,7 +2670,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x246274 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d3b380ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x246274ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d3b380ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x246274ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2664,7 +2680,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x42eb3e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d46e80ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x42eb3eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d46e80ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x42eb3eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2674,7 +2690,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x13e21c (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d854c0ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x13e21cul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d854c0ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x13e21cul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2684,7 +2700,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0xc1b1e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d98980ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0xc1b1eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d98980ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0xc1b1eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2694,7 +2710,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x3d6860 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20da8a40ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x3d6860ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20da8a40ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x3d6860ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2704,7 +2720,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x443469 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20dc6a40ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x443469ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20dc6a40ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x443469ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2714,7 +2730,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x316749 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20dcc0c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x316749ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20dcc0c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x316749ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2724,7 +2740,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x339152 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ddc8c0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x339152ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ddc8c0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x339152ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2734,7 +2750,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x487700 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ddfc80ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x487700ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ddfc80ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x487700ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2744,7 +2760,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x2fd075 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20dee280ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x2fd075ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20dee280ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x2fd075ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2754,7 +2770,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x1da7dd (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20df1600ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x1da7ddul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20df1600ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x1da7ddul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2764,7 +2780,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0xbefd6 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e2dc00ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0xbefd6ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e2dc00ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0xbefd6ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2774,7 +2790,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x13ae38 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e7b480ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x13ae38ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e7b480ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x13ae38ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2784,7 +2800,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x1382ed (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e8e900ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x1382edul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e8e900ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x1382edul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2794,7 +2810,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0xf8576 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ea6040ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0xf8576ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ea6040ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0xf8576ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2804,7 +2820,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x194299 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20eb4f40ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x194299ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20eb4f40ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x194299ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2814,7 +2830,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x3f9ada (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f13a40ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x3f9adaul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f13a40ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x3f9adaul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2824,7 +2840,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x87ce8 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f26540ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x87ce8ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f26540ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x87ce8ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2834,7 +2850,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x494f58 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f45580ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x494f58ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f45580ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x494f58ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2844,7 +2860,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x38e06e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f4a240ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x38e06eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f4a240ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x38e06eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2854,7 +2870,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x181363 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f63480ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x181363ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f63480ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x181363ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2864,7 +2880,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x1d2eb0 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20fb7b00ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x1d2eb0ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20fb7b00ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x1d2eb0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2874,7 +2890,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x11dc7 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20fec040ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x11dc7ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20fec040ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x11dc7ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2884,7 +2900,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x33ed (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ff5b00ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x33edul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ff5b00ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x33edul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2894,7 +2910,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x2e2845 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2002f900ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x2e2845ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2002f900ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x2e2845ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2904,7 +2920,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x2716f8 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20035fc0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x2716f8ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20035fc0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x2716f8ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2914,7 +2930,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x113ef8 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20047940ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x113ef8ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20047940ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x113ef8ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2924,7 +2940,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x234d71 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20082500ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x234d71ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20082500ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x234d71ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2934,7 +2950,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x7f25d (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2009ea80ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x7f25dul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2009ea80ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x7f25dul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2944,7 +2960,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ae (8 bytes)
 //    pos: intptr = 0x3ac531 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x200a1540ul+PTR_OFFSET, /*count=*/0x8aeul, /*pos=*/0x3ac531ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200a1540ul+PTR_OFFSET, /*count=*/0x8aeul, /*pos=*/0x3ac531ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2954,7 +2970,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x2afa41 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x200a3780ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x2afa41ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200a3780ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x2afa41ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2964,7 +2980,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x4dec4 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x200aafc0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x4dec4ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200aafc0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x4dec4ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2974,7 +2990,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x344fb0 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x200ba840ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x344fb0ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200ba840ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x344fb0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2984,7 +3000,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x707f (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x201307c0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x707ful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x201307c0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x707ful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -2994,7 +3010,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0xec712 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x201519c0ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0xec712ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x201519c0ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0xec712ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3004,7 +3020,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a2 (8 bytes)
 //    pos: intptr = 0x1371a6 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x201d3b40ul+PTR_OFFSET, /*count=*/0x8a2ul, /*pos=*/0x1371a6ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x201d3b40ul+PTR_OFFSET, /*count=*/0x8a2ul, /*pos=*/0x1371a6ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3014,7 +3030,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x3f5e5a (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2020b580ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x3f5e5aul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2020b580ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x3f5e5aul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3024,7 +3040,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x21030 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2020e040ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x21030ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2020e040ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x21030ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3034,7 +3050,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x19efa7 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20214740ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x19efa7ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20214740ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x19efa7ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3044,7 +3060,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x10ce5d (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20230bc0ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x10ce5dul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20230bc0ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x10ce5dul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3054,7 +3070,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a1 (8 bytes)
 //    pos: intptr = 0x3611d0 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20235000ul+PTR_OFFSET, /*count=*/0x8a1ul, /*pos=*/0x3611d0ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20235000ul+PTR_OFFSET, /*count=*/0x8a1ul, /*pos=*/0x3611d0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3064,7 +3080,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a2 (8 bytes)
 //    pos: intptr = 0x3abc8f (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2025bf80ul+PTR_OFFSET, /*count=*/0x8a2ul, /*pos=*/0x3abc8ful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2025bf80ul+PTR_OFFSET, /*count=*/0x8a2ul, /*pos=*/0x3abc8ful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3074,7 +3090,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b3 (8 bytes)
 //    pos: intptr = 0x414310 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x202bb200ul+PTR_OFFSET, /*count=*/0x8b3ul, /*pos=*/0x414310ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x202bb200ul+PTR_OFFSET, /*count=*/0x8b3ul, /*pos=*/0x414310ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3084,7 +3100,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x74deb (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x202d4d40ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x74debul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x202d4d40ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x74debul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3094,7 +3110,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b0 (8 bytes)
 //    pos: intptr = 0x1bcbca (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x202e78c0ul+PTR_OFFSET, /*count=*/0x8b0ul, /*pos=*/0x1bcbcaul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x202e78c0ul+PTR_OFFSET, /*count=*/0x8b0ul, /*pos=*/0x1bcbcaul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3104,7 +3120,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x29cb54 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20310980ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x29cb54ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20310980ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x29cb54ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3114,7 +3130,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a2 (8 bytes)
 //    pos: intptr = 0x276d6f (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2031a300ul+PTR_OFFSET, /*count=*/0x8a2ul, /*pos=*/0x276d6ful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2031a300ul+PTR_OFFSET, /*count=*/0x8a2ul, /*pos=*/0x276d6ful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3124,7 +3140,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x49eb20 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2034b440ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x49eb20ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2034b440ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x49eb20ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3134,7 +3150,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x3ca161 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2035b540ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x3ca161ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2035b540ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x3ca161ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3144,7 +3160,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x1dc1d5 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20383640ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x1dc1d5ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20383640ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x1dc1d5ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3154,7 +3170,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x8a82e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x203a6900ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x8a82eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203a6900ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x8a82eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3164,7 +3180,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x10c75 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x203bc1c0ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x10c75ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203bc1c0ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x10c75ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3174,7 +3190,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x2ede11 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x203cd280ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x2ede11ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203cd280ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x2ede11ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3184,7 +3200,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x2d247b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x203e4b40ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x2d247bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203e4b40ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x2d247bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3194,7 +3210,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x1e43a9 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x203fa940ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x1e43a9ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203fa940ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x1e43a9ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3204,7 +3220,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a2 (8 bytes)
 //    pos: intptr = 0x12aa84 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x203ffe80ul+PTR_OFFSET, /*count=*/0x8a2ul, /*pos=*/0x12aa84ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203ffe80ul+PTR_OFFSET, /*count=*/0x8a2ul, /*pos=*/0x12aa84ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3214,7 +3230,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x207ee5 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2041f5c0ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x207ee5ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2041f5c0ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x207ee5ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3224,7 +3240,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x16515f (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x204331c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x16515ful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x204331c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x16515ful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3234,7 +3250,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x3beb83 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x204a10c0ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x3beb83ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x204a10c0ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x3beb83ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3244,7 +3260,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x1ba07e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x204b8a40ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x1ba07eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x204b8a40ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x1ba07eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3254,7 +3270,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x137a48 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x204c2cc0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x137a48ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x204c2cc0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x137a48ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3264,7 +3280,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x1e88db (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x204f2300ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x1e88dbul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x204f2300ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x1e88dbul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3274,7 +3290,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x803ab (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x204f91c0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x803abul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x204f91c0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x803abul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3284,7 +3300,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0xbb330 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2050f7c0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0xbb330ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2050f7c0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0xbb330ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3294,7 +3310,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x490a21 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20512200ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x490a21ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20512200ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x490a21ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3304,7 +3320,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0xa502e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20532c80ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0xa502eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20532c80ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0xa502eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3314,7 +3330,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x16fe7e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x205469c0ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x16fe7eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x205469c0ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x16fe7eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3324,7 +3340,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x185ad (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20581340ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x185adul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20581340ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x185adul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3334,7 +3350,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b3 (8 bytes)
 //    pos: intptr = 0x440916 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x205bc0c0ul+PTR_OFFSET, /*count=*/0x8b3ul, /*pos=*/0x440916ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x205bc0c0ul+PTR_OFFSET, /*count=*/0x8b3ul, /*pos=*/0x440916ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3344,7 +3360,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x11479e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x205ca740ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x11479eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x205ca740ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x11479eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3354,7 +3370,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x21a538 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x205dd180ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x21a538ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x205dd180ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x21a538ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3364,7 +3380,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x33d68f (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x205eeb80ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x33d68ful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x205eeb80ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x33d68ful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3374,7 +3390,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x4a4a4b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20610500ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x4a4a4bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20610500ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x4a4a4bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3384,7 +3400,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x3320c0 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20695600ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x3320c0ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20695600ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x3320c0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3394,7 +3410,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x28adc9 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x206d8380ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x28adc9ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x206d8380ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x28adc9ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3404,7 +3420,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x383328 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x206fea80ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x383328ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x206fea80ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x383328ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3414,7 +3430,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x20763c (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20732600ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x20763cul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20732600ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x20763cul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3424,7 +3440,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x2c65f9 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20765100ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x2c65f9ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20765100ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x2c65f9ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3434,7 +3450,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x21c7d4 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2078d300ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x21c7d4ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2078d300ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x21c7d4ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3444,7 +3460,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x3ae7dd (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x207c29c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x3ae7ddul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x207c29c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x3ae7ddul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3454,7 +3470,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0xf14ef (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20828180ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0xf14eful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20828180ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0xf14eful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3464,7 +3480,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x19f852 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2082df40ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x19f852ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2082df40ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x19f852ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3474,7 +3490,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x6bac4 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20838a40ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x6bac4ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20838a40ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x6bac4ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3484,7 +3500,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x16375e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x208ba500ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x16375eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x208ba500ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x16375eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3494,7 +3510,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x20ef68 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x208f58c0ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x20ef68ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x208f58c0ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x20ef68ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3504,7 +3520,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x120609 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x208ffbc0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x120609ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x208ffbc0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x120609ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3514,7 +3530,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0xa6a23 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20929d40ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0xa6a23ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20929d40ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0xa6a23ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3524,7 +3540,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x31195b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20953780ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x31195bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20953780ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x31195bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3534,7 +3550,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x1be5c5 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20994280ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x1be5c5ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20994280ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x1be5c5ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3544,7 +3560,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x51b4f (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x209b77c0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x51b4ful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x209b77c0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x51b4ful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3554,7 +3570,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x2c99f7 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x209da340ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x2c99f7ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x209da340ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x2c99f7ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3564,7 +3580,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x212c06 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a35f40ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x212c06ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a35f40ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x212c06ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3574,7 +3590,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x2940de (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a82bc0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x2940deul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a82bc0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x2940deul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3584,7 +3600,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x41e791 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ab71c0ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x41e791ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ab71c0ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x41e791ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3594,7 +3610,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x23f1fa (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ad6940ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x23f1faul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ad6940ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x23f1faul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3604,7 +3620,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0xce231 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20afc0c0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0xce231ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20afc0c0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0xce231ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3614,7 +3630,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x25777a (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b4e500ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x25777aul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b4e500ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x25777aul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3624,7 +3640,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x381083 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b6f6c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x381083ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b6f6c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x381083ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3634,7 +3650,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x2cab46 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b843c0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x2cab46ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b843c0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x2cab46ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3644,7 +3660,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x137c5 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b9f840ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x137c5ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b9f840ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x137c5ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3654,7 +3670,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x41f03c (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20c0b9c0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x41f03cul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20c0b9c0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x41f03cul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3664,7 +3680,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b2 (8 bytes)
 //    pos: intptr = 0x4ac369 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20c186c0ul+PTR_OFFSET, /*count=*/0x8b2ul, /*pos=*/0x4ac369ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20c186c0ul+PTR_OFFSET, /*count=*/0x8b2ul, /*pos=*/0x4ac369ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3674,7 +3690,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x36d8ed (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20c1a900ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x36d8edul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20c1a900ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x36d8edul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3684,7 +3700,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x29b15b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20c34e00ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x29b15bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20c34e00ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x29b15bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3694,7 +3710,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x13a58b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20cb6a40ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x13a58bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20cb6a40ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x13a58bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3704,7 +3720,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x82ef9 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d0a800ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x82ef9ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d0a800ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x82ef9ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3714,7 +3730,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x23b561 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d205c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x23b561ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d205c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x23b561ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3724,7 +3740,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x46ac34 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d44b80ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x46ac34ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d44b80ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x46ac34ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3734,7 +3750,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b0 (8 bytes)
 //    pos: intptr = 0x4540ae (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d52980ul+PTR_OFFSET, /*count=*/0x8b0ul, /*pos=*/0x4540aeul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d52980ul+PTR_OFFSET, /*count=*/0x8b0ul, /*pos=*/0x4540aeul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3744,7 +3760,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x11fd60 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d75f40ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x11fd60ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d75f40ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x11fd60ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3754,7 +3770,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8af (8 bytes)
 //    pos: intptr = 0x179a3f (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d83d40ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x179a3ful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d83d40ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x179a3ful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3764,7 +3780,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x49694b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20dabc80ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x49694bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20dabc80ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x49694bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3774,7 +3790,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x28ea5c (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20db34c0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x28ea5cul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20db34c0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x28ea5cul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3784,7 +3800,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x2d83aa (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ddc640ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x2d83aaul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ddc640ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x2d83aaul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3794,7 +3810,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x3f51e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e02c40ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x3f51eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e02c40ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x3f51eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3804,7 +3820,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b0 (8 bytes)
 //    pos: intptr = 0x378eaa (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e23f00ul+PTR_OFFSET, /*count=*/0x8b0ul, /*pos=*/0x378eaaul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e23f00ul+PTR_OFFSET, /*count=*/0x8b0ul, /*pos=*/0x378eaaul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3814,7 +3830,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x1e3b02 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e7c800ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x1e3b02ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e7c800ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x1e3b02ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3824,7 +3840,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x288b2c (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e9da80ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x288b2cul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e9da80ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x288b2cul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3834,7 +3850,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x13c82a (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ec0480ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x13c82aul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ec0480ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x13c82aul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3844,7 +3860,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x2134ab (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ee6b40ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x2134abul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ee6b40ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x2134abul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3854,7 +3870,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b0 (8 bytes)
 //    pos: intptr = 0x38ac75 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ee9e80ul+PTR_OFFSET, /*count=*/0x8b0ul, /*pos=*/0x38ac75ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ee9e80ul+PTR_OFFSET, /*count=*/0x8b0ul, /*pos=*/0x38ac75ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3864,7 +3880,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x148f2c (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f0b9c0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x148f2cul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f0b9c0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x148f2cul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3874,7 +3890,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x2ceb2 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f4b480ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x2ceb2ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f4b480ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x2ceb2ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3884,7 +3900,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x1c8198 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f65640ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x1c8198ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f65640ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x1c8198ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3894,7 +3910,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x4a86d1 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f6ef80ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x4a86d1ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f6ef80ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x4a86d1ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3904,7 +3920,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b0 (8 bytes)
 //    pos: intptr = 0xf6b7b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f8b4c0ul+PTR_OFFSET, /*count=*/0x8b0ul, /*pos=*/0xf6b7bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f8b4c0ul+PTR_OFFSET, /*count=*/0x8b0ul, /*pos=*/0xf6b7bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3914,7 +3930,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ae (8 bytes)
 //    pos: intptr = 0x2e9032 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20fe2640ul+PTR_OFFSET, /*count=*/0x8aeul, /*pos=*/0x2e9032ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20fe2640ul+PTR_OFFSET, /*count=*/0x8aeul, /*pos=*/0x2e9032ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3924,7 +3940,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a1 (8 bytes)
 //    pos: intptr = 0x3f446a (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20fe5980ul+PTR_OFFSET, /*count=*/0x8a1ul, /*pos=*/0x3f446aul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20fe5980ul+PTR_OFFSET, /*count=*/0x8a1ul, /*pos=*/0x3f446aul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3934,7 +3950,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x2f095d (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20fe9e00ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x2f095dul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20fe9e00ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x2f095dul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3944,7 +3960,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x67582 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ff7b80ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x67582ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ff7b80ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x67582ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3954,7 +3970,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0xdeea5 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ffc8c0ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0xdeea5ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ffc8c0ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0xdeea5ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3964,7 +3980,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x11c979 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20070bc0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x11c979ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20070bc0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x11c979ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3974,7 +3990,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x249663 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20092680ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x249663ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20092680ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x249663ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3984,7 +4000,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x1b49ef (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x200a2f80ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x1b49eful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200a2f80ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x1b49eful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -3994,7 +4010,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x42a605 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x200a6280ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x42a605ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200a6280ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x42a605ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4004,7 +4020,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8af (8 bytes)
 //    pos: intptr = 0x436483 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x200ba480ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x436483ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200ba480ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x436483ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4014,7 +4030,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x3db64b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2012a680ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x3db64bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2012a680ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x3db64bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4024,7 +4040,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x1cc6c9 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20137d40ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x1cc6c9ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20137d40ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x1cc6c9ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4034,7 +4050,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x977e0 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2018dc80ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x977e0ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2018dc80ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x977e0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4044,7 +4060,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x1f7283 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x201bc340ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x1f7283ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x201bc340ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x1f7283ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4054,7 +4070,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a1 (8 bytes)
 //    pos: intptr = 0x7be71 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x201f5e80ul+PTR_OFFSET, /*count=*/0x8a1ul, /*pos=*/0x7be71ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x201f5e80ul+PTR_OFFSET, /*count=*/0x8a1ul, /*pos=*/0x7be71ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4064,7 +4080,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x4036aa (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2020d740ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x4036aaul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2020d740ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x4036aaul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4074,7 +4090,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x391463 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20238d40ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x391463ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20238d40ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x391463ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4084,7 +4100,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x40fdc9 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20265ac0ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x40fdc9ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20265ac0ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x40fdc9ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4094,7 +4110,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0xd6ca9 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x202a9f40ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0xd6ca9ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x202a9f40ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0xd6ca9ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4104,7 +4120,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x243731 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x202cf480ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x243731ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x202cf480ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x243731ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4114,7 +4130,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0xa8424 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x203388c0ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0xa8424ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203388c0ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0xa8424ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4124,7 +4140,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x57a88 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2035a380ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x57a88ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2035a380ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x57a88ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4134,7 +4150,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x398d97 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2038d5c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x398d97ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2038d5c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x398d97ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4144,7 +4160,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b2 (8 bytes)
 //    pos: intptr = 0x312aa8 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20399a40ul+PTR_OFFSET, /*count=*/0x8b2ul, /*pos=*/0x312aa8ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20399a40ul+PTR_OFFSET, /*count=*/0x8b2ul, /*pos=*/0x312aa8ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4154,7 +4170,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x73c9a (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x203ce900ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x73c9aul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203ce900ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x73c9aul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4164,7 +4180,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x49017c (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20434ec0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x49017cul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20434ec0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x49017cul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4174,7 +4190,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x3401cf (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2046f240ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x3401cful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2046f240ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x3401cful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4184,7 +4200,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x2a7862 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20492e80ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x2a7862ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20492e80ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x2a7862ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4194,7 +4210,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x42903 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x204b7dc0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x42903ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x204b7dc0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x42903ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4204,7 +4220,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x3fa383 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x204cf540ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x3fa383ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x204cf540ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x3fa383ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4214,7 +4230,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x463301 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x205165c0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x463301ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x205165c0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x463301ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4224,7 +4240,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x253ad5 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2054e040ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x253ad5ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2054e040ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x253ad5ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4234,7 +4250,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x2f79dc (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2056a600ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x2f79dcul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2056a600ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x2f79dcul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4244,7 +4260,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x3dbef2 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20577340ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x3dbef2ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20577340ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x3dbef2ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4254,7 +4270,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x10c5b4 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20596cc0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x10c5b4ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20596cc0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x10c5b4ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4264,7 +4280,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x2b9623 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x205cf200ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x2b9623ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x205cf200ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x2b9623ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4274,7 +4290,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x1c33b4 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x205fffc0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x1c33b4ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x205fffc0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x1c33b4ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4284,7 +4300,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x2425d8 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2062f080ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x2425d8ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2062f080ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x2425d8ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4294,7 +4310,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x2ac03 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20634600ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x2ac03ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20634600ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x2ac03ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4304,7 +4320,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x19bbc1 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x206479c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x19bbc1ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x206479c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x19bbc1ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4314,7 +4330,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x3d9c4e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2066ea80ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x3d9c4eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2066ea80ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x3d9c4eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4324,7 +4340,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x2a2a7b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2069fa00ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x2a2a7bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2069fa00ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x2a2a7bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4334,7 +4350,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x408d41 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x206f0f00ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x408d41ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x206f0f00ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x408d41ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4344,7 +4360,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x24f597 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x206f9840ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x24f597ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x206f9840ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x24f597ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4354,7 +4370,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x386fcb (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x206fba80ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x386fcbul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x206fba80ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x386fcbul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4364,7 +4380,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x4a38fc (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2070edc0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x4a38fcul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2070edc0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x4a38fcul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4374,7 +4390,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x10dfb2 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x207a0ac0ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x10dfb2ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x207a0ac0ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x10dfb2ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4384,7 +4400,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x686d5 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20810b80ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x686d5ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20810b80ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x686d5ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4394,7 +4410,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x25d6b6 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2083fdc0ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x25d6b6ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2083fdc0ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x25d6b6ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4404,7 +4420,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x3f331b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20853b80ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x3f331bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20853b80ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x3f331bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4414,7 +4430,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x40734b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2086eec0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x40734bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2086eec0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x40734bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4424,7 +4440,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x31928e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20876700ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x31928eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20876700ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x31928eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4434,7 +4450,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0xa1385 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x208b6a40ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0xa1385ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x208b6a40ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0xa1385ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4444,7 +4460,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0xfb0bd (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x208be1c0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0xfb0bdul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x208be1c0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0xfb0bdul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4454,7 +4470,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0xb6ded (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x208c0cc0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0xb6dedul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x208c0cc0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0xb6dedul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4464,7 +4480,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x17f96e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x208cd100ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x17f96eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x208cd100ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x17f96eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4474,7 +4490,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x21b684 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x208d7380ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x21b684ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x208d7380ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x21b684ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4484,7 +4500,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x15a42e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x208f3000ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x15a42eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x208f3000ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x15a42eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4494,7 +4510,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x200e53 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20945ac0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x200e53ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20945ac0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x200e53ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4504,7 +4520,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x32624c (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x209d8900ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x32624cul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x209d8900ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x32624cul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4514,7 +4530,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x7b5cb (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x209f1980ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x7b5cbul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x209f1980ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x7b5cbul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4524,7 +4540,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x3925ae (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x209f7800ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x3925aeul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x209f7800ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x3925aeul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4534,7 +4550,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x28fbab (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a2ab40ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x28fbabul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a2ab40ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x28fbabul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4544,7 +4560,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x14f6ff (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a4e880ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x14f6fful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a4e880ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x14f6fful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4554,7 +4570,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x47c9df (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a836c0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x47c9dful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a836c0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x47c9dful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4564,7 +4580,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x1f9515 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a86240ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x1f9515ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a86240ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x1f9515ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4574,7 +4590,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x28009a (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a92740ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x28009aul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a92740ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x28009aul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4584,7 +4600,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a1 (8 bytes)
 //    pos: intptr = 0x38cf22 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a94a00ul+PTR_OFFSET, /*count=*/0x8a1ul, /*pos=*/0x38cf22ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a94a00ul+PTR_OFFSET, /*count=*/0x8a1ul, /*pos=*/0x38cf22ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4594,7 +4610,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x437e82 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ab7ac0ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x437e82ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ab7ac0ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x437e82ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4604,7 +4620,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x18955d (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20abf300ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x18955dul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20abf300ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x18955dul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4614,7 +4630,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x932a3 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b1b040ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x932a3ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b1b040ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x932a3ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4624,7 +4640,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a1 (8 bytes)
 //    pos: intptr = 0x19e706 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b65180ul+PTR_OFFSET, /*count=*/0x8a1ul, /*pos=*/0x19e706ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b65180ul+PTR_OFFSET, /*count=*/0x8a1ul, /*pos=*/0x19e706ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4634,7 +4650,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x19efa7 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b67c40ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x19efa7ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b67c40ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x19efa7ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4644,7 +4660,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x33a2a3 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b84000ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x33a2a3ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b84000ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x33a2a3ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4654,7 +4670,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x3889ce (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b91640ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x3889ceul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b91640ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x3889ceul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4664,7 +4680,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x473f67 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20bc1f40ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x473f67ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20bc1f40ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x473f67ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4674,7 +4690,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x1dca80 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20bd6cc0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x1dca80ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20bd6cc0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x1dca80ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4684,7 +4700,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x1f4747 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20c22a40ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x1f4747ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20c22a40ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x1f4747ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4694,7 +4710,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x29ff3e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20c34bc0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x29ff3eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20c34bc0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x29ff3eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4704,7 +4720,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x22187 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20c88ac0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x22187ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20c88ac0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x22187ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4714,7 +4730,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8af (8 bytes)
 //    pos: intptr = 0xd52a9 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20c8be40ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0xd52a9ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20c8be40ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0xd52a9ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4724,7 +4740,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x450412 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ca0c40ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x450412ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ca0c40ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x450412ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4734,7 +4750,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x35d52a (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d05c00ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x35d52aul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d05c00ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x35d52aul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4744,7 +4760,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8af (8 bytes)
 //    pos: intptr = 0xadab5 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d188c0ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0xadab5ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d188c0ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0xadab5ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4754,7 +4770,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8af (8 bytes)
 //    pos: intptr = 0x39a786 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20db55c0ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x39a786ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20db55c0ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x39a786ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4764,7 +4780,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x120609 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20dcd700ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x120609ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20dcd700ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x120609ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4774,7 +4790,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x1ca434 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20de3dc0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x1ca434ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20de3dc0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x1ca434ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4784,7 +4800,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x7fb04 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e27800ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x7fb04ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e27800ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x7fb04ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4794,7 +4810,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x35a9e4 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e324c0ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x35a9e4ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e324c0ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x35a9e4ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4804,7 +4820,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x37636b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e37180ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x37636bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e37180ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x37636bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4814,7 +4830,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x37c2a0 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e4d940ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x37c2a0ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e4d940ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x37c2a0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4824,7 +4840,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x422cda (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e56180ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x422cdaul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e56180ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x422cdaul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4834,7 +4850,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x46f177 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e941c0ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x46f177ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e941c0ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x46f177ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4844,7 +4860,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x3cdde8 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ea0580ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x3cdde8ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ea0580ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x3cdde8ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4854,7 +4870,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x185ad (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20eb6440ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x185adul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20eb6440ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x185adul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4864,7 +4880,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x512ab (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20eca840ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x512abul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20eca840ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x512abul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4874,7 +4890,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0xbc47e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20eced00ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0xbc47eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20eced00ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0xbc47eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4884,7 +4900,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x2d2d20 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ed2100ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x2d2d20ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ed2100ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x2d2d20ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4894,7 +4910,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x21ea70 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f24dc0ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x21ea70ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f24dc0ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x21ea70ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4904,7 +4920,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x3beb83 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f4e880ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x3beb83ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f4e880ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x3beb83ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4914,7 +4930,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x298ec6 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f56940ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x298ec6ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f56940ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x298ec6ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4924,7 +4940,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x328d98 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f5fa80ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x328d98ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f5fa80ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x328d98ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4934,7 +4950,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x237017 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f736c0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x237017ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f736c0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x237017ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4944,7 +4960,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x409e98 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20fa4940ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x409e98ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20fa4940ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x409e98ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4954,7 +4970,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0xa58d6 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20faea40ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0xa58d6ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20faea40ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0xa58d6ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4964,7 +4980,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x48f8d9 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20fdfe80ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x48f8d9ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20fdfe80ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x48f8d9ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4974,7 +4990,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x262490 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20027f40ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x262490ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20027f40ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x262490ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4984,7 +5000,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x162eb9 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2002aa80ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x162eb9ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2002aa80ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x162eb9ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -4994,7 +5010,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x2cbc92 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2006be40ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x2cbc92ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2006be40ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x2cbc92ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5004,7 +5020,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x315ea4 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20073640ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x315ea4ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20073640ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x315ea4ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5014,7 +5030,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x354a9e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x200caec0ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x354a9eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200caec0ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x354a9eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5024,7 +5040,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x36ada2 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x200e4040ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x36ada2ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200e4040ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x36ada2ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5034,7 +5050,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x23faa2 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20110600ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x23faa2ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20110600ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x23faa2ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5044,7 +5060,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x8a82e (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20123200ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x8a82eul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20123200ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x8a82eul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5054,7 +5070,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x34c028 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2016c300ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x34c028ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2016c300ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x34c028ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5064,7 +5080,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x2a1088 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x201c8980ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x2a1088ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x201c8980ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x2a1088ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5074,7 +5090,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x306c3f (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x201df080ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x306c3ful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x201df080ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x306c3ful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5084,7 +5100,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x19907b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x201e1bc0ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x19907bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x201e1bc0ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x19907bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5094,7 +5110,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x3bda34 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2020b540ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x3bda34ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2020b540ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x3bda34ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5104,7 +5120,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x23a404 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2023c080ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x23a404ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2023c080ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x23a404ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5114,7 +5130,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b3 (8 bytes)
 //    pos: intptr = 0x23acae (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20307ec0ul+PTR_OFFSET, /*count=*/0x8b3ul, /*pos=*/0x23acaeul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20307ec0ul+PTR_OFFSET, /*count=*/0x8b3ul, /*pos=*/0x23acaeul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5124,7 +5140,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x283d35 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20385f40ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x283d35ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20385f40ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x283d35ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5134,7 +5150,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x43ddc6 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x203a7880ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x43ddc6ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203a7880ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x43ddc6ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5144,7 +5160,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0xce231 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x203aabc0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0xce231ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203aabc0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0xce231ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5154,7 +5170,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0xfa816 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x203af040ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0xfa816ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203af040ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0xfa816ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5164,7 +5180,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b2 (8 bytes)
 //    pos: intptr = 0x15be24 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x203b4dc0ul+PTR_OFFSET, /*count=*/0x8b2ul, /*pos=*/0x15be24ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203b4dc0ul+PTR_OFFSET, /*count=*/0x8b2ul, /*pos=*/0x15be24ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5174,7 +5190,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x38e915 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x203c6100ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x38e915ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203c6100ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x38e915ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5184,7 +5200,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x43d520 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x203c8300ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x43d520ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203c8300ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x43d520ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5194,7 +5210,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x10ce5d (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x203f4940ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x10ce5dul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x203f4940ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x10ce5dul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5204,7 +5220,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x1b1ead (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20411f80ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x1b1eadul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20411f80ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x1b1eadul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5214,7 +5230,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x7ad22 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2041ca00ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x7ad22ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2041ca00ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x7ad22ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5224,7 +5240,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x13b6df (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x204430c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x13b6dful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x204430c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x13b6dful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5234,7 +5250,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x93b49 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x204586c0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x93b49ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x204586c0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x93b49ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5244,7 +5260,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x197687 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20502080ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x197687ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20502080ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x197687ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5254,7 +5270,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x36685f (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20524340ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x36685ful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20524340ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x36685ful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5264,7 +5280,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x3ba641 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2057b3c0ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x3ba641ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2057b3c0ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x3ba641ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5274,7 +5290,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x2016fc (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x205abd40ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x2016fcul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x205abd40ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x2016fcul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5284,7 +5300,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x231977 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x205c2b40ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x231977ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x205c2b40ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x231977ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5294,7 +5310,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x3a4364 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20650380ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x3a4364ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20650380ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x3a4364ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5304,7 +5320,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0xb5c9a (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2065c700ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0xb5c9aul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2065c700ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0xb5c9aul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5314,7 +5330,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x106f2b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x206b75c0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x106f2bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x206b75c0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x106f2bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5324,7 +5340,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x2fea65 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x207031c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x2fea65ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x207031c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x2fea65ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5334,7 +5350,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x47480f (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20711040ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x47480ful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20711040ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x47480ful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5344,7 +5360,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x8e4be (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2071ddc0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x8e4beul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2071ddc0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x8e4beul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5354,7 +5370,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x2a55b5 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20720040ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x2a55b5ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20720040ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x2a55b5ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5364,7 +5380,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x17919c (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2075a380ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x17919cul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2075a380ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x17919cul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5374,7 +5390,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x33b3f6 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2077bec0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x33b3f6ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2077bec0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x33b3f6ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5384,7 +5400,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x2acef5 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20787200ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x2acef5ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20787200ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x2acef5ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5394,7 +5410,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x3e2f81 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20789d40ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x3e2f81ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20789d40ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x3e2f81ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5404,7 +5420,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x479ea1 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2079d980ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x479ea1ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2079d980ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x479ea1ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5414,7 +5430,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x2f3d4b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x207a72c0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x2f3d4bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x207a72c0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x2f3d4bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5424,7 +5440,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x17072a (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x207b0480ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x17072aul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x207b0480ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x17072aul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5434,7 +5450,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b1 (8 bytes)
 //    pos: intptr = 0x2b7c1d (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20821a00ul+PTR_OFFSET, /*count=*/0x8b1ul, /*pos=*/0x2b7c1dul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20821a00ul+PTR_OFFSET, /*count=*/0x8b1ul, /*pos=*/0x2b7c1dul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5444,7 +5460,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x1d260d (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20823c80ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x1d260dul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20823c80ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x1d260dul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5454,7 +5470,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x388128 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20838100ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x388128ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20838100ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x388128ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5464,7 +5480,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x2f1208 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20890a40ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x2f1208ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20890a40ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x2f1208ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5474,7 +5490,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a1 (8 bytes)
 //    pos: intptr = 0x49d134 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x208a4e40ul+PTR_OFFSET, /*count=*/0x8a1ul, /*pos=*/0x49d134ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x208a4e40ul+PTR_OFFSET, /*count=*/0x8a1ul, /*pos=*/0x49d134ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5484,7 +5500,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0xdcc00 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x208ccf80ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0xdcc00ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x208ccf80ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0xdcc00ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5494,7 +5510,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x42fc89 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x208fb780ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x42fc89ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x208fb780ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x42fc89ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5504,7 +5520,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x344708 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20927cc0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x344708ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20927cc0ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x344708ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5514,7 +5530,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0xb0eaf (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20950cc0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0xb0eaful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20950cc0ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0xb0eaful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5524,7 +5540,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x232d7 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2098e240ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x232d7ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2098e240ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x232d7ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5534,7 +5550,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x46898c (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x209cae80ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x46898cul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x209cae80ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x46898cul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5544,7 +5560,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x1b0d65 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x209df4c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x1b0d65ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x209df4c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x1b0d65ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5554,7 +5570,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a2 (8 bytes)
 //    pos: intptr = 0x9bd17 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a149c0ul+PTR_OFFSET, /*count=*/0x8a2ul, /*pos=*/0x9bd17ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a149c0ul+PTR_OFFSET, /*count=*/0x8a2ul, /*pos=*/0x9bd17ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5564,7 +5580,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x1db085 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a16c40ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x1db085ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a16c40ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x1db085ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5574,7 +5590,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b2 (8 bytes)
 //    pos: intptr = 0x190ea3 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a46dc0ul+PTR_OFFSET, /*count=*/0x8b2ul, /*pos=*/0x190ea3ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a46dc0ul+PTR_OFFSET, /*count=*/0x8b2ul, /*pos=*/0x190ea3ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5584,7 +5600,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x1ddbcc (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a81ac0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x1ddbccul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a81ac0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x1ddbccul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5594,7 +5610,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x31404 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20a980c0ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x31404ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20a980c0ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x31404ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5604,7 +5620,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x1a2396 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ad8c80ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x1a2396ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ad8c80ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x1a2396ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5614,7 +5630,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0x24a7b0 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20aeeb40ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x24a7b0ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20aeeb40ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0x24a7b0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5624,7 +5640,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x16f5d7 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b17d80ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x16f5d7ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b17d80ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x16f5d7ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5634,7 +5650,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0xd04ca (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b2ddc0ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0xd04caul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b2ddc0ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0xd04caul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5644,7 +5660,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x1b8f2c (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b30880ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x1b8f2cul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b30880ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x1b8f2cul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5654,7 +5670,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x24e444 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20b92a80ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x24e444ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20b92a80ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x24e444ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5664,7 +5680,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a2 (8 bytes)
 //    pos: intptr = 0x1f0ab1 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20bfb580ul+PTR_OFFSET, /*count=*/0x8a2ul, /*pos=*/0x1f0ab1ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20bfb580ul+PTR_OFFSET, /*count=*/0x8a2ul, /*pos=*/0x1f0ab1ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5674,7 +5690,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x3b69af (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20c002c0ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x3b69aful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20c002c0ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x3b69aful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5684,7 +5700,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8af (8 bytes)
 //    pos: intptr = 0x2dfcff (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20c03640ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x2dfcfful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20c03640ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x2dfcfful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5694,7 +5710,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x2e2845 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20c058c0ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x2e2845ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20c058c0ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x2e2845ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5704,7 +5720,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0xbcd2b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20c10340ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0xbcd2bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20c10340ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0xbcd2bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5714,7 +5730,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b0 (8 bytes)
 //    pos: intptr = 0x378eaa (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20c62800ul+PTR_OFFSET, /*count=*/0x8b0ul, /*pos=*/0x378eaaul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20c62800ul+PTR_OFFSET, /*count=*/0x8b0ul, /*pos=*/0x378eaaul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5724,7 +5740,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x2a6fb6 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20c9c1c0ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x2a6fb6ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20c9c1c0ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x2a6fb6ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5734,7 +5750,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x11522 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20cc2940ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x11522ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20cc2940ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x11522ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5744,7 +5760,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x3f3bc4 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d1e700ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x3f3bc4ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d1e700ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x3f3bc4ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5754,7 +5770,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x18840c (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d211c0ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x18840cul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d211c0ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x18840cul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5764,7 +5780,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x6bac4 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20d99240ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x6bac4ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20d99240ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x6bac4ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5774,7 +5790,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x40c9dd (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20db7880ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x40c9ddul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20db7880ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x40c9ddul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5784,7 +5800,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x423582 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20dba380ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x423582ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20dba380ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x423582ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5794,7 +5810,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b3 (8 bytes)
 //    pos: intptr = 0x414310 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e157c0ul+PTR_OFFSET, /*count=*/0x8b3ul, /*pos=*/0x414310ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e157c0ul+PTR_OFFSET, /*count=*/0x8b3ul, /*pos=*/0x414310ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5804,7 +5820,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x3984f2 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e61780ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x3984f2ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e61780ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x3984f2ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5814,7 +5830,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x66cd9 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e816c0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x66cd9ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e816c0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x66cd9ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5824,7 +5840,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x35ddd7 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20e98700ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x35ddd7ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20e98700ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x35ddd7ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5834,7 +5850,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x103b3b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20ee4580ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x103b3bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20ee4580ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x103b3bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5844,7 +5860,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ae (8 bytes)
 //    pos: intptr = 0x2eaa29 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20effa80ul+PTR_OFFSET, /*count=*/0x8aeul, /*pos=*/0x2eaa29ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20effa80ul+PTR_OFFSET, /*count=*/0x8aeul, /*pos=*/0x2eaa29ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5854,7 +5870,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x289c78 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f01d00ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x289c78ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f01d00ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x289c78ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5864,7 +5880,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ad (8 bytes)
 //    pos: intptr = 0x392e5b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f03f80ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x392e5bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f03f80ul+PTR_OFFSET, /*count=*/0x8adul, /*pos=*/0x392e5bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5874,7 +5890,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x60d9f (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f072c0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x60d9ful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f072c0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x60d9ful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5884,7 +5900,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8af (8 bytes)
 //    pos: intptr = 0x6a0cb (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f1fc00ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x6a0cbul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f1fc00ul+PTR_OFFSET, /*count=*/0x8aful, /*pos=*/0x6a0cbul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5894,7 +5910,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a2 (8 bytes)
 //    pos: intptr = 0x351f4d (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f52f80ul+PTR_OFFSET, /*count=*/0x8a2ul, /*pos=*/0x351f4dul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f52f80ul+PTR_OFFSET, /*count=*/0x8a2ul, /*pos=*/0x351f4dul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5904,7 +5920,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0xe792f (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f5da80ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0xe792ful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f5da80ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0xe792ful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5914,7 +5930,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x3ab3e8 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f65b40ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x3ab3e8ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f65b40ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x3ab3e8ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5924,7 +5940,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a3 (8 bytes)
 //    pos: intptr = 0xdeea5 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20f93080ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0xdeea5ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20f93080ul+PTR_OFFSET, /*count=*/0x8a3ul, /*pos=*/0xdeea5ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5934,7 +5950,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x24ecec (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20fcc240ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x24ececul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20fcc240ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x24ececul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5944,7 +5960,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x707f (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20fd7e40ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x707ful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20fd7e40ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x707ful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5954,7 +5970,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x43b27a (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20009140ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x43b27aul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20009140ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x43b27aul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5964,7 +5980,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x1be5c5 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2003a180ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x1be5c5ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2003a180ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x1be5c5ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5974,7 +5990,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x29ba08 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2004f700ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x29ba08ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2004f700ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x29ba08ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5984,7 +6000,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ac (8 bytes)
 //    pos: intptr = 0x476e2 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20060740ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x476e2ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20060740ul+PTR_OFFSET, /*count=*/0x8acul, /*pos=*/0x476e2ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -5994,7 +6010,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x122006 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2008e840ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x122006ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2008e840ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x122006ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -6004,7 +6020,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8ab (8 bytes)
 //    pos: intptr = 0x2c20b8 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x200a3640ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x2c20b8ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200a3640ul+PTR_OFFSET, /*count=*/0x8abul, /*pos=*/0x2c20b8ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -6014,7 +6030,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x45ff1f (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x200a7240ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x45ff1ful);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200a7240ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x45ff1ful);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -6024,7 +6040,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x26587b (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x200ac780ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x26587bul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200ac780ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x26587bul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -6034,7 +6050,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0x9abc3 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x200bfc00ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x9abc3ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200bfc00ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0x9abc3ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -6044,7 +6060,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x3db20 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x200c62c0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x3db20ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200c62c0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x3db20ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -6054,7 +6070,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8aa (8 bytes)
 //    pos: intptr = 0xb7695 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x200dc0c0ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0xb7695ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200dc0c0ul+PTR_OFFSET, /*count=*/0x8aaul, /*pos=*/0xb7695ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -6064,7 +6080,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x24db9d (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x200fc8c0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x24db9dul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x200fc8c0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x24db9dul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -6074,7 +6090,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x14cbb0 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20103880ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x14cbb0ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20103880ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x14cbb0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -6084,7 +6100,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x297d78 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20105b00ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x297d78ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20105b00ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x297d78ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -6094,7 +6110,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0x22d424 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20113140ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x22d424ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20113140ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0x22d424ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -6104,7 +6120,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a4 (8 bytes)
 //    pos: intptr = 0x6a97a (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20118ec0ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x6a97aul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20118ec0ul+PTR_OFFSET, /*count=*/0x8a4ul, /*pos=*/0x6a97aul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -6114,7 +6130,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x22187 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x2013f6c0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x22187ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x2013f6c0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x22187ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -6124,7 +6140,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a9 (8 bytes)
 //    pos: intptr = 0x110258 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x201410c0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x110258ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x201410c0ul+PTR_OFFSET, /*count=*/0x8a9ul, /*pos=*/0x110258ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -6134,7 +6150,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a6 (8 bytes)
 //    pos: intptr = 0x3250f9 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x201880c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x3250f9ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x201880c0ul+PTR_OFFSET, /*count=*/0x8a6ul, /*pos=*/0x3250f9ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -6144,7 +6160,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a5 (8 bytes)
 //    pos: intptr = 0x442319 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20197040ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x442319ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20197040ul+PTR_OFFSET, /*count=*/0x8a5ul, /*pos=*/0x442319ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -6154,7 +6170,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a8 (8 bytes)
 //    pos: intptr = 0x3ff169 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20198a40ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x3ff169ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20198a40ul+PTR_OFFSET, /*count=*/0x8a8ul, /*pos=*/0x3ff169ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -6164,7 +6180,7 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8b0 (8 bytes)
 //    pos: intptr = 0x2215b1 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x201ca4c0ul+PTR_OFFSET, /*count=*/0x8b0ul, /*pos=*/0x2215b1ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x201ca4c0ul+PTR_OFFSET, /*count=*/0x8b0ul, /*pos=*/0x2215b1ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  pread64 arguments: [
 //    fd: fd (resource)
@@ -6174,8 +6190,8 @@ memcpy((void*)(0x20d24b40ul+PTR_OFFSET), "./tmp/rocksdb_db/000032.sst\000", 28);
 //    count: len = 0x8a7 (8 bytes)
 //    pos: intptr = 0xfa816 (8 bytes)
 //  ]
-	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x201cd8c0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0xfa816ul);
+	res = syscall(__NR_pread64, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x201cd8c0ul+PTR_OFFSET, /*count=*/0x8a7ul, /*pos=*/0xfa816ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-	close(UNIQUE_VAR(r)[0]);
+	close(UNIQUE_VAR(ctx->r)[0]);
 	return 0;
 }

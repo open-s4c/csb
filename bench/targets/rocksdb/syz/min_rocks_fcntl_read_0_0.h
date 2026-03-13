@@ -85,7 +85,7 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 const static int UNIQUE_VAR(num_subdirs) = 1;
 const static char* UNIQUE_VAR(subdirs)[1] = {"tmp/rocksdb_db"};
 const static int UNIQUE_VAR(num_filenames) = 1;
-const static char* UNIQUE_VAR(filenames)[1] = {"./tmp/rocksdb_db/CURREN"};
+const static char* UNIQUE_VAR(filenames)[1] = {"./tmp/rocksdb_db/CURRENT"};
 const static int UNIQUE_VAR(num_filesizes) = 1;
 const static uint64_t UNIQUE_VAR(filesizes)[1] = {0};
 
@@ -124,86 +124,104 @@ static void __attribute__((noinline)) UNIQUE_FUNC(remove_tmp_dir)(const char* di
 }
 
 static inline int
-UNIQUE_FUNC(bm_dispatch_operation)(thread_ctx_t* ctx, size_t op_id)
+UNIQUE_FUNC(bm_target_reg)(thread_ctx_t* ctx)
+{
+		intptr_t res = 0;
+	V_UNUSED(res);
+	UNIQUE_VAR(ctx->r) = (uint64_t*)malloc(sizeof(uint64_t)*3);
+	UNIQUE_VAR(ctx->r)[0] = 0xffffffffffffffff;
+	UNIQUE_VAR(ctx->r)[1] = 0xffffffffffffffff;
+	UNIQUE_VAR(ctx->r)[2] = 0xffffffffffffffff;
+	return 0;
+}
+static inline int
+UNIQUE_FUNC(bm_target_dereg)(thread_ctx_t* ctx)
+{
+		free(UNIQUE_VAR(ctx->r));
+	return 0;
+}
+
+static inline int UNIQUE_FUNC(bm_dispatch_operation)(thread_ctx_t* ctx, size_t op_id)
 {
 	const char* reason;
 	(void)reason;
-			uint64_t UNIQUE_VAR(r)[3] = {0xffffffffffffffff, 0xffffffffffffffff, 0xffffffffffffffff};
+			
 	intptr_t res = 0;
+	V_UNUSED(res);
 //  faccessat arguments: [
 //    dirfd: fd_dir (resource)
 //    pathname: ptr[in, buffer] {
-//      buffer: {2e 2f 74 6d 70 2f 72 6f 63 6b 73 64 62 5f 64 62 2f 43 55 52 52 45 4e 54 00} (length 0x19)
+//      buffer: {2e 2f 74 6d 70 2f 72 6f 63 6b 73 64 62 5f 64 62 2f 43 55 52 52 45 4e 54} (length 0x18)
 //    }
 //    mode: open_mode = 0x0 (8 bytes)
 //  ]
-memcpy((void*)(0x20009a80ul+PTR_OFFSET), "./tmp/rocksdb_db/CURRENT\000", 25);
-	res = syscall(__NR_faccessat, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20009a80ul+PTR_OFFSET, /*mode=*/0ul);
+memcpy((void*)(0x20009740ul+PTR_OFFSET), "./tmp/rocksdb_db/CURRENT", 24);
+	res = syscall(__NR_faccessat, UNIQUE_VAR(ctx->dirfd), /*pathname=*/0x20009740ul+PTR_OFFSET, /*mode=*/0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 74 6d 70 2f 72 6f 63 6b 73 64 62 5f 64 62 2f 43 55 52 52 45 4e 54 00} (length 0x19)
+//      buffer: {2e 2f 74 6d 70 2f 72 6f 63 6b 73 64 62 5f 64 62 2f 43 55 52 52 45 4e 54} (length 0x18)
 //    }
 //    flags: open_flags = 0x80040 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20009ac0ul+PTR_OFFSET), "./tmp/rocksdb_db/CURRENT\000", 25);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20009ac0ul+PTR_OFFSET, /*flags=O_CREAT|O_CLOEXEC*/0x80040, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20009780ul+PTR_OFFSET), "./tmp/rocksdb_db/CURRENT", 24);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20009780ul+PTR_OFFSET, /*flags=O_CREAT|O_CLOEXEC*/0x80040, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
-		UNIQUE_VAR(r)[0] = res;
+		UNIQUE_VAR(ctx->r)[0] = res;
 //  fcntl$getflags arguments: [
 //    fd: fd (resource)
 //    cmd: fcntl_getflags = 0x1 (8 bytes)
 //  ]
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(r)[0], /*cmd=F_GETFD*/1ul, 0);
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*cmd=F_GETFD*/1ul, 0);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  fcntl$setflags arguments: [
 //    fd: fd (resource)
 //    cmd: const = 0x2 (8 bytes)
 //    flags: fcntl_flags = 0x1 (8 bytes)
 //  ]
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(r)[0], /*cmd=*/2ul, /*flags=FD_CLOEXEC*/1ul);
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*cmd=*/2ul, /*flags=FD_CLOEXEC*/1ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  close arguments: [
 //    fd: fd (resource)
 //  ]
-	res = syscall(__NR_close, /*fd=*/UNIQUE_VAR(r)[0]);
+	res = syscall(__NR_close, /*fd=*/UNIQUE_VAR(ctx->r)[0]);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 74 6d 70 2f 72 6f 63 6b 73 64 62 5f 64 62 2f 43 55 52 52 45 4e 54 00} (length 0x19)
+//      buffer: {2e 2f 74 6d 70 2f 72 6f 63 6b 73 64 62 5f 64 62 2f 43 55 52 52 45 4e 54} (length 0x18)
 //    }
 //    flags: open_flags = 0x80040 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20009b00ul+PTR_OFFSET), "./tmp/rocksdb_db/CURRENT\000", 25);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20009b00ul+PTR_OFFSET, /*flags=O_CREAT|O_CLOEXEC*/0x80040, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x200097c0ul+PTR_OFFSET), "./tmp/rocksdb_db/CURRENT", 24);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200097c0ul+PTR_OFFSET, /*flags=O_CREAT|O_CLOEXEC*/0x80040, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
-		UNIQUE_VAR(r)[1] = res;
+		UNIQUE_VAR(ctx->r)[1] = res;
 //  fcntl$getflags arguments: [
 //    fd: fd (resource)
 //    cmd: fcntl_getflags = 0x1 (8 bytes)
 //  ]
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(r)[1], /*cmd=F_GETFD*/1ul, 0);
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[1], /*cmd=F_GETFD*/1ul, 0);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  fcntl$setflags arguments: [
 //    fd: fd (resource)
 //    cmd: const = 0x2 (8 bytes)
 //    flags: fcntl_flags = 0x1 (8 bytes)
 //  ]
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(r)[1], /*cmd=*/2ul, /*flags=FD_CLOEXEC*/1ul);
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[1], /*cmd=*/2ul, /*flags=FD_CLOEXEC*/1ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  fcntl$getflags arguments: [
 //    fd: fd (resource)
 //    cmd: fcntl_getflags = 0x3 (8 bytes)
 //  ]
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(r)[1], /*cmd=F_GETFL*/3ul, 0);
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[1], /*cmd=F_GETFL*/3ul, 0);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -212,7 +230,7 @@ memcpy((void*)(0x20009b00ul+PTR_OFFSET), "./tmp/rocksdb_db/CURRENT\000", 25);
 //    }
 //    count: len = 0x2000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[1], /*buf=*/0x20009c00ul+PTR_OFFSET, /*count=*/0x2000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[1], /*buf=*/0x200098c0ul+PTR_OFFSET, /*count=*/0x2000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -221,7 +239,7 @@ memcpy((void*)(0x20009b00ul+PTR_OFFSET), "./tmp/rocksdb_db/CURRENT\000", 25);
 //    }
 //    count: len = 0x1000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[1], /*buf=*/0x20009c40ul+PTR_OFFSET, /*count=*/0x1000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[1], /*buf=*/0x20009900ul+PTR_OFFSET, /*count=*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -230,39 +248,39 @@ memcpy((void*)(0x20009b00ul+PTR_OFFSET), "./tmp/rocksdb_db/CURRENT\000", 25);
 //    }
 //    count: len = 0x2000 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[1], /*buf=*/0x20009c80ul+PTR_OFFSET, /*count=*/0x2000ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[1], /*buf=*/0x20009940ul+PTR_OFFSET, /*count=*/0x2000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  close arguments: [
 //    fd: fd (resource)
 //  ]
-	res = syscall(__NR_close, /*fd=*/UNIQUE_VAR(r)[1]);
+	res = syscall(__NR_close, /*fd=*/UNIQUE_VAR(ctx->r)[1]);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 74 6d 70 2f 72 6f 63 6b 73 64 62 5f 64 62 2f 30 30 30 30 33 34 2e 64 62 74 6d 70 00} (length 0x1e)
+//      buffer: {2e 2f 74 6d 70 2f 72 6f 63 6b 73 64 62 5f 64 62 2f 30 30 30 30 33 34 2e 64 62 74 6d 70} (length 0x1d)
 //    }
 //    flags: open_flags = 0x80241 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20d33400ul+PTR_OFFSET), "./tmp/rocksdb_db/000034.dbtmp\000", 30);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d33400ul+PTR_OFFSET, /*flags=O_TRUNC|O_CREAT|O_CLOEXEC|O_WRONLY*/0x80241, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20d33440ul+PTR_OFFSET), "./tmp/rocksdb_db/000034.dbtmp", 29);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d33440ul+PTR_OFFSET, /*flags=O_TRUNC|O_CREAT|O_CLOEXEC|O_WRONLY*/0x80241, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
-		UNIQUE_VAR(r)[2] = res;
+		UNIQUE_VAR(ctx->r)[2] = res;
 //  fcntl$getflags arguments: [
 //    fd: fd (resource)
 //    cmd: fcntl_getflags = 0x1 (8 bytes)
 //  ]
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(r)[2], /*cmd=F_GETFD*/1ul, 0);
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[2], /*cmd=F_GETFD*/1ul, 0);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  fcntl$setflags arguments: [
 //    fd: fd (resource)
 //    cmd: const = 0x2 (8 bytes)
 //    flags: fcntl_flags = 0x1 (8 bytes)
 //  ]
-	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(r)[2], /*cmd=*/2ul, /*flags=FD_CLOEXEC*/1ul);
+	res = syscall(__NR_fcntl, /*fd=*/UNIQUE_VAR(ctx->r)[2], /*cmd=*/2ul, /*flags=FD_CLOEXEC*/1ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  fstatfs arguments: [
 //    fd: fd (resource)
@@ -270,7 +288,7 @@ memcpy((void*)(0x20d33400ul+PTR_OFFSET), "./tmp/rocksdb_db/000034.dbtmp\000", 30
 //      buffer: (DirOut)
 //    }
 //  ]
-	res = syscall(__NR_fstatfs, /*fd=*/UNIQUE_VAR(r)[2], /*buf=*/0x20d33440ul+PTR_OFFSET);
+	res = syscall(__NR_fstatfs, /*fd=*/UNIQUE_VAR(ctx->r)[2], /*buf=*/0x20d33480ul+PTR_OFFSET);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  sync_file_range arguments: [
 //    fd: fd (resource)
@@ -278,7 +296,7 @@ memcpy((void*)(0x20d33400ul+PTR_OFFSET), "./tmp/rocksdb_db/000034.dbtmp\000", 30
 //    nbytes: intptr = 0x0 (8 bytes)
 //    flags: sync_file_flags = 0x0 (8 bytes)
 //  ]
-	res = syscall(__NR_sync_file_range, /*fd=*/UNIQUE_VAR(r)[2], /*off=*/0ul, /*nbytes=*/0ul, /*flags=*/0ul);
+	res = syscall(__NR_sync_file_range, /*fd=*/UNIQUE_VAR(ctx->r)[2], /*off=*/0ul, /*nbytes=*/0ul, /*flags=*/0ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  write arguments: [
 //    fd: fd (resource)
@@ -287,17 +305,17 @@ memcpy((void*)(0x20d33400ul+PTR_OFFSET), "./tmp/rocksdb_db/000034.dbtmp\000", 30
 //    }
 //    count: len = 0x10 (8 bytes)
 //  ]
-	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(r)[2], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x10ul);
+	res = syscall(__NR_write, /*fd=*/UNIQUE_VAR(ctx->r)[2], UNIQUE_VAR(ctx->writeBuffer), /*count=*/0x10ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  fdatasync arguments: [
 //    fd: fd (resource)
 //  ]
-	res = syscall(__NR_fdatasync, /*fd=*/UNIQUE_VAR(r)[2]);
+	res = syscall(__NR_fdatasync, /*fd=*/UNIQUE_VAR(ctx->r)[2]);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  close arguments: [
 //    fd: fd (resource)
 //  ]
-	res = syscall(__NR_close, /*fd=*/UNIQUE_VAR(r)[2]);
+	res = syscall(__NR_close, /*fd=*/UNIQUE_VAR(ctx->r)[2]);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  renameat arguments: [
 //    oldfd: fd_dir (resource)

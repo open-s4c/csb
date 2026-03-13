@@ -97,12 +97,25 @@ static void __attribute__((noinline)) UNIQUE_FUNC(remove_tmp_dir)(const char* di
 }
 
 static inline int
-UNIQUE_FUNC(bm_dispatch_operation)(thread_ctx_t* ctx, size_t op_id)
+UNIQUE_FUNC(bm_target_reg)(thread_ctx_t* ctx)
+{
+	
+	return 0;
+}
+static inline int
+UNIQUE_FUNC(bm_target_dereg)(thread_ctx_t* ctx)
+{
+		free(UNIQUE_VAR(ctx->r));
+	return 0;
+}
+
+static inline int UNIQUE_FUNC(bm_dispatch_operation)(thread_ctx_t* ctx, size_t op_id)
 {
 	const char* reason;
 	(void)reason;
 			
 	intptr_t res = 0;
+	V_UNUSED(res);
 //  newfstatat arguments: [
 //    dfd: const = 0x3 (8 bytes)
 //    file: ptr[in, buffer] {
@@ -576,8 +589,8 @@ memset((void*)(0x200032c0ul+PTR_OFFSET), 0, 1);
 //    }
 //    flag: statx_flags = 0x1000 (8 bytes)
 //  ]
-memset((void*)(0x20003640ul+PTR_OFFSET), 0, 1);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20003640ul+PTR_OFFSET, /*statbuf=*/0x20003680ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
+memset((void*)(0x20003680ul+PTR_OFFSET), 0, 1);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20003680ul+PTR_OFFSET, /*statbuf=*/0x200036c0ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  newfstatat arguments: [
 //    dfd: const = 0x1 (8 bytes)
@@ -610,8 +623,8 @@ memset((void*)(0x20003640ul+PTR_OFFSET), 0, 1);
 //    }
 //    flag: statx_flags = 0x1000 (8 bytes)
 //  ]
-memset((void*)(0x20007f00ul+PTR_OFFSET), 0, 1);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20007f00ul+PTR_OFFSET, /*statbuf=*/0x20007f40ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
+memset((void*)(0x20007b40ul+PTR_OFFSET), 0, 1);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20007b40ul+PTR_OFFSET, /*statbuf=*/0x20007b80ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  newfstatat arguments: [
 //    dfd: const = 0x3 (8 bytes)
@@ -644,8 +657,8 @@ memset((void*)(0x20007f00ul+PTR_OFFSET), 0, 1);
 //    }
 //    flag: statx_flags = 0x1000 (8 bytes)
 //  ]
-memset((void*)(0x20008080ul+PTR_OFFSET), 0, 1);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20008080ul+PTR_OFFSET, /*statbuf=*/0x200080c0ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
+memset((void*)(0x20007d00ul+PTR_OFFSET), 0, 1);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20007d00ul+PTR_OFFSET, /*statbuf=*/0x20007d40ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  newfstatat arguments: [
 //    dfd: const = 0x4 (8 bytes)
@@ -678,8 +691,8 @@ memset((void*)(0x20008080ul+PTR_OFFSET), 0, 1);
 //    }
 //    flag: statx_flags = 0x1000 (8 bytes)
 //  ]
-memset((void*)(0x20008c00ul+PTR_OFFSET), 0, 1);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20008c00ul+PTR_OFFSET, /*statbuf=*/0x20008c40ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
+memset((void*)(0x20008900ul+PTR_OFFSET), 0, 1);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20008900ul+PTR_OFFSET, /*statbuf=*/0x20008940ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  newfstatat arguments: [
 //    dfd: const = 0x4 (8 bytes)
@@ -712,8 +725,8 @@ memset((void*)(0x20008c00ul+PTR_OFFSET), 0, 1);
 //    }
 //    flag: statx_flags = 0x1000 (8 bytes)
 //  ]
-memset((void*)(0x20008cc0ul+PTR_OFFSET), 0, 1);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20008cc0ul+PTR_OFFSET, /*statbuf=*/0x20008d00ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
+memset((void*)(0x200089c0ul+PTR_OFFSET), 0, 1);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x200089c0ul+PTR_OFFSET, /*statbuf=*/0x20008a00ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  newfstatat arguments: [
 //    dfd: const = 0x4 (8 bytes)
@@ -746,8 +759,8 @@ memset((void*)(0x20008cc0ul+PTR_OFFSET), 0, 1);
 //    }
 //    flag: statx_flags = 0x1000 (8 bytes)
 //  ]
-memset((void*)(0x20009280ul+PTR_OFFSET), 0, 1);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20009280ul+PTR_OFFSET, /*statbuf=*/0x200092c0ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
+memset((void*)(0x20008f00ul+PTR_OFFSET), 0, 1);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20008f00ul+PTR_OFFSET, /*statbuf=*/0x20008f40ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  newfstatat arguments: [
 //    dfd: const = 0x6 (8 bytes)
@@ -780,8 +793,8 @@ memset((void*)(0x20009280ul+PTR_OFFSET), 0, 1);
 //    }
 //    flag: statx_flags = 0x1000 (8 bytes)
 //  ]
-memset((void*)(0x20009b40ul+PTR_OFFSET), 0, 1);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20009b40ul+PTR_OFFSET, /*statbuf=*/0x20009b80ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
+memset((void*)(0x20009800ul+PTR_OFFSET), 0, 1);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20009800ul+PTR_OFFSET, /*statbuf=*/0x20009840ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  newfstatat arguments: [
 //    dfd: const = 0x7 (8 bytes)
@@ -814,8 +827,8 @@ memset((void*)(0x20009b40ul+PTR_OFFSET), 0, 1);
 //    }
 //    flag: statx_flags = 0x1000 (8 bytes)
 //  ]
-memset((void*)(0x20009d40ul+PTR_OFFSET), 0, 1);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20009d40ul+PTR_OFFSET, /*statbuf=*/0x20009d80ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
+memset((void*)(0x20009a00ul+PTR_OFFSET), 0, 1);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20009a00ul+PTR_OFFSET, /*statbuf=*/0x20009a40ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  newfstatat arguments: [
 //    dfd: const = 0x6 (8 bytes)
@@ -848,8 +861,8 @@ memset((void*)(0x20009d40ul+PTR_OFFSET), 0, 1);
 //    }
 //    flag: statx_flags = 0x1000 (8 bytes)
 //  ]
-memset((void*)(0x20009f00ul+PTR_OFFSET), 0, 1);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20009f00ul+PTR_OFFSET, /*statbuf=*/0x20009f40ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
+memset((void*)(0x20009bc0ul+PTR_OFFSET), 0, 1);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20009bc0ul+PTR_OFFSET, /*statbuf=*/0x20009c00ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  newfstatat arguments: [
 //    dfd: const = 0x6 (8 bytes)
@@ -882,11 +895,45 @@ memset((void*)(0x20009f00ul+PTR_OFFSET), 0, 1);
 //    }
 //    flag: statx_flags = 0x1000 (8 bytes)
 //  ]
-memset((void*)(0x2003db00ul+PTR_OFFSET), 0, 1);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2003db00ul+PTR_OFFSET, /*statbuf=*/0x2003db40ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
+memset((void*)(0x2003d7c0ul+PTR_OFFSET), 0, 1);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2003d7c0ul+PTR_OFFSET, /*statbuf=*/0x2003d800ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  newfstatat arguments: [
 //    dfd: const = 0x6 (8 bytes)
+//    file: ptr[in, buffer] {
+//      buffer: {00} (length 0x1)
+//    }
+//    statbuf: ptr[out, stat] {
+//      stat {
+//        st_dev: intptr = 0x0 (8 bytes)
+//        st_ino: intptr = 0x0 (8 bytes)
+//        st_mode: int32 = 0x0 (4 bytes)
+//        st_nlink: int32 = 0x0 (4 bytes)
+//        st_uid: uid (resource)
+//        st_gid: gid (resource)
+//        st_rdev: intptr = 0x0 (8 bytes)
+//        __pad1: const = 0x0 (8 bytes)
+//        st_size: intptr = 0x0 (8 bytes)
+//        st_blksize: int32 = 0x0 (4 bytes)
+//        __pad2: const = 0x0 (4 bytes)
+//        st_blocks: intptr = 0x0 (8 bytes)
+//        st_atime: intptr = 0x0 (8 bytes)
+//        st_atime_nsec: intptr = 0x0 (8 bytes)
+//        st_mtime: intptr = 0x0 (8 bytes)
+//        st_mtime_nsec: intptr = 0x0 (8 bytes)
+//        st_ctime: intptr = 0x0 (8 bytes)
+//        st_ctime_nsec: intptr = 0x0 (8 bytes)
+//        __unused4: const = 0x0 (4 bytes)
+//        __unused5: const = 0x0 (4 bytes)
+//      }
+//    }
+//    flag: statx_flags = 0x1000 (8 bytes)
+//  ]
+memset((void*)(0x2003d980ul+PTR_OFFSET), 0, 1);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2003d980ul+PTR_OFFSET, /*statbuf=*/0x2003d9c0ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
+	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
+//  newfstatat arguments: [
+//    dfd: const = 0xa (8 bytes)
 //    file: ptr[in, buffer] {
 //      buffer: {00} (length 0x1)
 //    }
@@ -950,8 +997,8 @@ memset((void*)(0x2003dcc0ul+PTR_OFFSET), 0, 1);
 //    }
 //    flag: statx_flags = 0x1000 (8 bytes)
 //  ]
-memset((void*)(0x2003e040ul+PTR_OFFSET), 0, 1);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2003e040ul+PTR_OFFSET, /*statbuf=*/0x2003e080ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
+memset((void*)(0x2003de80ul+PTR_OFFSET), 0, 1);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2003de80ul+PTR_OFFSET, /*statbuf=*/0x2003dec0ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  newfstatat arguments: [
 //    dfd: const = 0xa (8 bytes)
@@ -984,42 +1031,8 @@ memset((void*)(0x2003e040ul+PTR_OFFSET), 0, 1);
 //    }
 //    flag: statx_flags = 0x1000 (8 bytes)
 //  ]
-memset((void*)(0x2003e200ul+PTR_OFFSET), 0, 1);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x2003e200ul+PTR_OFFSET, /*statbuf=*/0x2003e240ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
-	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
-//  newfstatat arguments: [
-//    dfd: const = 0xa (8 bytes)
-//    file: ptr[in, buffer] {
-//      buffer: {00} (length 0x1)
-//    }
-//    statbuf: ptr[out, stat] {
-//      stat {
-//        st_dev: intptr = 0x0 (8 bytes)
-//        st_ino: intptr = 0x0 (8 bytes)
-//        st_mode: int32 = 0x0 (4 bytes)
-//        st_nlink: int32 = 0x0 (4 bytes)
-//        st_uid: uid (resource)
-//        st_gid: gid (resource)
-//        st_rdev: intptr = 0x0 (8 bytes)
-//        __pad1: const = 0x0 (8 bytes)
-//        st_size: intptr = 0x0 (8 bytes)
-//        st_blksize: int32 = 0x0 (4 bytes)
-//        __pad2: const = 0x0 (4 bytes)
-//        st_blocks: intptr = 0x0 (8 bytes)
-//        st_atime: intptr = 0x0 (8 bytes)
-//        st_atime_nsec: intptr = 0x0 (8 bytes)
-//        st_mtime: intptr = 0x0 (8 bytes)
-//        st_mtime_nsec: intptr = 0x0 (8 bytes)
-//        st_ctime: intptr = 0x0 (8 bytes)
-//        st_ctime_nsec: intptr = 0x0 (8 bytes)
-//        __unused4: const = 0x0 (4 bytes)
-//        __unused5: const = 0x0 (4 bytes)
-//      }
-//    }
-//    flag: statx_flags = 0x1000 (8 bytes)
-//  ]
-memset((void*)(0x20d24b80ul+PTR_OFFSET), 0, 1);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d24b80ul+PTR_OFFSET, /*statbuf=*/0x20d24bc0ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
+memset((void*)(0x20d24c40ul+PTR_OFFSET), 0, 1);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d24c40ul+PTR_OFFSET, /*statbuf=*/0x20d24c80ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  newfstatat arguments: [
 //    dfd: const = 0xb (8 bytes)
@@ -1052,8 +1065,8 @@ memset((void*)(0x20d24b80ul+PTR_OFFSET), 0, 1);
 //    }
 //    flag: statx_flags = 0x1000 (8 bytes)
 //  ]
-memset((void*)(0x20d32cc0ul+PTR_OFFSET), 0, 1);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d32cc0ul+PTR_OFFSET, /*statbuf=*/0x20d32d00ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
+memset((void*)(0x20d32d80ul+PTR_OFFSET), 0, 1);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d32d80ul+PTR_OFFSET, /*statbuf=*/0x20d32dc0ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  newfstatat arguments: [
 //    dfd: const = 0xd (8 bytes)
@@ -1086,8 +1099,8 @@ memset((void*)(0x20d32cc0ul+PTR_OFFSET), 0, 1);
 //    }
 //    flag: statx_flags = 0x1000 (8 bytes)
 //  ]
-memset((void*)(0x20d356c0ul+PTR_OFFSET), 0, 1);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d356c0ul+PTR_OFFSET, /*statbuf=*/0x20d35700ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
+memset((void*)(0x20d35640ul+PTR_OFFSET), 0, 1);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d35640ul+PTR_OFFSET, /*statbuf=*/0x20d35680ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  newfstatat arguments: [
 //    dfd: const = 0xd (8 bytes)
@@ -1120,8 +1133,8 @@ memset((void*)(0x20d356c0ul+PTR_OFFSET), 0, 1);
 //    }
 //    flag: statx_flags = 0x1000 (8 bytes)
 //  ]
-memset((void*)(0x20d37c40ul+PTR_OFFSET), 0, 1);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d37c40ul+PTR_OFFSET, /*statbuf=*/0x20d37c80ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
+memset((void*)(0x20d37d00ul+PTR_OFFSET), 0, 1);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d37d00ul+PTR_OFFSET, /*statbuf=*/0x20d37d40ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  newfstatat arguments: [
 //    dfd: const = 0xd (8 bytes)
@@ -1154,8 +1167,8 @@ memset((void*)(0x20d37c40ul+PTR_OFFSET), 0, 1);
 //    }
 //    flag: statx_flags = 0x1000 (8 bytes)
 //  ]
-memset((void*)(0x20d37e40ul+PTR_OFFSET), 0, 1);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d37e40ul+PTR_OFFSET, /*statbuf=*/0x20d37e80ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
+memset((void*)(0x20d37f80ul+PTR_OFFSET), 0, 1);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d37f80ul+PTR_OFFSET, /*statbuf=*/0x20d37fc0ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  newfstatat arguments: [
 //    dfd: const = 0xd (8 bytes)
@@ -1188,8 +1201,8 @@ memset((void*)(0x20d37e40ul+PTR_OFFSET), 0, 1);
 //    }
 //    flag: statx_flags = 0x1000 (8 bytes)
 //  ]
-memset((void*)(0x20d38040ul+PTR_OFFSET), 0, 1);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d38040ul+PTR_OFFSET, /*statbuf=*/0x20d38080ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
+memset((void*)(0x20d38200ul+PTR_OFFSET), 0, 1);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d38200ul+PTR_OFFSET, /*statbuf=*/0x20d38240ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  newfstatat arguments: [
 //    dfd: const = 0xd (8 bytes)
@@ -1222,8 +1235,8 @@ memset((void*)(0x20d38040ul+PTR_OFFSET), 0, 1);
 //    }
 //    flag: statx_flags = 0x1000 (8 bytes)
 //  ]
-memset((void*)(0x20d38540ul+PTR_OFFSET), 0, 1);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d38540ul+PTR_OFFSET, /*statbuf=*/0x20d38580ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
+memset((void*)(0x20d38700ul+PTR_OFFSET), 0, 1);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20d38700ul+PTR_OFFSET, /*statbuf=*/0x20d38740ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  newfstatat arguments: [
 //    dfd: const = 0x8 (8 bytes)
@@ -1256,8 +1269,8 @@ memset((void*)(0x20d38540ul+PTR_OFFSET), 0, 1);
 //    }
 //    flag: statx_flags = 0x1000 (8 bytes)
 //  ]
-memset((void*)(0x20edcbc0ul+PTR_OFFSET), 0, 1);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20edcbc0ul+PTR_OFFSET, /*statbuf=*/0x20edcc00ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
+memset((void*)(0x20edc340ul+PTR_OFFSET), 0, 1);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20edc340ul+PTR_OFFSET, /*statbuf=*/0x20edc380ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  newfstatat arguments: [
 //    dfd: const = 0xc (8 bytes)
@@ -1290,8 +1303,8 @@ memset((void*)(0x20edcbc0ul+PTR_OFFSET), 0, 1);
 //    }
 //    flag: statx_flags = 0x1000 (8 bytes)
 //  ]
-memset((void*)(0x20edcec0ul+PTR_OFFSET), 0, 1);
-	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20edcec0ul+PTR_OFFSET, /*statbuf=*/0x20edcf00ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
+memset((void*)(0x20edc540ul+PTR_OFFSET), 0, 1);
+	res = syscall(__NR_newfstatat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20edc540ul+PTR_OFFSET, /*statbuf=*/0x20edc580ul+PTR_OFFSET, /*flag=AT_EMPTY_PATH*/0x1000ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	return 0;
 }

@@ -36,6 +36,7 @@ struct thread_ctx_s {
     size_t tid;
     size_t iteration;
     bool aggregation_threads;
+    uint64_t *r_min_rocks_write_fcntl_5_0_prog;
     char *tmpdir_min_rocks_write_fcntl_5_0_prog;
     int dirfd_min_rocks_write_fcntl_5_0_prog;
     int num_succeeded_min_rocks_write_fcntl_5_0_prog;
@@ -227,6 +228,9 @@ bm_target_reg(thread_ctx_t *ctx, size_t tid)
     saddr6_bind->sin6_addr                        = in6addr_any;
 
     // EVERYTHING MUST BE INITIALIZED BEFORE
+    // do the per test reg
+    bm_target_reg_min_rocks_write_fcntl_5_0_prog(ctx);
+
     // do one warmup iteration to allocate memory in mmap
     bm_dispatch_operation_min_rocks_write_fcntl_5_0_prog(ctx, 0);
 
@@ -238,6 +242,9 @@ bm_target_reg(thread_ctx_t *ctx, size_t tid)
 static inline void
 bm_target_dereg(thread_ctx_t *ctx, size_t tid)
 {
+    // do the per test dereg
+    bm_target_dereg_min_rocks_write_fcntl_5_0_prog(ctx);
+
     free(ctx->tmpdir_min_rocks_write_fcntl_5_0_prog);
     // free(ctx->connect_arg_min_rocks_write_fcntl_5_0_prog);
     ctx->tmpdir_min_rocks_write_fcntl_5_0_prog = NULL;
@@ -245,6 +252,24 @@ bm_target_dereg(thread_ctx_t *ctx, size_t tid)
     // free write buffer
     free(ctx->writeBuffer_min_rocks_write_fcntl_5_0_prog);
     ctx->writeBuffer_min_rocks_write_fcntl_5_0_prog = NULL;
+
+    // if bm_connect_addr_inited == true, memory is static (see bm_network.h)
+    if (!bm_connect_addr_inited) {
+        free(ctx->connect4_arg_min_rocks_write_fcntl_5_0_prog);
+        ctx->connect4_arg_min_rocks_write_fcntl_5_0_prog = NULL;
+    }
+
+    // if bm_bind_addr_inited == true, memory is static (see bm_network.h)
+    if (!bm_bind_addr_inited) {
+        free(ctx->bind4_arg_min_rocks_write_fcntl_5_0_prog);
+        ctx->bind4_arg_min_rocks_write_fcntl_5_0_prog = NULL;
+    }
+
+    free(ctx->connect6_arg_min_rocks_write_fcntl_5_0_prog);
+    ctx->connect6_arg_min_rocks_write_fcntl_5_0_prog = NULL;
+    free(ctx->bind6_arg_min_rocks_write_fcntl_5_0_prog);
+    ctx->bind6_arg_min_rocks_write_fcntl_5_0_prog = NULL;
+
 
     V_UNUSED(ctx, tid);
 }

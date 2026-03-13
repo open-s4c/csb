@@ -64,7 +64,7 @@ const char* UNIQUE_VAR(netops_accept)[0] = {};
 const static int UNIQUE_VAR(num_subdirs) = 1;
 const static char* UNIQUE_VAR(subdirs)[1] = {"proc/self"};
 const static int UNIQUE_VAR(num_filenames) = 1;
-const static char* UNIQUE_VAR(filenames)[1] = {"./proc/self/statu"};
+const static char* UNIQUE_VAR(filenames)[1] = {"./proc/self/status"};
 const static int UNIQUE_VAR(num_filesizes) = 1;
 const static uint64_t UNIQUE_VAR(filesizes)[1] = {0};
 
@@ -103,26 +103,43 @@ static void __attribute__((noinline)) UNIQUE_FUNC(remove_tmp_dir)(const char* di
 }
 
 static inline int
-UNIQUE_FUNC(bm_dispatch_operation)(thread_ctx_t* ctx, size_t op_id)
+UNIQUE_FUNC(bm_target_reg)(thread_ctx_t* ctx)
+{
+		intptr_t res = 0;
+	V_UNUSED(res);
+	UNIQUE_VAR(ctx->r) = (uint64_t*)malloc(sizeof(uint64_t)*2);
+	UNIQUE_VAR(ctx->r)[0] = 0xffffffffffffffff;
+	UNIQUE_VAR(ctx->r)[1] = 0xffffffffffffffff;
+	return 0;
+}
+static inline int
+UNIQUE_FUNC(bm_target_dereg)(thread_ctx_t* ctx)
+{
+		free(UNIQUE_VAR(ctx->r));
+	return 0;
+}
+
+static inline int UNIQUE_FUNC(bm_dispatch_operation)(thread_ctx_t* ctx, size_t op_id)
 {
 	const char* reason;
 	(void)reason;
-			uint64_t UNIQUE_VAR(r)[2] = {0xffffffffffffffff, 0xffffffffffffffff};
+			
 	intptr_t res = 0;
+	V_UNUSED(res);
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 70 72 6f 63 2f 73 65 6c 66 2f 73 74 61 74 75 73 00} (length 0x13)
+//      buffer: {2e 2f 70 72 6f 63 2f 73 65 6c 66 2f 73 74 61 74 75 73} (length 0x12)
 //    }
 //    flags: open_flags = 0x40 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20002c80ul+PTR_OFFSET), "./proc/self/status\000", 19);
+memcpy((void*)(0x20002c80ul+PTR_OFFSET), "./proc/self/status", 18);
 	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20002c80ul+PTR_OFFSET, /*flags=O_CREAT*/0x40, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
-		UNIQUE_VAR(r)[0] = res;
+		UNIQUE_VAR(ctx->r)[0] = res;
 //  read arguments: [
 //    fd: fd (resource)
 //    buf: ptr[out, buffer] {
@@ -130,7 +147,7 @@ memcpy((void*)(0x20002c80ul+PTR_OFFSET), "./proc/self/status\000", 19);
 //    }
 //    count: len = 0x400 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20002d80ul+PTR_OFFSET, /*count=*/0x400ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20002d80ul+PTR_OFFSET, /*count=*/0x400ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -139,7 +156,7 @@ memcpy((void*)(0x20002c80ul+PTR_OFFSET), "./proc/self/status\000", 19);
 //    }
 //    count: len = 0x400 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20003180ul+PTR_OFFSET, /*count=*/0x400ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20003180ul+PTR_OFFSET, /*count=*/0x400ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -148,27 +165,27 @@ memcpy((void*)(0x20002c80ul+PTR_OFFSET), "./proc/self/status\000", 19);
 //    }
 //    count: len = 0x400 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[0], /*buf=*/0x20003240ul+PTR_OFFSET, /*count=*/0x400ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[0], /*buf=*/0x20003240ul+PTR_OFFSET, /*count=*/0x400ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  close arguments: [
 //    fd: fd (resource)
 //  ]
-	res = syscall(__NR_close, /*fd=*/UNIQUE_VAR(r)[0]);
+	res = syscall(__NR_close, /*fd=*/UNIQUE_VAR(ctx->r)[0]);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  openat arguments: [
 //    fd: fd_dir (resource)
 //    file: ptr[in, buffer] {
-//      buffer: {2e 2f 70 72 6f 63 2f 73 65 6c 66 2f 73 74 61 74 75 73 00} (length 0x13)
+//      buffer: {2e 2f 70 72 6f 63 2f 73 65 6c 66 2f 73 74 61 74 75 73} (length 0x12)
 //    }
 //    flags: open_flags = 0x40 (4 bytes)
 //    mode: open_mode = 0x1ff (2 bytes)
 //  ]
 //  returns fd
-memcpy((void*)(0x20003600ul+PTR_OFFSET), "./proc/self/status\000", 19);
-	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20003600ul+PTR_OFFSET, /*flags=O_CREAT*/0x40, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
+memcpy((void*)(0x20003640ul+PTR_OFFSET), "./proc/self/status", 18);
+	res = syscall(__NR_openat, UNIQUE_VAR(ctx->dirfd), /*file=*/0x20003640ul+PTR_OFFSET, /*flags=O_CREAT*/0x40, /*mode=S_IXOTH|S_IWOTH|S_IROTH|S_IXGRP|S_IWGRP|S_IRGRP|S_IXUSR|S_IWUSR|0x100*/0x1ff);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	if (res != -1)
-		UNIQUE_VAR(r)[1] = res;
+		UNIQUE_VAR(ctx->r)[1] = res;
 //  read arguments: [
 //    fd: fd (resource)
 //    buf: ptr[out, buffer] {
@@ -176,7 +193,7 @@ memcpy((void*)(0x20003600ul+PTR_OFFSET), "./proc/self/status\000", 19);
 //    }
 //    count: len = 0x400 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[1], /*buf=*/0x20003700ul+PTR_OFFSET, /*count=*/0x400ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[1], /*buf=*/0x20003740ul+PTR_OFFSET, /*count=*/0x400ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -185,7 +202,7 @@ memcpy((void*)(0x20003600ul+PTR_OFFSET), "./proc/self/status\000", 19);
 //    }
 //    count: len = 0x400 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[1], /*buf=*/0x20003b00ul+PTR_OFFSET, /*count=*/0x400ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[1], /*buf=*/0x20003b40ul+PTR_OFFSET, /*count=*/0x400ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  read arguments: [
 //    fd: fd (resource)
@@ -194,12 +211,12 @@ memcpy((void*)(0x20003600ul+PTR_OFFSET), "./proc/self/status\000", 19);
 //    }
 //    count: len = 0x400 (8 bytes)
 //  ]
-	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(r)[1], /*buf=*/0x20003bc0ul+PTR_OFFSET, /*count=*/0x400ul);
+	res = syscall(__NR_read, /*fd=*/UNIQUE_VAR(ctx->r)[1], /*buf=*/0x20003c00ul+PTR_OFFSET, /*count=*/0x400ul);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 //  close arguments: [
 //    fd: fd (resource)
 //  ]
-	res = syscall(__NR_close, /*fd=*/UNIQUE_VAR(r)[1]);
+	res = syscall(__NR_close, /*fd=*/UNIQUE_VAR(ctx->r)[1]);
 	if (res == -1 ) { assert(!abort_on_fail); UNIQUE_VAR(ctx->num_failed)++;} else {UNIQUE_VAR(ctx->num_succeeded)++;};
 	return 0;
 }
