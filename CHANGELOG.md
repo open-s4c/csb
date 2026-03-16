@@ -17,7 +17,7 @@ and this project partially comply with [Semantic Versioning](https://semver.org/
 
 - bm-generator optimized
 - bm-generator support networking syscalls
-- flamgragh selection added to bm-generator pipeline
+- flamegraph selection added to bm-generator pipeline
 - update mySQL benchmarks including networking syscalls
 
 ## [0.1.0] - 2026-02-04
