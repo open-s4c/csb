@@ -16,22 +16,16 @@ $_map(LAST, $_islast);
 		{
 			"x": "container_cnt",
 			"x_lbl": "#Containers",
-			"y": "throughput_min",
-			"y_lbl": "Throughput",
-			"hue": "execution_type",
-			"hue_lbl": "Execution Env",
-			"title": "Linearity vs. #Containers",
-			"type": "linearity"
+			"y": "univ_succ_percent",
+			"y_lbl": "Operations success percent",
+			"hue_lbl": "Executer",
+			"hue": "execution_unit",
+			"shape": "barplot",
+			"title" : "Success% vs. #Containers"
 		}
 	],
 	"benchmark_config" : {
-		"duration": 20,
-		"threads": {
-			"values":
-			[
-				{"min": 1, "step": 2, "max": 10}
-			]
-		}
+		"duration": 20
 	},
 	"containers": {
 		"container_list":
@@ -41,8 +35,7 @@ $_begin(NPROCS = [[1; 2]]);
 				[NPROCS]
 $_end();
 		]},
-		"core_count": 1,
-		"name" : "syz_proc_container"
+		"core_count": 1
     },
     "applications": [
 $_begin(NN = [[1; 2]]);
