@@ -155,6 +155,47 @@ In case no config files are provided, no new benchmarks are executed and only th
 
 The output of the script is a list of benchmark names that are distinct from each other, according to the flamegraph difference criterion.
 
+## Excluded syscalls for bm-generator
+
+The following list of syscalls is parsed by bm-generator, but excluded from [syzlang][] program generation.
+
+|Syscall|Reason|
+|---|---|
+|execve|Replaces actual benchmark program|
+|arch_prctl|Unsafe to set process properties|
+|wait4|Multithreaded tests are not supported|
+|wait ||
+|clone||
+|futex||
+|---|---|
+|mmap | Might interfere with mmap'ed memory for test |
+|msync  ||
+|mremap ||
+|mprotect ||
+|madvise  ||
+|munmap ||
+|---|---|
+|rt_sigprocmask|Sigset cannot be evaluated, yet|
+|rt_sigtimedwait||
+|rt_sigreturn||
+|rt_sigqueueinfo||
+|rt_sigsuspend||
+|rt_sigaction|Function pointers are not recovered by strace|
+|---|---|
+|set_robust_list|Glibc issued calls mostly uninteresting|
+|set_tid_address||
+|---|---|
+|io_setup      |AOI syscalls are paired by resources passed in memory pointers (io_ctx), not supported yet.|
+|io_getevents  ||
+|io_pgetevents ||
+|io_destroy    ||
+|io_submit     ||
+|io_cancel     ||
+|---|---|
+|write|Supported, but if used on file descriptor 0,1 or 2 (stdin, stdout, stderr) these are dropped to avoid blocking or output parsing issues|
+|read||
+|---|---|
+
 [strace]: https://github.com/strace/strace
 [tmplr]: https://github.com/open-s4c/tmplr
 [syzkaller]: https://github.com/open-s4c/syzkaller/tree/s4c/
