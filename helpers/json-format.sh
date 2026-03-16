@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Copyright (C) Huawei Technologies Co., Ltd. 2026. All rights reserved.
 # SPDX-License-Identifier: MIT
-
-for f in config/*.json; do
+shopt -s globstar
+for f in config/**/*.json; do
     # Check if the JSON file is valid.
     if jq empty "$f"; then
         # Format valid JSON file

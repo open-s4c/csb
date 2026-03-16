@@ -98,7 +98,7 @@ list(LENGTH HEADERS FILES_NUM)
 set(APPLICATIONS "")
 foreach(HEADER ${HEADERS})
     get_filename_component(APP "${HEADER}" NAME_WE)
-    list(APPEND APPLICATIONS "${APP}")
+    list(APPEND APPLICATIONS "${SUBDIR}_${APP}")
 endforeach()
 # Escape ; in order to be able to pass APPLICATIONS to tmplr
 string(REPLACE ";" "\\;" APPLICATIONS "${APPLICATIONS}")
