@@ -192,8 +192,8 @@ The following list of syscalls is parsed by bm-generator, but excluded from [syz
 |io_submit     ||
 |io_cancel     ||
 |---|---|
-|write|Supported, but if used on file descriptor 0,1 or 2 (stdin, stdout, stderr) these are dropped to avoid blocking or output parsing issues|
-|read||
+|write|Supported, but if used on file descriptor 1 or 2 (stdout, stderr) these are dropped to avoid output parsing issues|
+|read|Supported, but if used on file descriptor 0 (stdin) these are dropped to avoid blocking|
 |---|---|
 
 [strace]: https://github.com/strace/strace
