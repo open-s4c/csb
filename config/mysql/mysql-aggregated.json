@@ -30,7 +30,8 @@
 			"values": [
 				[45]
 		]},
-		"core_count": 1
+		"core_count": 1,
+                "port": 8000
     },
     "applications": [
             {"name": "mysql_min_mysql_faccessat2_missing_1_0", "operations": [1024]},
@@ -78,5 +79,18 @@
             {"name": "mysql_min_mysql_recvfrom_sendto_0_0", "operations": [1024]},
             {"name": "mysql_min_mysql_recvfrom_sendto_20_0", "operations": [1024]},
             {"name": "mysql_min_mysql_recvfrom_sendto_32_0", "operations": [1024]}
-    ]
+    ],
+    "plugins": [
+     {
+    	"name": "generic-network-client.sh",
+    	"exec_time": "pre",
+    	"force_stop": "True",
+    	"args": [
+    		"8000",
+    		"{n_units}",
+    		"{homedir}/build/bench/network/client",
+    		"{homedir}/bench/targets/mysql/syz/min_mysql_recvfrom_sendto_32_0.meta"
+    	]
+     }
+  ]
 }
