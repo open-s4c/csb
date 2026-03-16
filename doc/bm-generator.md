@@ -163,38 +163,14 @@ The following list of syscalls is parsed by bm-generator, but excluded from [syz
 |---|---|
 |execve|Replaces actual benchmark program|
 |arch_prctl|Unsafe to set process properties|
-|wait4|Multithreaded tests are not supported|
-|wait ||
-|clone||
-|futex||
-|---|---|
-|mmap | Might interfere with mmap'ed memory for test |
-|msync  ||
-|mremap ||
-|mprotect ||
-|madvise  ||
-|munmap ||
-|---|---|
-|rt_sigprocmask|Sigset cannot be evaluated, yet|
-|rt_sigtimedwait||
-|rt_sigreturn||
-|rt_sigqueueinfo||
-|rt_sigsuspend||
+|wait, wait4, clone, futex|Multithreaded tests are not supported|
+|mmap, msync, mremap, mprotect, madvise, munmap | Might interfere with mmap'ed memory for test |
+|rt_sig* |Sigset cannot be evaluated, yet|
 |rt_sigaction|Function pointers are not recovered by strace|
-|---|---|
-|set_robust_list|Glibc issued calls mostly uninteresting|
-|set_tid_address||
-|---|---|
-|io_setup      |AOI syscalls are paired by resources passed in memory pointers (io_ctx), not supported yet.|
-|io_getevents  ||
-|io_pgetevents ||
-|io_destroy    ||
-|io_submit     ||
-|io_cancel     ||
-|---|---|
+|set_robust_list, set_tid_address|Glibc issued calls mostly uninteresting|
+|io_setup, io_getevents, io_* |AOI syscalls are paired by resources passed in memory pointers (io_ctx), not supported yet.|
 |write|Supported, but if used on file descriptor 1 or 2 (stdout, stderr) these are dropped to avoid output parsing issues|
 |read|Supported, but if used on file descriptor 0 (stdin) these are dropped to avoid blocking|
-|---|---|
 
 [strace]: https://github.com/strace/strace
 [tmplr]: https://github.com/open-s4c/tmplr
