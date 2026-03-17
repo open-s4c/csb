@@ -14,7 +14,7 @@ import json
 from utils.logger import bm_log, LogType
 from benchkit.utils.types import PathType
 from config.env_config import EnvUniversalConfig, UniversalConfig
-
+#from config.application import Application
 
 def resolve_path(path: PathType, use_in_container: bool = False) -> PathType:
     """
@@ -31,10 +31,41 @@ def resolve_path(path: PathType, use_in_container: bool = False) -> PathType:
     new_path = os.path.join(homedir, path)
     return new_path
 
+def build_target(app) -> bool:
+    build_dir = Path("build/bench").resolve()
+    app_dir = Path(app).resolve()
+    if not app_dir.is_relative_to(build_dir):
+        return False
+
+    target = app_dir.name
+    wdir = project_dir()
+    bm_log(f"Building {target} in {wdir}")
+    shell_out(
+        command=f"cmake -DCMAKE_BUILD_TYPE=Release -S. -Bbuild",
+        output_is_log=True,
+        current_dir=wdir,
+    )
+    shell_out(
+        command=f"cmake --build build -j 4 --target {target}",
+        output_is_log=True,
+        current_dir=wdir,
+    )
+    shell_out(
+        command=f"cmake --build build/bench/network",
+        output_is_log=True,
+        current_dir=wdir,
+    )
+    return True
+
+def project_dir() -> Path:
+    return Path(os.getcwd()).parent
 
 # Builds the C micro-benchmarks
 # bench_src_dir should be the project folder of bench
 def build_bench(bench_src_dir):
+    if EnvUniversalConfig.is_on(UniversalConfig.CSB_NO_BUILD_BENCH):
+        bm_log("CSB_NO_BUILD_BENCH is set to true, skipping builtin benchmark building. Users should manually have them built", LogType.WARNING)
+        return
     build_dir = os.path.join(bench_src_dir, "build")
     config_cmd = f"cmake -DCMAKE_BUILD_TYPE=Release -S{bench_src_dir} -B{build_dir}"
     build_cmd = f"cmake --build {build_dir} -j"
@@ -231,10 +262,14 @@ def ensure_exists(
         else:
             bm_log(f"Environment variable: '{env_var_dir}' is not set", LogType.FATAL)
             sys.exit(1)
+    # try to build as a target if it a builtin-benchmark
+    if build_target(fname) and Path(resolve_path(fname)).exists():
+        return fname
     # Was not found in given path, system wide, or under env-var
     # path
     bm_log(f"Could not find the given binary/file {fname}", LogType.FATAL)
     sys.exit(1)
+
 
 
 def dict_intersect(dicts: list[dict], save_dir, header_dict: dict) -> list[dict]:

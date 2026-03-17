@@ -16,17 +16,20 @@ class UniversalConfig(str, Enum):
     ----------
     CSB_NO_CLEAN_BENCH: When set to `true`, it disables the cleaning of the build folder of builtin benchmarks.
     CSB_ANALYZE: When set to `false`, it disables the analysis monitors.
+    CSB_NO_BUILD_BENCH: when set to `true`, it skips building builtin benchmarks.
     CSB_RESULTS_GROUP: when set to <dir-name>, bm-runner dumps all results under results/<dir-name>.
     """
 
     CSB_NO_CLEAN_BENCH = "CSB_NO_CLEAN_BENCH"
     CSB_ANALYZE = "CSB_ANALYZE"
+    CSB_NO_BUILD_BENCH = "CSB_NO_BUILD_BENCH"
     CSB_RESULTS_GROUP = "CSB_RESULTS_GROUP"
 
 
 class EnvUniversalConfig:
     DEFAULT_ENV_CONFIG: dict[UniversalConfig, bool] = {
         UniversalConfig.CSB_NO_CLEAN_BENCH: False,
+        UniversalConfig.CSB_NO_BUILD_BENCH: False,
         UniversalConfig.CSB_ANALYZE: True,
     }
     TRUE_VALS: set[str] = {"true", "1", "yes", "on"}
