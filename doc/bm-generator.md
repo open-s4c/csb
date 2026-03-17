@@ -98,7 +98,9 @@ The only script that takes an argument is `02_parse.sh`, which needs a path to a
 
 Use the following [strace][] command to collect `strace.log`.
 
-_Note: replace `<app-binary>` with the name of your binary/application including all necessary arguments_
+_Note: replace `<app-binary>` with the name of your binary/application including all necessary arguments._
+
+_Note: strace must be previously installed using the command `dnf install strace`._
 
 ```bash
 ./scripts/collect_strace.sh strace.log <app-binary>
