@@ -24,6 +24,7 @@ class CampaignConfig:
          The overall configuration of a benchmark combines the setups of distinct components, such as application details and networking.
          Only some components need to specified, as displayed below.
          More information on each component is detailed in their own documentations.
+         If an object contains duplicate keys, the last one is used.
 
         Components
          ----------
