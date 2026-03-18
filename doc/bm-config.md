@@ -131,4 +131,5 @@ Execution environment of the benchmarks.  <br/>Supported values:
 CSB bm-runner has universal configuration that can overwrite default behavior and JSON config values. These are set via environment variables, and are read at runtime.  <br/>Supported values:
 - `"CSB_NO_CLEAN_BENCH"`:  When set to `true`, it disables the cleaning of the build folder of builtin benchmarks.
 - `"CSB_ANALYZE"`:  When set to `false`, it disables the analysis monitors.
+- `"CSB_NO_BUILD_BENCH"`:  when set to `true`, it skips building *all* builtin benchmarks.
 - `"CSB_RESULTS_GROUP"`:  when set to <dir-name>, bm-runner dumps all results under results/<dir-name>.

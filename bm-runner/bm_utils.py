@@ -13,7 +13,7 @@ from pathlib import Path
 import json
 from utils.logger import bm_log, LogType
 from benchkit.utils.types import PathType
-from config.env_config import EnvUniversalConfig, UniversalConfig
+from utils.bm_builder import Builder
 
 
 def resolve_path(path: PathType, use_in_container: bool = False) -> PathType:
@@ -30,28 +30,6 @@ def resolve_path(path: PathType, use_in_container: bool = False) -> PathType:
     homedir = "/home" if use_in_container else csb_dir
     new_path = os.path.join(homedir, path)
     return new_path
-
-
-# Builds the C micro-benchmarks
-# bench_src_dir should be the project folder of bench
-def build_bench(bench_src_dir):
-    build_dir = os.path.join(bench_src_dir, "build")
-    config_cmd = f"cmake -DCMAKE_BUILD_TYPE=Release -S{bench_src_dir} -B{build_dir}"
-    build_cmd = f"cmake --build {build_dir} -j"
-    if not EnvUniversalConfig.is_on(UniversalConfig.CSB_NO_CLEAN_BENCH):
-        bm_log("Cleaning previous bench build...", LogType.INFO)
-        shell_out(
-            f"rm -rf {build_dir}/*",
-            output_is_log=True,
-        )
-    shell_out(
-        f"{config_cmd}",
-        output_is_log=True,
-    )
-    shell_out(
-        f"{build_cmd}",
-        output_is_log=True,
-    )
 
 
 def check_data_directory(output_dir):
@@ -231,6 +209,12 @@ def ensure_exists(
         else:
             bm_log(f"Environment variable: '{env_var_dir}' is not set", LogType.FATAL)
             sys.exit(1)
+    # try to build as a target if it a builtin-benchmark
+    b = Builder()
+    if b.target_exists(name):
+        b.build_target(name)
+        assert Path(resolve_path(fname)).exists()
+        return fname
     # Was not found in given path, system wide, or under env-var
     # path
     bm_log(f"Could not find the given binary/file {fname}", LogType.FATAL)

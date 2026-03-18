@@ -15,10 +15,12 @@ from bm_utils import resolve_path
 
 
 class Process(ExecutionUnit):
+
     def __init__(self, idx, home_dir, record_data_dir, core_set, app: Application):
         super().__init__(idx=idx, home_dir=home_dir, app=app, type=ExecutionType.NATIVE)
         self.record_data_dir = record_data_dir
         self.core_set = core_set
+        self.process = None
 
     def get_results_dir(self) -> str:
         return str(resolve_path(self.record_data_dir, use_in_container=False))
@@ -44,6 +46,8 @@ class Process(ExecutionUnit):
         return True
 
     def wait(self):
+        if self.process is None:
+            return
         self.process.wait()
         if self.process.returncode != 0:
             bm_log(

@@ -23,6 +23,7 @@ export FLAMEGRAPH="${SCRIPT_DIR}/deps/FlameGraph"
 export SHE_HULK_ADAPTERS="${SCRIPT_DIR}/scripts/adapters"
 export CSB_ADAPTERS="${SCRIPT_DIR}/scripts/adapters"
 export CSB_PLUGINS="${SCRIPT_DIR}/scripts/plugins"
+export CSB_NO_BUILD_BENCH=ON
 
 BM_DIR=bm-runner
 
