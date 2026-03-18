@@ -14,6 +14,7 @@ import json
 from utils.logger import bm_log, LogType
 from benchkit.utils.types import PathType
 from config.env_config import EnvUniversalConfig, UniversalConfig
+from utils.bm_builder import Builder
 
 def resolve_path(path: PathType, use_in_container: bool = False) -> PathType:
     """
@@ -29,9 +30,6 @@ def resolve_path(path: PathType, use_in_container: bool = False) -> PathType:
     homedir = "/home" if use_in_container else csb_dir
     new_path = os.path.join(homedir, path)
     return new_path
-
-def get_project_dir() -> Path:
-    return Path(os.getcwd()).parent
 
 def check_data_directory(output_dir):
     if output_dir is None:
@@ -210,7 +208,10 @@ def ensure_exists(
             bm_log(f"Environment variable: '{env_var_dir}' is not set", LogType.FATAL)
             sys.exit(1)
     # try to build as a target if it a builtin-benchmark
-    if build_target(fname) and Path(resolve_path(fname)).exists():
+    b = Builder()
+    if(b.target_exists(name)):
+        b.build_target(name)
+        assert Path(resolve_path(fname)).exists()
         return fname
     # Was not found in given path, system wide, or under env-var
     # path

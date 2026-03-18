@@ -1,11 +1,11 @@
 # This class is responsible of building builtin
 # CSB targets/benchmarks
 
-from bm_utils import get_project_dir
 from benchkit.shell.shell import shell_out
 import os
 from utils.logger import bm_log, LogType
 from config.env_config import EnvUniversalConfig, UniversalConfig
+from pathlib import Path
 
 class Builder:
     project_dir:str ="."
@@ -14,8 +14,12 @@ class Builder:
     required_targets: list[str] = ["server", "client", "redis-client"]
 
     def __init__(self):
-        self.project_dir = get_project_dir()
+        self.project_dir = Builder.get_project_dir()
         self.build_dir = os.path.join(self.project_dir, self.build_dir)
+
+    @staticmethod
+    def get_project_dir() -> Path:
+        return Path(os.getcwd()).parent
 
     def __run_cmake_config(self):
         cmd = f"cmake -DCMAKE_BUILD_TYPE=Release -S{self.project_dir} -B{self.build_dir}"
