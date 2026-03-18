@@ -37,7 +37,7 @@ class Builder:
     def build(self):
         if EnvUniversalConfig.is_on(UniversalConfig.CSB_NO_BUILD_BENCH):
             bm_log(
-                "CSB_NO_BUILD_BENCH is set to true, skipping building all benchmarks. Users should manually have them built",
+                "CSB_NO_BUILD_BENCH is set to true, skipping building all benchmarks.",
                 LogType.WARNING,
             )
             return
