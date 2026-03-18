@@ -20,7 +20,7 @@ from config.benchmark import ExecutionType
 import bm_config
 from bm_executer import Executer
 from utils.logger import bm_log, LogType
-
+from utils.bm_builder import Builder
 
 class ScalabilityBenchmark(Benchmark):
     def __init__(
@@ -48,7 +48,8 @@ class ScalabilityBenchmark(Benchmark):
         ]
 
     def prebuild_bench(self, **_kwargs):
-        bm_utils.build_bench(self.csb_dir)
+        b = Builder()
+        b.build()
         bm_utils.save_sys_config(self._base_data_dir)
         bm_utils.save_docker_daemon_config(self._base_data_dir)
         # copy the configuration file and map it to the same name
