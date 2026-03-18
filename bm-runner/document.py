@@ -114,7 +114,7 @@ def get_pretty_default(doc: Optional[str], param, default):
         desc = match.group(1)
         return rf"`{desc}`"
     else:
-        return rf"`{default}`" if default is not None and default != "" else ""
+        return f"`{default}`" if default is not None and default != "" else ""
 
 
 def get_header_doc(doc: str):
