@@ -78,7 +78,7 @@ def pretty_type(t):
 
 
 def enum_values(t, add_title=True):
-    documentation = rf"## {t.__name__}\n" if add_title else ""
+    documentation = f"## {t.__name__}\n" if add_title else ""
     doc_str = inspect.getdoc(t)
     documentation += get_enum_doc(doc_str) if doc_str else ""
     documentation += "<br/>Supported values:\n"
