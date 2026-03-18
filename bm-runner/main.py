@@ -14,7 +14,6 @@ from benchkit.benchmark import (
     CommandAttachment,
 )
 from benchkit.campaign import CampaignCartesianProduct, CampaignSuite
-from benchkit.utils.dir import get_curdir, parentdir
 from typing import Iterable, Optional, Dict, Any
 import bm_config
 from bm_config import CampaignConfig
