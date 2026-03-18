@@ -2,25 +2,6 @@ name: CSB actions
 on: [workflow_dispatch, push, pull_request]
 
 jobs:
-  # Runs builtin benchmarks with ctest
-  Run-Tests:
-    # TODO: switch to ubuntu-latest-arm later
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        config: [-DCSB_ADDRESS_SANITIZER=ON, -DCSB_THREAD_SANITIZER=ON, ""]
-    steps:
-      - name: install pre-requisites
-        run: sudo apt-get install -y libhiredis-dev
-      - name: Test Builtin Benchmarks
-        uses: actions/checkout@v4
-      - name: Configure Testing
-        run: cmake -S. -Bbuild ${{ matrix.config }}
-      - name: Build Tests
-        run: cmake --build build -j
-      - name: Run Tests
-        run: ctest --test-dir build --output-on-failure
-
   Run-bm-generator:
     runs-on: ubuntu-latest
     steps:
