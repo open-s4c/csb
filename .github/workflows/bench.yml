@@ -1,5 +1,12 @@
 name: CSB C Benchmarks
-on: [workflow_dispatch, push, pull_request]
+on:
+  workflow_dispatch:  # Manual trigger
+  push:
+    paths:
+      - 'bench/**'  # Only files under the bench/ directory
+  pull_request:
+    paths:
+      - 'bench/**'  # Only files under the bench/ directory
 
 jobs:
   # Runs builtin benchmarks with ctest
