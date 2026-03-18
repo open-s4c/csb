@@ -158,7 +158,7 @@ def dump_doc(cls):
     doc = None
     sig = inspect.signature(cls.__init__)
     # add class name as a header
-    documentation = rf"\n## {cls.__name__}\n"
+    documentation = f"\n## {cls.__name__}\n"
 
     if cls.__init__.__doc__:
         doc = inspect.getdoc(cls.__init__)
