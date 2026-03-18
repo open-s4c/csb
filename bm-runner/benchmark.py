@@ -22,6 +22,7 @@ from bm_executer import Executer
 from utils.logger import bm_log, LogType
 from utils.bm_builder import Builder
 
+
 class ScalabilityBenchmark(Benchmark):
     def __init__(
         self,
