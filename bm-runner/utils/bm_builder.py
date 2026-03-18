@@ -5,9 +5,13 @@ from bm_utils import get_project_dir
 from benchkit.shell.shell import shell_out
 import os
 from utils.logger import bm_log, LogType
+from config.env_config import EnvUniversalConfig, UniversalConfig
+
 class Builder:
     project_dir:str ="."
     build_dir:str   ="build"
+    CORES:str = 4
+    required_targets: list[str] = ["server", "client", "redis-client"]
 
     def __init__(self):
         self.project_dir = get_project_dir()
@@ -20,6 +24,46 @@ class Builder:
             output_is_log=False,
             print_file_shell_cmd=False
         )
+
+    def __clean_build_dir(self):
+        if EnvUniversalConfig.is_on(UniversalConfig.CSB_NO_CLEAN_BENCH):
+            return
+        shell_out(
+            f"rm -rf {self.build_dir}/*",
+            output_is_log=False,
+            print_file_shell_cmd=False
+        )
+
+    def build(self):
+        if EnvUniversalConfig.is_on(UniversalConfig.CSB_NO_BUILD_BENCH):
+            bm_log(
+                "CSB_NO_BUILD_BENCH is set to true, skipping building all benchmarks. Users should manually have them built",
+                LogType.WARNING,
+            )
+            return
+        self.__clean_build_dir()
+        self.__run_cmake_config()
+        cmd = f"cmake --build {self.build_dir} -j {self.CORES}"
+        shell_out(
+            cmd,
+            output_is_log=True,
+            print_file_shell_cmd=False
+        )
+
+    def __build_target(self, target):
+        cmd = f"cmake --build {self.build_dir} --target {target} -j {self.CORES}"
+        shell_out(
+            cmd,
+            output_is_log=True,
+            print_file_shell_cmd=False
+        )
+
+    def build_target(self, target):
+        self.__clean_build_dir()
+        self.__run_cmake_config()
+        for t in self.required_targets:
+            self.__build_target(t)
+        self.__build_target(target)
 
     def __get_targets(self) -> set[str]:
         self.__run_cmake_config()
