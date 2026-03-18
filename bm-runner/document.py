@@ -78,12 +78,12 @@ def pretty_type(t):
 
 
 def enum_values(t, add_title=True):
-    documentation = f"## {t.__name__}\n" if add_title else ""
+    documentation = rf"## {t.__name__}\n" if add_title else ""
     doc_str = inspect.getdoc(t)
     documentation += get_enum_doc(doc_str) if doc_str else ""
     documentation += "<br/>Supported values:\n"
     for member in t:
-        pattern = f"^{member.name}:(.*)"
+        pattern = rf"^{member.name}:(.*)"
         if doc_str:
             match = re.search(pattern, doc_str, re.MULTILINE)
             desc = match.group(1) if match else ""
@@ -95,7 +95,7 @@ def enum_values(t, add_title=True):
 
 # looks for documentation of the given param
 def get_description(doc: str, param):
-    pattern = f"^{param}:.*\n((?:\s+.*\n)+)"
+    pattern = rf"^{param}:.*\n((?:\s+.*\n)+)"
     match = re.search(pattern, doc, re.MULTILINE)
     if match:
         desc = match.group(1)
@@ -108,17 +108,17 @@ def get_pretty_default(doc: Optional[str], param, default):
     if doc is None:
         doc = ""
 
-    pattern = f"^{param}:.*= (.*)\n"
+    pattern = rf"^{param}:.*= (.*)\n"
     match = re.search(pattern, doc, re.MULTILINE)
     if match:
         desc = match.group(1)
-        return f"`{desc}`"
+        return rf"`{desc}`"
     else:
-        return f"`{default}`" if default is not None and default != "" else ""
+        return rf"`{default}`" if default is not None and default != "" else ""
 
 
 def get_header_doc(doc: str):
-    pattern = "((?:.*\n)+)Parameters"
+    pattern = r"((?:.*\n)+)Parameters"
     match = re.search(pattern, doc, re.MULTILINE)
     if match:
         desc = match.group(1)
@@ -128,7 +128,7 @@ def get_header_doc(doc: str):
 
 
 def get_enum_doc(doc: str):
-    pattern = "((?:.*\n)+)Members"
+    pattern = r"((?:.*\n)+)Members"
     match = re.search(pattern, doc, re.MULTILINE)
     if match:
         desc = match.group(1)
@@ -138,7 +138,7 @@ def get_enum_doc(doc: str):
 
 
 def get_bm_config_doc(doc: str):
-    pattern = "((?:.*\n)+)Components"
+    pattern = r"((?:.*\n)+)Components"
     match = re.search(pattern, doc, re.MULTILINE)
     if match:
         desc = match.group(1)
@@ -149,7 +149,7 @@ def get_bm_config_doc(doc: str):
 
 def get_components_default(doc: str):
     # If no match exists, this returns []
-    pattern = "^(.*): (.*)"
+    pattern = r"^(.*): (.*)"
     return re.findall(pattern, doc, re.MULTILINE)
 
 
@@ -158,7 +158,7 @@ def dump_doc(cls):
     doc = None
     sig = inspect.signature(cls.__init__)
     # add class name as a header
-    documentation = f"\n## {cls.__name__}\n"
+    documentation = rf"\n## {cls.__name__}\n"
 
     if cls.__init__.__doc__:
         doc = inspect.getdoc(cls.__init__)
@@ -169,7 +169,7 @@ def dump_doc(cls):
     # Show json key if exists
     if hasattr(cls, "CONFIG_KEY"):
         json_key = getattr(cls, "CONFIG_KEY")
-        documentation += f'<br/>***JSON key: "{json_key}"***\n'
+        documentation += rf'<br/>***JSON key: "{json_key}"***\n'
 
     documentation += "|Field|Type|Optional|Default|Description|\n"
     documentation += "|---|---|---|---|---|\n"
@@ -209,7 +209,7 @@ def overall_main_doc(main_config):
             if "Optional" in comp:
                 optional = ":white_check_mark:"
 
-                tmp = re.search("Optional\[(.*)\]", comp)
+                tmp = re.search(r"Optional\[(.*)\]", comp)
                 name = tmp.group(1) if tmp is not None else "error"
             else:
                 optional = ":x:"
@@ -218,7 +218,7 @@ def overall_main_doc(main_config):
             if "list" in name:
                 represent = "`[...]`"
 
-                tmp = re.search("list\[(.*)\]", name)
+                tmp = re.search(r"list\[(.*)\]", name)
                 name = tmp.group(1) if tmp is not None else "error"
             else:
                 represent = "`{...}`"

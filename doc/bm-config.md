@@ -8,11 +8,8 @@
 |[Plugin](#plugin)|:white_check_mark:|`[...]`|
 |[PlotConfig](#plotconfig)|:white_check_mark:|`[...]`|
 |[NicsConfig](#nicsconfig)|:white_check_mark:|`{...}`|
-
-## BenchmarkConfig
-General configuration for benchmarks, as well as a collection of system-level metrics (specified under monitors). Represented as one JSON object. 
-<br/>***JSON key: "benchmark_config"***
-|Field|Type|Optional|Default|Description|
+\n## BenchmarkConfig\nGeneral configuration for benchmarks, as well as a collection of system-level metrics (specified under monitors). Represented as one JSON object. 
+<br/>***JSON key: "benchmark_config"***\n|Field|Type|Optional|Default|Description|
 |---|---|---|---|---|
 |duration|int|:white_check_mark:|`3`|    Duration of the benchmark in seconds.     JSON example: `"repeat": 3` |
 |repeat|int|:white_check_mark:|`1`|    Number of times the benchmark should be repeated.     JSON example: `"repeat": 1` |
@@ -21,11 +18,8 @@ General configuration for benchmarks, as well as a collection of system-level me
 |exec_env|list[[ExecutionType](#executiontype)]|:white_check_mark:|`["native", "container"]`|    Whether to execute the benchmark in a container or     natively. JSON example: `"exec_env" : ["container", "native"]` |
 |monitors|dict[[MonitorType](#monitortype), list[str]]|:white_check_mark:|`{}`|    Monitors to run in the background. |
 |threads|[ListConfig](#listconfig)|:white_check_mark:|`{"values": [[1]]}`|    Determines number of threads to run target benchmarks with.     If not provided all applications will be run with 1 thread. |
-
-## Application
-An application is either a builtin benchmark binary from the `bench` directory, or an external application/benchmark binary. This configuration defines an array of applications, each with their own setup. If this array has more than one application. each container will run an application from the array in a round robin fashion. Represented as a JSON array of objects.  
-<br/>***JSON key: "applications"***
-|Field|Type|Optional|Default|Description|
+\n## Application\nAn application is either a builtin benchmark binary from the `bench` directory, or an external application/benchmark binary. This configuration defines an array of applications, each with their own setup. If this array has more than one application. each container will run an application from the array in a round robin fashion. Represented as a JSON array of objects.  
+<br/>***JSON key: "applications"***\n|Field|Type|Optional|Default|Description|
 |---|---|---|---|---|
 |name|str|:x:||    The name of the application/benchmark binary. |
 |operations|list[int]|:white_check_mark:|`[]`|    A list of integers representing the distribution of operations.     The sum of all values in the list must be equal to 1024.     Each index represents a specific operation as defined by the benchmark/application.     This is only relevant for builtin benchmarks. |
@@ -33,11 +27,8 @@ An application is either a builtin benchmark binary from the `bench` directory, 
 |args|str|:white_check_mark:|`-t={threads} -n={noise} -d={duration} -s={initial_size}`|    A string that represents the command line arguments of the application.     It can contain place holders for dynamic values. Available place holders:     are `{threads}`, `{noise}`, `{duration}`, `{index}`, and `{initial_size}`.     They are replaced at runtime with the actual values: number of threads, number of nop instructions following an operation,     duration of the benchmark in seconds, the index of the execution unit in the current benchmarking run, and initial size of the data structure respectively.     If any of the above is relevant for the external application they can be used in the args     string. Otherwise they can be omitted. |
 |adapter|[Adapter](#adapter)|:white_check_mark:|`{}`|    An adapter object.     This is only relevant for external applications/benchmarks. |
 |cd|bool|:white_check_mark:|`false`|    When set to `true`, it changes the current directory to the given `path`, and     then runs the binary/script with the given `name`. When set to `false` and `path`     is given, the binary is run from the project directory as `path/name`. Use this     configuration with caution! This configuration is useful when running external     benchmarks that require to be run from their own directory, because they use     relative paths like unix bench. |
-
-## ContainersConfig
-ContainersConfig represents the configuration for multiple containers. Represented as a JSON object. 
-<br/>***JSON key: "containers"***
-|Field|Type|Optional|Default|Description|
+\n## ContainersConfig\nContainersConfig represents the configuration for multiple containers. Represented as a JSON object. 
+<br/>***JSON key: "containers"***\n|Field|Type|Optional|Default|Description|
 |---|---|---|---|---|
 |container_list|[ListConfig](#listconfig)|:white_check_mark:|`{"values": [[1]]}`|    Specifies the number of containers to run. |
 |core_affinity_offsets|[ListConfig](#listconfig)|:white_check_mark:|`core_count * [0, 1, 2, 3, ...]`|    Specifies the cores that should be assigned to the containers.     Note that the assignment of cores happens in ascending order by default. |
@@ -45,22 +36,16 @@ ContainersConfig represents the configuration for multiple containers. Represent
 |name|str|:white_check_mark:||    The base name of the container. |
 |image|str|:white_check_mark:|`same as the host OS e.g. ubuntu:latest on Ubuntu.`|    The docker image name to use. |
 |port|int|:white_check_mark:||    The starting port number to use for the first container.     Subsequent containers will use incremented port numbers.     This configuration is relevant for networking benchmarks. |
-
-## Plugin
-Plugins are a flexible way to inject additional scripts/processes to be executed at different stages of the benchmark execution. A good example would be to start a client to communicate with a server benchmark before the server starts accepting connections. Represented as a JSON array of objects. 
-<br/>***JSON key: "plugins"***
-|Field|Type|Optional|Default|Description|
+\n## Plugin\nPlugins are a flexible way to inject additional scripts/processes to be executed at different stages of the benchmark execution. A good example would be to start a client to communicate with a server benchmark before the server starts accepting connections. Represented as a JSON array of objects. 
+<br/>***JSON key: "plugins"***\n|Field|Type|Optional|Default|Description|
 |---|---|---|---|---|
 |name|str|:x:||    Name of the script/process to be executed. |
 |exec_time|[ExecutionTime](#executiontime)|:x:||    When to execute the script/process (pre, post, cleanup, with). |
 |path|Path|:white_check_mark:||    Path to the script/process. It will look under scripts/plugins     or if it is available system wide. |
 |args|list[str]|:white_check_mark:|`[]`|    List of arguments to be passed to the script/process.     It can include one place holder: `{homedir}`.     This is replaced at runtime with the path of the build directory of the CSB project. |
 |force_stop|bool|:white_check_mark:|`False`|    Whether to forcefully stop the process if it is still running during cleanup. |
-
-## PlotConfig
-Plot configuration for benchmark results. Represented as a JSON array of objects.  
-<br/>***JSON key: "plots"***
-|Field|Type|Optional|Default|Description|
+\n## PlotConfig\nPlot configuration for benchmark results. Represented as a JSON array of objects.  
+<br/>***JSON key: "plots"***\n|Field|Type|Optional|Default|Description|
 |---|---|---|---|---|
 |x|str|:white_check_mark:|`container_cnt`|    The column name to be used for the x-axis. |
 |y|str|:white_check_mark:|`throughput_min`|    The column name to be used for the y-axis. |
@@ -70,61 +55,48 @@ Plot configuration for benchmark results. Represented as a JSON array of objects
 |hue_lbl|str|:white_check_mark:|`{hue}`|    The label for the hue/groupby. If None, defaults to `{hue}`. |
 |title|str|:white_check_mark:|`{x_lbl} vs. {y_lbl}`|    The title of the plot. If None, defaults to `{x_lbl} vs. {y_lbl}`. |
 |shape|str|:white_check_mark:||    The shape/type of the plot (e.g., 'lineplot', 'barplot'). If None, defaults based on `type`. |
-|type|[PlotType](#plottype)|:white_check_mark:|`normal`|    The type of plot to be created, which determines default shape and other behaviors. |
-
-## NicsConfig
-NicsConfig configures the assignment of Network Interface Cards (NICs) or their Virtual Functions (VFs) to containers. Represented as a JSON object. 
-<br/>***JSON key: "nics"***
-|Field|Type|Optional|Default|Description|
+|type|[PlotType](#plottype)|:white_check_mark:|`PlotType.NORMAL`|    The type of plot to be created, which determines default shape and other behaviors. |
+\n## NicsConfig\nNicsConfig configures the assignment of Network Interface Cards (NICs) or their Virtual Functions (VFs) to containers. Represented as a JSON object. 
+<br/>***JSON key: "nics"***\n|Field|Type|Optional|Default|Description|
 |---|---|---|---|---|
 |nic_format|str|:x:||    A formatting string to get a NIC name for a containers. It supports a single formatting     argument `{i}` -- the index of the container in a benchmarking run. |
 |ips|[ListConfig](#listconfig)|:x:||    Specifies the list of IP addresses that are assigned to a container sequentially in each     run. |
 |netmask|int|:x:||    The IPv4 netmask to specify along with the IP address. |
 |core_affinity_offsets|[ListConfig](#listconfig)|:white_check_mark:||    Specifies the cores that should be assigned to handle the NIC/VF IRQs.     Note that the assignment of cores will happen in ascending order. |
 # Types
-
-## Adapter
-Adapters used to transform the output of an external benchmark into the format understood by the framework: a line of `<key>:<val>;` pairs e.g. `throughput:1000;latency:20;`. If an adapter is used the output of the benchmark is piped to the adapter script. See scripts/adapters for examples.  
+\n## Adapter\nAdapters used to transform the output of an external benchmark into the format understood by the framework: a line of `<key>:<val>;` pairs e.g. `throughput:1000;latency:20;`. If an adapter is used the output of the benchmark is piped to the adapter script. See scripts/adapters for examples.  
 |Field|Type|Optional|Default|Description|
 |---|---|---|---|---|
 |name|str|:x:||    Adapter script filename. |
 |path|Path|:white_check_mark:||    The dir where the script exists. Required if it does not exist     system wide, or under script/adapters. |
-
-## ListConfig
-
+\n## ListConfig\n
 |Field|Type|Optional|Default|Description|
 |---|---|---|---|---|
 |values|list[Union[list[int], [RangeConfig](#rangeconfig)]]|:x:||    list of values each value an be either a list of integers, or `RangeConfig`     object.     JSON example `"values": [ [5, 6], {"min": 1, "step": 1, "max": 3 }, [12] ]}` |
 |str_format|str|:white_check_mark:||    A formatting string. Used to convert the values into string.     JSON example: `"str_format": "127.0.0.{i}"`     with this string the values `i` is replaced by an integer from values     and the list become:     `["127.0.0.1", "127.0.0.2", "127.0.0.3", "127.0.0.5", "127.0.0.6", "127.0.0.12"]` |
-
-## RangeConfig
-
+\n## RangeConfig\n
 |Field|Type|Optional|Default|Description|
 |---|---|---|---|---|
 |min|int|:x:||    start value     JSON example: `"min": 1` |
 |max|int|:x:||    end value     JSON example: `"max": 5` |
 |step|int|:x:||    increment step     JSON example: `"step": 2`     with min = 1, and max = 5, this becomes a list = `[1, 3, 5]` |
-## MonitorType
-Monitors are used to monitor performance. They can be used to analyze the behavior of the benchmarks.  <br/>Supported values:
+## MonitorType\nMonitors are used to monitor performance. They can be used to analyze the behavior of the benchmarks.  <br/>Supported values:
 - `"mpstat"`:  Runs mpstat and generates related graphs.
 - `"perf"`:  Runs perf and generates flame-graphs.
 - `"redis_benchmark"`:  parses the output of redis_benchmark.
 - `"sar_net"`:  monitors network traffic.
-## PlotType
-Supported types of plots.  <br/>Supported values:
+## PlotType\nSupported types of plots.  <br/>Supported values:
 - `"normal"`:  Plots according to the config no post processing of data.
 - `"min_max_avg"`:  Experimental, Plots min, max and average time of operations.
 - `"histogram"`:  Experimental, Plots the distribution of operations.
 - `"success_percent"`:  Experimental, Plots the percentage of successful operations.
 - `"linearity"`:  Calculates and plots the linearity of the benchmark results.
-## ExecutionTime
-Execution time of the plugin script/process.  <br/>Supported values:
+## ExecutionTime\nExecution time of the plugin script/process.  <br/>Supported values:
 - `"pre"`:  The script/process will be launched before the start signal.
 - `"post"`:  The script/process will be launched after the start signal.
 - `"cleanup"`:  The script/process will be called after the benchmark is finished or interrupted.
 - `"with"`:  The script/process will be called at the same time as the benchmark as a wrapper. The order of the JSON array of objects indicates the order in which plugins are wrapped. For example, a plugins' array of `[{name: foo}, {name: bar}]` executed the command `foo bar <application>`.
-## ExecutionType
-Execution environment of the benchmarks.  <br/>Supported values:
+## ExecutionType\nExecution environment of the benchmarks.  <br/>Supported values:
 - `"native"`:  Launches the benchmark(s) directly on the host OS.
 - `"container"`:  Launches the benchmark(s) inside a container.
 ## Environment Variables
