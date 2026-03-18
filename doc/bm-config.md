@@ -70,7 +70,7 @@ Plot configuration for benchmark results. Represented as a JSON array of objects
 |hue_lbl|str|:white_check_mark:|`{hue}`|    The label for the hue/groupby. If None, defaults to `{hue}`. |
 |title|str|:white_check_mark:|`{x_lbl} vs. {y_lbl}`|    The title of the plot. If None, defaults to `{x_lbl} vs. {y_lbl}`. |
 |shape|str|:white_check_mark:||    The shape/type of the plot (e.g., 'lineplot', 'barplot'). If None, defaults based on `type`. |
-|type|[PlotType](#plottype)|:white_check_mark:|`PlotType.NORMAL`|    The type of plot to be created, which determines default shape and other behaviors. |
+|type|[PlotType](#plottype)|:white_check_mark:|`normal`|    The type of plot to be created, which determines default shape and other behaviors. |
 
 ## NicsConfig
 NicsConfig configures the assignment of Network Interface Cards (NICs) or their Virtual Functions (VFs) to containers. Represented as a JSON object. 
