@@ -23,6 +23,7 @@ import traceback
 from bm_utils import remove_files_by_ext
 from utils.logger import bm_log, LogType
 from config.env_config import EnvUniversalConfig, UniversalConfig
+from utils.bm_builder import Builder
 import os
 
 
@@ -66,7 +67,7 @@ def v_campaign(
             command_attachments=command_attachments,
             shared_libs=shared_libs,
             post_run_hooks=post_run_hooks,
-            csb_dir=csb_dir,
+            csb_dir=Builder.get_project_dir(),
         ),
         nb_runs=nb_runs,
         variables=variables,
@@ -113,10 +114,6 @@ if __name__ == "__main__":
         )
         traceback.print_exc()
         sys.exit(1)
-
-    # find the arguments
-    script_path = get_curdir(__file__)
-    csb_dir = parentdir(script_path)
 
     # Campaign Parameters
     assert bm_config.g_config is not None
