@@ -169,7 +169,7 @@ def dump_doc(cls):
     # Show json key if exists
     if hasattr(cls, "CONFIG_KEY"):
         json_key = getattr(cls, "CONFIG_KEY")
-        documentation += rf'<br/>***JSON key: "{json_key}"***\n'
+        documentation += f'<br/>***JSON key: "{json_key}"***\n'
 
     documentation += "|Field|Type|Optional|Default|Description|\n"
     documentation += "|---|---|---|---|---|\n"
