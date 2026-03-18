@@ -112,7 +112,7 @@ def get_pretty_default(doc: Optional[str], param, default):
     match = re.search(pattern, doc, re.MULTILINE)
     if match:
         desc = match.group(1)
-        return rf"`{desc}`"
+        return f"`{desc}`"
     else:
         return f"`{default}`" if default is not None and default != "" else ""
 
