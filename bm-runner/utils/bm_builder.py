@@ -36,6 +36,9 @@ class Builder:
 
     def build(self):
         if EnvUniversalConfig.is_on(UniversalConfig.CSB_NO_BUILD_BENCH):
+            # we still configure, for external apps to make
+            # sure build dir is created
+            self.__run_cmake_config()
             bm_log(
                 "CSB_NO_BUILD_BENCH is set to true, skipping building all benchmarks.",
                 LogType.WARNING,
