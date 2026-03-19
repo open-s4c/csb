@@ -28,7 +28,6 @@ import os
 
 def v_campaign(
     name: str = "v_campaign",
-    bench_subdir: str = "",
     command_wrappers: Iterable[CommandWrapper] = (),
     command_attachments: Iterable[CommandAttachment] = (),
     shared_libs: Iterable[SharedLib] = (),
@@ -130,8 +129,7 @@ if __name__ == "__main__":
         initial_size=benchmark_config.initial_size,
         nb_runs=benchmark_config.repeat,
         continuing=arg_continue,
-        enable_data_dir=True,
-        bench_subdir="bench",
+        enable_data_dir=True
     )
 
     campaign_suite = CampaignSuite(campaigns=[campaign])
