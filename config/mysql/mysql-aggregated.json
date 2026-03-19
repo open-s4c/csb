@@ -22,7 +22,18 @@
     }
   ],
   "benchmark_config": {
-    "duration": 60
+    "duration": 60,
+    "monitors": {
+      "mpstat": [
+        "-n",
+        "-u",
+        "-I",
+        "SCPU,SUM",
+        "-P",
+        "0,1"
+      ],
+      "perf": ["-a"]
+    }
   },
   "containers": {
     "container_list": {
