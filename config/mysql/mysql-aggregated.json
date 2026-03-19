@@ -33,7 +33,8 @@
         "0,1"
       ],
       "perf": ["-a"]
-    }
+    },
+    "exec_env": ["native"]
   },
   "containers": {
     "container_list": {
@@ -329,6 +330,11 @@
         "{homedir}/build/bench/network/client",
         "{homedir}/bench/targets/mysql/syz/min_mysql_recvfrom_sendto_32_0.meta"
       ]
+    },
+    {
+      "name": "clean-syz.sh",
+      "exec_time": "cleanup",
+      "args": ["{homedir}"]
     }
   ]
 }
