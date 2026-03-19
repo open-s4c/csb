@@ -32,9 +32,13 @@
         "-P",
         "0,1"
       ],
-      "perf": ["-a"]
+      "perf": [
+        "-a"
+      ]
     },
-    "exec_env": ["native"]
+    "exec_env": [
+      "native"
+    ]
   },
   "containers": {
     "container_list": {
@@ -334,7 +338,9 @@
     {
       "name": "clean-syz.sh",
       "exec_time": "cleanup",
-      "args": ["{homedir}"]
+      "args": [
+        "{homedir}"
+      ]
     }
   ]
 }
