@@ -54,7 +54,7 @@ $_begin(META_NAME = [[1; 2]], GROUP_NAME = [[gen-ws]]);
 		"exec_time": "pre",
 		"force_stop": "True",
 		"args": [
-			"8000",
+			"5000",
 			"{n_units}",
 			"{homedir}/build/bench/network/client",
 			"{homedir}/bench/targets/GROUP_NAME/syz/META_NAME"
