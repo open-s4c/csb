@@ -46,21 +46,27 @@
 $_begin(BINNAME = [[1; 2]]);
         { "name": "BINNAME","operations": [1024]}
 $_end();
-    ]
+    ],
+"plugins": [
 $_begin(META_NAME = [[1; 2]], GROUP_NAME = [[gen-ws]]);
-	,
-	"plugins": [
 	 {
 		"name": "generic-network-client.sh",
 		"exec_time": "pre",
 		"force_stop": "True",
 		"args": [
-			"5000",
+			"8000",
 			"{n_units}",
 			"{homedir}/build/bench/network/client",
 			"{homedir}/bench/targets/GROUP_NAME/syz/META_NAME"
 		]
-	 }
-  ]
+	 },
 $_end();
+	{
+		"name": "clean-syz.sh",
+		"exec_time": "cleanup",
+		"args": [
+			"{homedir}"
+		]
+	}
+  ]
 }
