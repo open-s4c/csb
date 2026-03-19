@@ -71,5 +71,14 @@
         1024
       ]
     }
+  ],
+  "plugins": [
+    {
+      "name": "clean-syz.sh",
+      "exec_time": "cleanup",
+      "args": [
+        "{homedir}"
+      ]
+    }
   ]
 }

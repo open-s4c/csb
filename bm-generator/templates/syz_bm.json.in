@@ -41,5 +41,14 @@ $_end();
 $_begin(NN = [[1; 2]]);
             {"name": "NN", "operations": [1024]}UNLESS_LAST,
 $_end();
-    ]
+    ],
+	"plugins":[
+		{
+			"name": "clean-syz.sh",
+			"exec_time": "cleanup",
+			"args": [
+				"{homedir}"
+			]
+		}
+	]
 }

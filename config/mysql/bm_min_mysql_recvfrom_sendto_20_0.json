@@ -83,6 +83,13 @@
         "{homedir}/build/bench/network/client",
         "{homedir}/bench/targets/mysql/syz/min_mysql_recvfrom_sendto_20_0.meta"
       ]
+    },
+    {
+      "name": "clean-syz.sh",
+      "exec_time": "cleanup",
+      "args": [
+        "{homedir}"
+      ]
     }
   ]
 }
