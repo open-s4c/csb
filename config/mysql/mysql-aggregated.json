@@ -22,7 +22,7 @@
     }
   ],
   "benchmark_config": {
-    "duration": 20
+    "duration": 60
   },
   "containers": {
     "container_list": {
@@ -32,10 +32,28 @@
         ]
       ]
     },
-    "core_count": 1,
+    "core_count": 2,
     "port": 8000
   },
   "applications": [
+    {
+      "name": "mysql_min_mysql_recvfrom_sendto_0_0",
+      "operations": [
+        1024
+      ]
+    },
+    {
+      "name": "mysql_min_mysql_recvfrom_sendto_20_0",
+      "operations": [
+        1024
+      ]
+    },
+    {
+      "name": "mysql_min_mysql_recvfrom_sendto_32_0",
+      "operations": [
+        1024
+      ]
+    },
     {
       "name": "mysql_min_mysql_faccessat2_missing_1_0",
       "operations": [
@@ -287,24 +305,6 @@
       "operations": [
         1024
       ]
-    },
-    {
-      "name": "mysql_min_mysql_recvfrom_sendto_0_0",
-      "operations": [
-        1024
-      ]
-    },
-    {
-      "name": "mysql_min_mysql_recvfrom_sendto_20_0",
-      "operations": [
-        1024
-      ]
-    },
-    {
-      "name": "mysql_min_mysql_recvfrom_sendto_32_0",
-      "operations": [
-        1024
-      ]
     }
   ],
   "plugins": [
@@ -314,7 +314,7 @@
       "force_stop": "True",
       "args": [
         "8000",
-        "{n_units}",
+        "3",
         "{homedir}/build/bench/network/client",
         "{homedir}/bench/targets/mysql/syz/min_mysql_recvfrom_sendto_32_0.meta"
       ]
