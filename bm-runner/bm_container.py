@@ -94,7 +94,7 @@ class Container(ExecutionUnit):
             container.remove()
             # Remove network namespace as well
             if self.nic:
-                shell_out(f"sudo ip netns del {self.name}", ignore_any_error_code=True)
+                shell_out(f"sudo ip netns del {self.name}", ignore_any_error_code=True, print_file_shell_cmd=False)
             bm_log(f"Container: {self.name} has been stopped and removed")
         except docker.errors.NotFound:
             pass  # Container does not exist, nothing to do
@@ -111,7 +111,8 @@ class Container(ExecutionUnit):
         )
         # Configure the NIC
         shell_out(
-            f"sudo ../scripts/add-nic-to-container.sh {netcfg.nic} {smp_irq_affinity} {pid} {self.name} {netcfg.ip} {netcfg.netmask}"
+            f"sudo ../scripts/add-nic-to-container.sh {netcfg.nic} {smp_irq_affinity} {pid} {self.name} {netcfg.ip} {netcfg.netmask}",
+            print_file_shell_cmd=False
         )
 
     def _host_home_dir(self):

@@ -53,6 +53,7 @@ def save_sys_config(output_dir):
             shell_out(
                 command=f"sudo {script_path} {sys_config_dir}",
                 output_is_log=False,
+                print_file_shell_cmd=False
             )
             bm_log(f"system configuration saved in {sys_config_dir}.", LogType.INFO)
         else:
@@ -74,6 +75,7 @@ def save_docker_daemon_config(output_dir):
             shell_out(
                 command=f"{script_path} {daemon_config_dir}",
                 output_is_log=False,
+                print_file_shell_cmd=False
             )
             bm_log(
                 f"docker daemon configuration saved in {daemon_config_dir}.",
@@ -103,6 +105,7 @@ def save_container_config(output_dir, container_name):
                 ],
                 current_dir=get_curdir(__file__),
                 output_is_log=True,
+                print_file_shell_cmd=False,
             )
             bm_log(
                 f"container configuration saved in {container_config_dir}.",
