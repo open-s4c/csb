@@ -3,16 +3,11 @@
 
 from benchkit.benchmark import (
     Benchmark,
-    CommandWrapper,
-    SharedLib,
-    PostRunHook,
     PathType,
-    CommandAttachment,
     RecordResult,
 )
 import sys
-from benchkit.dependencies.packages import PackageDependency
-from typing import Iterable, Optional, Dict, Any, List
+from typing import Optional, Dict, Any, List
 import bm_utils
 from bm_container import Containers
 from bm_process import Processes
@@ -37,7 +32,6 @@ class ScalabilityBenchmark(Benchmark):
         )
         self.csb_dir = csb_dir
         self.multi_app = False
-
 
     def prebuild_bench(self, **_kwargs):
         b = Builder()

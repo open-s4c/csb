@@ -7,12 +7,6 @@ import sys
 from pathlib import Path
 import bm_visualize
 from benchmark import ScalabilityBenchmark
-from benchkit.benchmark import (
-    CommandWrapper,
-    SharedLib,
-    PostRunHook,
-    CommandAttachment,
-)
 from benchkit.campaign import CampaignCartesianProduct, CampaignSuite
 from typing import Iterable, Optional, Dict, Any
 import bm_config
@@ -120,7 +114,7 @@ if __name__ == "__main__":
         initial_size=benchmark_config.initial_size,
         nb_runs=benchmark_config.repeat,
         continuing=arg_continue,
-        enable_data_dir=True
+        enable_data_dir=True,
     )
 
     campaign_suite = CampaignSuite(campaigns=[campaign])
