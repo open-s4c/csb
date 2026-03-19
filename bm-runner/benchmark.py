@@ -3,16 +3,11 @@
 
 from benchkit.benchmark import (
     Benchmark,
-    CommandWrapper,
-    SharedLib,
-    PostRunHook,
     PathType,
-    CommandAttachment,
     RecordResult,
 )
 import sys
-from benchkit.dependencies.packages import PackageDependency
-from typing import Iterable, Optional, Dict, Any, List
+from typing import Optional, Dict, Any, List
 import bm_utils
 from bm_container import Containers
 from bm_process import Processes
@@ -26,27 +21,17 @@ from utils.bm_builder import Builder
 class ScalabilityBenchmark(Benchmark):
     def __init__(
         self,
-        command_wrappers: Iterable[CommandWrapper],
-        command_attachments: Iterable[CommandAttachment],
-        shared_libs: Iterable[SharedLib],
-        post_run_hooks: Iterable[PostRunHook],
         csb_dir: PathType,
     ):
         super().__init__(
-            command_wrappers=command_wrappers,
-            command_attachments=command_attachments,
-            shared_libs=shared_libs,
-            post_run_hooks=post_run_hooks,
+            command_wrappers=[],
+            command_attachments=[],
+            shared_libs=[],
+            post_run_hooks=[],
             pre_run_hooks=[],
         )
         self.csb_dir = csb_dir
         self.multi_app = False
-
-    def dependencies(self) -> list[PackageDependency]:
-        return super().dependencies() + [
-            PackageDependency("build-essential"),
-            PackageDependency("cmake"),
-        ]
 
     def prebuild_bench(self, **_kwargs):
         b = Builder()

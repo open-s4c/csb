@@ -7,12 +7,6 @@ import sys
 from pathlib import Path
 import bm_visualize
 from benchmark import ScalabilityBenchmark
-from benchkit.benchmark import (
-    CommandWrapper,
-    SharedLib,
-    PostRunHook,
-    CommandAttachment,
-)
 from benchkit.campaign import CampaignCartesianProduct, CampaignSuite
 from typing import Iterable, Optional, Dict, Any
 import bm_config
@@ -27,12 +21,6 @@ import os
 
 
 def v_campaign(
-    name: str = "v_campaign",
-    bench_subdir: str = "",
-    command_wrappers: Iterable[CommandWrapper] = (),
-    command_attachments: Iterable[CommandAttachment] = (),
-    shared_libs: Iterable[SharedLib] = (),
-    post_run_hooks: Iterable[PostRunHook] = (),
     nb_runs: int = 3,
     benchmark_duration_seconds: int = 5,
     nb_threads: Iterable[int] = (1,),
@@ -60,12 +48,8 @@ def v_campaign(
         pretty_dict = {"lock": pretty}
 
     return CampaignCartesianProduct(
-        name=name,
+        name="CSB",
         benchmark=ScalabilityBenchmark(
-            command_wrappers=command_wrappers,
-            command_attachments=command_attachments,
-            shared_libs=shared_libs,
-            post_run_hooks=post_run_hooks,
             csb_dir=Builder.get_project_dir(),
         ),
         nb_runs=nb_runs,
@@ -131,7 +115,6 @@ if __name__ == "__main__":
         nb_runs=benchmark_config.repeat,
         continuing=arg_continue,
         enable_data_dir=True,
-        bench_subdir="bench",
     )
 
     campaign_suite = CampaignSuite(campaigns=[campaign])

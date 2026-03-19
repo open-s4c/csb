@@ -165,6 +165,7 @@ class Executer:
             f"touch {ExecutionUnit.START_FILE}",
             current_dir=self.home_dir,
             output_is_log=False,
+            print_file_shell_cmd=False,
         )
         self.__call_plugins(ExecutionTime.POST)
 
