@@ -38,6 +38,6 @@ for ((i=0; i<$CLIENT_COUNT; i++)); do
     $CLIENT_PATH "-R" "-h" "$IP" "-p$port" "-P$META_STRING" &
 done
 
-echo "\nwaiting for clients to finish..."
+echo "Waiting for clients to finish..."
 wait
 echo "Clients are done"
