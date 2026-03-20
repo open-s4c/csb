@@ -30,6 +30,6 @@ for ((i=0; i<$CLIENT_COUNT; i++)); do
     $CLIENT_PATH/network/redis-client "$IP" "$port" &
 done
 
-echo "\nwaiting for clients to finish..."
+echo "Waiting for clients to finish..."
 wait
 echo "Clients are done"
