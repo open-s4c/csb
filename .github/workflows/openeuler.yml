@@ -12,6 +12,7 @@ jobs:
       matrix:
         test:
           - bm_empty
+          - rocksdb/rocksdb_aggregated
 
     env:
       TEST_TAG: ghcr.io/${{ github.repository }}/openeuler_for_csb:latest

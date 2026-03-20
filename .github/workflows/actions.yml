@@ -125,7 +125,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        benchmark: [bm_empty, bm_server_redis]
+        benchmark: [bm_empty, bm_server_redis, rocksdb/rocksdb_aggregated, mysql/mysql-aggregated]
     steps:
       - uses: actions/checkout@v4
         with:
