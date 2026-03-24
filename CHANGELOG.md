@@ -17,6 +17,7 @@ and this project partially comply with [Semantic Versioning](https://semver.org/
 - cleanup of temporary syz* folders
 - mysql-aggregated.json benchmark and networking script
 - wait for start signal
+- plots
 
 
 ## [0.2.0] - 2026-03-17
