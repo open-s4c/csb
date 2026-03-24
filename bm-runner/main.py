@@ -20,7 +20,8 @@ from utils.bm_builder import Builder
 import os
 
 
-def v_campaign(
+def csbCampaign(
+    name: str = "CSB",
     nb_runs: int = 3,
     benchmark_duration_seconds: int = 5,
     nb_threads: Iterable[int] = (1,),
@@ -48,7 +49,7 @@ def v_campaign(
         pretty_dict = {"lock": pretty}
 
     return CampaignCartesianProduct(
-        name="CSB",
+        name=name,
         benchmark=ScalabilityBenchmark(
             csb_dir=Builder.get_project_dir(),
         ),
@@ -98,6 +99,9 @@ if __name__ == "__main__":
         traceback.print_exc()
         sys.exit(1)
 
+    # get json file name without extension and path
+    benchmark_name = Path(arg_config).stem
+
     # Campaign Parameters
     assert bm_config.g_config is not None
     container_cfg = bm_config.g_config.get_container_config()
@@ -105,7 +109,8 @@ if __name__ == "__main__":
     threads = benchmark_config.threads
 
     # Create campaign
-    campaign = v_campaign(
+    campaign = csbCampaign(
+        name=benchmark_name,
         benchmark_duration_seconds=benchmark_config.duration,
         container_cnt=container_cfg.get_container_cnt_list(),
         nb_threads=threads,
