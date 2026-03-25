@@ -96,9 +96,11 @@ class Plugin(dict):
         if self.check():
             bm_log(f"Launched {' '.join(commands)} -> Output file: {tmpfile.name}")
 
-    def check(self)-> bool :
+    def check(self) -> bool:
         # with failure will be detected with the app itself
         if self.exec_time == ExecutionTime.WITH:
+            return True
+        if self.process is None:
             return True
         rc = self.process.poll()
         if rc is None or rc == 0:
