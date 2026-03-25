@@ -40,7 +40,7 @@
 	"containers": {
 		"container_list": {"values": [[1], {"min": 5, "step": 5, "max": 30 }]},
 		$_begin(META_NAME = [[1]]);
-		"port" : 8000
+		"port" : 8000,
 		$_end();
 		"core_count": 1
     },
