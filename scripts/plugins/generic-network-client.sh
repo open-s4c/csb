@@ -18,10 +18,14 @@ shift 3
 # Remaining arguments are the meta paths
 META_PATHS=("$@")
 
-# Validate count
-if [ "${#META_PATHS[@]}" -ne "$CLIENT_COUNT" ]; then
-    echo "Error: Expected $CLIENT_COUNT meta paths, got ${#META_PATHS[@]}"
-    exit 1
+# If fewer meta paths than CLIENT_COUNT, repeat the last one
+if [ "${#META_PATHS[@]}" -lt "$CLIENT_COUNT" ]; then
+    echo "[Warning] Expected $CLIENT_COUNT meta paths, got ${#META_PATHS[@]}"
+    last="${META_PATHS[-1]}"
+    while [ "${#META_PATHS[@]}" -lt "$CLIENT_COUNT" ]; do
+        META_PATHS+=("$last")
+    done
+    echo "[Warning] Repeating last meta to compensate!"
 fi
 
 # TODO: check if meta string is empty
