@@ -33,14 +33,15 @@
 	],
 	"benchmark_config" : {
 		"duration": 60,
-		"initial_size": [5000],
 		"exec_env": ["native"],
 		"monitors" : {"perf" : ["-C", "0"]}
 	},
 	"containers": {
 		"container_list": {"values": [[1]]},
-		"core_count": 1,
-		"port" : 5000
+		$_begin(META_NAME = [[1]]);
+		"port" : 5000,
+		$_end();
+		"core_count": 1
     },
     "applications": [
 $_begin(BINNAME = [[1; 2]]);
