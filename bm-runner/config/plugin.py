@@ -93,14 +93,19 @@ class Plugin(dict):
         self.process = subprocess.Popen(
             commands, stdout=tmpfile, stderr=tmpfile, preexec_fn=os.setpgrp
         )
-        if self.process.poll() is None:
+        if self.check():
             bm_log(f"Launched {' '.join(commands)} -> Output file: {tmpfile.name}")
-        else:
-            bm_log(
-                f"Could not launch {self.name}, got return code {self.process.returncode}",
-                LogType.FATAL,
-            )
-            sys.exit(1)
+
+    def check(self)-> bool :
+        # with failure will be detected with the app itself
+        if self.exec_time == ExecutionTime.WITH:
+            return True
+        rc = self.process.poll()
+        if rc is None or rc == 0:
+            return True
+        bm_log(f"Plugin: {self.name} failed with error code {rc}.", LogType.FATAL)
+        sys.exit(1)
+        return False
 
     def stop(self):
         if self.process is not None:
