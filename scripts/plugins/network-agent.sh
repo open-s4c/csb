@@ -44,4 +44,4 @@ done
 
 echo "Waiting for networking agents to finish..."
 wait
-echo "Clients are done"
+echo "Networking agents are done."
