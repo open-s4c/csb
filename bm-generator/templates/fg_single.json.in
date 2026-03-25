@@ -51,13 +51,13 @@ $_end();
 "plugins": [
 $_begin(META_NAME = [[1; 2]], GROUP_NAME = [[gen-ws]]);
 	 {
-		"name": "generic-network-client.sh",
+		"name": "network-agent.sh",
 		"exec_time": "pre",
 		"force_stop": "True",
 		"args": [
 			"5000",
 			"{n_units}",
-			"{homedir}/build/bench/network/client",
+			"{homedir}/build/bench/network",
 			"{homedir}/bench/targets/GROUP_NAME/syz/META_NAME"
 		]
 	 },

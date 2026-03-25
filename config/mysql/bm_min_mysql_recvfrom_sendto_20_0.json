@@ -74,13 +74,13 @@
   ],
   "plugins": [
     {
-      "name": "generic-network-client.sh",
+      "name": "network-agent.sh",
       "exec_time": "pre",
       "force_stop": "True",
       "args": [
         "8000",
         "{n_units}",
-        "{homedir}/build/bench/network/client",
+        "{homedir}/build/bench/network",
         "{homedir}/bench/targets/mysql/syz/min_mysql_recvfrom_sendto_20_0.meta"
       ]
     },

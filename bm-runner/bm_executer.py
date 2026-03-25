@@ -84,6 +84,11 @@ class Executer:
                 res_dir=self.results_dir,
             )
 
+    def __check_plugins(self, exec_time):
+        plugins = [plugin for plugin in self.plugins if plugin.exec_time == exec_time]
+        for plugin in plugins:
+            plugin.check()
+
     def __wrap_plugins(self) -> str:
         """
         Retuns command line string with all plugins that run "with" the benchmarked applications.
@@ -167,6 +172,8 @@ class Executer:
             output_is_log=False,
             print_file_shell_cmd=False,
         )
+        # ensure no errors happened in pre plugins
+        self.__check_plugins(ExecutionTime.PRE)
         self.__call_plugins(ExecutionTime.POST)
 
     def cleanup(self):
