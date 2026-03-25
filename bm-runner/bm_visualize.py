@@ -10,7 +10,6 @@ import pandas as pd
 from pandas import DataFrame
 import seaborn as sns
 import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
 import base64
 import statistics
 import math
@@ -71,8 +70,8 @@ def plot_chart(
         **args,
     )
 
-    chart.xaxis.set_major_locator(ticker.MultipleLocator(1))
     chart.set(xlabel=plot.x_lbl, ylabel=plot.y_lbl)
+    chart.grid(True)
     new_ylim = 1.2 * max(df[plot.y])
     chart.set_ylim(0, 1 if new_ylim == 0 else new_ylim)
 
@@ -311,8 +310,7 @@ def create_plots(df, plots: list[PlotConfig], dir, info: str):
         match plot.type:
             case PlotType.NORMAL:
                 fig_name = f"{dir}/{plot.x}_vs_{plot.y}_{info}"
-                with sns.axes_style("ticks", {"axes.grid": True}):
-                    plot_chart(plot=plot, df=df, out_fig_name=fig_name)
+                plot_chart(plot=plot, df=df, out_fig_name=fig_name)
             case PlotType.MIN_MAX_AVG:
                 create_min_max_avg_plot(org_df=df, config=plot, dir=dir)
             case PlotType.SUCCESS_PERCENT:
