@@ -61,8 +61,8 @@
         }
       ]
     },
-    "core_count": 1,
-    "port": 8000
+    "port": 8000,
+    "core_count": 1
   },
   "applications": [
     {
