@@ -1,19 +1,23 @@
-# bpftrace -e 
-
+import os
+from typing import Optional
 from monitors.bpftrace_programs.bpf_program import BPFProgram
 
 class BPFSchedFork(BPFProgram):
-    program = 'tracepoint:sched:sched_process_fork { @[args->parent_comm, args->child_comm] = count(); }'
+    program = "tracepoint:sched:sched_process_fork / __FILTER_CPU__ && __FILTER_PID__ / { @[str(args->parent_comm), str(args->child_comm)] = count(); }"
     filename = "bpf_sched_fork.log"
 
     def __init__(self, dir: str, cmd_args: list[str]):
         super().__init__(dir=dir, args=cmd_args)
 
     def get_program(self):
-        return self.program
+        program = self.gen_program()
+        return program
 
     def get_out_filename(self):
         return self.filename
 
-    def collect_results(self):
+    def collect_results(self, output_dir: str) -> Optional[dict]:
+        filepath = os.path.join(output_dir, self.filename)
+        with open(filepath, "r") as fp:
+            return fp.read()
         return "todo"
