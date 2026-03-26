@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: install pre-requisites
-        run: sudo apt-get install -y build-essential cmake libhiredis-dev
+        run: sudo apt-get install -y linux-tools-generic build-essential cmake libhiredis-dev
 
       - name: Verify perf
         run: perf --version
@@ -144,7 +144,7 @@ jobs:
       - name: Install pre-requisites
         run: |
           sudo apt update
-          sudo apt-get install -y build-essential cmake libhiredis-dev
+          sudo apt-get install -y build-essential linux-tools-generic cmake libhiredis-dev
       - name: Run Benchmark ${{ matrix.benchmark }}
         run: |
           ./scripts/fg-diff/run-single.sh config/${{ matrix.benchmark }}.json
