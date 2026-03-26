@@ -5,6 +5,9 @@ from utils.logger import bm_log, LogType
 from config.env_config import EnvUniversalConfig, UniversalConfig
 
 from monitors.bpftrace_programs.bpf_program import BPFProgram
+from monitors.bpftrace_programs.bpf_block_req import BPFBlockReq
+from monitors.bpftrace_programs.bpf_sched_latency import BPFSchedLatency
+from monitors.bpftrace_programs.bpf_sched_migrate_task import BPFSchedMigrateTask
 from monitors.bpftrace_programs.bpf_sched_fork import BPFSchedFork
 
 class DummyBPFProgram(BPFProgram):
@@ -26,6 +29,9 @@ class DummyBPFProgram(BPFProgram):
 
 
 class BPFProgramType(str, Enum):
+    block_req = "block_req"
+    sched_latency = "sched_latency"
+    sched_migrate_task = "sched_migrate_task"
     sched_fork = "sched_fork"
 
 class BPFProgramFactory:
@@ -34,11 +40,18 @@ class BPFProgramFactory:
         # if the user has requested to disable the monitors,
         # we return a dummy monitor that does nothing,
         # so that the rest of the code can remain unchanged
+        name={bpf_program_type}
         if not EnvUniversalConfig.is_on(UniversalConfig.CSB_ANALYZE):
-            return DummyBPFProgram(name=f"{bpf_program_type}")  # Return a dummy bpf_program that does nothing
+            return DummyBPFProgram(name)  # Return a dummy bpf_program that does nothing
         match bpf_program_type:
+            case BPFProgramType.block_req:
+                return BPFBlockReq(name, dir=results_dir, cmd_args=args)
+            case BPFProgramType.sched_latency:
+                return BPFSchedLatency(name, dir=results_dir, cmd_args=args)
+            case BPFProgramType.sched_migrate_task:
+                return BPFSchedMigrateTask(name, dir=results_dir, cmd_args=args)
             case BPFProgramType.sched_fork:
-                return BPFSchedFork(dir=results_dir, cmd_args=args)
+                return BPFSchedFork(name, dir=results_dir, cmd_args=args)
             case _:
-                bm_log(f"Unsupported bpf_program type {bpf_program_type}", LogType.FATAL)
+                bm_log(f"Unsupported bpf_program type {name}", LogType.FATAL)
                 sys.exit(1)

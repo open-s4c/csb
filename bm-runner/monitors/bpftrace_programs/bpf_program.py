@@ -9,12 +9,12 @@ class BPFProgram:
     cpu = -1
     pid = -1
 
-    def __init__(self, dir, args):
+    def __init__(self, name, dir, args):
         self.dir = dir
-        self.args = args[3:]
-        self.progname = args[0]
-        self.cpu = int(args[1])
-        self.pid = int(args[2])
+        self.args = args[2:]
+        self.progname = name
+        self.cpu = int(args[0])
+        self.pid = int(args[1])
 
     def _filter_cpu(self, program:str) -> str:
         if self.cpu >= 0:

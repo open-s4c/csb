@@ -2,9 +2,9 @@ import os
 from typing import Optional
 from monitors.bpftrace_programs.bpf_program import BPFProgram
 
-class BPFSchedFork(BPFProgram):
-    program = "tracepoint:sched:sched_process_fork / __FILTER_CPU__ && __FILTER_PID__ / { @[str(args->parent_comm), str(args->child_comm)] = count(); }"
-    filename = "bpf_sched_fork.log"
+class BPFSchedMigrateTask(BPFProgram):
+    program = "tracepoint:sched:sched_migrate_task / __FILTER_CPU__ && __FILTER_PID__ / {@migrations[pid] = count();}"
+    filename = "bpf_sched_migrate_task.log"
 
     def __init__(self, name:str, dir: str, cmd_args: list[str]):
         super().__init__(name=name, dir=dir, args=cmd_args)
