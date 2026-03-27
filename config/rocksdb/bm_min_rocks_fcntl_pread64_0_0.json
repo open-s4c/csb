@@ -32,7 +32,7 @@
     }
   ],
   "benchmark_config": {
-    "duration": 60,
+    "duration": 10,
     "monitors": {
       "mpstat": [
         "-n",
@@ -45,7 +45,29 @@
       "perf": [
         "-C",
         "0"
-      ]
+      ],
+      "bpftrace": {
+        "sched_latency": [
+          "-1",
+          "-1"
+        ],
+        "sched_migrate_task": [
+          "-1",
+          "-1"
+        ],
+        "sched_fork": [
+          "-1",
+          "-1"
+        ],
+        "block_req": [
+          "-1",
+          "-1"
+        ],
+        "vfs_read_latency": [
+          "-1",
+          "-1"
+        ]
+      }
     }
   },
   "containers": {
