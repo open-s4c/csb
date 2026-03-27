@@ -1,9 +1,14 @@
 import os
-from typing import Optional
+import pandas as pd
 from monitors.bpftrace_programs.bpf_program import BPFProgram
 
 class BPFSchedLatency(BPFProgram):
     program= """
+#ifndef BPFTRACE_HAVE_BTF                                                                                                                                                                                                                                                                           :(
+#include <linux/sched.h>
+#else
+#define TASK_RUNNING 0
+#endif
 tracepoint:sched:sched_wakeup,
 tracepoint:sched:sched_wakeup_new
 / __FILTER_CPU__ && __FILTER_PID__ /
@@ -24,7 +29,7 @@ tracepoint:sched:sched_switch
 
   $ns = @qtime[args.next_pid];
   if $ns {
-    @usecs = hist((nsecs - $ns) / 1000);
+    @nsecs = hist(nsecs - $ns);
     // Swallowing deletion failures as they are expected
     $ignore = delete(@qtime, args.next_pid);
   }
@@ -47,8 +52,6 @@ END
     def get_out_filename(self):
         return self.filename
 
-    def collect_results(self, output_dir: str) -> Optional[dict]:
+    def collect_results(self, output_dir: str) -> pd.DataFrame:
         filepath = os.path.join(output_dir, self.filename)
-        with open(filepath, "r") as fp:
-            return fp.read()
-        return "todo"
+        return self.parse_histogram(filepath)

@@ -9,6 +9,7 @@ from monitors.bpftrace_programs.bpf_block_req import BPFBlockReq
 from monitors.bpftrace_programs.bpf_sched_latency import BPFSchedLatency
 from monitors.bpftrace_programs.bpf_sched_migrate_task import BPFSchedMigrateTask
 from monitors.bpftrace_programs.bpf_sched_fork import BPFSchedFork
+from monitors.bpftrace_programs.bpf_vfs_read_latency import BPFVfsReadLatency
 
 class DummyBPFProgram(BPFProgram):
     def __init__(self, name: str):
@@ -33,6 +34,7 @@ class BPFProgramType(str, Enum):
     sched_latency = "sched_latency"
     sched_migrate_task = "sched_migrate_task"
     sched_fork = "sched_fork"
+    vfs_read_latency = "vfs_read_latency"
 
 class BPFProgramFactory:
     @staticmethod
@@ -52,6 +54,8 @@ class BPFProgramFactory:
                 return BPFSchedMigrateTask(name, dir=results_dir, cmd_args=args)
             case BPFProgramType.sched_fork:
                 return BPFSchedFork(name, dir=results_dir, cmd_args=args)
+            case BPFProgramType.vfs_read_latency:
+                return BPFVfsReadLatency(name, dir=results_dir, cmd_args=args)
             case _:
                 bm_log(f"Unsupported bpf_program type {name}", LogType.FATAL)
                 sys.exit(1)

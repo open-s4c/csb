@@ -27,14 +27,15 @@ class BPFTraceCmd:
     def stop(self):
         # This acts like ctrl+C
         self.process.send_signal(signal.SIGINT)
+        self.process.wait()
 
 class BPFTraceStats(Monitor):
     programs: dict[BPFProgramType, (BPFProgram, BPFTraceCmd)] = {}
     def __init__(self, output_dir: str, args: dict[list[str]]):
         ensure_exists("bpftrace")
-        for program_str in args:
-            ptype = BPFProgramType[program_str]
-            prog = BPFProgramFactory.create(ptype, output_dir, args[program_str])
+        for programtype in args:
+            ptype = BPFProgramType[programtype]
+            prog = BPFProgramFactory.create(ptype, output_dir, args[programtype])
             self.programs[ptype] = (prog, None)
         super().__init__(dir=output_dir, args=args)
 
@@ -48,15 +49,28 @@ class BPFTraceStats(Monitor):
             if stat is not None:
                 stat.stop()
 
+    # Function to process the DataFrame
+    def dataframe_to_keyvalue_csv(self, df, value_delimiter='|') ->str:
+        # Ensure first column is the key
+        key_col = df.columns[0]
+        value_cols = df.columns[1:]
+        
+        # Concatenate the value columns with delimiter
+        df['values'] = df[value_cols].astype(str).agg(value_delimiter.join, axis=1)
+        
+        # Create the CSV string with just key and concatenated value
+        csv_str = df[[key_col, 'values']].to_csv(index=False, header=False, sep='=').replace('\n', ';')
+        
+        return csv_str
+    
     def collect_results(self) -> str:
-        # for prog, stat in self.programs:
-        #     data = self.program.collect_results(self.dir)
-        #     if data:
-        #         result = "\n".join(data)
-        #         return result
-        # else:
-        #     bm_log(
-        #         f"Could not read output of bpftrace {self.args[0]}, `self.program` is not initialized!", LogType.ERROR
-        #     )
-        return ""
-
+        for progtype, (prog, stat) in self.programs.items():
+            dataframe = prog.collect_results(self.dir)
+            if not dataframe.empty:
+                result = self.dataframe_to_keyvalue_csv(dataframe)
+                return result
+            else:
+                bm_log(
+                    f"Could not read output of bpftrace {progtype}, `self.program` is not initialized!", LogType.ERROR
+                )
+        return "a=b"

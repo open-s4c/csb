@@ -1,9 +1,13 @@
 import os
-from typing import Optional
+import pandas as pd
 from monitors.bpftrace_programs.bpf_program import BPFProgram
 
 class BPFBlockReq(BPFProgram):
-    program = "tracepoint:block:block_rq_complete / __FILTER_CPU__ && __FILTER_PID__ / { @ = hist(args->nr_sector * 512) }"
+    program = """
+tracepoint:block:block_rq_complete
+/ __FILTER_CPU__ && __FILTER_PID__ /
+{ @requests[pid] = hist(args->nr_sector * 512) }
+"""
     filename = "bpf_block_req.log"
 
     def __init__(self, name:str, dir: str, cmd_args: list[str]):
@@ -16,8 +20,6 @@ class BPFBlockReq(BPFProgram):
     def get_out_filename(self):
         return self.filename
 
-    def collect_results(self, output_dir: str) -> Optional[dict]:
+    def collect_results(self, output_dir: str) -> pd.DataFrame:
         filepath = os.path.join(output_dir, self.filename)
-        with open(filepath, "r") as fp:
-            return fp.read()
-        return "todo"
+        return self.parse_histograms(filepath)
