@@ -88,7 +88,6 @@ def plot_chart(
     figure_name = f"{out_fig_name}_{time.perf_counter()}"
     fig.savefig(f"{figure_name}.png", transparent=False)
     fig.savefig(f"{figure_name}.pdf", transparent=False)
-    plt.show()
     plt.close()
 
 
