@@ -6,6 +6,7 @@ from typing import Optional
 import pandas as pd
 import re
 from io import StringIO
+from utils.logger import bm_log, LogType
 
 class BPFProgram:
     program = ""
@@ -37,20 +38,44 @@ class BPFProgram:
         filtered_program = self._filter_pid(filtered_program)
         return filtered_program
 
-    def gen_program(self) -> str:
+    def get_program(self) -> str:
         return self.apply_filters(self.program)
 
-    @abstractmethod
-    def get_program(self) -> str:
-        pass
+    def get_out_filename(self):
+        return self.filename
+
+    def get_csv_key(self):
+        return self.csv_key
 
     @abstractmethod
-    def get_out_filename(self) -> str:
+    def collect_results(self, output_dir: str, PIDs: list[int]) -> str:
         pass
 
-    @abstractmethod
-    def collect_results(self, output_dir: str) -> pd.DataFrame:
-        pass
+    def get_range_avg(self, range: str) -> int:
+        ext = {
+            "":1,
+            "K":1000,
+            "M":1000000,
+            "G":1000000000,
+            "T":1000000000000,
+            "P":1000000000000000,
+            }
+        range_pattern = re.compile(r'\[([0-9]+)[A-Z]*, ([0-9]+)([A-Z]*)\)')
+        range_match = range_pattern.match(range)
+        if not range_match:
+            bm_log(f"Range did not match: {range}", LogType.FATAL)
+            return 0
+
+        range_min = int(range_match.group(1))
+        range_max = int(range_match.group(2))
+
+        print(range_min)
+        print(range_max)
+
+        range_avg = range_min + (range_max - range_min)/2
+
+        mul = ext[range_match.group(3)]
+        return range_avg*mul
 
     def parse_counts(self, filename) -> pd.DataFrame:
         with open(filename, "r") as f:
@@ -58,6 +83,29 @@ class BPFProgram:
             df = pd.read_csv(StringIO(data), sep=': ', header=None, names=['PID', 'Count'], engine='python')
             df['PID'] = df['PID'].map(self.extract_pid)
             return df
+
+    def results_counts(self, df: pd.DataFrame, PIDs: list[int]) ->str:
+        minimum = 2^62
+        maximum = 0
+        num_values = 0
+        average = 0
+        for values in df.itertuples():
+            print(values)
+            pid = values[0]
+            count = values[1]
+            if PIDs and pid not in PIDs:
+                continue
+            average *= (num_values / (num_values + 1))
+            average += count * (1 / (num_values + 1))
+            num_values += 1
+            if count < minimum:
+                minimum = count
+            if count > maximum:
+                maximum = count
+        result =  self.get_csv_key() + "_min" + "=" + str(minimum) + ";"
+        result += self.get_csv_key() + "_avg" + "=" + str(average) + ";"
+        result += self.get_csv_key() + "_max" + "=" + str(maximum) + ";"
+        return result
 
     def parse_histograms(self, filename) -> pd.DataFrame:
         # Initialize empty lists to store data
@@ -93,6 +141,33 @@ class BPFProgram:
                     })
         return pd.DataFrame(records)
 
+    def results_histograms(self, df: pd.DataFrame, PIDs: list[int]) ->str:
+        minimum = 2^62
+        maximum = 0
+        num_values = 0
+        average = 0
+        for values in df.itertuples():
+            print(values)
+            pid = values[1]
+            range_str = values[2]
+            print(range_str)
+            count = int(values[3])
+            if PIDs and pid not in PIDs:
+                continue
+            average *= (num_values / (num_values + count))
+            range_avg = self.get_range_avg(range_str)
+            print(range_avg)
+            average += range_avg * ((count * count) / (num_values + count))
+            num_values += count
+            if range_avg < minimum:
+                minimum = range_avg
+            if range_avg > maximum:
+                maximum = range_avg
+        result =  self.get_csv_key() + "_min" + "=" + str(minimum) + ";"
+        result += self.get_csv_key() + "_avg" + "=" + str(average) + ";"
+        result += self.get_csv_key() + "_max" + "=" + str(maximum) + ";"
+        return result
+
     def parse_histogram(self, filename) -> pd.DataFrame:
         # Initialize empty lists to store data
         records = []
@@ -123,6 +198,27 @@ class BPFProgram:
                         'count': count
                     })
         return pd.DataFrame(records)
+
+    def results_histogram(self, df: pd.DataFrame) ->str:
+        minimum = 2^62
+        maximum = 0
+        num_values = 0
+        average = 0
+        for values in df.itertuples():
+            range_str = values[0]
+            count = int(values[1])
+            average *= (num_values / (num_values + count))
+            range_avg = self.get_range_avg(range_str)
+            average += range_avg * ((count * count) / (num_values + count))
+            num_values += count
+            if range_avg < minimum:
+                minimum = range_avg
+            if range_avg > maximum:
+                maximum = range_avg
+        result =  self.get_csv_key() + "_min" + "=" + str(minimum) + ";"
+        result += self.get_csv_key() + "_avg" + "=" + str(average) + ";"
+        result += self.get_csv_key() + "_max" + "=" + str(maximum) + ";"
+        return result
 
     def df_to_dict(self, df, key, value):
         result = {}

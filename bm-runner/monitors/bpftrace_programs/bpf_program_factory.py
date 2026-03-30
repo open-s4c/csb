@@ -47,15 +47,15 @@ class BPFProgramFactory:
             return DummyBPFProgram(name)  # Return a dummy bpf_program that does nothing
         match bpf_program_type:
             case BPFProgramType.block_req:
-                return BPFBlockReq(name, dir=results_dir, cmd_args=args)
+                return BPFBlockReq(name, dir=results_dir, args=args)
             case BPFProgramType.sched_latency:
-                return BPFSchedLatency(name, dir=results_dir, cmd_args=args)
+                return BPFSchedLatency(name, dir=results_dir, args=args)
             case BPFProgramType.sched_migrate_task:
-                return BPFSchedMigrateTask(name, dir=results_dir, cmd_args=args)
+                return BPFSchedMigrateTask(name, dir=results_dir, args=args)
             case BPFProgramType.sched_fork:
-                return BPFSchedFork(name, dir=results_dir, cmd_args=args)
+                return BPFSchedFork(name, dir=results_dir, args=args)
             case BPFProgramType.vfs_read_latency:
-                return BPFVfsReadLatency(name, dir=results_dir, cmd_args=args)
+                return BPFVfsReadLatency(name, dir=results_dir, args=args)
             case _:
                 bm_log(f"Unsupported bpf_program type {name}", LogType.FATAL)
                 sys.exit(1)

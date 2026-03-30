@@ -41,17 +41,10 @@ END
 }
 """
     filename = "bpf_sched_latency.log"
+    csv_key = "sched_latency"
 
-    def __init__(self, name:str, dir: str, cmd_args: list[str]):
-        super().__init__(name=name, dir=dir, args=cmd_args)
-
-    def get_program(self):
-        program = self.gen_program()
-        return program
-
-    def get_out_filename(self):
-        return self.filename
-
-    def collect_results(self, output_dir: str) -> pd.DataFrame:
+    def collect_results(self, output_dir: str, PIDs: list[int]) -> str:
         filepath = os.path.join(output_dir, self.filename)
-        return self.parse_histogram(filepath)
+        df = self.parse_histogram(filepath)
+        result = self.results_histogram(df = df)
+        return result

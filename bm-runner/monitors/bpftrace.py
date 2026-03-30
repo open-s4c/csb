@@ -64,13 +64,10 @@ class BPFTraceStats(Monitor):
         return csv_str
     
     def collect_results(self) -> str:
+        result=""
         for progtype, (prog, stat) in self.programs.items():
-            dataframe = prog.collect_results(self.dir)
-            if not dataframe.empty:
-                result = self.dataframe_to_keyvalue_csv(dataframe)
-                return result
-            else:
-                bm_log(
-                    f"Could not read output of bpftrace {progtype}, `self.program` is not initialized!", LogType.ERROR
-                )
-        return "a=b"
+            result_local = prog.collect_results(self.dir, PIDs=None)
+            bm_log(f"Result from {progtype}:\n{result_local}\n", LogType.FATAL)
+
+            result += result_local
+        return result

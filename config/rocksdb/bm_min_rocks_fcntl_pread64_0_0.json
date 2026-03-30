@@ -23,6 +23,16 @@
     {
       "x": "container_cnt",
       "x_lbl": "#Containers",
+      "y": "sched_migrate",
+      "y_lbl": "Sched Migration Count",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "shape": "min_max_avg_plot",
+      "title": "Scheduling count vs. #Containers"
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
       "y": "univ_succ_percent",
       "y_lbl": "Operations success percent",
       "hue_lbl": "Executer",
@@ -77,9 +87,9 @@
           1
         ],
         {
-          "min": 5,
-          "step": 5,
-          "max": 30
+          "min": 2,
+          "step": 1,
+          "max": 4
         }
       ]
     },

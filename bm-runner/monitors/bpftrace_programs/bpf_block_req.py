@@ -9,17 +9,10 @@ tracepoint:block:block_rq_complete
 { @requests[pid] = hist(args->nr_sector * 512) }
 """
     filename = "bpf_block_req.log"
+    csv_key = "block_req"
 
-    def __init__(self, name:str, dir: str, cmd_args: list[str]):
-        super().__init__(name=name, dir=dir, args=cmd_args)
-
-    def get_program(self):
-        program = self.gen_program()
-        return program
-
-    def get_out_filename(self):
-        return self.filename
-
-    def collect_results(self, output_dir: str) -> pd.DataFrame:
+    def collect_results(self, output_dir: str, PIDs: list[int]) -> str:
         filepath = os.path.join(output_dir, self.filename)
-        return self.parse_histograms(filepath)
+        df = self.parse_histograms(filepath)
+        result = self.results_histograms(df=df, PIDs = PIDs)
+        return result
