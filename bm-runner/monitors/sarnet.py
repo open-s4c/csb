@@ -16,6 +16,7 @@ class SarNetStats(Monitor):
         super().__init__(dir=output_dir, args=args)
         for tool in ["sar", "sadf"]:
             ensure_exists(tool)
+        assert len(args) >= 2, "Expecting at least two arguments"
         cmds = ["sudo", "ip", "netns", "exec"]
         cmds.append(args[0])
         cmds.extend(["sar", "-n", "DEV,EDEV", "-o", "netstats.sar"])
