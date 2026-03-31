@@ -153,6 +153,9 @@ class Executer:
             # wait for all containers to finish
             for eu in self.exec_units:
                 eu.wait()
+        except KeyboardInterrupt:
+            bm_log("User interrupted the run", LogType.ERROR)
+            sys.exit(1)
         finally:
             self.cleanup()
 

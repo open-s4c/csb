@@ -28,6 +28,8 @@ class BackgroundProcess:
         self.cmds = cmds
         self.wdir = out_dir if wdir is None else wdir
         self.process: Optional[subprocess.Popen] = None
+        self.ofile  = None
+        self.efile  = None
         # ensure process exist
         ensure_exists(self.name)
 
@@ -44,21 +46,27 @@ class BackgroundProcess:
             cwd=self.wdir,
         )
         cmd_str = " ".join(self.cmds)
-        bm_log(f"Running {cmd_str}")
+        bm_log(f"[{self.name}] started: {cmd_str}")
 
     def stop(self):
         if self.process is None:
             return
-        bm_log(f"Sending cancel signal to {self.name}")
+        bm_log(f"[{self.name}] stopping")
         self.process.send_signal(signal.SIGINT)
         try:
-            self.process.wait()
-            if self.process.returncode != 0:
-                bm_log(f"{self.name} exited with {self.process.returncode}.", LogType.ERROR)
+            self.process.wait(self.TIMEOUT_SEC)
+            bm_log(f"[{self.name}] stopped with return code {self.process.returncode}")
         except subprocess.TimeoutExpired:
             bm_log(f"{self.name} timeout on exit!", LogType.ERROR)
-        self.ofile.close()
-        self.efile.close()
+            self.process.terminate()
+        finally:
+            if self.process.poll() is None:
+                self.process.terminate()
+                bm_log()
+            if self.ofile:
+                self.ofile.close()
+            if self.efile:
+                self.efile.close()
 
     def read_output(self):
         try:
