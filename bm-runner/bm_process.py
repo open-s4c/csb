@@ -48,16 +48,12 @@ class Process(ExecutionUnit):
     def wait(self):
         if self.process is None:
             return
-        try:
-            self.process.wait()
-            if self.process.returncode != 0:
-                bm_log(
-                    f"process {self.name} has failed/or crashed with return code {self.process.returncode}",
-                    LogType.FATAL,
-                )
-                sys.exit(1)
-        except KeyboardInterrupt:
-            bm_log("User interrupted the run", LogType.ERROR)
+        self.process.wait()
+        if self.process.returncode != 0:
+            bm_log(
+                f"process {self.name} has failed/or crashed with return code {self.process.returncode}",
+                LogType.FATAL,
+            )
             sys.exit(1)
 
     def stop(self):
