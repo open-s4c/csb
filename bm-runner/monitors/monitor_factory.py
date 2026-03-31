@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 from config.benchmark import MonitorType
-from monitors.sys_stats import SystemStats
+from monitors.mpstat import SystemStats
 from monitors.redis_bench import RedisStats
 from monitors.perf import FlameGraph
 from monitors.sarnet import SarNetStats
