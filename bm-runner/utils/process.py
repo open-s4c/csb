@@ -17,6 +17,7 @@ class BackgroundProcess:
         cmds: list[str],
         wdir: Optional[str] = None,
         ofile_name: Optional[str] = None,
+        check_exists: bool = True,
     ):
         assert len(cmds) > 1, "expected at least the process name"
         self.name = name
@@ -31,7 +32,8 @@ class BackgroundProcess:
         self.ofile = None
         self.efile = None
         # ensure process exist
-        ensure_exists(self.name)
+        if check_exists:
+            ensure_exists(self.name)
 
     def start(self):
         assert self.process is None, "it seems, it has already been started!"

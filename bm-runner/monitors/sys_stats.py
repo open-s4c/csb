@@ -7,49 +7,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from jsonpath_ng import parse
 from monitors.monitor import Monitor
-from bm_utils import ensure_exists
 from utils.logger import bm_log, LogType
 from typing import Optional
 from utils.process import BackgroundProcess
-
-# TODO: generate other user plots
-# TODO: refactor if turns out this is the only use, one class is enough!
-
-
-# class MpstatCmd:
-#     INTERVAL = 1  # collect every 1 second
-
-#     def __init__(self, output_dir: str, output_file: str, cmd_args: list[str]):
-#         cmds = ["mpstat", "-o", "JSON"]
-#         cmds.extend(cmd_args)
-#         cmds.append(f"{self.INTERVAL}")
-#         self.fname = os.path.join(output_dir, output_file)
-#         cmd_str = " ".join(cmds)
-#         env = {"LANG": "en_US.UTF-8", "LC_ALL": "en_US.UTF-8"}
-#         bm_log(f"Running {cmd_str}")
-#         with open(self.fname, "w") as outfile:
-#             self.process = subprocess.Popen(
-#                 cmds, env=env, stdout=outfile, stderr=subprocess.PIPE, text=True
-#             )
-
-#     def stop(self):
-#         # This acts like ctrl+C
-#         self.process.send_signal(signal.SIGINT)
-
-#     def read_output(self) -> Optional[dict]:
-#         try:
-#             with open(self.fname, "r") as f:
-#                 return json.load(f)
-#         except (FileNotFoundError, json.JSONDecodeError) as e:
-#             bm_log(f"Could not read mpstat JSON from {self.fname}: {e}")
-#             return None
-
 
 class SystemStats(Monitor):
     INTERVAL = 1  # collect every 1 second
 
     def __init__(self, output_dir: str, args: list[str] = ["-A"]):
-        ensure_exists("mpstat")
         super().__init__(dir=output_dir, args=args)
         cmds = ["mpstat", "-o", "JSON"]
         cmds.extend(args)
