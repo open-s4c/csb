@@ -7,22 +7,19 @@ import pandas as pd
 from io import StringIO
 import matplotlib.pyplot as plt
 from monitors.monitor import Monitor
-from bm_utils import ensure_exists
 from utils.process import BackgroundProcess
 
 
 class SarNetStats(Monitor):
     def __init__(self, output_dir: str, args: list[str] = []):
         super().__init__(dir=output_dir, args=args)
-        for tool in ["sar", "sadf"]:
-            ensure_exists(tool)
         assert len(args) >= 2, "Expecting at least two arguments"
         cmds = ["sudo", "ip", "netns", "exec"]
         cmds.append(args[0])
         cmds.extend(["sar", "-n", "DEV,EDEV", "-o", "netstats.sar"])
         cmds.extend(["--iface={}".format(args[1]), "1"])
         self.sar = BackgroundProcess(
-            name="SarNetStats", out_dir=output_dir, cmds=cmds, check_exists=False
+            name="SarNetStats", out_dir=output_dir, cmds=cmds, requires=["sar", "sadf"]
         )
 
     def start(self):

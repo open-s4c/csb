@@ -16,7 +16,7 @@ class FlameGraph(Monitor):
         super().__init__(dir=output_dir, args=args)
         cmds = ["sudo", "perf", "record", "-F", "99", "-g"]
         cmds.extend(args)
-        self.perf = BackgroundProcess(name="perf", out_dir=output_dir, cmds=cmds)
+        self.perf = BackgroundProcess(name="perf", out_dir=output_dir, cmds=cmds, requires=["perf"])
         self.fg_path = os.getenv(self.FG_PATH_ENV_VAR_NAME)
         if self.fg_path is None:
             bm_log(

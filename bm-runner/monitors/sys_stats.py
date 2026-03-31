@@ -21,7 +21,11 @@ class SystemStats(Monitor):
         cmds.extend(args)
         cmds.append(f"{self.INTERVAL}")
         self.stat = BackgroundProcess(
-            name="mpstat", ofile_name="mpstat.json", cmds=cmds, out_dir=output_dir
+            name="mpstat",
+            ofile_name="mpstat.json",
+            cmds=cmds,
+            out_dir=output_dir,
+            requires=["mpstat"],
         )
 
     def start(self):
