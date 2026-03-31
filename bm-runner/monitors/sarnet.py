@@ -3,14 +3,13 @@
 
 import os
 import subprocess
-import signal
 import pandas as pd
 from io import StringIO
 import matplotlib.pyplot as plt
 from monitors.monitor import Monitor
 from bm_utils import ensure_exists
-from utils.logger import bm_log
 from utils.process import BackgroundProcess
+
 
 class SarNetStats(Monitor):
     def __init__(self, output_dir: str, args: list[str] = []):
@@ -21,7 +20,9 @@ class SarNetStats(Monitor):
         cmds.append(args[0])
         cmds.extend(["sar", "-n", "DEV,EDEV", "-o", "netstats.sar"])
         cmds.extend(["--iface={}".format(args[1]), "1"])
-        self.sar = BackgroundProcess(name="SarNetStats", out_dir=output_dir, cmds=cmds, check_exists=False)
+        self.sar = BackgroundProcess(
+            name="SarNetStats", out_dir=output_dir, cmds=cmds, check_exists=False
+        )
 
     def start(self):
         self.sar.start()
