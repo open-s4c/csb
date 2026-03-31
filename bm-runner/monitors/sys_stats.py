@@ -2,62 +2,37 @@
 # SPDX-License-Identifier: MIT
 
 import os
-import subprocess
 import json
-import signal
 import pandas as pd
 import matplotlib.pyplot as plt
 from jsonpath_ng import parse
 from monitors.monitor import Monitor
-from bm_utils import ensure_exists
 from utils.logger import bm_log, LogType
 from typing import Optional
-
-# TODO: generate other user plots
-# TODO: refactor if turns out this is the only use, one class is enough!
-
-
-class MpstatCmd:
-    INTERVAL = 1  # collect every 1 second
-
-    def __init__(self, output_dir: str, output_file: str, cmd_args: list[str]):
-        cmds = ["mpstat", "-o", "JSON"]
-        cmds.extend(cmd_args)
-        cmds.append(f"{self.INTERVAL}")
-        self.fname = os.path.join(output_dir, output_file)
-        cmd_str = " ".join(cmds)
-        env = {"LANG": "en_US.UTF-8", "LC_ALL": "en_US.UTF-8"}
-        bm_log(f"Running {cmd_str}")
-        with open(self.fname, "w") as outfile:
-            self.process = subprocess.Popen(
-                cmds, env=env, stdout=outfile, stderr=subprocess.PIPE, text=True
-            )
-
-    def stop(self):
-        # This acts like ctrl+C
-        self.process.send_signal(signal.SIGINT)
-
-    def read_output(self) -> Optional[dict]:
-        try:
-            with open(self.fname, "r") as f:
-                return json.load(f)
-        except (FileNotFoundError, json.JSONDecodeError) as e:
-            bm_log(f"Could not read mpstat JSON from {self.fname}: {e}")
-            return None
+from utils.process import BackgroundProcess
 
 
 class SystemStats(Monitor):
+    INTERVAL = 1  # collect every 1 second
+
     def __init__(self, output_dir: str, args: list[str] = ["-A"]):
-        ensure_exists("mpstat")
         super().__init__(dir=output_dir, args=args)
-        self.stat: Optional[MpstatCmd] = None
+        cmds = ["mpstat", "-o", "JSON"]
+        cmds.extend(args)
+        cmds.append(f"{self.INTERVAL}")
+        self.stat = BackgroundProcess(
+            name="mpstat",
+            ofile_name="mpstat.json",
+            cmds=cmds,
+            out_dir=output_dir,
+            requires=["mpstat"],
+        )
 
     def start(self):
-        self.stat = MpstatCmd(self.dir, "mpstat.json", self.args)
+        self.stat.start()
 
     def stop(self):
-        if self.stat is not None:
-            self.stat.stop()
+        self.stat.stop()
 
     def transform(self, df: pd.DataFrame) -> str:
         """
@@ -107,9 +82,16 @@ class SystemStats(Monitor):
         ).reset_index()
         return self.transform(df)
 
+    def __read_output(self) -> Optional[dict]:
+        try:
+            return json.loads(self.stat.read_output())
+        except json.JSONDecodeError as e:
+            bm_log(f"Could not read mpstat output as JSON {e}")
+            return None
+
     def collect_results(self) -> str:
         if self.stat:
-            data = self.stat.read_output()
+            data = self.__read_output()
             if data:
                 self.dump_plot(data)
                 results = self.get_cpu_load(data)

@@ -3,48 +3,27 @@
 
 import os
 import subprocess
-import signal
 import pandas as pd
 from io import StringIO
 import matplotlib.pyplot as plt
 from monitors.monitor import Monitor
-from bm_utils import ensure_exists
-from utils.logger import bm_log
-from typing import Optional
-
-
-class SarCmd:
-    def __init__(self, output_dir: str, cmd_args: list[str] = []):
-        cmds = ["sudo", "ip", "netns", "exec"]
-        cmds.append(cmd_args[0])
-        cmds.extend(["sar", "-n", "DEV,EDEV", "-o", "netstats.sar"])
-        cmds.extend(["--iface={}".format(cmd_args[1]), "1"])
-        cmd_str = " ".join(cmds)
-        bm_log(f"Running sar: {cmd_str}")
-        self.process = subprocess.Popen(
-            cmds,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            preexec_fn=os.setpgrp,
-            cwd=output_dir,
-        )
-
-    def stop(self):
-        # This acts like ctrl+C
-        self.process.send_signal(signal.SIGINT)
-        self.process.wait()
+from utils.process import BackgroundProcess
 
 
 class SarNetStats(Monitor):
     def __init__(self, output_dir: str, args: list[str] = []):
-        for tool in ["sar", "sadf"]:
-            ensure_exists(tool)
         super().__init__(dir=output_dir, args=args)
-        self.sar: Optional[SarCmd] = None
+        assert len(args) >= 2, "Expecting at least two arguments"
+        cmds = ["sudo", "ip", "netns", "exec"]
+        cmds.append(args[0])
+        cmds.extend(["sar", "-n", "DEV,EDEV", "-o", "netstats.sar"])
+        cmds.extend(["--iface={}".format(args[1]), "1"])
+        self.sar = BackgroundProcess(
+            name="SarNetStats", out_dir=output_dir, cmds=cmds, requires=["sar", "sadf"]
+        )
 
     def start(self):
-        # Launch perf in the background
-        self.sar = SarCmd(self.dir, self.args)
+        self.sar.start()
 
     def collect_results(self):
         proc = subprocess.run(
@@ -138,6 +117,5 @@ class SarNetStats(Monitor):
             plt.close()
 
     def stop(self):
-        if self.sar is not None:
-            self.sar.stop()
-            self.plot()
+        self.sar.stop()
+        self.plot()

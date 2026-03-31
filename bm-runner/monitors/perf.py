@@ -4,40 +4,19 @@
 import os
 import sys
 import subprocess
-import signal
 from monitors.monitor import Monitor
-from bm_utils import ensure_exists
 from utils.logger import bm_log, LogType
-from typing import Optional
-
-
-class PerfCmd:
-    def __init__(self, output_dir: str, cmd_args: list[str] = ["-a"]):
-        cmds = ["sudo", "perf", "record", "-F", "99", "-g"]
-        cmds.extend(cmd_args)
-        cmd_str = " ".join(cmds)
-        bm_log(f"Running perf: {cmd_str}")
-        self.process = subprocess.Popen(
-            cmds,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            preexec_fn=os.setpgrp,
-            cwd=output_dir,
-        )
-
-    def stop(self):
-        # This acts like ctrl+C
-        self.process.send_signal(signal.SIGINT)
-        self.process.wait()
+from utils.process import BackgroundProcess
 
 
 class FlameGraph(Monitor):
     FG_PATH_ENV_VAR_NAME = "FLAMEGRAPH"
 
     def __init__(self, output_dir: str, args: list[str] = ["-a"]):
-        ensure_exists("perf")
         super().__init__(dir=output_dir, args=args)
-        self.perf: Optional[PerfCmd] = None
+        cmds = ["sudo", "perf", "record", "-F", "99", "-g"]
+        cmds.extend(args)
+        self.perf = BackgroundProcess(name="perf", out_dir=output_dir, cmds=cmds, requires=["perf"])
         self.fg_path = os.getenv(self.FG_PATH_ENV_VAR_NAME)
         if self.fg_path is None:
             bm_log(
@@ -48,7 +27,7 @@ class FlameGraph(Monitor):
 
     def start(self):
         # Launch perf in the background
-        self.perf = PerfCmd(self.dir, self.args)
+        self.perf.start()
 
     def collect_results(self):
         return ""
