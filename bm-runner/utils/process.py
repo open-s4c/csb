@@ -28,8 +28,8 @@ class BackgroundProcess:
         self.cmds = cmds
         self.wdir = out_dir if wdir is None else wdir
         self.process: Optional[subprocess.Popen] = None
-        self.ofile  = None
-        self.efile  = None
+        self.ofile = None
+        self.efile = None
         # ensure process exist
         ensure_exists(self.name)
 
@@ -62,7 +62,7 @@ class BackgroundProcess:
         finally:
             if self.process.poll() is None:
                 self.process.terminate()
-                bm_log()
+                bm_log(f"Terminating {self.name}", LogType.ERROR)
             if self.ofile:
                 self.ofile.close()
             if self.efile:

@@ -59,6 +59,7 @@ class Process(ExecutionUnit):
         except KeyboardInterrupt:
             bm_log("User interrupted the run", LogType.ERROR)
             sys.exit(1)
+
     def stop(self):
         if self.process is not None:
             stop_process(self.process.pid)

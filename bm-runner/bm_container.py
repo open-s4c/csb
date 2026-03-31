@@ -103,7 +103,6 @@ class Container(ExecutionUnit):
         except docker.errors.NotFound:
             pass  # Container does not exist, nothing to do
 
-
     def add_nic(self, container):
         assert self.nic is not None
         # find the PID of the initial task of a container.
