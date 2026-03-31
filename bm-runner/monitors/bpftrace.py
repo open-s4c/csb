@@ -22,7 +22,7 @@ class BPFTraceCmd:
         cmd_str = " ".join(cmds)
         env = {"LANG": "en_US.UTF-8", "LC_ALL": "en_US.UTF-8"}
         bm_log(f"Running bpftrace with {BPFProgramType[ptype]}")
-        self.process = subprocess.Popen(cmds, env=env, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        self.process = subprocess.Popen(cmds, env=env, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, preexec_fn=os.setpgrp)
 
     def stop(self):
         # This acts like ctrl+C
