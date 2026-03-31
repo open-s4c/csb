@@ -11,6 +11,7 @@ from utils.logger import bm_log, LogType
 from typing import Optional
 from utils.process import BackgroundProcess
 
+
 class SystemStats(Monitor):
     INTERVAL = 1  # collect every 1 second
 
