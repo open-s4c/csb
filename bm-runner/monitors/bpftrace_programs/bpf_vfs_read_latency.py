@@ -13,7 +13,7 @@ kretprobe:vfs_read
 { @ns[pid] = hist(nsecs - @start[pid]); delete(@start[pid]); }
 """
     filename = "bpf_sched_fork.log"
-    csv_key = "sched_latency"
+    csv_key = "vfs_read_latency"
 
     def collect_results(self, output_dir: str, PIDs: list[int]) -> str:
         filepath = os.path.join(output_dir, self.filename)

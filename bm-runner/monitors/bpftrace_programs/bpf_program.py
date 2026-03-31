@@ -69,8 +69,8 @@ class BPFProgram:
         range_min = int(range_match.group(1))
         range_max = int(range_match.group(2))
 
-        print(range_min)
-        print(range_max)
+        # print(range_min)
+        # print(range_max)
 
         range_avg = range_min + (range_max - range_min)/2
 
@@ -90,7 +90,7 @@ class BPFProgram:
         num_values = 0
         average = 0
         for values in df.itertuples():
-            print(values)
+            # print(values)
             pid = values[0]
             count = values[1]
             if PIDs and pid not in PIDs:
@@ -102,6 +102,9 @@ class BPFProgram:
                 minimum = count
             if count > maximum:
                 maximum = count
+        
+        if minimum > maximum:
+            minimum = maximum
         result =  self.get_csv_key() + "_min" + "=" + str(minimum) + ";"
         result += self.get_csv_key() + "_avg" + "=" + str(average) + ";"
         result += self.get_csv_key() + "_max" + "=" + str(maximum) + ";"
@@ -147,22 +150,26 @@ class BPFProgram:
         num_values = 0
         average = 0
         for values in df.itertuples():
-            print(values)
+            # print(values)
             pid = values[1]
             range_str = values[2]
-            print(range_str)
+            # print(range_str)
             count = int(values[3])
             if PIDs and pid not in PIDs:
                 continue
             average *= (num_values / (num_values + count))
             range_avg = self.get_range_avg(range_str)
-            print(range_avg)
+            # print(range_avg)
             average += range_avg * ((count * count) / (num_values + count))
             num_values += count
             if range_avg < minimum:
                 minimum = range_avg
             if range_avg > maximum:
                 maximum = range_avg
+
+        if minimum > maximum:
+            minimum = maximum
+
         result =  self.get_csv_key() + "_min" + "=" + str(minimum) + ";"
         result += self.get_csv_key() + "_avg" + "=" + str(average) + ";"
         result += self.get_csv_key() + "_max" + "=" + str(maximum) + ";"
@@ -215,6 +222,10 @@ class BPFProgram:
                 minimum = range_avg
             if range_avg > maximum:
                 maximum = range_avg
+
+        if minimum > maximum:
+            minimum = maximum
+
         result =  self.get_csv_key() + "_min" + "=" + str(minimum) + ";"
         result += self.get_csv_key() + "_avg" + "=" + str(average) + ";"
         result += self.get_csv_key() + "_max" + "=" + str(maximum) + ";"

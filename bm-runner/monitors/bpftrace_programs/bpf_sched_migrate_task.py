@@ -10,11 +10,11 @@ tracepoint:sched:sched_migrate_task
 """
 
     filename = "bpf_sched_migrate_task.log"
-    csv_key = "sched_migrate_count"
+    csv_key = "sched_migrate"
 
     def collect_results(self, output_dir: str, PIDs: list[int]) -> str:
         filepath = os.path.join(output_dir, self.filename)
         df = self.parse_counts(filepath)
-        print(df)
+        # print(df)
         result = self.results_counts(df=df, PIDs = PIDs)
         return result

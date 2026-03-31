@@ -9,7 +9,7 @@ tracepoint:sched:sched_process_fork
 { @[args->parent_pid] = count(); }
 """
     filename = "bpf_sched_fork.log"
-    csv_key = "sched_migrate_count"
+    csv_key = "sched_fork_count"
 
     def collect_results(self, output_dir: str, PIDs: list[int]) -> str:
         filepath = os.path.join(output_dir, self.filename)

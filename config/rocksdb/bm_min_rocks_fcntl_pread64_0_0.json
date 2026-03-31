@@ -27,8 +27,38 @@
       "y_lbl": "Sched Migration Count",
       "hue": "execution_type",
       "hue_lbl": "Execution Env",
-      "shape": "min_max_avg_plot",
+      "type": "min_max_avg",
       "title": "Scheduling count vs. #Containers"
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "vfs_read_latency",
+      "y_lbl": "VFS read latency",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "min_max_avg",
+      "title": "VFS read latency vs. #Containers"
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "sched_fork_count",
+      "y_lbl": "Fork count",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "min_max_avg",
+      "title": "Fork count vs. #Containers"
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "block_req",
+      "y_lbl": "#Block requests",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "min_max_avg",
+      "title": "#Block requests vs. #Containers"
     },
     {
       "x": "container_cnt",

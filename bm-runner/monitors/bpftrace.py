@@ -67,7 +67,7 @@ class BPFTraceStats(Monitor):
         result=""
         for progtype, (prog, stat) in self.programs.items():
             result_local = prog.collect_results(self.dir, PIDs=None)
-            bm_log(f"Result from {progtype}:\n{result_local}\n", LogType.FATAL)
+            # bm_log(f"Result from {progtype}:\n{result_local}\n", LogType.FATAL)
 
             result += result_local
         return result
