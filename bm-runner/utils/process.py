@@ -10,8 +10,8 @@ class BackgroundProcess:
     def __init__(self, name:str, out_dir: str, cmds: list[str], wdir: Optional[str] = None):
         assert len(cmds) > 1, "expected at least the process name"
         self.name = name
-        self.efile = os.path.join(out_dir, f"{self.name}.err")
-        self.ofile = os.path.join(out_dir, f"{self.name}.log")
+        self.efile_name = os.path.join(out_dir, f"{self.name}.err")
+        self.ofile_name = os.path.join(out_dir, f"{self.name}.log")
         self.cmds = cmds
         self.wdir = out_dir if wdir is None else wdir
         self.process : Optional[subprocess.Popen] = None
@@ -20,12 +20,12 @@ class BackgroundProcess:
 
     def start(self):
         assert self.process == None, "it seems, it has already been started!"
-        #self.ofile = open(self.ofile, "w")
-        #self.efile = open(self.efile, "w")
+        self.ofile = open(self.ofile_name, "w")
+        self.efile = open(self.efile_name, "w")
         self.process = subprocess.Popen(
             self.cmds,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
+            stdout=self.ofile,
+            stderr=self.efile,
             preexec_fn=os.setpgrp,
             cwd=self.wdir
         )
@@ -41,5 +41,5 @@ class BackgroundProcess:
                 bm_log(f"{self.name} exited with {self.process.returncode}.", LogType.ERROR)
         except subprocess.TimeoutExpired:
             bm_log(f"{self.name} timeout on exit!", LogType.ERROR)
-        #self.ofile.close()
-        #self.efile.close()
+        self.ofile.close()
+        self.efile.close()
