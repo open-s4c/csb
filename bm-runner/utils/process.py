@@ -63,6 +63,7 @@ class BackgroundProcess:
     def __terminate(self):
         if self.process is not None and self.process.poll() is None:
             self.process.terminate()
+            self.process.wait()
             bm_log(f" {self.name} terminated with {self.process.returncode}")
 
     def stop(self):
