@@ -9,7 +9,9 @@ from monitors.bpftrace_programs.bpf_block_req import BPFBlockReq
 from monitors.bpftrace_programs.bpf_sched_latency import BPFSchedLatency
 from monitors.bpftrace_programs.bpf_sched_migrate_task import BPFSchedMigrateTask
 from monitors.bpftrace_programs.bpf_sched_fork import BPFSchedFork
+from monitors.bpftrace_programs.bpf_sched_domains_mutex import BPFSchedDomainsMutex
 from monitors.bpftrace_programs.bpf_vfs_read_latency import BPFVfsReadLatency
+from monitors.bpftrace_programs.bpf_cgroup_rstat_lock_cont import BPFCGroupRstatLockCont
 
 class DummyBPFProgram(BPFProgram):
     def __init__(self, name: str):
@@ -34,7 +36,9 @@ class BPFProgramType(str, Enum):
     sched_latency = "sched_latency"
     sched_migrate_task = "sched_migrate_task"
     sched_fork = "sched_fork"
+    sched_domains_mutex = "sched_domains_mutex"
     vfs_read_latency = "vfs_read_latency"
+    cgroup_rstat_lock_cont = "cgroup_rstat_lock_cont"
 
 class BPFProgramFactory:
     @staticmethod
@@ -48,12 +52,16 @@ class BPFProgramFactory:
         match bpf_program_type:
             case BPFProgramType.block_req:
                 return BPFBlockReq(name, dir=results_dir, args=args)
+            case BPFProgramType.cgroup_rstat_lock_cont:
+                return BPFCGroupRstatLockCont(name, dir=results_dir, args=args)
             case BPFProgramType.sched_latency:
                 return BPFSchedLatency(name, dir=results_dir, args=args)
             case BPFProgramType.sched_migrate_task:
                 return BPFSchedMigrateTask(name, dir=results_dir, args=args)
             case BPFProgramType.sched_fork:
                 return BPFSchedFork(name, dir=results_dir, args=args)
+            case BPFProgramType.sched_domains_mutex:
+                return BPFSchedDomainsMutex(name, dir=results_dir, args=args)
             case BPFProgramType.vfs_read_latency:
                 return BPFVfsReadLatency(name, dir=results_dir, args=args)
             case _:

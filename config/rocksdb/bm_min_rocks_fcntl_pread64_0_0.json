@@ -23,22 +23,42 @@
     {
       "x": "container_cnt",
       "x_lbl": "#Containers",
-      "y": "sched_migrate",
-      "y_lbl": "Sched Migration Count",
+      "y": "sched_latency",
+      "y_lbl": "Schedule Latency (ns)",
       "hue": "execution_type",
       "hue_lbl": "Execution Env",
       "type": "min_max_avg",
-      "title": "Scheduling count vs. #Containers"
+      "title": "Schedule Latency vs. #Containers"
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "sched_migrate",
+      "y_lbl": "Schedule Migration Count",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "min_max_avg",
+      "title": "Schedule Migration Count vs. #Containers"
     },
     {
       "x": "container_cnt",
       "x_lbl": "#Containers",
       "y": "vfs_read_latency",
-      "y_lbl": "VFS read latency",
+      "y_lbl": "VFS read latency (ns)",
       "hue": "execution_type",
       "hue_lbl": "Execution Env",
       "type": "min_max_avg",
       "title": "VFS read latency vs. #Containers"
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "sched_domains_mutex",
+      "y_lbl": "Scheduler Domains Mutex Latency (ns)",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "min_max_avg",
+      "title": "Scheduler Domains Mutex Latency vs. #Containers"
     },
     {
       "x": "container_cnt",
@@ -59,6 +79,16 @@
       "hue_lbl": "Execution Env",
       "type": "min_max_avg",
       "title": "#Block requests vs. #Containers"
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "cgroup_rstat_lock_cont",
+      "y_lbl": "#CGroup Rstat Lock Contention",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "min_max_avg",
+      "title": "#CGroup Rstat Lock Contention vs. #Containers"
     },
     {
       "x": "container_cnt",
@@ -87,6 +117,10 @@
         "0"
       ],
       "bpftrace": {
+        "sched_domains_mutex": [
+          "-1",
+          "-1"
+        ],
         "sched_latency": [
           "-1",
           "-1"
@@ -104,6 +138,10 @@
           "-1"
         ],
         "vfs_read_latency": [
+          "-1",
+          "-1"
+        ],
+        "cgroup_rstat_lock_cont": [
           "-1",
           "-1"
         ]

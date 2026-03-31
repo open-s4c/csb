@@ -28,5 +28,5 @@ class Monitor:
         pass
 
     @abstractmethod
-    def collect_results(self) -> str:
+    def collect_results(self, pids: Optional[list[int]]) -> str:
         pass

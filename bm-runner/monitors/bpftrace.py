@@ -63,10 +63,10 @@ class BPFTraceStats(Monitor):
         
         return csv_str
     
-    def collect_results(self) -> str:
+    def collect_results(self, pids: Optional[list[int]]) -> str:
         result=""
         for progtype, (prog, stat) in self.programs.items():
-            result_local = prog.collect_results(self.dir, PIDs=None)
+            result_local = prog.collect_results(self.dir, PIDs=pids)
             # bm_log(f"Result from {progtype}:\n{result_local}\n", LogType.FATAL)
 
             result += result_local

@@ -25,7 +25,7 @@ class SarNetStats(Monitor):
     def start(self):
         self.sar.start()
 
-    def collect_results(self):
+    def collect_results(self, pids: Optional[list[int]]):
         proc = subprocess.run(
             [
                 "sadf",

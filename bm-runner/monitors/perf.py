@@ -31,7 +31,7 @@ class FlameGraph(Monitor):
         # Launch perf in the background
         self.perf.start()
 
-    def collect_results(self):
+    def collect_results(self, pids: Optional[list[int]]):
         return ""
 
     def __generate_flamegraph(self, errfile):
