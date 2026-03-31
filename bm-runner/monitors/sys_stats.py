@@ -2,9 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 import os
-import subprocess
 import json
-import signal
 import pandas as pd
 import matplotlib.pyplot as plt
 from jsonpath_ng import parse
@@ -13,6 +11,7 @@ from bm_utils import ensure_exists
 from utils.logger import bm_log, LogType
 from typing import Optional
 from utils.process import BackgroundProcess
+
 # TODO: generate other user plots
 # TODO: refactor if turns out this is the only use, one class is enough!
 
@@ -48,13 +47,16 @@ from utils.process import BackgroundProcess
 
 class SystemStats(Monitor):
     INTERVAL = 1  # collect every 1 second
+
     def __init__(self, output_dir: str, args: list[str] = ["-A"]):
         ensure_exists("mpstat")
         super().__init__(dir=output_dir, args=args)
         cmds = ["mpstat", "-o", "JSON"]
         cmds.extend(args)
         cmds.append(f"{self.INTERVAL}")
-        self.stat = BackgroundProcess(name="mpstat", ofile_name="mpstat.json", cmds=cmds, out_dir=output_dir)
+        self.stat = BackgroundProcess(
+            name="mpstat", ofile_name="mpstat.json", cmds=cmds, out_dir=output_dir
+        )
 
     def start(self):
         self.stat.start()
@@ -110,12 +112,13 @@ class SystemStats(Monitor):
         ).reset_index()
         return self.transform(df)
 
-    def __read_output(self)  -> Optional[dict]:
+    def __read_output(self) -> Optional[dict]:
         try:
             return json.loads(self.stat.read_output())
         except json.JSONDecodeError as e:
             bm_log(f"Could not read mpstat output as JSON {e}")
             return None
+
     def collect_results(self) -> str:
         if self.stat:
             data = self.__read_output()

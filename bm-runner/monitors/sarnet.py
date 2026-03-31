@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 from monitors.monitor import Monitor
 from bm_utils import ensure_exists
 from utils.logger import bm_log
-from typing import Optional
 from utils.process import BackgroundProcess
+
 
 class SarCmd:
     def __init__(self, output_dir: str, cmd_args: list[str] = []):
@@ -43,7 +43,7 @@ class SarNetStats(Monitor):
         cmds = ["sudo", "ip", "netns", "exec"]
         cmds.append(args[0])
         cmds.extend(["sar", "-n", "DEV,EDEV", "-o", "netstats.sar"])
-        cmds.extend(["--iface={}".format(cmd_args[1]), "1"])
+        cmds.extend(["--iface={}".format(args[1]), "1"])
         self.sar = BackgroundProcess(name=args[0], out_dir=output_dir, cmds=cmds)
 
     def start(self):

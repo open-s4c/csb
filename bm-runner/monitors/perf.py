@@ -4,12 +4,10 @@
 import os
 import sys
 import subprocess
-import signal
 from monitors.monitor import Monitor
-from bm_utils import ensure_exists
 from utils.logger import bm_log, LogType
-from typing import Optional
 from utils.process import BackgroundProcess
+
 
 class FlameGraph(Monitor):
     FG_PATH_ENV_VAR_NAME = "FLAMEGRAPH"
