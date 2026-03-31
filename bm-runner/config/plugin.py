@@ -2,13 +2,8 @@
 # SPDX-License-Identifier: MIT
 
 from enum import Enum
-import os
-import tempfile
-import subprocess
 import sys
-from bm_utils import stop_process
 from typing import Optional
-from utils.logger import bm_log, LogType
 from bm_utils import ensure_exists
 from pathlib import Path
 from utils.process import BackgroundProcess

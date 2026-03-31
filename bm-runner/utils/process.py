@@ -9,6 +9,7 @@ from typing import Optional
 from bm_utils import ensure_exists
 from bm_utils import stop_process
 
+
 class BackgroundProcess:
     TIMEOUT_SEC = 5
     Env = {"LANG": "en_US.UTF-8", "LC_ALL": "en_US.UTF-8"}
@@ -91,16 +92,18 @@ class BackgroundProcess:
         """
         Kills the process and whatever children the process spawned.
         """
-        bm_log(f"Killing {self.name}, with PID = {self.process.pid}")
-        stop_process(self.process.pid)
+        if self.process:
+            bm_log(f"Killing {self.name}, with PID = {self.process.pid}")
+            stop_process(self.process.pid)
 
     def is_alive(self) -> bool:
         """
         Returns true if the process is alive and running normally.
         """
-        rc = self.process.poll()
-        if rc is None or rc == 0:
-            return True
+        if self.process:
+            rc = self.process.poll()
+            if rc is None or rc == 0:
+                return True
         bm_log(f"{self.name} is not alive!", LogType.ERROR)
         return False
 
@@ -109,7 +112,11 @@ class BackgroundProcess:
         Waits for the process to finish without timeout.
         This method can block for a long time and will not attempt to cancel or terminate the process.
         """
-        bm_log(f"Waiting for {self.name} without timeout, with PID = {self.process.pid} to terminate")
+        if self.process is None:
+            return
+        bm_log(
+            f"Waiting for {self.name} without timeout, with PID = {self.process.pid} to terminate"
+        )
         self.process.wait()
 
     def stop(self):
