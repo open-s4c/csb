@@ -50,6 +50,18 @@ class BackgroundProcess:
         cmd_str = " ".join(self.cmds)
         bm_log(f"[{self.name}] started: {cmd_str}")
 
+    def __close_file(self, file):
+        try:
+            if file:
+                file.close()
+        except Exception as e:
+            bm_log(f"Failed to close file {e}", LogType.ERROR)
+
+    def __terminate(self):
+        if self.process is not None and self.process.poll() is None:
+            self.process.terminate()
+            bm_log(f" {self.name} terminated with {self.process.returncode}")
+
     def stop(self):
         if self.process is None:
             return
@@ -60,15 +72,11 @@ class BackgroundProcess:
             bm_log(f"[{self.name}] stopped with return code {self.process.returncode}")
         except subprocess.TimeoutExpired:
             bm_log(f"{self.name} timeout on exit!", LogType.ERROR)
-            self.process.terminate()
+            self.__terminate()
         finally:
-            if self.process.poll() is None:
-                self.process.terminate()
-                bm_log(f"Terminating {self.name}", LogType.ERROR)
-            if self.ofile:
-                self.ofile.close()
-            if self.efile:
-                self.efile.close()
+            self.__terminate()
+            self.__close_file(self.ofile)
+            self.__close_file(self.efile)
 
     def read_output(self):
         try:
