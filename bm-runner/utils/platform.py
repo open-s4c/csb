@@ -3,7 +3,12 @@
 
 from enum import Enum
 from utils.logger import bm_log, LogType
-
+import glob
+import os
+import os
+import glob
+import enum
+import subprocess
 
 class OperatingSystem(str, Enum):
     Ubuntu = "Ubuntu"
@@ -28,3 +33,252 @@ def get_os() -> OperatingSystem:
             f"Could not detect operating system. {OS_INFO_FILE} does not exist!", LogType.WARNING
         )
         return OperatingSystem.Unsupported
+
+subprocess
+
+
+# -----------------------------
+# Helpers
+# -----------------------------
+
+def _read(path):
+    try:
+        with open(path) as f:
+            return f.read().strip()
+    except:
+        return None
+
+
+def _parse_list(s):
+    if not s:
+        return set()
+    out = set()
+    for part in s.split(","):
+        if "-" in part:
+            a, b = part.split("-")
+            out.update(range(int(a), int(b) + 1))
+        else:
+            out.add(int(part))
+    return out
+
+
+# -----------------------------
+# Policies
+# -----------------------------
+
+class CpuPolicy(enum.Enum):
+    MAX_DISTANCE = 1       # Spread across NUMA → L3 → cores → SMT
+    SPREAD_NUMA = 2        # Prefer different NUMA nodes
+    PACK_NUMA = 3          # Prefer same NUMA node
+    SPREAD_L3 = 4          # Prefer different L3 cache groups
+    AVOID_SMT = 5          # Avoid SMT siblings
+    EVEN_ONLY = 6          # Only even-numbered CPUs
+    ODD_ONLY = 7           # Only odd-numbered CPUs
+
+
+# -----------------------------
+# Topology Discovery
+# -----------------------------
+
+class CpuTopology:
+    def __init__(self):
+        self.topo = self._load_topology()
+        self.cpus = sorted(self.topo.keys())
+
+    def _load_topology(self):
+        topo = {}
+        for path in glob.glob("/sys/devices/system/cpu/cpu[0-9]*"):
+            cpu = int(path.split("cpu")[-1])
+            t = os.path.join(path, "topology")
+
+            topo[cpu] = {
+                "core_id": _read(os.path.join(t, "core_id")),
+                "package_id": _read(os.path.join(t, "physical_package_id")),
+                "thread_siblings": _parse_list(
+                    _read(os.path.join(t, "thread_siblings_list"))
+                ),
+                "core_siblings": _parse_list(
+                    _read(os.path.join(t, "core_siblings_list"))
+                ),
+            }
+        return topo
+
+    # -----------------------------
+    # Distance metric (universal)
+    # -----------------------------
+    def cpu_distance(self, a, b):
+        ta, tb = self.topo[a], self.topo[b]
+        score = 0
+
+        # NUMA distance
+        if ta["package_id"] != tb["package_id"]:
+            score += 1000
+
+        # L3 cache group distance
+        if b not in tb["core_siblings"]:
+            score += 100
+
+        # Core distance
+        if ta["core_id"] != tb["core_id"]:
+            score += 10
+
+        # SMT distance
+        if b not in tb["thread_siblings"]:
+            score += 1
+
+        return score
+
+    # -----------------------------
+    # Public selection API
+    # -----------------------------
+    def select(self, n, policy=CpuPolicy.MAX_DISTANCE):
+        cpus = list(self.cpus)
+
+        # Even/odd filters
+        if policy == CpuPolicy.EVEN_ONLY:
+            cpus = [c for c in cpus if c % 2 == 0]
+        elif policy == CpuPolicy.ODD_ONLY:
+            cpus = [c for c in cpus if c % 2 == 1]
+
+        if not cpus:
+            return []
+
+        if policy == CpuPolicy.SPREAD_NUMA:
+            base = self._spread_by_key(cpus, "package_id", min(n, len(cpus)))
+        elif policy == CpuPolicy.PACK_NUMA:
+            base = self._pack_by_key(cpus, "package_id", min(n, len(cpus)))
+        elif policy == CpuPolicy.SPREAD_L3:
+            base = self._spread_by_siblings(cpus, "core_siblings", min(n, len(cpus)))
+        elif policy == CpuPolicy.AVOID_SMT:
+            base = self._avoid_smt(cpus, min(n, len(cpus)))
+        else:  # MAX_DISTANCE (default)
+            base = self._max_distance(cpus, min(n, len(cpus)))
+
+        # Wrap around if caller asks for more than we have
+        if len(base) < n:
+            wrapped = []
+            while len(wrapped) < n:
+                for c in base:
+                    wrapped.append(c)
+                    if len(wrapped) == n:
+                        break
+            return wrapped
+
+        return base
+
+    # -----------------------------
+    # Policy implementations
+    # -----------------------------
+
+    def _spread_by_key(self, cpus, key, n):
+        groups = {}
+        for c in cpus:
+            groups.setdefault(self.topo[c][key], []).append(c)
+
+        out = []
+        while len(out) < n:
+            progress = False
+            for g in groups.values():
+                if g:
+                    out.append(g.pop(0))
+                    progress = True
+                    if len(out) == n:
+                        return out
+            if not progress:
+                break
+        return out
+
+    def _pack_by_key(self, cpus, key, n):
+        groups = {}
+        for c in cpus:
+            groups.setdefault(self.topo[c][key], []).append(c)
+        largest = max(groups.values(), key=len)
+        return largest[:n]
+
+    def _spread_by_siblings(self, cpus, sib_key, n):
+        used_groups = set()
+        out = []
+        for c in cpus:
+            group = tuple(sorted(self.topo[c][sib_key]))
+            if group not in used_groups:
+                used_groups.add(group)
+                out.append(c)
+                if len(out) == n:
+                    break
+        return out
+
+    def _avoid_smt(self, cpus, n):
+        used = set()
+        out = []
+        for c in cpus:
+            if any(s in used for s in self.topo[c]["thread_siblings"]):
+                continue
+            out.append(c)
+            used.update(self.topo[c]["thread_siblings"])
+            if len(out) == n:
+                break
+        return out
+
+    # -----------------------------
+    # MAX_DISTANCE helpers
+    # -----------------------------
+
+    def _max_distance_pair(self, cpus):
+        # brute-force farthest pair
+        best = (cpus[0], cpus[1])
+        best_score = -1
+        for i, a in enumerate(cpus):
+            for b in cpus[i + 1:]:
+                s = self.cpu_distance(a, b)
+                if s > best_score:
+                    best_score = s
+                    best = (a, b)
+        return list(best)
+
+    def _max_distance(self, cpus, n):
+        if n == 1:
+            return [cpus[0]]
+
+        # detect flat topology (all distances equal)
+        scores = set()
+        for i, a in enumerate(cpus):
+            for b in cpus[i + 1:]:
+                scores.add(self.cpu_distance(a, b))
+                if len(scores) > 1:
+                    break
+            if len(scores) > 1:
+                break
+
+        if len(scores) <= 1:
+            # fallback: evenly spaced
+            step = max(1, len(cpus) // n)
+            return [cpus[i] for i in range(0, len(cpus), step)][:n]
+
+        if n == 2:
+            return self._max_distance_pair(cpus)
+
+        selected = self._max_distance_pair(cpus)
+        while len(selected) < n:
+            best_cpu = None
+            best_score = -1
+            for c in cpus:
+                if c in selected:
+                    continue
+                score = sum(self.cpu_distance(c, s) for s in selected)
+                if score > best_score:
+                    best_score = score
+                    best_cpu = c
+            selected.append(best_cpu)
+        return selected
+
+
+# -----------------------------
+# Process pinning
+# -----------------------------
+
+def pin_process(pid, cpus):
+    """
+    Pin an existing process to the given list of CPUs.
+    """
+    mask = ",".join(str(c) for c in cpus)
+    subprocess.run(["taskset", "-pc", mask, str(pid)], check=False)

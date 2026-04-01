@@ -19,7 +19,7 @@ from config.env_config import EnvUniversalConfig, UniversalConfig
 from utils.bm_builder import Builder
 from bm_utils import is_process_running, kill_all
 import os
-
+from utils.platform import CpuTopology, CpuPolicy
 
 def csbCampaign(
     name: str = "CSB",
@@ -90,6 +90,12 @@ if __name__ == "__main__":
     arg_title = args.title
     arg_config = args.config
 
+    cpus = os.cpu_count()
+    for policy in CpuPolicy:
+        bm_log(f"request {cpus} for {policy} ")
+        print(CpuTopology().select(cpus, policy))
+
+    sys.exit(1)
     # Parse configuration file
     try:
         bm_config.g_config = CampaignConfig(arg_config)
