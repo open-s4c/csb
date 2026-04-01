@@ -40,9 +40,9 @@
         [
           95
         ]
-      ],
-      "core_assignment_policy": "numa_spread"
+      ]
     },
+    "core_assignment_policy": "odd",
     "core_count": 3
   },
   "applications": [

@@ -51,12 +51,13 @@ class ContainersConfig(dict):
             This configuration is relevant for networking benchmarks.
         -
         """
-        super().__init__(image=image, name=name, core_count=core_count, port=port)
+        super().__init__(image=image, name=name, core_count=core_count, port=port, core_assignment_policy=core_assignment_policy)
         self.container_list = ListConfig.from_dict(container_list).get_list()
         self.core_count = core_count
         if core_affinity_offsets is None:
             max_con_cnt = self.container_list[-1]
             self.core_affinity_offsets = CpuTopology().select(n=max_con_cnt, policy=core_assignment_policy)
+            bm_log(f"you have selected {core_assignment_policy}", LogType.WARNING)
             print(self.core_affinity_offsets)
             sys.exit(1)
         else:
