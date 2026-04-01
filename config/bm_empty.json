@@ -28,7 +28,7 @@
     "threads": {
       "values": [
         [
-          2
+          1
         ]
       ]
     },
@@ -38,11 +38,10 @@
     "container_list": {
       "values": [
         [
-          1,
-          5,
-          10
+          95
         ]
-      ]
+      ],
+      "core_assignment_policy": "numa_spread"
     },
     "core_count": 3
   },

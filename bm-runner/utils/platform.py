@@ -9,6 +9,7 @@ import os
 import glob
 import enum
 import subprocess
+from config.policy import CoreAssignPolicy
 
 class OperatingSystem(str, Enum):
     Ubuntu = "Ubuntu"
@@ -60,20 +61,6 @@ def _parse_list(s):
         else:
             out.add(int(part))
     return out
-
-
-# -----------------------------
-# Policies
-# -----------------------------
-
-class CpuPolicy(enum.Enum):
-    MAX_DISTANCE = 1       # Spread across NUMA → L3 → cores → SMT
-    SPREAD_NUMA = 2        # Prefer different NUMA nodes
-    PACK_NUMA = 3          # Prefer same NUMA node
-    SPREAD_L3 = 4          # Prefer different L3 cache groups
-    AVOID_SMT = 5          # Avoid SMT siblings
-    EVEN_ONLY = 6          # Only even-numbered CPUs
-    ODD_ONLY = 7           # Only odd-numbered CPUs
 
 
 # -----------------------------
@@ -131,25 +118,25 @@ class CpuTopology:
     # -----------------------------
     # Public selection API
     # -----------------------------
-    def select(self, n, policy=CpuPolicy.MAX_DISTANCE):
+    def select(self, n, policy=CoreAssignPolicy.MAX_DISTANCE):
         cpus = list(self.cpus)
 
         # Even/odd filters
-        if policy == CpuPolicy.EVEN_ONLY:
+        if policy == CoreAssignPolicy.EVEN_ONLY:
             cpus = [c for c in cpus if c % 2 == 0]
-        elif policy == CpuPolicy.ODD_ONLY:
+        elif policy == CoreAssignPolicy.ODD_ONLY:
             cpus = [c for c in cpus if c % 2 == 1]
 
         if not cpus:
             return []
 
-        if policy == CpuPolicy.SPREAD_NUMA:
+        if policy == CoreAssignPolicy.SPREAD_NUMA:
             base = self._spread_by_key(cpus, "package_id", min(n, len(cpus)))
-        elif policy == CpuPolicy.PACK_NUMA:
+        elif policy == CoreAssignPolicy.PACK_NUMA:
             base = self._pack_by_key(cpus, "package_id", min(n, len(cpus)))
-        elif policy == CpuPolicy.SPREAD_L3:
+        elif policy == CoreAssignPolicy.SPREAD_L3:
             base = self._spread_by_siblings(cpus, "core_siblings", min(n, len(cpus)))
-        elif policy == CpuPolicy.AVOID_SMT:
+        elif policy == CoreAssignPolicy.AVOID_SMT:
             base = self._avoid_smt(cpus, min(n, len(cpus)))
         else:  # MAX_DISTANCE (default)
             base = self._max_distance(cpus, min(n, len(cpus)))

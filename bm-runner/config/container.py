@@ -8,7 +8,8 @@ import docker.errors
 import sys
 from utils.logger import bm_log, LogType
 from utils.platform import get_os, OperatingSystem
-
+from config.policy import CoreAssignPolicy
+from utils.platform import CpuTopology
 
 class ContainersConfig(dict):
     CONFIG_KEY: str = "containers"
@@ -22,6 +23,7 @@ class ContainersConfig(dict):
         self,
         container_list: ListConfig = ListConfig(values=[[1]]),
         core_affinity_offsets: Optional[ListConfig] = None,
+        core_assignment_policy: CoreAssignPolicy = CoreAssignPolicy.PACK_NUMA,
         core_count: int = 1,
         name: str = "",
         image: Optional[str] = None,
@@ -52,11 +54,15 @@ class ContainersConfig(dict):
         super().__init__(image=image, name=name, core_count=core_count, port=port)
         self.container_list = ListConfig.from_dict(container_list).get_list()
         self.core_count = core_count
-        self.core_affinity_offsets = (
-            ListConfig.from_dict(core_affinity_offsets).get_list()
-            if core_affinity_offsets is not None
-            else [core_count * i for i in range(0, self.container_list[-1])]
-        )
+        if core_affinity_offsets is None:
+            max_con_cnt = self.container_list[-1]
+            self.core_affinity_offsets = CpuTopology().select(n=max_con_cnt, policy=core_assignment_policy)
+            print(self.core_affinity_offsets)
+            sys.exit(1)
+        else:
+            # use user selection instead
+            self.core_affinity_offsets = ListConfig.from_dict(core_affinity_offsets).get_list()
+
         self.image = image if image is not None else self.DEFAULT_IMG[get_os()]
         bm_log(f"Selected image {self.image}", LogType.INFO)
         self.name = name
