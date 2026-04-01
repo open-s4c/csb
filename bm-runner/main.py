@@ -17,6 +17,7 @@ from bm_utils import remove_files_by_ext
 from utils.logger import bm_log, LogType
 from config.env_config import EnvUniversalConfig, UniversalConfig
 from utils.bm_builder import Builder
+from bm_utils import is_process_running, kill_all
 import os
 
 
@@ -122,19 +123,30 @@ if __name__ == "__main__":
         enable_data_dir=True,
     )
 
-    campaign_suite = CampaignSuite(campaigns=[campaign])
-    if not arg_continue:
-        campaign_suite.print_durations()
-        campaign_suite.run_suite()
-        results_dir = campaign.base_data_dir()
-    else:
-        results_dir = dir_arg[0]
-        remove_files_by_ext(results_dir, ["png", "pdf"])
-        bm_log(f"re-visualizing results on {results_dir}, old plots will be removed.", LogType.INFO)
+    try:
+        campaign_suite = CampaignSuite(campaigns=[campaign])
+        if not arg_continue:
+            campaign_suite.print_durations()
+            campaign_suite.run_suite()
+            results_dir = campaign.base_data_dir()
+        else:
+            results_dir = dir_arg[0]
+            remove_files_by_ext(results_dir, ["png", "pdf"])
+            bm_log(
+                f"re-visualizing results on {results_dir}, old plots will be removed.", LogType.INFO
+            )
 
-    # generate an html with the results
-    if results_dir is not None:
-        bm_visualize.visualize_in_html(Path(results_dir), arg_title, bm_config.g_config.get_plots())
-    else:
-        bm_log("results_dir/base_data_dir is None, cannot visualize results.", LogType.FATAL)
-        sys.exit(1)
+        # generate an html with the results
+        if results_dir is not None:
+            bm_visualize.visualize_in_html(
+                Path(results_dir), arg_title, bm_config.g_config.get_plots()
+            )
+        else:
+            bm_log("results_dir/base_data_dir is None, cannot visualize results.", LogType.FATAL)
+            sys.exit(1)
+    finally:
+        # This is only a fallback. Can only happen if the user did ctrl+c twice
+        # interrupting the proper cleanup process.
+        if is_process_running(name="perf"):
+            bm_log("Perf is running and is going to be forcefully killed", LogType.WARNING)
+            kill_all("perf")
