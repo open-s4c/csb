@@ -163,9 +163,12 @@ def stop_process(pid: int):
             child.kill()
         parent.kill()
     except psutil.NoSuchProcess:
-        # if a process does not exist we
-        # do not care
         pass
+    except psutil.AccessDenied:
+        bm_log(
+            f"Could not kill process with pid {pid}. Most likely need sudo to kill it.",
+            LogType.ERROR,
+        )
 
 
 def exists_system_wide(cmd: str) -> bool:
@@ -268,3 +271,28 @@ def remove_files_by_ext(dir, extensions: list[str]):
     for extension in extensions:
         for file in folder.rglob(f"*.{extension}"):
             file.unlink()
+
+
+def kill_all(name: str):
+    """
+    Kills all processes with name equals to the given.
+    Use with caution, as this might kill processes that were not created by the framework.
+    """
+    bm_log(f"killing all processes with the name {name}!", LogType.WARNING)
+    shell_out(command=f"sudo pkill {name}", print_file_shell_cmd=False)
+
+
+def is_process_running(name: str) -> bool:
+    """
+    Returns True if it find a running process with the given name.
+    Otherwise, returns False.
+    """
+    for proc in psutil.process_iter(["pid", "name"]):
+        try:
+            # Check if the process name matches the given name
+            if name.lower() in proc.info["name"].lower():
+                bm_log(f"{name} is running {proc.info['pid']}.")
+                return True
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            pass
+    return False

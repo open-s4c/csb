@@ -68,7 +68,7 @@ class Container(ExecutionUnit):
             container.reload()
             if container.status in ("running", "exited", "dead"):
                 break
-
+            # 100 milliseconds
             time.sleep(0.1)
 
     def wait(self, timeout=None):
@@ -87,9 +87,6 @@ class Container(ExecutionUnit):
         bm_log(f"Stopping Container {self.name}")
         try:
             container = self.client.containers.get(self.name)
-
-            self.__log_status(container)
-
             container.stop()
             container.remove()
             # Remove network namespace as well
@@ -99,7 +96,7 @@ class Container(ExecutionUnit):
                     ignore_any_error_code=True,
                     print_file_shell_cmd=False,
                 )
-            bm_log(f"Container: {self.name} has been stopped and removed")
+            self.__log_status(container)
         except docker.errors.NotFound:
             pass  # Container does not exist, nothing to do
 
