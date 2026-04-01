@@ -154,7 +154,7 @@ class Executer:
             for eu in self.exec_units:
                 eu.wait()
         except KeyboardInterrupt:
-            # Warn the user not to pres it again, and shutdown to propagate.
+            # Warn the user not to press it again, and shutdown to propagate.
             bm_log(
                 "User pressed ctrl+c! The benchmark will be interrupted and cleaning up resources will start. Don't press ctrl+c again! Otherwise, you have to clean up containers and monitors manually!",
                 LogType.FATAL,
