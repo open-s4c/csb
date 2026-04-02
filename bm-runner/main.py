@@ -92,7 +92,7 @@ if __name__ == "__main__":
     arg_config = args.config
 
     cpus = os.cpu_count()
-    Topology()
+    Topology().get_counts()
     sys.exit(1)
     # for policy in CoreAssignPolicy:
     #     bm_log(f"request {cpus} for {policy} ")

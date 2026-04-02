@@ -70,6 +70,12 @@ def _parse_list(s):
 # Topology Discovery
 # -----------------------------
 
+class TopologyCounts:
+    num_numas: int
+    num_cpus: int
+    num_cores: int
+    num_packages: int
+
 class Topology:
     CPU = "CPU"
     CORE = "Core"
@@ -83,10 +89,20 @@ class Topology:
 
     def __init__(self):
         lines = self.__read_info()
-        print(lines)
         self.data = self.__transform_info(lines)
-        print(self.data)
         pass
+
+    def get_counts(self) -> TopologyCounts:
+        stats = TopologyCounts()
+        stats.num_cpus = self.data[self.CPU].unique().size
+        stats.num_cores = self.data[self.CORE].unique().size
+        stats.num_numas = self.data[self.NUMA].unique().size
+        stats.num_packages = self.data[self.PACKAGE].unique().size
+        print(f"Number of CPUs: {stats.num_cpus}")
+        print(f"Number of cores: {stats.num_cores}")
+        print(f"Number of NUMAs: {stats.num_numas}")
+        print(f"Number of packages: {stats.num_packages}")
+        return stats
 
     def __transform_info(self, lines: list[str]) -> pd.DataFrame:
         # Extract column header line
