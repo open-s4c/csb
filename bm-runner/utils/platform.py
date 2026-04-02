@@ -10,6 +10,9 @@ import glob
 import enum
 import subprocess
 from config.policy import CoreAssignPolicy
+from benchkit.shell.shell import shell_out
+import re
+import pandas as pd
 
 class OperatingSystem(str, Enum):
     Ubuntu = "Ubuntu"
@@ -66,6 +69,40 @@ def _parse_list(s):
 # -----------------------------
 # Topology Discovery
 # -----------------------------
+
+class Topology:
+    CPU = "CPU"
+    CORE = "Core"
+    L1_DATA_CACHE = "L1d"
+    L1_INS_CACHE = "L1i"
+    L2_CACHE = "L2"
+    L3_CACHE = "L3"
+    NUMA = "Node"
+    PACKAGE = "Socket"
+    CLUSTER = "Cluster" # careful mostly empty
+
+    def __init__(self):
+        lines = self.__read_info()
+        print(lines)
+        self.data = self.__transform_info(lines)
+        print(self.data)
+        pass
+
+    def __transform_info(self, lines: list[str]) -> pd.DataFrame:
+        # Extract column header line
+        header_line = lines[3].strip().lstrip("#").strip()  # Header is at line 4 (index 3)
+        columns = [col.strip() for col in header_line.split(",")]
+        # Remove comment lines
+        data_lines = [line.strip() for line in lines[4:]]
+        # Now, create the DataFrame directly from the data
+        df = pd.DataFrame([line.split(',') for line in data_lines], columns=columns)
+        return df
+
+    def __read_info(self) -> list[str]:
+        cpu_info = shell_out("lscpu -p=CPU,CORE,CACHE,NODE,SOCKET,CLUSTER", print_file_shell_cmd=False)
+        print(cpu_info)
+        lines = cpu_info.strip().split("\n")
+        return lines
 
 class CpuTopology:
     def __init__(self):
