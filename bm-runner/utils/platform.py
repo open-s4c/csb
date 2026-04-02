@@ -112,215 +112,26 @@ class Topology:
         return df
 
     def __read_info(self) -> list[str]:
-        cpu_info = shell_out("lscpu -p=CPU,CORE,CACHE,NODE,SOCKET,CLUSTER", print_file_shell_cmd=False)
+        cpu_info = shell_out("lscpu -p=CPU,CORE,CACHE,NODE,SOCKET,CLUSTER",
+                              output_is_log=False,
+                              print_output=False,
+                              print_file_shell_cmd=False)
         lines = cpu_info.strip().split("\n")
         return lines
 
-    def pack_by_numa(self, n):
-        numa_groups = self.data.groupby(self.NUMA)[self.CPU].apply(list).to_dict()
-        # Select the largest NUMA group
-        largest_numa_group = max(numa_groups.values(), key=len)
-        return list(itertools.islice(itertools.cycle(largest_numa_group), n))
+    def __pack_by(self, count:int, groub:str, one_per_core: bool = False):
+        df = self.__one_per_core() if one_per_core else self.data
+        groups = df.groupby(groub)[self.CPU].apply(list).to_dict()
+        selected_group = max(groups.values(), key=len)
+        return list(itertools.islice(itertools.cycle(selected_group), count))
 
-class CpuTopology:
-    def __init__(self):
-        self.topo = self._load_topology()
-        self.cpus = sorted(self.topo.keys())
+    def __one_per_core(self):
+        return self.data.groupby(self.CORE).first().reset_index()
 
-    def _load_topology(self):
-        topo = {}
-        for path in glob.glob("/sys/devices/system/cpu/cpu[0-9]*"):
-            cpu = int(path.split("cpu")[-1])
-            t = os.path.join(path, "topology")
+    def pack_by_numa(self, count:int, one_per_core: bool):
+        return self.__pack_by(count, self.NUMA, one_per_core)
 
-            topo[cpu] = {
-                "core_id": _read(os.path.join(t, "core_id")),
-                "package_id": _read(os.path.join(t, "physical_package_id")),
-                "thread_siblings": _parse_list(
-                    _read(os.path.join(t, "thread_siblings_list"))
-                ),
-                "core_siblings": _parse_list(
-                    _read(os.path.join(t, "core_siblings_list"))
-                ),
-            }
-        return topo
+    def pack_by_pkg(self, count:int, one_per_core: bool):
+        return self.__pack_by(count, self.PACKAGE, one_per_core)
 
-    # -----------------------------
-    # Distance metric (universal)
-    # -----------------------------
-    def cpu_distance(self, a, b):
-        ta, tb = self.topo[a], self.topo[b]
-        score = 0
 
-        # NUMA distance
-        if ta["package_id"] != tb["package_id"]:
-            score += 1000
-
-        # L3 cache group distance
-        if b not in tb["core_siblings"]:
-            score += 100
-
-        # Core distance
-        if ta["core_id"] != tb["core_id"]:
-            score += 10
-
-        # SMT distance
-        if b not in tb["thread_siblings"]:
-            score += 1
-
-        return score
-
-    # -----------------------------
-    # Public selection API
-    # -----------------------------
-    def select(self, n, policy=CoreAssignPolicy.MAX_DISTANCE):
-        cpus = list(self.cpus)
-
-        # Even/odd filters
-        if policy == CoreAssignPolicy.EVEN_ONLY:
-            cpus = [c for c in cpus if c % 2 == 0]
-        elif policy == CoreAssignPolicy.ODD_ONLY:
-            cpus = [c for c in cpus if c % 2 == 1]
-
-        if not cpus:
-            return []
-
-        if policy == CoreAssignPolicy.SPREAD_NUMA:
-            base = self._spread_by_numa(cpus, min(n, len(cpus)))  # Updated for NUMA
-        elif policy == CoreAssignPolicy.PACK_NUMA:
-            base = self._pack_by_numa(cpus, min(n, len(cpus)))  # Updated for NUMA
-        elif policy == CoreAssignPolicy.SPREAD_L3:
-            base = self._spread_by_siblings(cpus, "core_siblings", min(n, len(cpus)))
-        elif policy == CoreAssignPolicy.AVOID_SMT:
-            base = self._avoid_smt(cpus, min(n, len(cpus)))
-        else:  # MAX_DISTANCE (default)
-            base = self._max_distance(cpus, min(n, len(cpus)))
-
-        # Wrap around if caller asks for more than we have
-        if len(base) < n:
-            wrapped = []
-            while len(wrapped) < n:
-                for c in base:
-                    wrapped.append(c)
-                    if len(wrapped) == n:
-                        break
-            return wrapped
-
-        return base
-
-    # -----------------------------
-    # Policy implementations
-    # -----------------------------
-
-    def _spread_by_numa(self, cpus, n):
-        """
-        Spread CPUs across NUMA nodes, ensuring maximum diversity in terms of NUMA nodes.
-        """
-        # Group CPUs by their NUMA node (package_id is usually tied to NUMA node in most systems)
-        numa_groups = {}
-        for c in cpus:
-            numa_node = self.topo[c]["package_id"]  # treat package_id as NUMA node ID
-            numa_groups.setdefault(numa_node, []).append(c)
-
-        # Spread CPUs across different NUMA nodes
-        out = []
-        while len(out) < n:
-            for numa_node, group in numa_groups.items():
-                if group:
-                    out.append(group.pop(0))  # Pop one CPU from the NUMA group
-                if len(out) == n:
-                    break
-
-        return out
-
-    def _pack_by_numa(self, cpus, n):
-        """
-        Pack CPUs into the same NUMA node, prioritizing nodes with the most available CPUs.
-        """
-        # Group CPUs by NUMA node
-        numa_groups = {}
-        for c in cpus:
-            numa_node = self.topo[c]["package_id"]
-            numa_groups.setdefault(numa_node, []).append(c)
-
-        # Find the largest NUMA group
-        largest_numa_group = max(numa_groups.values(), key=len)
-
-        # Return the first `n` CPUs from the largest NUMA group
-        return largest_numa_group[:n]
-
-    def _spread_by_siblings(self, cpus, sib_key, n):
-        used_groups = set()
-        out = []
-        for c in cpus:
-            group = tuple(sorted(self.topo[c][sib_key]))
-            if group not in used_groups:
-                used_groups.add(group)
-                out.append(c)
-                if len(out) == n:
-                    break
-        return out
-
-    def _avoid_smt(self, cpus, n):
-        used = set()
-        out = []
-        for c in cpus:
-            if any(s in used for s in self.topo[c]["thread_siblings"]):
-                continue
-            out.append(c)
-            used.update(self.topo[c]["thread_siblings"])
-            if len(out) == n:
-                break
-        return out
-
-    # -----------------------------
-    # MAX_DISTANCE helpers
-    # -----------------------------
-
-    def _max_distance_pair(self, cpus):
-        # brute-force farthest pair
-        best = (cpus[0], cpus[1])
-        best_score = -1
-        for i, a in enumerate(cpus):
-            for b in cpus[i + 1:]:
-                s = self.cpu_distance(a, b)
-                if s > best_score:
-                    best_score = s
-                    best = (a, b)
-        return list(best)
-
-    def _max_distance(self, cpus, n):
-        if n == 1:
-            return [cpus[0]]
-
-        # detect flat topology (all distances equal)
-        scores = set()
-        for i, a in enumerate(cpus):
-            for b in cpus[i + 1:]:
-                scores.add(self.cpu_distance(a, b))
-                if len(scores) > 1:
-                    break
-            if len(scores) > 1:
-                break
-
-        if len(scores) <= 1:
-            # fallback: evenly spaced
-            step = max(1, len(cpus) // n)
-            return [cpus[i] for i in range(0, len(cpus), step)][:n]
-
-        if n == 2:
-            return self._max_distance_pair(cpus)
-
-        selected = self._max_distance_pair(cpus)
-        while len(selected) < n:
-            best_cpu = None
-            best_score = -1
-            for c in cpus:
-                if c in selected:
-                    continue
-                score = sum(self.cpu_distance(c, s) for s in selected)
-                if score > best_score:
-                    best_score = score
-                    best_cpu = c
-            selected.append(best_cpu)
-        return selected

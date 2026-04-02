@@ -9,7 +9,6 @@ import sys
 from utils.logger import bm_log, LogType
 from utils.platform import get_os, OperatingSystem
 from config.policy import CoreAssignPolicy
-from utils.platform import CpuTopology
 
 class ContainersConfig(dict):
     CONFIG_KEY: str = "containers"
