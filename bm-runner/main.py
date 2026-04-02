@@ -97,10 +97,10 @@ if __name__ == "__main__":
     print(topo.pack_by_numa(cpus, False))
     bm_log("By NUMA -> true", LogType.WARNING)
     print(topo.pack_by_numa(cpus, True))
-    bm_log("By PACKAGE", LogType.WARNING)
-    print(topo.pack_by_pkg(cpus, False))
-    bm_log("By PACKAGE -> true", LogType.WARNING)
-    print(topo.pack_by_pkg(cpus, True))
+    # bm_log("By PACKAGE", LogType.WARNING)
+    # print(topo.pack_by_pkg(cpus, False))
+    # bm_log("By PACKAGE -> true", LogType.WARNING)
+    # print(topo.pack_by_pkg(cpus, True))
 
     sys.exit(1)
     # for policy in CoreAssignPolicy:

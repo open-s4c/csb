@@ -121,7 +121,9 @@ class Topology:
 
     def __pack_by(self, count:int, groub:str, one_per_core: bool = False):
         df = self.__one_per_core() if one_per_core else self.data
+        print(df)
         groups = df.groupby(groub)[self.CPU].apply(list).to_dict()
+        print(groups)
         selected_group = max(groups.values(), key=len)
         return list(itertools.islice(itertools.cycle(selected_group), count))
 
