@@ -100,6 +100,10 @@ if __name__ == "__main__":
     bm_log("By PACKAGE", LogType.WARNING)
     print(topo.pack_by_pkg(cpus, False))
 
+    bm_log("as far as possible", LogType.WARNING)
+    ### TODO: this hangs on high number we need a better way
+    print(topo.select_cpus(50))
+
 
     sys.exit(1)
     # for policy in CoreAssignPolicy:

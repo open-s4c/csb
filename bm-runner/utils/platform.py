@@ -147,4 +147,51 @@ class Topology:
     def pack_by_pkg(self, count:int, one_per_core: bool):
         return self.__pack_by(count, self.PACKAGE, one_per_core)
 
+    def cpu_distance(self, cpu_a, cpu_b):
+        """
+        Calculate a distance metric between two CPUs.
+        The distance is based on NUMA node and core id.
+        """
+        # Get the NUMA node and core id of each CPU
+        df = self.data
+        numa_a = df[df[self.CPU] == cpu_a][self.NUMA].values[0]
+        core_a = df[df[self.CPU] == cpu_a][self.CORE].values[0]
+        numa_b = df[df[self.CPU] == cpu_b][self.NUMA].values[0]
+        core_b = df[df[self.CPU] == cpu_b][self.CORE].values[0]
+
+        # Simple distance metric: penalize if in different NUMA node or on different cores
+        distance = 0
+        if numa_a != numa_b:
+            distance += 100  # Larger penalty for different NUMA nodes
+        if core_a != core_b:
+            distance += 10  # Penalty for being on different cores
+        return distance
+
+    def select_cpus(self, n):
+        """
+        Select 'n' CPUs that are the farthest apart from each other.
+        """
+        selected_cpus = []
+        cpus = self.data['CPU'].values
+        remaining_cpus = list(cpus)
+
+        while len(selected_cpus) < n:
+            if not selected_cpus:
+                # Choose the first CPU arbitrarily
+                selected_cpus.append(remaining_cpus.pop(0))
+            else:
+                max_distance = -1
+                best_cpu = None
+                for cpu in remaining_cpus:
+                    # Calculate the sum of distances to already selected CPUs
+                    total_distance = sum(self.cpu_distance(cpu, selected_cpu) for selected_cpu in selected_cpus)
+                    if total_distance > max_distance:
+                        max_distance = total_distance
+                        best_cpu = cpu
+
+                # Add the selected CPU and remove from the remaining list
+                selected_cpus.append(best_cpu)
+                remaining_cpus.remove(best_cpu)
+
+        return selected_cpus
 
