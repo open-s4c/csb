@@ -92,7 +92,6 @@ class Topology:
     def __init__(self):
         lines = self.__read_info()
         self.data = self.__transform_info(lines)
-        self.get_counts()
         pass
 
     def get_counts(self) -> TopologyCounts:
@@ -105,7 +104,6 @@ class Topology:
         bm_log(f"#CORES: {stats.num_cores}")
         bm_log(f"#NUMAS: {stats.num_numas}")
         bm_log(f"#PACKAGES: {stats.num_packages}")
-
         return stats
 
     def __transform_info(self, lines: list[str]) -> pd.DataFrame:
@@ -126,19 +124,17 @@ class Topology:
                               output_is_log=False,
                               print_output=False,
                               print_file_shell_cmd=False)
-        cpu_info = shell_out("cat /home/lilith/workspace/csb/k920.csv",
+        cpu_info = shell_out("cat /home/lilith/workspace/csb/ampere.csv",
                              print_output=False,
                              print_file_shell_cmd=False)
         lines = cpu_info.strip().split("\n")
         return lines
 
-    def __pack_by(self, count:int, group:str, one_per_core: bool = False):
+    def __pack_by(self, count:int, group:str, one_per_core: bool = False, filter: int = 0):
         df = self.data
-        print(df[group].unique())
-        df = df[df[group] == 0] # filter first
-        print(df)
-        df = df.drop_duplicates(subset=self.CORE)
-
+        df = df[df[group] == filter] # pick one per group
+        if one_per_core:
+            df = df.drop_duplicates(subset=self.CORE)
         selected_group = df[self.CPU].tolist()
         return list(itertools.islice(itertools.cycle(selected_group), count))
 
