@@ -24,7 +24,9 @@ END {
     csv_key = "sched_domains_mutex"
 
     def collect_results(self, output_dir: str, PIDs: list[int]) -> str:
+        result = ""
         filepath = os.path.join(output_dir, self.filename)
         df = self.parse_histograms(filepath)
-        result = self.results_histograms(df=df, PIDs = PIDs)
+        result += self.results_histograms_min_max_avg(df=df, PIDs = PIDs)
+        result += self.results_histograms_histogram(df=df, PIDs = PIDs)
         return result

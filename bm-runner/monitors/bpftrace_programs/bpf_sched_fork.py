@@ -12,7 +12,8 @@ tracepoint:sched:sched_process_fork
     csv_key = "sched_fork_count"
 
     def collect_results(self, output_dir: str, PIDs: list[int]) -> str:
+        result = ""
         filepath = os.path.join(output_dir, self.filename)
         df = self.parse_counts(filepath)
-        result = self.results_counts(df=df, PIDs = PIDs)
+        result += self.results_counts_min_max_avg(df=df, PIDs = PIDs)
         return result

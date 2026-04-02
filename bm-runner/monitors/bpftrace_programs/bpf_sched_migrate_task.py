@@ -13,8 +13,8 @@ tracepoint:sched:sched_migrate_task
     csv_key = "sched_migrate"
 
     def collect_results(self, output_dir: str, PIDs: list[int]) -> str:
+        result = ""
         filepath = os.path.join(output_dir, self.filename)
         df = self.parse_counts(filepath)
-        # print(df)
-        result = self.results_counts(df=df, PIDs = PIDs)
+        result += self.results_counts_min_max_avg(df=df, PIDs = PIDs)
         return result

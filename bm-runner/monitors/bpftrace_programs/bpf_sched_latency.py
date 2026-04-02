@@ -44,7 +44,9 @@ END
     csv_key = "sched_latency"
 
     def collect_results(self, output_dir: str, PIDs: list[int]) -> str:
+        result = ""
         filepath = os.path.join(output_dir, self.filename)
         df = self.parse_histogram(filepath)
-        result = self.results_histogram(df = df)
+        result += self.results_histogram_min_max_avg(df = df)
+        result += self.results_histogram_histogram(df = df)
         return result

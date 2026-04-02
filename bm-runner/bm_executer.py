@@ -171,7 +171,7 @@ class Executer:
             items = dict(item.split('=') for item in eu_output.split(';') if item and "=" in item)
             pid = items['pid']
             pids.append(pid)
-        pids = None
+        # pids = None
         stat_prefix = "".join([monitor.collect_results(pids).strip() for monitor in self.monitors])
         result = "".join(f"{stat_prefix}{eu_output}" for eu_output in eu_outputs)
         return result

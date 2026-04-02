@@ -241,6 +241,7 @@ bucket_avg = []
 
 def gen_row(smr, threads, i):
     # todo find real value instead of i+1
+    # print(f"i: {i}; bucket_avg: {bucket_avg}")
     return [smr, threads, bucket_avg[i]]
 
 
@@ -255,6 +256,14 @@ def gen_rows_from_histogram(smr, threads, histogram):
     # split the column value into an array
     # map bucket i to the number of elements of the bucket
     buckets = histogram.split(",")
+    all_empty = True
+    for bucket in buckets:
+        if 0 != int(bucket):
+            all_empty = False
+
+    if all_empty:
+        buckets[0] = "1"
+    
     return [
         # add the row log_scale(int(count)] times
         # to not use log_scale just use count directly
@@ -272,8 +281,12 @@ def implicit_add_columns(trans_df, subdf, histo, x_col, gp_name):
             subdf[histo],
         )
     )
+    # print("res_l")
+    # print(res_l)
     res = [item for sublist in res_l for sublist_2 in sublist for item in sublist_2]
     o_df = pd.DataFrame(res)
+    # print("o_df")
+    # print(o_df)
     trans_df[[gp_name, x_col, "latency"]] = o_df[[0, 1, 2]]
 
 
@@ -285,18 +298,22 @@ def create_histogram_plot(df, plot: PlotConfig, dir):
 
     ############################################################
     cols = range(1, 61)  # TODO: align with C
-    bucket_min = 0
-    bucket_max = 99
+    bucket_min = plot.hist_bucket_min
+    bucket_max = plot.hist_bucket_max
     for i in cols:
         bucket_avg.append((bucket_max + bucket_min) / 2)
         bucket_max, bucket_min = (
-            bucket_max + int((bucket_max - bucket_min + 1) * 1.1),
+            bucket_max * plot.hist_bucket_factor,
             bucket_max + 1,
         )
 
     ############################################################
     # Transformation
     trans_df = pd.DataFrame()
+    # print("trans_df:")
+    # print(trans_df)
+    # print("subdf:")
+    # print(subdf)
     implicit_add_columns(trans_df, subdf, histo, plot.x, plot.hue)
     ############################################################
     plot.y = "latency"  # TODO configure
@@ -441,7 +458,12 @@ def visualize_in_html(output_dir: Path, title: str, plots: list[PlotConfig]):
     # For each data frame we'll generate the related graphs
     # and print related information
     for key, df in data_frames.items():
+        # print("About to create plot for:")
+        # print(key)
+        # print(df)
         add_info_tbl(df, doc, result_file)
+        # print("Doc including info table:")
+        # print(doc)
         create_plots(df, plots, output_dir, info=key)
         # dump graphs to HTML document
         dump_graphs_to_doc(output_dir, doc, NUM_PLOTS_PER_ROW)

@@ -12,6 +12,11 @@ from monitors.bpftrace_programs.bpf_sched_fork import BPFSchedFork
 from monitors.bpftrace_programs.bpf_sched_domains_mutex import BPFSchedDomainsMutex
 from monitors.bpftrace_programs.bpf_vfs_read_latency import BPFVfsReadLatency
 from monitors.bpftrace_programs.bpf_cgroup_rstat_lock_cont import BPFCGroupRstatLockCont
+from monitors.bpftrace_programs.bpf_cgroup_rstat_flush import BPFCGroupRstatFlush
+from monitors.bpftrace_programs.bpf_cgroup_attach_task import BPFCGroupAttachTask
+from monitors.bpftrace_programs.bpf_cgroup_charge import BPFCGroupCharge
+from monitors.bpftrace_programs.bpf_cgroup_procs_write import BPFCGroupProcsWrite
+from monitors.bpftrace_programs.bpf_cgroup_fork import BPFCGroupFork
 
 class DummyBPFProgram(BPFProgram):
     def __init__(self, name: str):
@@ -39,6 +44,11 @@ class BPFProgramType(str, Enum):
     sched_domains_mutex = "sched_domains_mutex"
     vfs_read_latency = "vfs_read_latency"
     cgroup_rstat_lock_cont = "cgroup_rstat_lock_cont"
+    cgroup_rstat_flush = "cgroup_rstat_flush"
+    cgroup_attach_task = "cgroup_attach_task"
+    cgroup_charge = "cgroup_charge"
+    cgroup_fork = "cgroup_fork"
+    cgroup_procs_write = "cgroup_procs_write"
 
 class BPFProgramFactory:
     @staticmethod
@@ -54,6 +64,16 @@ class BPFProgramFactory:
                 return BPFBlockReq(name, dir=results_dir, args=args)
             case BPFProgramType.cgroup_rstat_lock_cont:
                 return BPFCGroupRstatLockCont(name, dir=results_dir, args=args)
+            case BPFProgramType.cgroup_rstat_flush:
+                return BPFCGroupRstatFlush(name, dir=results_dir, args=args)
+            case BPFProgramType.cgroup_attach_task:
+                return BPFCGroupAttachTask(name, dir=results_dir, args=args)
+            case BPFProgramType.cgroup_charge:
+                return BPFCGroupCharge(name, dir=results_dir, args=args)
+            case BPFProgramType.cgroup_fork:
+                return BPFCGroupFork(name, dir=results_dir, args=args)
+            case BPFProgramType.cgroup_procs_write:
+                return BPFCGroupProcsWrite(name, dir=results_dir, args=args)
             case BPFProgramType.sched_latency:
                 return BPFSchedLatency(name, dir=results_dir, args=args)
             case BPFProgramType.sched_migrate_task:

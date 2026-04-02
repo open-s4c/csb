@@ -10,12 +10,17 @@ tracepoint:cgroup:cgroup_rstat_lock_contended
 {
     @contended[pid] = count();
 }
+END
+{
+    print(@contended);
+}
 """
     filename = "bpf_cgroup_rstat_lock_cont.log"
     csv_key = "cgroup_rstat_lock_cont"
 
     def collect_results(self, output_dir: str, PIDs: list[int]) -> str:
+        result = ""
         filepath = os.path.join(output_dir, self.filename)
         df = self.parse_counts(filepath)
-        result = self.results_counts(df=df, PIDs = PIDs)
+        result += self.results_counts_min_max_avg(df=df, PIDs=PIDs)
         return result

@@ -8,9 +8,12 @@
 #include "bm_target.h"
 #include "math.h"
 #include "time.h"
+#include <errno.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 #define STAT_MAX_NUM_BUCKETS 60
 #define STAT_INC_FACTOR 1.1
@@ -60,6 +63,44 @@ typedef struct bm_stat_s {
          #_stat_, _stat_, _deli_)
 
 #define BM_PRINT_EXTRA_STAT(_stat_, _deli_) printf("%s%c", _stat_, _deli_)
+
+static inline pid_t bm_get_host_pid() {
+    FILE *status_file = fopen("/proc/self/status", "r");
+    if (!status_file) {
+        perror("Failed to open /proc/self/status");
+        return -1;
+    }
+    char line[256];
+    pid_t host_pid = -1;
+    while (fgets(line, sizeof(line), status_file)) {
+        if (strncmp(line, "NSpid:", 6) == 0) {
+            char *pid_str = line + 6;  // Skip "NSpid:"
+            
+            // Skip leading whitespace
+            while (*pid_str == ' ' || *pid_str == '\t') {
+                pid_str++;
+            }
+            // Extract the last PID (host PID)
+            char *last_space = strrchr(pid_str, '\t');
+            if (last_space) {
+                pid_str = last_space + 1;
+            }
+            // Use strtol() for safe conversion
+            char *endptr;
+            errno = 0;  // Reset errno before call
+            long pid_long = strtol(pid_str, &endptr, 10);
+            // Check for conversion errors
+            if (errno != 0 || endptr == pid_str || *endptr != '\n') {
+                fprintf(stderr, "Failed to parse NSpid line: %s", line);
+                break;
+            }
+            host_pid = (pid_t)pid_long;
+            break;
+        }
+    }
+    fclose(status_file);
+    return host_pid;
+}
 
 static inline void bm_stat_init(bm_stat_t *stats, size_t num_threads,
                                 size_t num_ops) {
@@ -303,6 +344,12 @@ static inline void bm_print_stats(bm_stat_t *stats, char delimiter,
 
   // Print PID of process
   pid_t pid = getpid();
+  pid_t host_pid = bm_get_host_pid();
+
+  if (pid != host_pid && host_pid > 0) {
+    pid = host_pid;
+  }
+
   BM_PRINT_UNIV_STAT("%d", pid, delimiter);
 }
 
