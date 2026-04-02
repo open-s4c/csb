@@ -98,10 +98,6 @@ class Topology:
         stats.num_cores = self.data[self.CORE].unique().size
         stats.num_numas = self.data[self.NUMA].unique().size
         stats.num_packages = self.data[self.PACKAGE].unique().size
-        print(f"Number of CPUs: {stats.num_cpus}")
-        print(f"Number of cores: {stats.num_cores}")
-        print(f"Number of NUMAs: {stats.num_numas}")
-        print(f"Number of packages: {stats.num_packages}")
         return stats
 
     def __transform_info(self, lines: list[str]) -> pd.DataFrame:
@@ -119,6 +115,12 @@ class Topology:
         print(cpu_info)
         lines = cpu_info.strip().split("\n")
         return lines
+
+    def pack_by_numa(self, n):
+        numa_groups = self.data.groupby(self.NUMA)[self.CPU].apply(list).to_dict()
+        # Select the largest NUMA group
+        largest_numa_group = max(numa_groups.values(), key=len)
+        return largest_numa_group[:n]
 
 class CpuTopology:
     def __init__(self):
