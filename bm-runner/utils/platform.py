@@ -13,6 +13,7 @@ from config.policy import CoreAssignPolicy
 from benchkit.shell.shell import shell_out
 import re
 import pandas as pd
+import itertools
 
 class OperatingSystem(str, Enum):
     Ubuntu = "Ubuntu"
@@ -112,7 +113,6 @@ class Topology:
 
     def __read_info(self) -> list[str]:
         cpu_info = shell_out("lscpu -p=CPU,CORE,CACHE,NODE,SOCKET,CLUSTER", print_file_shell_cmd=False)
-        print(cpu_info)
         lines = cpu_info.strip().split("\n")
         return lines
 
@@ -120,7 +120,7 @@ class Topology:
         numa_groups = self.data.groupby(self.NUMA)[self.CPU].apply(list).to_dict()
         # Select the largest NUMA group
         largest_numa_group = max(numa_groups.values(), key=len)
-        return largest_numa_group[:n]
+        return list(itertools.islice(itertools.cycle(largest_numa_group), n))
 
 class CpuTopology:
     def __init__(self):
