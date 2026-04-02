@@ -131,9 +131,9 @@ class CpuTopology:
             return []
 
         if policy == CoreAssignPolicy.SPREAD_NUMA:
-            base = self._spread_by_key(cpus, "package_id", min(n, len(cpus)))
+            base = self._spread_by_numa(cpus, min(n, len(cpus)))  # Updated for NUMA
         elif policy == CoreAssignPolicy.PACK_NUMA:
-            base = self._pack_by_key(cpus, "package_id", min(n, len(cpus)))
+            base = self._pack_by_numa(cpus, min(n, len(cpus)))  # Updated for NUMA
         elif policy == CoreAssignPolicy.SPREAD_L3:
             base = self._spread_by_siblings(cpus, "core_siblings", min(n, len(cpus)))
         elif policy == CoreAssignPolicy.AVOID_SMT:
@@ -157,30 +157,42 @@ class CpuTopology:
     # Policy implementations
     # -----------------------------
 
-    def _spread_by_key(self, cpus, key, n):
-        groups = {}
+    def _spread_by_numa(self, cpus, n):
+        """
+        Spread CPUs across NUMA nodes, ensuring maximum diversity in terms of NUMA nodes.
+        """
+        # Group CPUs by their NUMA node (package_id is usually tied to NUMA node in most systems)
+        numa_groups = {}
         for c in cpus:
-            groups.setdefault(self.topo[c][key], []).append(c)
+            numa_node = self.topo[c]["package_id"]  # treat package_id as NUMA node ID
+            numa_groups.setdefault(numa_node, []).append(c)
 
+        # Spread CPUs across different NUMA nodes
         out = []
         while len(out) < n:
-            progress = False
-            for g in groups.values():
-                if g:
-                    out.append(g.pop(0))
-                    progress = True
-                    if len(out) == n:
-                        return out
-            if not progress:
-                break
+            for numa_node, group in numa_groups.items():
+                if group:
+                    out.append(group.pop(0))  # Pop one CPU from the NUMA group
+                if len(out) == n:
+                    break
+
         return out
 
-    def _pack_by_key(self, cpus, key, n):
-        groups = {}
+    def _pack_by_numa(self, cpus, n):
+        """
+        Pack CPUs into the same NUMA node, prioritizing nodes with the most available CPUs.
+        """
+        # Group CPUs by NUMA node
+        numa_groups = {}
         for c in cpus:
-            groups.setdefault(self.topo[c][key], []).append(c)
-        largest = max(groups.values(), key=len)
-        return largest[:n]
+            numa_node = self.topo[c]["package_id"]
+            numa_groups.setdefault(numa_node, []).append(c)
+
+        # Find the largest NUMA group
+        largest_numa_group = max(numa_groups.values(), key=len)
+
+        # Return the first `n` CPUs from the largest NUMA group
+        return largest_numa_group[:n]
 
     def _spread_by_siblings(self, cpus, sib_key, n):
         used_groups = set()
@@ -257,15 +269,3 @@ class CpuTopology:
                     best_cpu = c
             selected.append(best_cpu)
         return selected
-
-
-# -----------------------------
-# Process pinning
-# -----------------------------
-
-def pin_process(pid, cpus):
-    """
-    Pin an existing process to the given list of CPUs.
-    """
-    mask = ",".join(str(c) for c in cpus)
-    subprocess.run(["taskset", "-pc", mask, str(pid)], check=False)
