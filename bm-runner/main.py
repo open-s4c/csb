@@ -93,14 +93,13 @@ if __name__ == "__main__":
 
     cpus = os.cpu_count()
     topo = Topology()
+    cpus = topo.get_counts().num_cpus
     bm_log("By NUMA", LogType.WARNING)
     print(topo.pack_by_numa(cpus, False))
-    bm_log("By NUMA -> true", LogType.WARNING)
-    print(topo.pack_by_numa(cpus, True))
-    # bm_log("By PACKAGE", LogType.WARNING)
-    # print(topo.pack_by_pkg(cpus, False))
-    # bm_log("By PACKAGE -> true", LogType.WARNING)
-    # print(topo.pack_by_pkg(cpus, True))
+
+    bm_log("By PACKAGE", LogType.WARNING)
+    print(topo.pack_by_pkg(cpus, False))
+
 
     sys.exit(1)
     # for policy in CoreAssignPolicy:

@@ -14,6 +14,7 @@ from benchkit.shell.shell import shell_out
 import re
 import pandas as pd
 import itertools
+import numpy as np
 
 class OperatingSystem(str, Enum):
     Ubuntu = "Ubuntu"
@@ -91,6 +92,7 @@ class Topology:
     def __init__(self):
         lines = self.__read_info()
         self.data = self.__transform_info(lines)
+        self.get_counts()
         pass
 
     def get_counts(self) -> TopologyCounts:
@@ -99,6 +101,11 @@ class Topology:
         stats.num_cores = self.data[self.CORE].unique().size
         stats.num_numas = self.data[self.NUMA].unique().size
         stats.num_packages = self.data[self.PACKAGE].unique().size
+        bm_log(f"#CPUS: {stats.num_cpus }")
+        bm_log(f"#CORES: {stats.num_cores}")
+        bm_log(f"#NUMAS: {stats.num_numas}")
+        bm_log(f"#PACKAGES: {stats.num_packages}")
+
         return stats
 
     def __transform_info(self, lines: list[str]) -> pd.DataFrame:
@@ -109,6 +116,9 @@ class Topology:
         data_lines = [line.strip() for line in lines[4:]]
         # Now, create the DataFrame directly from the data
         df = pd.DataFrame([line.split(',') for line in data_lines], columns=columns)
+        df.replace('', np.nan, inplace=True)
+        # Step 2: Convert columns to numeric (int), ignoring NaN values
+        df = df.apply(pd.to_numeric, errors='coerce', downcast='integer')
         return df
 
     def __read_info(self) -> list[str]:
@@ -116,15 +126,20 @@ class Topology:
                               output_is_log=False,
                               print_output=False,
                               print_file_shell_cmd=False)
+        cpu_info = shell_out("cat /home/lilith/workspace/csb/k920.csv",
+                             print_output=False,
+                             print_file_shell_cmd=False)
         lines = cpu_info.strip().split("\n")
         return lines
 
-    def __pack_by(self, count:int, groub:str, one_per_core: bool = False):
-        df = self.__one_per_core() if one_per_core else self.data
+    def __pack_by(self, count:int, group:str, one_per_core: bool = False):
+        df = self.data
+        print(df[group].unique())
+        df = df[df[group] == 0] # filter first
         print(df)
-        groups = df.groupby(groub)[self.CPU].apply(list).to_dict()
-        print(groups)
-        selected_group = max(groups.values(), key=len)
+        df = df.drop_duplicates(subset=self.CORE)
+
+        selected_group = df[self.CPU].tolist()
         return list(itertools.islice(itertools.cycle(selected_group), count))
 
     def __one_per_core(self):
