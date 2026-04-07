@@ -15,12 +15,12 @@ import re
 import pandas as pd
 import itertools
 import numpy as np
+from typing import Optional
 
 class OperatingSystem(str, Enum):
     Ubuntu = "Ubuntu"
     openEuler = "openEuler"
     Unsupported = "unsupported"
-
 
 def get_os() -> OperatingSystem:
     OS_INFO_FILE = "/etc/os-release"
@@ -78,6 +78,13 @@ class TopologyCounts:
     num_cores: int
     num_packages: int
 
+class Filter:
+    group_name: str # "Node"
+    idx : int # 0
+    def __init__(self, name, idx):
+        self.group_name = name
+        self.idx = idx
+
 class Topology:
     CPU = "CPU"
     CORE = "Core"
@@ -124,93 +131,40 @@ class Topology:
                               output_is_log=False,
                               print_output=False,
                               print_file_shell_cmd=False)
-        cpu_info = shell_out("cat /home/lilith/workspace/csb/ampere.csv",
+        cpu_info = shell_out("cat /home/lilith/workspace/csb/k920.csv",
                              print_output=False,
                              print_file_shell_cmd=False)
         lines = cpu_info.strip().split("\n")
         return lines
 
-    def __pack_by(self, count:int, group:str, one_per_core: bool = False, filter: int = 0):
+    def __pack_by(self, count:int, filter:Optional[Filter] = None, one_per_core: bool = False, desc: bool = True, distance:int = 0):
         df = self.data
-        df = df[df[group] == filter] # pick one per group
+
+        if filter is not None:
+            df = df[df[filter.group_name] == filter.idx]
+
         if one_per_core:
-            df = df.drop_duplicates(subset=self.CORE)
+            num_cores = len(df[self.CORE].unique())
+            df = df.drop_duplicates(subset=[self.CORE])
+            assert num_cores == len(df)
+
         selected_group = df[self.CPU].tolist()
+        if desc:
+            selected_group = list(reversed(selected_group))
+
         return list(itertools.islice(itertools.cycle(selected_group), count))
 
     def __one_per_core(self):
         return self.data.groupby(self.CORE).first().reset_index()
 
     def pack_by_numa(self, count:int, one_per_core: bool):
-        return self.__pack_by(count, self.NUMA, one_per_core)
+        filter:Filter = Filter(self.NUMA, 0)
+        return self.__pack_by(count=count, one_per_core=True, filter=filter, distance=5)
 
     def pack_by_pkg(self, count:int, one_per_core: bool):
-        return self.__pack_by(count, self.PACKAGE, one_per_core)
-
-    def cpu_distance(self, a, b):
-        row_a = self.data[self.data['CPU'] == a].iloc[0]
-        row_b = self.data[self.data['CPU'] == b].iloc[0]
-
-        score = 0
-
-        # NUMA distance
-        if row_a['Node'] != row_b['Node']:
-            score += 1000
-
-        # Package distance
-        if row_a['Socket'] != row_b['Socket']:
-            score += 500
-
-        # Core distance
-        if row_a['Core'] != row_b['Core']:
-            score += 10
-
-        # SMT distance (same core but different thread)
-        if row_a['Core'] == row_b['Core'] and a != b:
-            score -= 50  # penalize SMT siblings
-
-        return score
+        filter:Filter = Filter(self.PACKAGE, 0)
+        return self.__pack_by(count=count, one_per_core=one_per_core, filter=filter)
 
 
-    def select_cpus(self, n):
-        cpus = list(map(int, self.data[self.CPU].values))
 
-        if n == 1:
-            return [cpus[0]]
 
-        # Step 1: find farthest pair
-        best_pair = None
-        best_score = -1
-        for i, a in enumerate(cpus):
-            for b in cpus[i+1:]:
-                s = self.cpu_distance(a, b)
-                if s > best_score:
-                    best_score = s
-                    best_pair = [a, b]
-
-        selected = best_pair[:]
-
-        # Step 2: greedy add farthest from all selected
-        while len(selected) < min(n, len(cpus)):
-            best_cpu = None
-            best_score = -1
-            for c in cpus:
-                if c in selected:
-                    continue
-                score = sum(self.cpu_distance(c, s) for s in selected)
-                if score > best_score:
-                    best_score = score
-                    best_cpu = c
-            selected.append(best_cpu)
-
-        # Step 3: wrap if n > #cpus
-        # if len(selected) < n:
-        #     wrapped = []
-        #     while len(wrapped) < n:
-        #         for c in selected:
-        #             wrapped.append(c)
-        #             if len(wrapped) == n:
-        #                 break
-        #     return wrapped
-
-        return selected
