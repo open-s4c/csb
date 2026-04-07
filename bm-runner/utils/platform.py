@@ -147,51 +147,70 @@ class Topology:
     def pack_by_pkg(self, count:int, one_per_core: bool):
         return self.__pack_by(count, self.PACKAGE, one_per_core)
 
-    def cpu_distance(self, cpu_a, cpu_b):
-        """
-        Calculate a distance metric between two CPUs.
-        The distance is based on NUMA node and core id.
-        """
-        # Get the NUMA node and core id of each CPU
-        df = self.data
-        numa_a = df[df[self.CPU] == cpu_a][self.NUMA].values[0]
-        core_a = df[df[self.CPU] == cpu_a][self.CORE].values[0]
-        numa_b = df[df[self.CPU] == cpu_b][self.NUMA].values[0]
-        core_b = df[df[self.CPU] == cpu_b][self.CORE].values[0]
+    def cpu_distance(self, a, b):
+        row_a = self.data[self.data['CPU'] == a].iloc[0]
+        row_b = self.data[self.data['CPU'] == b].iloc[0]
 
-        # Simple distance metric: penalize if in different NUMA node or on different cores
-        distance = 0
-        if numa_a != numa_b:
-            distance += 100  # Larger penalty for different NUMA nodes
-        if core_a != core_b:
-            distance += 10  # Penalty for being on different cores
-        return distance
+        score = 0
+
+        # NUMA distance
+        if row_a['Node'] != row_b['Node']:
+            score += 1000
+
+        # Package distance
+        if row_a['Socket'] != row_b['Socket']:
+            score += 500
+
+        # Core distance
+        if row_a['Core'] != row_b['Core']:
+            score += 10
+
+        # SMT distance (same core but different thread)
+        if row_a['Core'] == row_b['Core'] and a != b:
+            score -= 50  # penalize SMT siblings
+
+        return score
+
 
     def select_cpus(self, n):
-        """
-        Select 'n' CPUs that are the farthest apart from each other.
-        """
-        selected_cpus = []
-        cpus = self.data['CPU'].values
-        remaining_cpus = list(cpus)
+        cpus = list(map(int, self.data[self.CPU].values))
 
-        while len(selected_cpus) < n:
-            if not selected_cpus:
-                # Choose the first CPU arbitrarily
-                selected_cpus.append(remaining_cpus.pop(0))
-            else:
-                max_distance = -1
-                best_cpu = None
-                for cpu in remaining_cpus:
-                    # Calculate the sum of distances to already selected CPUs
-                    total_distance = sum(self.cpu_distance(cpu, selected_cpu) for selected_cpu in selected_cpus)
-                    if total_distance > max_distance:
-                        max_distance = total_distance
-                        best_cpu = cpu
+        if n == 1:
+            return [cpus[0]]
 
-                # Add the selected CPU and remove from the remaining list
-                selected_cpus.append(best_cpu)
-                remaining_cpus.remove(best_cpu)
+        # Step 1: find farthest pair
+        best_pair = None
+        best_score = -1
+        for i, a in enumerate(cpus):
+            for b in cpus[i+1:]:
+                s = self.cpu_distance(a, b)
+                if s > best_score:
+                    best_score = s
+                    best_pair = [a, b]
 
-        return selected_cpus
+        selected = best_pair[:]
 
+        # Step 2: greedy add farthest from all selected
+        while len(selected) < min(n, len(cpus)):
+            best_cpu = None
+            best_score = -1
+            for c in cpus:
+                if c in selected:
+                    continue
+                score = sum(self.cpu_distance(c, s) for s in selected)
+                if score > best_score:
+                    best_score = score
+                    best_cpu = c
+            selected.append(best_cpu)
+
+        # Step 3: wrap if n > #cpus
+        # if len(selected) < n:
+        #     wrapped = []
+        #     while len(wrapped) < n:
+        #         for c in selected:
+        #             wrapped.append(c)
+        #             if len(wrapped) == n:
+        #                 break
+        #     return wrapped
+
+        return selected
