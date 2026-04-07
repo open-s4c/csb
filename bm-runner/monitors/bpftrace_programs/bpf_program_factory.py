@@ -1,3 +1,6 @@
+# Copyright (C) Huawei Technologies Co., Ltd. 2026. All rights reserved.
+# SPDX-License-Identifier: MIT
+
 import sys
 from enum import Enum
 
@@ -17,6 +20,11 @@ from monitors.bpftrace_programs.bpf_cgroup_attach_task import BPFCGroupAttachTas
 from monitors.bpftrace_programs.bpf_cgroup_charge import BPFCGroupCharge
 from monitors.bpftrace_programs.bpf_cgroup_procs_write import BPFCGroupProcsWrite
 from monitors.bpftrace_programs.bpf_cgroup_fork import BPFCGroupFork
+from monitors.bpftrace_programs.bpf_irq_handler import BPFIrqHandler
+from monitors.bpftrace_programs.bpf_ext4_mb_new_blocks import BPFExt4MbNewBLocks
+from monitors.bpftrace_programs.bpf_copy_from_user import BPFCopyFromUser
+from monitors.bpftrace_programs.bpf_copy_to_user import BPFCopyToUser
+
 
 class DummyBPFProgram(BPFProgram):
     def __init__(self, name: str):
@@ -49,6 +57,10 @@ class BPFProgramType(str, Enum):
     cgroup_charge = "cgroup_charge"
     cgroup_fork = "cgroup_fork"
     cgroup_procs_write = "cgroup_procs_write"
+    irq_handler = "irq_handler"
+    ext4_mb_new_blocks = "ext4_mb_new_blocks"
+    copy_from_user = "copy_from_user"
+    copy_to_user = "copy_to_user"
 
 class BPFProgramFactory:
     @staticmethod
@@ -57,6 +69,7 @@ class BPFProgramFactory:
         # we return a dummy monitor that does nothing,
         # so that the rest of the code can remain unchanged
         name={bpf_program_type}
+        print(f"Matching bpf program {name}")
         if not EnvUniversalConfig.is_on(UniversalConfig.CSB_ANALYZE):
             return DummyBPFProgram(name)  # Return a dummy bpf_program that does nothing
         match bpf_program_type:
@@ -84,6 +97,14 @@ class BPFProgramFactory:
                 return BPFSchedDomainsMutex(name, dir=results_dir, args=args)
             case BPFProgramType.vfs_read_latency:
                 return BPFVfsReadLatency(name, dir=results_dir, args=args)
+            case BPFProgramType.irq_handler:
+                return BPFIrqHandler(name, dir=results_dir, args=args)
+            case BPFProgramType.ext4_mb_new_blocks:
+                return BPFExt4MbNewBLocks(name, dir=results_dir, args=args)
+            case BPFProgramType.copy_from_user:
+                return BPFCopyFromUser(name, dir=results_dir, args=args)
+            case BPFProgramType.copy_to_user:
+                return BPFCopyToUser(name, dir=results_dir, args=args)
             case _:
                 bm_log(f"Unsupported bpf_program type {name}", LogType.FATAL)
                 sys.exit(1)

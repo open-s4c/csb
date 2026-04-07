@@ -170,6 +170,58 @@
     {
       "x": "container_cnt",
       "x_lbl": "#Containers",
+      "y": "ext4_mb_new_blocks",
+      "y_lbl": "Ext4 MB Alloc New Blocks Latency",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "histogram",
+      "title": "Ext4 MB Alloc New Blocks Latency vs. #Containers",
+      "hist_bucket_min": 0,
+      "hist_bucket_max": 2,
+      "hist_bucket_factor": 2
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "irq_handler",
+      "y_lbl": "IRQ Handler Latency",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "histogram",
+      "title": "IRQ Handler Latency vs. #Containers",
+      "hist_bucket_min": 0,
+      "hist_bucket_max": 2,
+      "hist_bucket_factor": 2
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "copy_from_user",
+      "y_lbl": "Copy From User Latency",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "histogram",
+      "title": "Copy From User Latency vs. #Containers",
+      "hist_bucket_min": 0,
+      "hist_bucket_max": 2,
+      "hist_bucket_factor": 2
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "copy_to_user",
+      "y_lbl": "Copy To User Latency",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "histogram",
+      "title": "Copy To User Latency vs. #Containers",
+      "hist_bucket_min": 0,
+      "hist_bucket_max": 2,
+      "hist_bucket_factor": 2
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
       "y": "univ_succ_percent",
       "y_lbl": "Operations success percent",
       "hue_lbl": "Executer",
@@ -236,6 +288,22 @@
           "-1"
         ],
         "cgroup_procs_write": [
+          "-1",
+          "-1"
+        ],
+        "irq_handler": [
+          "-1",
+          "-1"
+        ],
+        "ext4_mb_new_blocks": [
+          "-1",
+          "-1"
+        ],
+        "copy_from_user": [
+          "-1",
+          "-1"
+        ],
+        "copy_to_user": [
           "-1",
           "-1"
         ]

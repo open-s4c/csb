@@ -5,25 +5,22 @@ import os
 import pandas as pd
 from monitors.bpftrace_programs.bpf_program import BPFProgram
 
-class BPFCGroupRstatLockCont(BPFProgram):
+class BPFCopyToUser(BPFProgram):
     program = """
-
-tracepoint:cgroup:cgroup_rstat_lock_contended
+kprobe:bpf_copy_to_user 
 / __FILTER_CPU__ && __FILTER_PID__ /
-{
-    @contended[pid] = count();
-}
-END
-{
-    print(@contended);
-}
+{ @start[pid] = nsecs; }
+
+kretprobe:bpf_copy_to_user
+/ @start[pid] /
+{ @ns[pid] = hist(nsecs - @start[pid]); delete(@start[pid]); }
 """
-    filename = "bpf_cgroup_rstat_lock_cont.log"
-    csv_key = "cgroup_rstat_lock_cont"
+    csv_key = "copy_to_user"
+    filename = f"bpf_{csv_key}.log"
 
     def collect_results(self, output_dir: str, PIDs: list[int]) -> str:
         result = ""
         filepath = os.path.join(output_dir, self.filename)
-        df = self.parse_counts(filepath)
-        result += self.results_counts_min_max_avg(df=df, PIDs=PIDs)
+        df = self.parse_histograms(filepath)
+        result += self.results_histograms_histogram(df=df, PIDs = PIDs)
         return result

@@ -1,3 +1,6 @@
+# Copyright (C) Huawei Technologies Co., Ltd. 2026. All rights reserved.
+# SPDX-License-Identifier: MIT
+
 import os
 import pandas as pd
 from monitors.bpftrace_programs.bpf_program import BPFProgram
