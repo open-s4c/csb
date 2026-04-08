@@ -7,8 +7,8 @@ import signal
 import pandas as pd
 import matplotlib.pyplot as plt
 from monitors.monitor import Monitor
-from monitors.bpftrace_programs.bpf_program import BPFProgram
-from monitors.bpftrace_programs.bpf_program_factory import BPFProgramFactory,BPFProgramType
+from monitors.bpf_program import BPFProgram
+from monitors.bpf_program_factory import BPFProgramFactory
 from bm_utils import ensure_exists
 from utils.logger import bm_log, LogType
 from typing import Optional
@@ -21,7 +21,7 @@ class BPFTraceCmd:
         cmds.extend(cmd_args)
         cmd_str = " ".join(cmds)
         env = {"LANG": "en_US.UTF-8", "LC_ALL": "en_US.UTF-8"}
-        bm_log(f"Running bpftrace with {BPFProgramType[ptype]}")
+        bm_log(f"Running bpftrace with {ptype}")
         self.process = subprocess.Popen(cmds, env=env, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, preexec_fn=os.setpgrp)
 
     def stop(self):
@@ -30,13 +30,13 @@ class BPFTraceCmd:
         self.process.wait()
 
 class BPFTraceStats(Monitor):
-    programs: dict[BPFProgramType, (BPFProgram, BPFTraceCmd)] = {}
+    programs: dict[str, (BPFProgram, BPFTraceCmd)] = {}
     def __init__(self, output_dir: str, args: dict[list[str]]):
         ensure_exists("bpftrace")
-        for programtype in args:
-            ptype = BPFProgramType[programtype]
-            prog = BPFProgramFactory.create(ptype, output_dir, args[programtype])
-            self.programs[ptype] = (prog, None)
+        for program_name in args:
+            # ptype = BPFProgramType[programtype]
+            prog = BPFProgramFactory.create(program_name, output_dir, args[program_name])
+            self.programs[program_name] = (prog, None)
         super().__init__(dir=output_dir, args=args)
 
     def start(self):
@@ -66,7 +66,7 @@ class BPFTraceStats(Monitor):
     def collect_results(self, pids: Optional[list[int]]) -> str:
         result=""
         for progtype, (prog, stat) in self.programs.items():
-            result_local = prog.collect_results(self.dir, PIDs=pids)
+            result_local = prog.collect_results(self.dir, PIDs=pids, csv_key=prog.get_csv_key())
             # bm_log(f"Result from {progtype}:\n{result_local}\n", LogType.FATAL)
 
             result += result_local

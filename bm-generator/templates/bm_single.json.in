@@ -36,12 +36,12 @@
     {
       "x": "container_cnt",
       "x_lbl": "#Containers",
-      "y": "sched_migrate",
-      "y_lbl": "Schedule Migration Count",
+      "y": "sched_migrate_task",
+      "y_lbl": "#Schedule Migrations",
       "hue": "execution_type",
       "hue_lbl": "Execution Env",
       "type": "min_max_avg",
-      "title": "Schedule Migration Count vs. #Containers"
+      "title": "#Schedule Migrations vs. #Containers"
     },
     {
       "x": "container_cnt",
@@ -72,7 +72,7 @@
     {
       "x": "container_cnt",
       "x_lbl": "#Containers",
-      "y": "sched_fork_count",
+      "y": "sched_fork",
       "y_lbl": "Fork count",
       "hue": "execution_type",
       "hue_lbl": "Execution Env",
@@ -196,6 +196,97 @@
     {
       "x": "container_cnt",
       "x_lbl": "#Containers",
+      "y": "mutex_lock",
+      "y_lbl": "Mutex Latency",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "histogram",
+      "title": "Mutex Latency vs. #Containers",
+      "hist_bucket_min": 0,
+      "hist_bucket_max": 2,
+      "hist_bucket_factor": 2
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "raw_spin_lock",
+      "y_lbl": "Raw Spin Lock Latency",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "histogram",
+      "title": "Raw Spin Lock Latency vs. #Containers",
+      "hist_bucket_min": 0,
+      "hist_bucket_max": 2,
+      "hist_bucket_factor": 2
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "native_queued_spin_lock_slowpath",
+      "y_lbl": "Native Queued Spin Lock Slowpath Latency",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "histogram",
+      "title": "Native Queued Spin Lock Slowpath Latency vs. #Containers",
+      "hist_bucket_min": 0,
+      "hist_bucket_max": 2,
+      "hist_bucket_factor": 2
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "queued_read_lock_slowpath",
+      "y_lbl": "Queued Read Lock Slowpath Latency",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "histogram",
+      "title": "Queued Read Lock Slowpath Latency vs. #Containers",
+      "hist_bucket_min": 0,
+      "hist_bucket_max": 2,
+      "hist_bucket_factor": 2
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "queued_write_lock_slowpath",
+      "y_lbl": "Queued Write Lock Slowpath Latency",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "histogram",
+      "title": "Queued Write Lock Slowpath Latency vs. #Containers",
+      "hist_bucket_min": 0,
+      "hist_bucket_max": 2,
+      "hist_bucket_factor": 2
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "rwsem_down_read_slowpath",
+      "y_lbl": "RWSem Down Read Slowpath Latency",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "histogram",
+      "title": "RWSem Down Read Slowpath Latency vs. #Containers",
+      "hist_bucket_min": 0,
+      "hist_bucket_max": 2,
+      "hist_bucket_factor": 2
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "rwsem_down_write_slowpath",
+      "y_lbl": "RWSem Down Write Slowpath Latency",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "histogram",
+      "title": "RWSem Down Write Slowpath Latency vs. #Containers",
+      "hist_bucket_min": 0,
+      "hist_bucket_max": 2,
+      "hist_bucket_factor": 2
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
       "y": "copy_from_user",
       "y_lbl": "Copy From User Latency",
       "hue": "execution_type",
@@ -243,6 +334,22 @@
 			       "perf" : ["-C", "0"
       ],
       "bpftrace": {
+        "page_fault_io": [
+          "-1",
+          "-1"
+        ],
+        "page_fault_kvm": [
+          "-1",
+          "-1"
+        ],
+        "page_fault_user": [
+          "-1",
+          "-1"
+        ],
+        "page_fault_kernel": [
+          "-1",
+          "-1"
+        ],
         "sched_domains_mutex": [
           "-1",
           "-1"
@@ -267,7 +374,7 @@
           "-1",
           "-1"
         ],
-        "cgroup_rstat_lock_cont": [
+        "cgroup_rstat_lock": [
           "-1",
           "-1"
         ],
@@ -295,6 +402,34 @@
           "-1",
           "-1"
         ],
+        "mutex_lock": [
+          "-1",
+          "-1"
+        ],
+        "raw_spin_lock": [
+          "-1",
+          "-1"
+        ],
+        "native_queued_spin_lock_slowpath": [
+          "-1",
+          "-1"
+        ],
+        "queued_read_lock_slowpath": [
+          "-1",
+          "-1"
+        ],
+        "queued_write_lock_slowpath": [
+          "-1",
+          "-1"
+        ],
+        "rwsem_down_read_slowpath": [
+          "-1",
+          "-1"
+        ],
+        "rwsem_down_write_slowpath": [
+          "-1",
+          "-1"
+        ],
         "ext4_mb_new_blocks": [
           "-1",
           "-1"
@@ -304,6 +439,10 @@
           "-1"
         ],
         "copy_to_user": [
+          "-1",
+          "-1"
+        ],
+        "flush_tlb_mm_range": [
           "-1",
           "-1"
         ]

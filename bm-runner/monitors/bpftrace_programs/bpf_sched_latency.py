@@ -3,9 +3,12 @@
 
 import os
 import pandas as pd
-from monitors.bpftrace_programs.bpf_program import BPFProgram
+from monitors.bpf_program import BPFProgram
+from monitors.bpf_parser_histograms import BPFParserHistograms
 
 class BPFSchedLatency(BPFProgram):
+    name = "sched_latency"
+    parser = BPFParserHistograms()
     program= """
 #ifndef BPFTRACE_HAVE_BTF                                                                                                                                                                                                                                                                           :(
 #include <linux/sched.h>
@@ -43,13 +46,3 @@ END
   clear(@qtime);
 }
 """
-    filename = "bpf_sched_latency.log"
-    csv_key = "sched_latency"
-
-    def collect_results(self, output_dir: str, PIDs: list[int]) -> str:
-        result = ""
-        filepath = os.path.join(output_dir, self.filename)
-        df = self.parse_histogram(filepath)
-        result += self.results_histogram_min_max_avg(df = df)
-        result += self.results_histogram_histogram(df = df)
-        return result

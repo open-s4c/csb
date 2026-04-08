@@ -4,11 +4,11 @@
 from monitors.bpf_program import BPFProgram
 from monitors.bpf_parser_counts import BPFParserCounts
 
-class BPFSchedFork(BPFProgram):
-    name = "sched_fork"
+class BPFFlushTlbMMRange(BPFProgram):
+    name = "flush_tlb_mm_range"
     parser = BPFParserCounts()
     program = """
-tracepoint:sched:sched_process_fork
+kprobe:flush_tlb_mm_range
 / __FILTER_CPU__ && __FILTER_PID__ /
-{ @[args->parent_pid] = count(); }
+{ @tlb[pid] = count(); }
 """

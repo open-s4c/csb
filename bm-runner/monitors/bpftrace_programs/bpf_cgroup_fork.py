@@ -1,11 +1,12 @@
 # Copyright (C) Huawei Technologies Co., Ltd. 2026. All rights reserved.
 # SPDX-License-Identifier: MIT
 
-import os
-import pandas as pd
-from monitors.bpftrace_programs.bpf_program import BPFProgram
+from monitors.bpf_program import BPFProgram
+from monitors.bpf_parser_histograms import BPFParserHistograms
 
 class BPFCGroupFork(BPFProgram):
+    name = "cgroup_fork"
+    parser = BPFParserHistograms()
     program = """
 kprobe:cgroup_can_fork,
 kprobe:cgroup_fork 
@@ -16,17 +17,7 @@ kprobe:cgroup_fork
 kretprobe:cgroup_can_fork,
 kretprobe:cgroup_fork /@start[tid]/ {
     $duration = (nsecs - @start[tid]) / 1000;
-    @fork_latency = hist($duration);
+    @fork_latency[pid] = hist($duration);
     delete(@start[tid]);
 }
 """
-    filename = "bpf_cgroup_fork.log"
-    csv_key = "cgroup_fork"
-
-    def collect_results(self, output_dir: str, PIDs: list[int]) -> str:
-        result = ""
-        filepath = os.path.join(output_dir, self.filename)
-        df = self.parse_histogram(filepath)
-        result += self.results_histogram_min_max_avg(df=df)
-        result += self.results_histogram_histogram(df=df)
-        return result

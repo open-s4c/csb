@@ -3,15 +3,16 @@
 
 from monitors.bpf_program import BPFProgram
 from monitors.bpf_parser_histograms import BPFParserHistograms
-class BPFIrqHandler(BPFProgram):
-    name = "irq_handler"
+
+class BPFRWSemDownReadSlowpath(BPFProgram):
+    name = "rwsem_down_read_slowpath"
     parser = BPFParserHistograms()
     program = """
-tracepoint:irq:irq_handler_entry
+kprobe:rwsem_down_read_slowpath
 / __FILTER_CPU__ && __FILTER_PID__ /
-{ @start[pid] = nsecs; }
+{ @start[tid] = nsecs; }
 
-tracepoint:irq:irq_handler_exit
-/ @start[pid] /
-{ @ns[pid] = hist(nsecs - @start[pid]); delete(@start[pid]); }
+kretprobe:rwsem_down_read_slowpath
+/ @start[tid] /
+{ @ns[pid] = hist(nsecs - @start[tid]); delete(@start[tid]); }
 """

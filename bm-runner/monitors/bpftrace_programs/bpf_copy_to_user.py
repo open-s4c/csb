@@ -3,9 +3,12 @@
 
 import os
 import pandas as pd
-from monitors.bpftrace_programs.bpf_program import BPFProgram
+from monitors.bpf_program import BPFProgram
+from monitors.bpf_parser_histograms import BPFParserHistograms
 
 class BPFCopyToUser(BPFProgram):
+    name = "copy_to_user"
+    parser = BPFParserHistograms()
     program = """
 kprobe:bpf_copy_to_user 
 / __FILTER_CPU__ && __FILTER_PID__ /
@@ -15,12 +18,3 @@ kretprobe:bpf_copy_to_user
 / @start[pid] /
 { @ns[pid] = hist(nsecs - @start[pid]); delete(@start[pid]); }
 """
-    csv_key = "copy_to_user"
-    filename = f"bpf_{csv_key}.log"
-
-    def collect_results(self, output_dir: str, PIDs: list[int]) -> str:
-        result = ""
-        filepath = os.path.join(output_dir, self.filename)
-        df = self.parse_histograms(filepath)
-        result += self.results_histograms_histogram(df=df, PIDs = PIDs)
-        return result
