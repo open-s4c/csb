@@ -7,8 +7,9 @@ import docker
 import docker.errors
 import sys
 from utils.logger import bm_log, LogType
-from utils.platform import get_os, OperatingSystem
+from utils.platform import get_os, OperatingSystem, Topology
 from config.policy import CoreAssignPolicy
+
 
 class ContainersConfig(dict):
     CONFIG_KEY: str = "containers"
@@ -21,8 +22,8 @@ class ContainersConfig(dict):
     def __init__(
         self,
         container_list: ListConfig = ListConfig(values=[[1]]),
+        core_assignment_policy: CoreAssignPolicy = CoreAssignPolicy(),
         core_affinity_offsets: Optional[ListConfig] = None,
-        core_assignment_policy: CoreAssignPolicy = CoreAssignPolicy.PACK_NUMA,
         core_count: int = 1,
         name: str = "",
         image: Optional[str] = None,
@@ -55,10 +56,9 @@ class ContainersConfig(dict):
         self.core_count = core_count
         if core_affinity_offsets is None:
             max_con_cnt = self.container_list[-1]
-            self.core_affinity_offsets = CpuTopology().select(n=max_con_cnt, policy=core_assignment_policy)
-            bm_log(f"you have selected {core_assignment_policy}", LogType.WARNING)
-            print(self.core_affinity_offsets)
-            sys.exit(1)
+            policy = CoreAssignPolicy.from_dict(core_assignment_policy)
+            self.core_affinity_offsets = Topology().select(count=max_con_cnt, policy=policy)
+            bm_log(self.core_affinity_offsets, LogType.FATAL)
         else:
             # use user selection instead
             self.core_affinity_offsets = ListConfig.from_dict(core_affinity_offsets).get_list()

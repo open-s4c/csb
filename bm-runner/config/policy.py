@@ -1,9 +1,28 @@
 from enum import Enum
-class CoreAssignPolicy(str, Enum):
-    MAX_DISTANCE = "max_distance"       # Spread across NUMA → L3 → cores → SMT
-    SPREAD_NUMA = "spread_numa"        # Prefer different NUMA nodes
-    PACK_NUMA = "pack_numa"          # Prefer same NUMA node
-    SPREAD_L3 = "pack_l3"           # Prefer different L3 cache groups
-    AVOID_SMT = "void_smt"          # Avoid SMT siblings
-    EVEN_ONLY = "even"         # Only even-numbered CPUs
-    ODD_ONLY = "odd"           # Only odd-numbered CPUs
+
+class PackGroup(str, Enum):
+    PACKAGE = "package"
+    NUMA = "numa"
+    NO_PACK = "none"
+
+class CpuOrder(str, Enum):
+    ASC = "asc"
+    DESC  = "desc"
+
+class CoreAssignPolicy(dict):
+    def __init__(
+        self,
+        pack_group: PackGroup = PackGroup.NO_PACK,
+        cpu_order: CpuOrder = CpuOrder.ASC,
+        one_cpu_per_core: bool = False
+    ):
+        super().__init__(
+        pack_group=pack_group, cpu_order=cpu_order, one_cpu_per_core=one_cpu_per_core)
+        self.pack_group = pack_group
+        self.cpu_order = cpu_order
+        self.one_cpu_per_core = one_cpu_per_core
+
+    @classmethod
+    def from_dict(cls, data: dict):
+        return cls(data["pack_group"], data["cpu_order"], data["one_cpu_per_core"])
+

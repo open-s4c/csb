@@ -42,7 +42,11 @@
         ]
       ]
     },
-    "core_assignment_policy": "numa_spread",
+    "core_assignment_policy": {
+        "pack_group": "numa",
+        "cpu_order": "asc",
+        "one_cpu_per_core": true
+    },
     "core_count": 3
   },
   "applications": [

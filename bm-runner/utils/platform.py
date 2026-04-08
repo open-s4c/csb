@@ -9,7 +9,7 @@ import os
 import glob
 import enum
 import subprocess
-from config.policy import CoreAssignPolicy
+from config.policy import CoreAssignPolicy, PackGroup, CpuOrder
 from benchkit.shell.shell import shell_out
 import re
 import pandas as pd
@@ -154,17 +154,19 @@ class Topology:
 
         return list(itertools.islice(itertools.cycle(selected_group), count))
 
-    def __one_per_core(self):
-        return self.data.groupby(self.CORE).first().reset_index()
-
-    def pack_by_numa(self, count:int, one_per_core: bool):
-        filter:Filter = Filter(self.NUMA, 0)
-        return self.__pack_by(count=count, one_per_core=True, filter=filter, distance=5)
-
-    def pack_by_pkg(self, count:int, one_per_core: bool):
-        filter:Filter = Filter(self.PACKAGE, 0)
-        return self.__pack_by(count=count, one_per_core=one_per_core, filter=filter)
-
-
-
+    def select(self, count:int , policy:CoreAssignPolicy) -> list[int]:
+        filter:Filter = None
+        match policy.pack_group:
+            case PackGroup.PACKAGE:
+                filter = Filter(self.PACKAGE, 0)
+            case PackGroup.NUMA:
+                filter = Filter(self.NUMA, 0)
+            case PackGroup.NO_PACK:
+                filter = None
+            case _:
+                bm_log(f"Case: {policy.pack_group} not handled!", LogType.ERROR)
+                sys.exit(1)
+        desc = True if policy.cpu_order == CpuOrder.DESC else False
+        cpus = self.__pack_by(count=count, filter=filter, one_per_core=policy.one_cpu_per_core, desc=desc)
+        return cpus
 
