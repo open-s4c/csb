@@ -140,6 +140,7 @@ def get_cpu_set(start: int, core_cnt: int) -> str:
         cores += f"{core},"
     assert len(cores) > 1, "cores cannot be empty!"
     cores = cores[:-1]  # drop last comma
+    bm_log(f"[get_cpu_set] {start} {core_cnt} {cores}", LogType.FATAL)
     return cores
 
 

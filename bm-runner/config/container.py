@@ -58,15 +58,17 @@ class ContainersConfig(dict):
             port=port,
             core_assignment_policy=core_assignment_policy,
         )
+        self.cpus: list[int]
         self.container_list = ListConfig.from_dict(container_list).get_list()
         self.core_count = core_count
+
         if core_affinity_offsets is None:
-            max_con_cnt = self.container_list[-1]
+            max_con_cnt = self.container_list[-1] * self.core_count
             policy = CoreAssignPolicy.from_dict(core_assignment_policy)
-            self.core_affinity_offsets = Topology().select(count=max_con_cnt, policy=policy)
+            self.cpus = Topology().select(count=max_con_cnt, policy=policy)
         else:
             # use user selection instead
-            self.core_affinity_offsets = ListConfig.from_dict(core_affinity_offsets).get_list()
+            self.cpus = ListConfig.from_dict(core_affinity_offsets).get_list()
 
         self.image = image if image is not None else self.DEFAULT_IMG[get_os()]
         bm_log(f"Selected image {self.image}", LogType.INFO)
@@ -77,8 +79,18 @@ class ContainersConfig(dict):
     def get_container_cnt_list(self) -> list[int]:
         return self.container_list
 
-    def get_core_affinity_offset_list(self) -> list[int]:
-        return self.core_affinity_offsets
+    # def get_core_affinity_offset_list(self) -> list[int]:
+    #    return self.core_affinity_offsets
+
+    def get_cpus(self, eu_idx: int) -> str:
+        first = eu_idx
+        last = eu_idx + self.core_count
+        assert first < len(self.cpus)
+        assert last < len(self.cpus)
+        cpus_lst = self.cpus[first:last]
+        cpus_str: str = ",".join(map(str, cpus_lst))
+        print(f"{cpus_lst} ==> {cpus_str}")
+        return cpus_str
 
     def __pull_image(self):
         client = docker.from_env()

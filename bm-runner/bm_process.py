@@ -3,7 +3,6 @@
 
 import os
 import sys
-import bm_utils
 import subprocess
 from bm_executer import Executer
 from bm_executer import ExecutionUnit
@@ -12,6 +11,7 @@ from bm_config import Application
 from config.benchmark import ExecutionType
 from utils.logger import bm_log, LogType
 from bm_utils import resolve_path
+from config.container import ContainersConfig
 
 
 class Process(ExecutionUnit):
@@ -64,19 +64,16 @@ class Process(ExecutionUnit):
 class Processes(Executer):
     def __init__(
         self,
+        config: ContainersConfig,
+        apps: list[Application],
         home_dir,
         count,
         record_data_dir,
-        cpus_per_proc,
-        core_affinity_offset_list,
-        apps: list[Application],
     ):
         super().__init__(home_dir=home_dir, results_dir=record_data_dir)
         assert len(apps) == count, "[BUG] Application list length must be equal to count"
         for i in range(count):
-            core_set = bm_utils.get_cpu_set(
-                start=core_affinity_offset_list[i], core_cnt=cpus_per_proc
-            )
+            core_set = config.get_cpus(i)
             proc = Process(
                 idx=i,
                 home_dir=home_dir,

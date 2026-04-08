@@ -103,7 +103,6 @@ class Topology:
     def __init__(self):
         lines = self.__read_info()
         self.data = self.__transform_info(lines)
-        pass
 
     def get_counts(self) -> TopologyCounts:
         stats = TopologyCounts()
@@ -137,11 +136,11 @@ class Topology:
             print_output=False,
             print_file_shell_cmd=False,
         )
-        cpu_info = shell_out(
-            "cat /home/lilith/workspace/csb/k920.csv",
-            print_output=False,
-            print_file_shell_cmd=False,
-        )
+        # cpu_info = shell_out(
+        #     "cat /home/lilith/workspace/csb/k920.csv",
+        #     print_output=False,
+        #     print_file_shell_cmd=False,
+        # )
         lines = cpu_info.strip().split("\n")
         return lines
 
