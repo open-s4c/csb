@@ -57,6 +57,7 @@ class Topology:
             print_output=False,
             print_file_shell_cmd=False,
         )
+        print(cpu_info)
         lines = cpu_info.strip().split("\n")
         return lines
 

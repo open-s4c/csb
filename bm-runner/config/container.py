@@ -91,9 +91,11 @@ class ContainersConfig(dict):
         last = eu_idx + self.core_count
         assert first < len(self.cpus)
         assert last < len(self.cpus)
+
+        bm_log(f"{first} {last} {len(self.cpus)}", LogType.ERROR)
+        print(self.cpus)
         cpus_lst = self.cpus[first:last]
         cpus_str: str = ",".join(map(str, cpus_lst))
-        print(f"{cpus_lst} ==> {cpus_str}")
         return cpus_str
 
     def __pull_image(self):
