@@ -11,49 +11,18 @@ from typing import Optional
 import sys
 import os
 
-
-def _read(path):
-    try:
-        with open(path) as f:
-            return f.read().strip()
-    except Exception as e:
-        bm_log(f"An error has occurred {e}")
-        return None
-
-
-def _parse_list(s):
-    if not s:
-        return set()
-    out = set()
-    for part in s.split(","):
-        if "-" in part:
-            a, b = part.split("-")
-            out.update(range(int(a), int(b) + 1))
-        else:
-            out.add(int(part))
-    return out
-
-
-# -----------------------------
-# Topology Discovery
-# -----------------------------
-
-
 class TopologyCounts:
     num_numas: int
     num_cpus: int
     num_cores: int
     num_packages: int
 
-
 class Filter:
     group_name: str  # "Node"
     idx: int  # 0
-
     def __init__(self, name, idx):
         self.group_name = name
         self.idx = idx
-
 
 class Topology:
     CPU = "CPU"
@@ -104,11 +73,6 @@ class Topology:
             print_output=False,
             print_file_shell_cmd=False,
         )
-        # cpu_info = shell_out(
-        #     "cat /home/lilith/workspace/csb/k920.csv",
-        #     print_output=False,
-        #     print_file_shell_cmd=False,
-        # )
         lines = cpu_info.strip().split("\n")
         return lines
 
