@@ -40,7 +40,8 @@ ContainersConfig represents the configuration for multiple containers. Represent
 |Field|Type|Optional|Default|Description|
 |---|---|---|---|---|
 |container_list|[ListConfig](#listconfig)|:white_check_mark:|`{"values": [[1]]}`|    Specifies the number of containers to run. |
-|core_affinity_offsets|[ListConfig](#listconfig)|:white_check_mark:|`core_count * [0, 1, 2, 3, ...]`|    Specifies the cores that should be assigned to the containers.     Note that the assignment of cores happens in ascending order by default. |
+|core_assignment_policy|CoreAssignPolicy|:white_check_mark:|`{"pack_group":"none", "cpu_order": "asc", "one_cpu_per_core": false}`|    Configures the CPU assignment policy, i.e. which CPUs can be assigned to execution units (containers/native processes).     Note that the policy is overwritten by `core_affinity_offsets`. If the users wish to use this configuration, they     should make sure not to specify `core_affinity_offsets`. |
+|core_affinity_offsets|[ListConfig](#listconfig)|:white_check_mark:|`core_count * [0, 1, 2, 3, ...]`|    Specifies the cores that should be assigned to the containers.     Note that the assignment of cores happens in ascending order by default.     This configuration overwrites `core_assignment_policy`. |
 |core_count|int|:white_check_mark:|`1`|    Number of cores to assign to each container. |
 |name|str|:white_check_mark:||    The base name of the container. |
 |image|str|:white_check_mark:|`same as the host OS e.g. ubuntu:latest on Ubuntu.`|    The docker image name to use. |
