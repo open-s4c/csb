@@ -93,7 +93,7 @@ class ContainersConfig(dict):
         print(self.cpus)
         assert first < last
         assert first < len(self.cpus)
-        assert last  <= len(self.cpus) # last is excluded
+        assert last <= len(self.cpus)  # last is excluded
         cpus_lst = self.cpus[first:last]
         cpus_str: str = ",".join(map(str, cpus_lst))
         return cpus_str
