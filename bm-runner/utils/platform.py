@@ -11,6 +11,7 @@ import itertools
 import numpy as np
 from typing import Optional
 import sys
+import os
 
 
 class OperatingSystem(str, Enum):
@@ -124,6 +125,8 @@ class Topology:
         data_lines = [line.strip() for line in lines[4:]]
         # Now, create the DataFrame directly from the data
         df = pd.DataFrame([line.split(",") for line in data_lines], columns=columns)
+        # Opt-in to the new behavior
+        pd.set_option("future.no_silent_downcasting", True)
         df.replace("", np.nan, inplace=True)
         # Step 2: Convert columns to numeric (int), ignoring NaN values
         df = df.apply(pd.to_numeric, errors="coerce", downcast="integer")
@@ -168,7 +171,29 @@ class Topology:
 
         return list(itertools.islice(itertools.cycle(selected_group), count))
 
-    def select(self, count: int, policy: CoreAssignPolicy) -> list[int]:
+    def __user_choice(self, pre_selected: list[int], count: int):
+        max_cpu = max(pre_selected)
+        cpu_count = max(self.data[self.CPU]) + 1
+
+        assert cpu_count == os.cpu_count()
+
+        if max_cpu >= cpu_count:
+            bm_log(
+                f"User want to assign to none existing CPU(s) {max_cpu}. Falling back to available CPUs",
+                LogType.ERROR,
+            )
+            pre_selected = [element % cpu_count for element in pre_selected]
+
+        cpus = list(itertools.islice(itertools.cycle(pre_selected), count))
+        assert len(cpus) == count, "[BUG] returning shorter list than requested"
+        return cpus
+
+    def select(
+        self, count: int, policy: CoreAssignPolicy, pre_selected: Optional[list[int]] = None
+    ) -> list[int]:
+        if pre_selected is not None:
+            return self.__user_choice(pre_selected, count)
+
         filter: Optional[Filter] = None
         match policy.pack_group:
             case PackGroup.PACKAGE:

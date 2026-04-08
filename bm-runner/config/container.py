@@ -59,28 +59,31 @@ class ContainersConfig(dict):
             core_assignment_policy=core_assignment_policy,
         )
         self.cpus: list[int]
+        self.policy: CoreAssignPolicy
+        self.topo = Topology()
         self.container_list = ListConfig.from_dict(container_list).get_list()
         self.core_count = core_count
-
-        if core_affinity_offsets is None:
-            max_con_cnt = self.container_list[-1] * self.core_count
-            policy = CoreAssignPolicy.from_dict(core_assignment_policy)
-            self.cpus = Topology().select(count=max_con_cnt, policy=policy)
-        else:
-            # use user selection instead
-            self.cpus = ListConfig.from_dict(core_affinity_offsets).get_list()
-
+        self.__set_cpus(policy=core_assignment_policy, core_affinity_offsets=core_affinity_offsets)
         self.image = image if image is not None else self.DEFAULT_IMG[get_os()]
         bm_log(f"Selected image {self.image}", LogType.INFO)
         self.name = name
         self.port = port
         self.__ensure_img_exists()
 
+    def __set_cpus(self, policy, core_affinity_offsets):
+        pre_selected_cpus: Optional[list[int]] = (
+            None
+            if core_affinity_offsets is None
+            else ListConfig.from_dict(core_affinity_offsets).get_list()
+        )
+        self.policy = CoreAssignPolicy.from_dict(policy)
+        max_con_cnt = self.container_list[-1] * self.core_count
+        self.cpus = self.topo.select(
+            count=max_con_cnt, policy=self.policy, pre_selected=pre_selected_cpus
+        )
+
     def get_container_cnt_list(self) -> list[int]:
         return self.container_list
-
-    # def get_core_affinity_offset_list(self) -> list[int]:
-    #    return self.core_affinity_offsets
 
     def get_cpus(self, eu_idx: int) -> str:
         first = eu_idx
