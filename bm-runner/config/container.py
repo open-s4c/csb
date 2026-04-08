@@ -7,7 +7,8 @@ import docker
 import docker.errors
 import sys
 from utils.logger import bm_log, LogType
-from utils.platform import get_os, OperatingSystem, Topology
+from utils.platform import get_os, OperatingSystem
+from utils.topology import Topology
 from config.policy import CoreAssignPolicy
 
 
