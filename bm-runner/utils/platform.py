@@ -3,24 +3,21 @@
 
 from enum import Enum
 from utils.logger import bm_log, LogType
-import glob
-import os
-import os
-import glob
-import enum
 import subprocess
 from config.policy import CoreAssignPolicy, PackGroup, CpuOrder
 from benchkit.shell.shell import shell_out
-import re
 import pandas as pd
 import itertools
 import numpy as np
 from typing import Optional
+import sys
+
 
 class OperatingSystem(str, Enum):
     Ubuntu = "Ubuntu"
     openEuler = "openEuler"
     Unsupported = "unsupported"
+
 
 def get_os() -> OperatingSystem:
     OS_INFO_FILE = "/etc/os-release"
@@ -40,6 +37,7 @@ def get_os() -> OperatingSystem:
         )
         return OperatingSystem.Unsupported
 
+
 subprocess
 
 
@@ -47,11 +45,13 @@ subprocess
 # Helpers
 # -----------------------------
 
+
 def _read(path):
     try:
         with open(path) as f:
             return f.read().strip()
-    except:
+    except Exception as e:
+        bm_log(f"An error has occurred {e}")
         return None
 
 
@@ -72,18 +72,22 @@ def _parse_list(s):
 # Topology Discovery
 # -----------------------------
 
+
 class TopologyCounts:
     num_numas: int
     num_cpus: int
     num_cores: int
     num_packages: int
 
+
 class Filter:
-    group_name: str # "Node"
-    idx : int # 0
+    group_name: str  # "Node"
+    idx: int  # 0
+
     def __init__(self, name, idx):
         self.group_name = name
         self.idx = idx
+
 
 class Topology:
     CPU = "CPU"
@@ -94,7 +98,7 @@ class Topology:
     L3_CACHE = "L3"
     NUMA = "Node"
     PACKAGE = "Socket"
-    CLUSTER = "Cluster" # careful mostly empty
+    CLUSTER = "Cluster"  # careful mostly empty
 
     def __init__(self):
         lines = self.__read_info()
@@ -116,28 +120,39 @@ class Topology:
     def __transform_info(self, lines: list[str]) -> pd.DataFrame:
         # Extract column header line
         header_line = lines[3].strip().lstrip("#").strip()  # Header is at line 4 (index 3)
-        columns = [col.strip() for col in header_line.split(",")]
+        columns = pd.Index([col.strip() for col in header_line.split(",")])
         # Remove comment lines
         data_lines = [line.strip() for line in lines[4:]]
         # Now, create the DataFrame directly from the data
-        df = pd.DataFrame([line.split(',') for line in data_lines], columns=columns)
-        df.replace('', np.nan, inplace=True)
+        df = pd.DataFrame([line.split(",") for line in data_lines], columns=columns)
+        df.replace("", np.nan, inplace=True)
         # Step 2: Convert columns to numeric (int), ignoring NaN values
-        df = df.apply(pd.to_numeric, errors='coerce', downcast='integer')
+        df = df.apply(pd.to_numeric, errors="coerce", downcast="integer")
         return df
 
     def __read_info(self) -> list[str]:
-        cpu_info = shell_out("lscpu -p=CPU,CORE,CACHE,NODE,SOCKET,CLUSTER",
-                              output_is_log=False,
-                              print_output=False,
-                              print_file_shell_cmd=False)
-        cpu_info = shell_out("cat /home/lilith/workspace/csb/k920.csv",
-                             print_output=False,
-                             print_file_shell_cmd=False)
+        cpu_info = shell_out(
+            "lscpu -p=CPU,CORE,CACHE,NODE,SOCKET,CLUSTER",
+            output_is_log=False,
+            print_output=False,
+            print_file_shell_cmd=False,
+        )
+        cpu_info = shell_out(
+            "cat /home/lilith/workspace/csb/k920.csv",
+            print_output=False,
+            print_file_shell_cmd=False,
+        )
         lines = cpu_info.strip().split("\n")
         return lines
 
-    def __pack_by(self, count:int, filter:Optional[Filter] = None, one_per_core: bool = False, desc: bool = True, distance:int = 0):
+    def __pack_by(
+        self,
+        count: int,
+        filter: Optional[Filter] = None,
+        one_per_core: bool = False,
+        desc: bool = True,
+        distance: int = 0,
+    ):
         df = self.data
 
         if filter is not None:
@@ -154,8 +169,8 @@ class Topology:
 
         return list(itertools.islice(itertools.cycle(selected_group), count))
 
-    def select(self, count:int , policy:CoreAssignPolicy) -> list[int]:
-        filter:Filter = None
+    def select(self, count: int, policy: CoreAssignPolicy) -> list[int]:
+        filter: Optional[Filter] = None
         match policy.pack_group:
             case PackGroup.PACKAGE:
                 filter = Filter(self.PACKAGE, 0)
@@ -167,6 +182,7 @@ class Topology:
                 bm_log(f"Case: {policy.pack_group} not handled!", LogType.ERROR)
                 sys.exit(1)
         desc = True if policy.cpu_order == CpuOrder.DESC else False
-        cpus = self.__pack_by(count=count, filter=filter, one_per_core=policy.one_cpu_per_core, desc=desc)
+        cpus = self.__pack_by(
+            count=count, filter=filter, one_per_core=policy.one_cpu_per_core, desc=desc
+        )
         return cpus
-

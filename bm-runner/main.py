@@ -19,8 +19,7 @@ from config.env_config import EnvUniversalConfig, UniversalConfig
 from utils.bm_builder import Builder
 from bm_utils import is_process_running, kill_all
 import os
-from utils.platform import Topology
-from config.policy import CoreAssignPolicy
+
 
 def csbCampaign(
     name: str = "CSB",
@@ -90,25 +89,6 @@ if __name__ == "__main__":
     arg_continue = args.replot
     arg_title = args.title
     arg_config = args.config
-
-    cpus = os.cpu_count()
-    topo = Topology()
-    cpus = topo.get_counts().num_cpus
-    bm_log("By NUMA", LogType.WARNING)
-    print(topo.pack_by_numa(cpus, False))
-
-    bm_log("By PACKAGE", LogType.WARNING)
-    print(topo.pack_by_pkg(cpus, False))
-
-    bm_log("as far as possible", LogType.WARNING)
-    ### TODO: this hangs on high number we need a better way
-    print(topo.select_cpus(50))
-
-
-    sys.exit(1)
-    # for policy in CoreAssignPolicy:
-    #     bm_log(f"request {cpus} for {policy} ")
-    #     print(CpuTopology().select(cpus, policy))
 
     # Parse configuration file
     try:
