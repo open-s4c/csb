@@ -1,3 +1,6 @@
+# Copyright (C) Huawei Technologies Co., Ltd. 2026. All rights reserved.
+# SPDX-License-Identifier: MIT
+
 from utils.topology import Topology
 from config.policy import CoreAssignPolicy, PackGroup
 from benchkit.shell.shell import shell_out
