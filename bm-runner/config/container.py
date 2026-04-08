@@ -91,8 +91,9 @@ class ContainersConfig(dict):
         last = eu_idx + self.core_count
         bm_log(f"{first} {last} {len(self.cpus)}", LogType.ERROR)
         print(self.cpus)
+        assert first < last
         assert first < len(self.cpus)
-        assert last < len(self.cpus)
+        assert last  <= len(self.cpus) # last is excluded
         cpus_lst = self.cpus[first:last]
         cpus_str: str = ",".join(map(str, cpus_lst))
         return cpus_str
