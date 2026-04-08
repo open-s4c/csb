@@ -1,5 +1,5 @@
 from utils.topology import Topology
-from config.policy import CoreAssignPolicy
+from config.policy import CoreAssignPolicy, PackGroup
 from benchkit.shell.shell import shell_out
 import pytest
 
@@ -93,6 +93,41 @@ def verify_lists(topo: Topology):
 def test_lists(mock_read_info):
     topology = Topology()
     verify_lists(topology)
+
+
+def test_numa_pack(mock_read_info):
+    topology = Topology()
+    policy = CoreAssignPolicy(pack_group=PackGroup.NUMA)
+    count = 80
+    actual = topology.select(count=count, policy=policy)
+    # note this is valid because we expect NUMA zero to be selected
+    # if that assumption breaks the expectation needs to be updated accordingly
+    expected = list(range(0, count))
+    assert actual == expected
+
+
+# verify the output when one NUMA without hyper-threading is selected
+def test_numa_pack_skip_ht(mock_read_info):
+    topology = Topology()
+    policy = CoreAssignPolicy(pack_group=PackGroup.NUMA, one_cpu_per_core=True)
+    count = 80
+    actual = topology.select(count=count, policy=policy)
+    # note this is valid because we expect NUMA zero,
+    # and the first CPU from each core  to be selected
+    # if that assumption breaks the expectation needs to be updated accordingly
+    expected = [x for x in range(0, count) if x % 2 == 0]
+    assert set(actual) == set(expected)
+
+
+def test_pkg_pack(mock_read_info):
+    topology = Topology()
+    policy = CoreAssignPolicy(pack_group=PackGroup.PACKAGE)
+    count = 160
+    actual = topology.select(count=count, policy=policy)
+    # note this is valid because we expect package zero to be selected
+    # if that assumption breaks the expectation needs to be updated accordingly
+    expected = list(range(0, count))
+    assert actual == expected
 
 
 # check counts match expectation
