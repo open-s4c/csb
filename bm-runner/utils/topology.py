@@ -21,45 +21,57 @@ class Filter:
 
 
 class Topology:
+    # These strings are tightly coupled with
+    # what lscpu understands.
     CPU = "CPU"
     CORE = "Core"
-    L1_DATA_CACHE = "L1d"
-    L1_INS_CACHE = "L1i"
-    L2_CACHE = "L2"
-    L3_CACHE = "L3"
     NUMA = "Node"
     PACKAGE = "Socket"
-    CLUSTER = "Cluster"  # empty column
+
+    data_frame: pd.DataFrame
 
     def __init__(self):
-        lines = self.__read_info()
-        self.data = self.__transform_info(lines)
+        lscpu_out = self.__read_lscpu_info()
+        self.data_frame = self.__to_data_frame(lscpu_out)
 
-    def __transform_info(self, lines: list[str]) -> pd.DataFrame:
-        # Extract column header line
-        header_line = lines[3].strip().lstrip("#").strip()  # Header is at line 4 (index 3)
-        columns = pd.Index([col.strip() for col in header_line.split(",")])
-        # Remove comment lines
-        data_lines = [line.strip() for line in lines[4:]]
-        # Now, create the DataFrame directly from the data
-        df = pd.DataFrame([line.split(",") for line in data_lines], columns=columns)
-        # Opt-in to the new behavior
-        pd.set_option("future.no_silent_downcasting", True)
-        df.replace("", np.nan, inplace=True)
-        # Step 2: Convert columns to numeric (int), ignoring NaN values
-        df = df.apply(pd.to_numeric, errors="coerce", downcast="integer")
-        return df
-
-    def __read_info(self) -> list[str]:
+    def __read_lscpu_info(self) -> list[str]:
+        """
+        Runs `lscpu` and returns its output as array of lines.
+        """
+        # CACHE will be output as columns: L1d, L1i, L2, L3
+        # this depends on the machine. Right now we don't
+        # make use of CACHE and CLUSTER (usually empty column)
+        # We request them in case they are needed in the future.
         cpu_info = shell_out(
-            "lscpu -p=CPU,CORE,CACHE,NODE,SOCKET,CLUSTER",
+            f"lscpu -p={self.CPU},{self.CORE},CACHE,{self.NUMA},{self.PACKAGE},CLUSTER",
             output_is_log=False,
             print_output=False,
             print_file_shell_cmd=False,
         )
-        print(cpu_info)
         lines = cpu_info.strip().split("\n")
         return lines
+
+    def __to_data_frame(self, lines: list[str]) -> pd.DataFrame:
+        try:
+            # Extract column header line from the out put
+            # this is usually at line `3`
+            header_line = lines[3].strip().lstrip("#").strip()  # Header is at line 4 (index 3)
+            # Detect columns from header line, split by comma
+            columns = pd.Index([col.strip() for col in header_line.split(",")])
+            # Remove comment lines, data lines start at 4.
+            data_lines = [line.strip() for line in lines[4:]]
+            # Now, create the DataFrame directly from the data
+            df = pd.DataFrame([line.split(",") for line in data_lines], columns=columns)
+            # Opt-in to the new behavior
+            pd.set_option("future.no_silent_downcasting", True)
+            # replace empty strings to nan
+            df.replace("", np.nan, inplace=True)
+            # Convert columns to numeric (int), ignoring NaN values
+            df = df.apply(pd.to_numeric, errors="coerce", downcast="integer")
+            return df
+        except Exception as e:
+            bm_log(f"Could not translate given lines to a dataframe. {e}", LogType.FATAL)
+            sys.exit(1)
 
     def __pack_by(
         self,
@@ -69,7 +81,7 @@ class Topology:
         desc: bool = True,
         distance: int = 0,
     ):
-        df = self.data
+        df = self.data_frame
 
         if filter is not None:
             df = df[df[filter.group_name] == filter.idx]
@@ -87,7 +99,7 @@ class Topology:
 
     def __user_choice(self, pre_selected: list[int], count: int):
         max_cpu = max(pre_selected)
-        cpu_count = max(self.data[self.CPU]) + 1
+        cpu_count = max(self.data_frame[self.CPU]) + 1
 
         if max_cpu >= cpu_count:
             bm_log(
@@ -103,6 +115,31 @@ class Topology:
     def select(
         self, count: int, policy: CoreAssignPolicy, pre_selected: Optional[list[int]] = None
     ) -> list[int]:
+        """
+        Returns a list of selected CPUs. The list length is equal to the given requested `count`.
+        The CPUs are selected based on the following:
+
+        - if `pre_selected` parameter is not None, the given preselected CPUs are used,
+          provided that these CPUs are available on the system. If not, given CPU indexes
+          are transformed to available CPUs using modular CPU count.
+        - if `pre_selected` parameter is None, the given `policy` parameter determines
+          how the CPUs are selected.
+
+        Note that when the selected set of CPUs has less CPUs than requested in `count`, the
+        CPUs are repeated. e.g. if selected CPUs are [1,2] and requested `count` is `4`,
+        [1, 2, 1, 2] is returned.
+
+        Parameters
+        -------
+        count: int
+            requested number of CPUs.
+        policy: CoreAssignPolicy
+            determines the policy of what and how CPUs are selects.
+            This parameter is obsolete when `pre_selected` is not None.
+        pre_selected: Optional[list[int]]
+            optional parameter. A list of CPU indexes to choose from.
+            when pre_selected is not None, `policy` parameter becomes obsolete.
+        """
         if pre_selected is not None:
             return self.__user_choice(pre_selected, count)
 
@@ -124,25 +161,49 @@ class Topology:
         return cpus
 
     def get_numas(self) -> list[int]:
-        return self.data[self.NUMA].unique().tolist()
+        """
+        Returns a list of available NUMA/node indexes.
+        """
+        return self.data_frame[self.NUMA].unique().tolist()
 
     def get_numa_count(self) -> int:
+        """
+        Returns detected number of NUMAs/nodes.
+        """
         return len(self.get_numas())
 
     def get_packages(self) -> list[int]:
-        return self.data[self.PACKAGE].unique().tolist()
+        """
+        Returns a list of available package/socket indexes.
+        """
+        return self.data_frame[self.PACKAGE].unique().tolist()
 
     def get_package_count(self) -> int:
+        """
+        Returns detected number of packages.
+        """
         return len(self.get_packages())
 
     def get_cores(self) -> list[int]:
-        return self.data[self.CORE].unique().tolist()
+        """
+        Returns a list of available core indexes.
+        """
+        return self.data_frame[self.CORE].unique().tolist()
 
     def get_core_count(self) -> int:
+        """
+        Returns detected number of cores.
+        """
         return len(self.get_cores())
 
     def get_cpus(self) -> list[int]:
-        return self.data[self.CPU].unique().tolist()
+        """
+        Returns a list of available CPU indexes.
+        """
+        return self.data_frame[self.CPU].unique().tolist()
 
     def get_cpu_count(self) -> int:
+        """
+        Returns detected number of CPUs.
+        """
         return len(self.get_cpus())
