@@ -73,30 +73,46 @@ class Topology:
             bm_log(f"Could not translate given lines to a dataframe. {e}", LogType.FATAL)
             sys.exit(1)
 
-    def __pack_by(
+    def __select_by_policy(
         self,
         count: int,
         filter: Optional[Filter] = None,
-        one_per_core: bool = False,
-        desc: bool = True,
-        distance: int = 0,
+        one_cpu_per_core: bool = False,
+        order: CpuOrder = CpuOrder.ASC,
     ):
         df = self.data_frame
+        try:
+            # If filter is given, we only select rows that
+            # are associated by the given group
+            # e.g. where df['node'] == 0
+            if filter is not None:
+                df = df[df[filter.group_name] == filter.idx]
 
-        if filter is not None:
-            df = df[df[filter.group_name] == filter.idx]
+            # If one CPU per core is requested,
+            # we only keep rows where core index is unique.
+            # This way we don't select CPUs associated
+            # with the same core, preventing hyper-threading.
+            if one_cpu_per_core:
+                df = df.drop_duplicates(subset=[self.CORE])
 
-        if one_per_core:
-            num_cores = len(df[self.CORE].unique())
-            df = df.drop_duplicates(subset=[self.CORE])
-            assert num_cores == len(df)
+            # from the filtered data frame, we take
+            # the CPU column and convert it to a list.
+            selected_cpus = df[self.CPU].tolist()
 
-        selected_group = df[self.CPU].tolist()
-        if desc:
-            selected_group = list(reversed(selected_group))
-        return self.__choose(selected_group, count=count)
+            # reverse the list if descending order is desired
+            if order == CpuOrder.DESC:
+                selected_cpus = list(reversed(selected_cpus))
+
+            # from the selected CPUs choose the given `count`
+            return self.__choose(selected_cpus, count=count)
+        except Exception as e:
+            bm_log(f"Could not select by policy. Due to: {e}", LogType.FATAL)
+            sys.exit(1)
 
     def __choose(self, selected: list[int], count: int) -> list[int]:
+        """
+        Chooses `count` number of CPUs from the given `selected` list.
+        """
         if len(selected) < count:
             bm_log(
                 f"""Number of selected CPUs {len(selected)} is less than requested {count}.
@@ -169,9 +185,12 @@ class Topology:
             case _:
                 bm_log(f"Case: {policy.pack_group} not handled!", LogType.ERROR)
                 sys.exit(1)
-        desc = True if policy.cpu_order == CpuOrder.DESC else False
-        cpus = self.__pack_by(
-            count=count, filter=filter, one_per_core=policy.one_cpu_per_core, desc=desc
+
+        cpus = self.__select_by_policy(
+            count=count,
+            filter=filter,
+            one_cpu_per_core=policy.one_cpu_per_core,
+            order=policy.cpu_order,
         )
         return cpus
 
