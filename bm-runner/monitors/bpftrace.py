@@ -45,7 +45,7 @@ class BPFTraceCmd:
             # print(f"bpftrace output: {line}")
             if "Attach" in line and "probe" in line:
                 self.out_thread.start()
-                while not self.out_thread.is_alive:
+                while not self.out_thread.is_alive():
                     time.sleep(0.1)
                 break
 
@@ -54,7 +54,7 @@ class BPFTraceCmd:
         self.process.send_signal(signal.SIGINT)
         # print("Waiting for bpftrace monitor to stop.")
         self.process.wait()
-        if self.out_thread.is_alive:
+        if self.out_thread.is_alive():
             self.out_thread.join()
 
 class BPFTraceStats(Monitor):
