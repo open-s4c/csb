@@ -16,6 +16,7 @@ from typing import Optional
 
 class BPFTraceCmd:
     def __init__(self, output_dir: str, ptype, output_file: str, program_str: str, cmd_args: list[str]):
+        # begin_signal = 'BEGIN { printf("PROBE_READY"); }\n'
         self.fname = os.path.join(output_dir, output_file)
         cmds = ["sudo", "bpftrace", "-o", self.fname, "-e"]
         cmds.append(f"{program_str}")
@@ -24,9 +25,11 @@ class BPFTraceCmd:
         # print(f"Running command {cmd_str}")
         env = {"LANG": "en_US.UTF-8", "LC_ALL": "en_US.UTF-8"}
         bm_log(f"Running bpftrace with {ptype}")
-        self.process = subprocess.Popen(cmds, env=env, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, preexec_fn=os.setpgrp)
-        time.sleep(0.3)
-        # print(f"Output: {self.process.stderr}")
+        self.process = subprocess.Popen(cmds, env=env, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE, preexec_fn=os.setpgrp, text=True)
+        while True:
+            line = self.process.stderr.readline()
+            if "Attached " in line and " probe" in line:
+                break
 
     def stop(self):
         # This acts like ctrl+C
