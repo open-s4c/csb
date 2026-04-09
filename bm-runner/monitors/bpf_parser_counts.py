@@ -14,7 +14,11 @@ class BPFParserCounts(BPFParser):
 
     @staticmethod
     def parse(filename) -> pd.DataFrame:
-        with open(filename, "r") as f:
+        try:
+            f = open(filename, "r")
+        except IOError:
+            return None
+        with f:
             data = f.read()
             df = pd.read_csv(StringIO(data), sep=': ', header=None, names=['PID', 'Count'], engine='python')
             df['PID'] = df['PID'].map(BPFParserCounts.extract_pid)
@@ -22,6 +26,9 @@ class BPFParserCounts(BPFParser):
 
     @staticmethod
     def results_min_max_avg(df: pd.DataFrame, PIDs: list[int], csv_key: str) ->str:
+        if df == None:
+            return BPFParser.default_min_max_avg(csv_key)
+        
         minimum = 2^62
         maximum = 0
         num_values = 0
@@ -49,7 +56,4 @@ class BPFParserCounts(BPFParser):
 
     @staticmethod
     def results_histogram(df: pd.DataFrame, PIDs: list[int], csv_key: str) ->str:
-        empty = ["0"]*60
-        result = ",".join(empty)
-        result = csv_key + "_histogram" + "=" + result + ";"
-        return result
+        return BPFParser.default_histogram(csv_key)

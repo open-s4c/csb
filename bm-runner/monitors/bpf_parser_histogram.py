@@ -18,7 +18,11 @@ class BPFParserHistogram(BPFParser):
         range_pattern = re.compile(r'(\[[0-9A-Z, ]+\)) +(\d+) \|')
         map_found = False
 
-        with open(filename, "r") as f:
+        try:
+            f = open(filename, "r")
+        except IOError:
+            return None
+        with f:
             data = f.read()
             # Process each line
             for line in data.split('\n'):
@@ -45,6 +49,9 @@ class BPFParserHistogram(BPFParser):
     
     @staticmethod
     def results_min_max_avg(df: pd.DataFrame, PIDs: list[int], csv_key: str) ->str:
+        if df == None:
+            return BPFParser.default_min_max_avg(csv_key)
+        
         minimum = 2^62
         maximum = 0
         num_values = 0
@@ -73,6 +80,9 @@ class BPFParserHistogram(BPFParser):
 
     @staticmethod
     def results_histogram(df: pd.DataFrame, PIDs: list[int], csv_key: str) ->str:
+        if df == None:
+            return BPFParser.default_histogram(csv_key)
+        
         result = ""
         cols = range(0, 60)  # TODO: align bm_visualize.py
         hist_list = [0]*60
