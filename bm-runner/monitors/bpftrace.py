@@ -27,7 +27,8 @@ class BPFTraceCmd:
         bm_log(f"Running bpftrace with {ptype}")
         self.process = subprocess.Popen(cmds, env=env, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE, preexec_fn=os.setpgrp, text=True)
         while True:
-            line = self.process.stderr.readline()
+            line = self.process.stdout.readline()
+            print(f"bpftrace output: {line}")
             if "Attached " in line and " probe" in line:
                 break
 
