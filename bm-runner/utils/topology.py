@@ -12,8 +12,8 @@ import sys
 
 
 class Filter:
-    group_name: str  # "Node/Socket"
-    idx: int  # index of the group e.g. 0
+    group_name: str # The group to filter by (e.g., "Node", "Socket").
+    idx: int  # The index of the group (e.g., 0 for the first node or socket).
 
     def __init__(self, name, idx):
         self.group_name = name
@@ -51,6 +51,9 @@ class Topology:
         return lines
 
     def __to_data_frame(self, lines: list[str]) -> pd.DataFrame:
+        """
+        Converts raw `lscpu` output into a structured pandas DataFrame.
+        """
         try:
             # Extract column header line from the out put
             # this is usually at line `3`
@@ -170,6 +173,7 @@ class Topology:
             optional parameter. A list of CPU indexes to choose from.
             when pre_selected is not None, `policy` parameter becomes obsolete.
         """
+        bm_log(f"Selecting {count} CPUs based on the given policy and pre_selected CPUs.")
         if pre_selected is not None:
             return self.__user_choice(pre_selected, count)
 
