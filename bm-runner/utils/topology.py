@@ -12,13 +12,12 @@ import sys
 
 
 class Filter:
-    group_name: str  # "Node"
-    idx: int  # 0
+    group_name: str  # "Node/Socket"
+    idx: int  # index of the group e.g. 0
 
     def __init__(self, name, idx):
         self.group_name = name
         self.idx = idx
-
 
 class Topology:
     # These strings are tightly coupled with
