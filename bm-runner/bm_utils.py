@@ -118,32 +118,6 @@ def save_container_config(output_dir, container_name):
             )
 
 
-def get_cpu_set(start: int, core_cnt: int) -> str:
-    total_core_cnt = os.cpu_count()
-    cores = ""
-    assert total_core_cnt is not None
-    assert core_cnt > 0, "There should be at least one core assigned to the container"
-    if core_cnt > total_core_cnt:
-        bm_log(
-            f"requested core count {core_cnt} exceeds total core count {total_core_cnt}, using {total_core_cnt} instead!",
-            LogType.WARNING,
-        )
-        core_cnt = total_core_cnt
-    for i in range(core_cnt):
-        core = start + i
-        if core >= total_core_cnt:
-            core = core % total_core_cnt
-            bm_log(
-                f"core index exceeded total core count, wrap around to core {start + i} -> {core}",
-                LogType.WARNING,
-            )
-        cores += f"{core},"
-    assert len(cores) > 1, "cores cannot be empty!"
-    cores = cores[:-1]  # drop last comma
-    bm_log(f"[get_cpu_set] {start} {core_cnt} {cores}", LogType.FATAL)
-    return cores
-
-
 def is_port_free_to_use(port, host="127.0.0.1"):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.settimeout(1)

@@ -94,23 +94,38 @@ class Topology:
         selected_group = df[self.CPU].tolist()
         if desc:
             selected_group = list(reversed(selected_group))
+        return self.__choose(selected_group, count=count)
 
-        return list(itertools.islice(itertools.cycle(selected_group), count))
+    def __choose(self, selected: list[int], count: int) -> list[int]:
+        if len(selected) < count:
+            bm_log(
+                f"""Number of selected CPUs {len(selected)} is less than requested {count}.
+                Same CPUs can be assigned to different units causing oversubscription.
+            """,
+                LogType.WARNING,
+            )
+        return list(itertools.islice(itertools.cycle(selected), count))
 
     def __user_choice(self, pre_selected: list[int], count: int):
-        max_cpu = max(pre_selected)
-        cpu_count = max(self.data_frame[self.CPU]) + 1
+        # get the max index value of preselected CPUs
+        max_cpu_idx = max(pre_selected)
+        # get available CPU count
+        cpu_count = self.get_cpu_count()
 
-        if max_cpu >= cpu_count:
+        # confirm selected CPUs are available on the system
+        # if max_cpu_idx is within range, then all of them are.
+        if max_cpu_idx >= cpu_count:
             bm_log(
-                f"User want to assign to none existing CPU(s) {max_cpu}. Falling back to available CPUs",
+                f"""
+                    User wants to assign to none existing CPU(s) e.g. {max_cpu_idx}.
+                    Falling back to available CPUs using % CPU count.
+                """,
                 LogType.ERROR,
             )
+            # map preselected to modular
             pre_selected = [element % cpu_count for element in pre_selected]
 
-        cpus = list(itertools.islice(itertools.cycle(pre_selected), count))
-        assert len(cpus) == count, "[BUG] returning shorter list than requested"
-        return cpus
+        return self.__choose(pre_selected, count=count)
 
     def select(
         self, count: int, policy: CoreAssignPolicy, pre_selected: Optional[list[int]] = None

@@ -32,12 +32,12 @@ def __mock_read_info_no_ht(self) -> list[str]:
 
 @pytest.fixture
 def mock_read_info(mocker):
-    return mocker.patch.object(Topology, "_Topology__read_info", __mock_read_info)
+    return mocker.patch.object(Topology, "_Topology__read_lscpu_info", __mock_read_info)
 
 
 @pytest.fixture
 def mock_read_info_no_ht(mocker):
-    return mocker.patch.object(Topology, "_Topology__read_info", __mock_read_info_no_ht)
+    return mocker.patch.object(Topology, "_Topology__read_lscpu_info", __mock_read_info_no_ht)
 
 
 # ensure on default setting we get
