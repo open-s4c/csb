@@ -21,6 +21,7 @@ class BPFTraceCmd:
             with open(filename, "w") as f:
                 for line in stream:   # ← exits automatically on EOF
                     f.write(line)
+                f.flush()
         finally:
             stream.close()  # optional, but clean
 
@@ -38,12 +39,12 @@ class BPFTraceCmd:
         for line in self.process.stdout:
             # print(f"bpftrace output: {line}")
             if "Attach" in line and "probe" in line:
-                t = threading.Thread(
+                self.out_thread = threading.Thread(
                     target=self.continue_writing,
                     args=(self.process.stdout, self.fname),
                     daemon=True
                 )
-                t.start()
+                self.out_thread.start()
                 break
 
     def stop(self):
@@ -51,6 +52,7 @@ class BPFTraceCmd:
         self.process.send_signal(signal.SIGINT)
         # print("Waiting for bpftrace monitor to stop.")
         self.process.wait()
+        self.out_thread.join()
 
 class BPFTraceStats(Monitor):
     programs: dict[str, (BPFProgram, BPFTraceCmd)] = {}
