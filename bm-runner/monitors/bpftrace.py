@@ -17,6 +17,7 @@ from typing import Optional
 
 class BPFTraceCmd:
     def continue_writing(self, stream, filename):
+        print(filename)
         try:
             with open(filename, "w") as f:
                 for line in stream:   # ← exits automatically on EOF
