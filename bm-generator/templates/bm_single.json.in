@@ -394,7 +394,7 @@
 			]
 		]
 		},
-		"duration": 20,
+		"duration": 120,
 		"monitors" : { "mpstat" : ["-n", "-u", "-I", "SCPU,SUM", "-P", "0"],
 			       "perf" : ["-C", "0"
       ],
@@ -515,7 +515,7 @@
      }
 	},
 	"containers": {
-		"container_list": {"values": [[1], {"min": 4, "step": 4, "max": 96 }]},
+		"container_list": {"values": [[1], {"min": 1, "step": 1, "max": 96 }]},
 		$_begin(META_NAME = [[1]]);
 		"port" : 8000,
 		$_end();
