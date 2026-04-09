@@ -28,7 +28,7 @@
     "threads": {
       "values": [
         [
-          1
+          2
         ]
       ]
     },
@@ -38,14 +38,11 @@
     "container_list": {
       "values": [
         [
-          95
+          1,
+          5,
+          10
         ]
       ]
-    },
-    "core_assignment_policy": {
-        "pack_group": "numa",
-        "cpu_order": "asc",
-        "one_cpu_per_core": true
     },
     "core_count": 3
   },
