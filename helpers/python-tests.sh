@@ -6,4 +6,4 @@
 . ./venv/bin/activate
 cd bm-runner
 export PYTHONPATH=$(pwd)
-pytest -v
+pytest -s -v

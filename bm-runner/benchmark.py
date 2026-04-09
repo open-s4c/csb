@@ -93,19 +93,17 @@ class ScalabilityBenchmark(Benchmark):
                 executer = Containers(
                     config=container_cfg,
                     count=container_cnt,
-                    home_dir=f"{self.csb_dir}",
+                    home_dir=self.csb_dir,
                     apps=apps,
                     record_data_dir=record_data_dir,
                 )
             case ExecutionType.NATIVE:
-                # TODO: add app name in process/container name
                 executer = Processes(
-                    home_dir=self.csb_dir,
+                    config=container_cfg,
                     count=container_cnt,
-                    cpus_per_proc=container_cfg.core_count,
-                    record_data_dir=record_data_dir,
+                    home_dir=self.csb_dir,
                     apps=apps,
-                    core_affinity_offset_list=container_cfg.get_core_affinity_offset_list(),
+                    record_data_dir=record_data_dir,
                 )
             case _:
                 bm_log(f"Unsupported execution type = {execution_type}", LogType.FATAL)

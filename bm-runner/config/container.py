@@ -8,6 +8,8 @@ import docker.errors
 import sys
 from utils.logger import bm_log, LogType
 from utils.platform import get_os, OperatingSystem
+from utils.topology import Topology
+from config.policy import CoreAssignPolicy
 
 
 class ContainersConfig(dict):
@@ -21,6 +23,7 @@ class ContainersConfig(dict):
     def __init__(
         self,
         container_list: ListConfig = ListConfig(values=[[1]]),
+        core_assignment_policy: CoreAssignPolicy = CoreAssignPolicy(),
         core_affinity_offsets: Optional[ListConfig] = None,
         core_count: int = 1,
         name: str = "",
@@ -34,9 +37,15 @@ class ContainersConfig(dict):
         ----------
         container_list: ListConfig = {"values": [[1]]}
             Specifies the number of containers to run.
+        one_cpu_per_core: bool = False,
+        core_assignment_policy: CoreAssignPolicy = {"pack_group":"none", "cpu_order": "asc", "one_cpu_per_core": false}
+            Configures the CPU assignment policy, i.e. which CPUs can be assigned to execution units (containers/native processes).
+            Note that the policy is overwritten by `core_affinity_offsets`. If the users wish to use this configuration, they
+            should make sure not to specify `core_affinity_offsets`.
         core_affinity_offsets: Optional[ListConfig] = core_count * [0, 1, 2, 3, ...]
             Specifies the cores that should be assigned to the containers.
             Note that the assignment of cores happens in ascending order by default.
+            This configuration overwrites `core_assignment_policy`.
         core_count: int
             Number of cores to assign to each container.
         name: str
@@ -49,25 +58,57 @@ class ContainersConfig(dict):
             This configuration is relevant for networking benchmarks.
         -
         """
-        super().__init__(image=image, name=name, core_count=core_count, port=port)
+        super().__init__(
+            image=image,
+            name=name,
+            core_count=core_count,
+            port=port,
+            core_assignment_policy=core_assignment_policy,
+        )
+        self.cpus: list[int]
+        self.policy: CoreAssignPolicy
+        self.topo = Topology()
         self.container_list = ListConfig.from_dict(container_list).get_list()
         self.core_count = core_count
-        self.core_affinity_offsets = (
-            ListConfig.from_dict(core_affinity_offsets).get_list()
-            if core_affinity_offsets is not None
-            else [core_count * i for i in range(0, self.container_list[-1])]
-        )
+        self.__set_cpus(policy=core_assignment_policy, core_affinity_offsets=core_affinity_offsets)
         self.image = image if image is not None else self.DEFAULT_IMG[get_os()]
-        bm_log(f"Selected image {self.image}", LogType.INFO)
         self.name = name
         self.port = port
         self.__ensure_img_exists()
 
+    def __set_cpus(self, policy, core_affinity_offsets):
+        """
+        Selects which CPUs are allowed to be used according to the
+        policy and core_affinity_offsets.
+        """
+        pre_selected_cpus: Optional[list[int]] = (
+            None
+            if core_affinity_offsets is None
+            else ListConfig.from_dict(core_affinity_offsets).get_list()
+        )
+        self.policy = CoreAssignPolicy.from_dict(policy)
+        # Calculate the maximum number of CPUs needed.
+        # max number of containers * cores per container
+        max_cpu_count = max(self.container_list) * self.core_count
+        self.cpus = self.topo.select(
+            count=max_cpu_count, policy=self.policy, pre_selected=pre_selected_cpus
+        )
+
     def get_container_cnt_list(self) -> list[int]:
         return self.container_list
 
-    def get_core_affinity_offset_list(self) -> list[int]:
-        return self.core_affinity_offsets
+    def get_cpus(self, eu_idx: int) -> str:
+        """
+        Returns a list, in string format, of the CPUs that should be assigned
+        to the given execution unit (identified by its) index.
+        """
+        first = eu_idx * self.core_count  # first index
+        last = first + self.core_count  # last index (exclusive)
+        assert last <= len(self.cpus)
+        cpus_lst = self.cpus[first:last]
+        cpus_str: str = ",".join(map(str, cpus_lst))
+        bm_log(f"Execution Unit#{eu_idx} will be assigned CPUS: {cpus_str}")
+        return cpus_str
 
     def __pull_image(self):
         client = docker.from_env()

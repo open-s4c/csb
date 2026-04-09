@@ -233,10 +233,8 @@ class Containers(Executer):
     ):
         super().__init__(home_dir, results_dir=record_data_dir)
         assert len(apps) == count, "[BUG] Application list length must be equal to count"
-        bm_log(f"Initializing {count} containers with config: {config}")
-        core_offsets = config.get_core_affinity_offset_list()
         for i in range(count):
-            core_set = bm_utils.get_cpu_set(start=core_offsets[i], core_cnt=config.core_count)
+            core_set = config.get_cpus(i)
             container = Container(
                 idx=i,
                 home_dir=home_dir,

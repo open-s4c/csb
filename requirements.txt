@@ -6,3 +6,4 @@ docker
 jsonpath_ng
 psutil
 pytest
+pytest-mock
