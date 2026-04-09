@@ -40,7 +40,7 @@ ContainersConfig represents the configuration for multiple containers. Represent
 |Field|Type|Optional|Default|Description|
 |---|---|---|---|---|
 |container_list|[ListConfig](#listconfig)|:white_check_mark:|`{"values": [[1]]}`|    Specifies the number of containers to run. |
-|core_assignment_policy|CoreAssignPolicy|:white_check_mark:|`{"pack_group":"none", "cpu_order": "asc", "one_cpu_per_core": false}`|    Configures the CPU assignment policy, i.e. which CPUs can be assigned to execution units (containers/native processes).     Note that the policy is overwritten by `core_affinity_offsets`. If the users wish to use this configuration, they     should make sure not to specify `core_affinity_offsets`. |
+|core_assignment_policy|[CoreAssignPolicy](#coreassignpolicy)|:white_check_mark:|`{"pack_group":"none", "cpu_order": "asc", "one_cpu_per_core": false}`|    Configures the CPU assignment policy, i.e. which CPUs can be assigned to execution units (containers/native processes).     Note that the policy is overwritten by `core_affinity_offsets`. If the users wish to use this configuration, they     should make sure not to specify `core_affinity_offsets`. |
 |core_affinity_offsets|[ListConfig](#listconfig)|:white_check_mark:|`core_count * [0, 1, 2, 3, ...]`|    Specifies the cores that should be assigned to the containers.     Note that the assignment of cores happens in ascending order by default.     This configuration overwrites `core_assignment_policy`. |
 |core_count|int|:white_check_mark:|`1`|    Number of cores to assign to each container. |
 |name|str|:white_check_mark:||    The base name of the container. |
@@ -105,6 +105,14 @@ Adapters used to transform the output of an external benchmark into the format u
 |min|int|:x:||    start value     JSON example: `"min": 1` |
 |max|int|:x:||    end value     JSON example: `"max": 5` |
 |step|int|:x:||    increment step     JSON example: `"step": 2`     with min = 1, and max = 5, this becomes a list = `[1, 3, 5]` |
+
+## CoreAssignPolicy
+CPU/Core assignment policy for execution units, i.e. containers and native processes.  
+|Field|Type|Optional|Default|Description|
+|---|---|---|---|---|
+|pack_group|[PackGroup](#packgroup)|:white_check_mark:|`none`|    Specifies the policy of CPU selection, whether in the same NUMA, same Package, or     can cross packages. |
+|cpu_order|[CpuOrder](#cpuorder)|:white_check_mark:|`asc`|    Specifies the assignment order, whether ascending to starting for CPU lowest index,     or descending starting from the highest CPU index. |
+|one_cpu_per_core|bool|:white_check_mark:|`False`|    Whether to use only one CPU from each Core. This is relevant to hyper-threading     when multiple CPUs share the same core. When set to true, from each core only |
 ## MonitorType
 Monitors are used to monitor performance. They can be used to analyze the behavior of the benchmarks.  <br/>Supported values:
 - `"mpstat"`:  Runs mpstat and generates related graphs.
@@ -128,6 +136,15 @@ Execution time of the plugin script/process.  <br/>Supported values:
 Execution environment of the benchmarks.  <br/>Supported values:
 - `"native"`:  Launches the benchmark(s) directly on the host OS.
 - `"container"`:  Launches the benchmark(s) inside a container.
+## CpuOrder
+Supported CPU orders.  <br/>Supported values:
+- `"asc"`:  Assign CPUs in ascending order.
+- `"desc"`:  Assign CPUs in descending order.
+## PackGroup
+Supported groups for packing.  <br/>Supported values:
+- `"package"`:  Use CPUs that belong to package/socket zero only.
+- `"numa"`:  Use CPUs that belong to NUMA/Node zero only.
+- `"none"`:  CPUs crossing NUMA and package domains can be chosen.
 ## Environment Variables
 CSB bm-runner has universal configuration that can overwrite default behavior and JSON config values. These are set via environment variables, and are read at runtime.  <br/>Supported values:
 - `"CSB_NO_CLEAN_BENCH"`:  When set to `true`, it disables the cleaning of the build folder of builtin benchmarks.

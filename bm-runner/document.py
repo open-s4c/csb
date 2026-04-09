@@ -12,12 +12,13 @@ from config.nics import NicsConfig
 from typing import get_origin, get_args
 from typing import Union, Optional
 from bm_config import CampaignConfig
+from config.policy import CoreAssignPolicy, PackGroup, CpuOrder
 from config.env_config import UniversalConfig
 import sys
 import re
 
-g_enums = [MonitorType, PlotType, ExecutionTime, ExecutionType]
-g_sub_types = [Adapter, ListConfig, RangeConfig]
+g_enums = [MonitorType, PlotType, ExecutionTime, ExecutionType, CpuOrder, PackGroup]
+g_sub_types = [Adapter, ListConfig, RangeConfig, CoreAssignPolicy]
 # main types are those that exist directly in JSON and have a CONFIG_KEY defined
 g_main_types = [BenchmarkConfig, Application, ContainersConfig, Plugin, PlotConfig, NicsConfig]
 main_config = CampaignConfig
