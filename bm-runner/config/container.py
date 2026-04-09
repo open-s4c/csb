@@ -99,11 +99,11 @@ class ContainersConfig(dict):
 
     def get_cpus(self, eu_idx: int) -> str:
         """
-        Returns a list in string format of the CPUs that should be assigned
+        Returns a list, in string format, of the CPUs that should be assigned
         to the given execution unit (identified by its) index.
         """
-        first = eu_idx * self.core_count # first index
-        last = first + self.core_count # last index (exclusive)
+        first = eu_idx * self.core_count  # first index
+        last = first + self.core_count  # last index (exclusive)
         assert last <= len(self.cpus)
         cpus_lst = self.cpus[first:last]
         cpus_str: str = ",".join(map(str, cpus_lst))
