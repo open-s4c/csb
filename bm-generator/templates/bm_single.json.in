@@ -95,7 +95,7 @@
     {
       "x": "container_cnt",
       "x_lbl": "#Containers",
-      "y": "cgroup_rstat_lock_cont",
+      "y": "cgroup_rstat_lock",
       "y_lbl": "#CGroup Rstat Lock Contention",
       "hue": "execution_type",
       "hue_lbl": "Execution Env",

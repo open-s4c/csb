@@ -177,10 +177,10 @@ class Executer:
         return result
 
     def signal_start(self):
-        bm_log(f"Waiting for {self.SLEEP_IN_SEC}, before giving the start signal")
-        time.sleep(self.SLEEP_IN_SEC)
         self.__call_plugins(ExecutionTime.PRE)
         self.__start_monitors()
+        bm_log(f"Waiting for {self.SLEEP_IN_SEC}, before giving the start signal")
+        time.sleep(self.SLEEP_IN_SEC)
         shell_out(
             f"touch {ExecutionUnit.START_FILE}",
             current_dir=self.home_dir,
