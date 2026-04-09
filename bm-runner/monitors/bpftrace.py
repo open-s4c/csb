@@ -6,6 +6,7 @@ import subprocess
 import signal
 import pandas as pd
 import matplotlib.pyplot as plt
+import time
 from monitors.monitor import Monitor
 from monitors.bpf_program import BPFProgram
 from monitors.bpf_program_factory import BPFProgramFactory
@@ -20,13 +21,17 @@ class BPFTraceCmd:
         cmds.append(f"{program_str}")
         cmds.extend(cmd_args)
         cmd_str = " ".join(cmds)
+        # print(f"Running command {cmd_str}")
         env = {"LANG": "en_US.UTF-8", "LC_ALL": "en_US.UTF-8"}
         bm_log(f"Running bpftrace with {ptype}")
         self.process = subprocess.Popen(cmds, env=env, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, preexec_fn=os.setpgrp)
+        time.sleep(0.3)
+        # print(f"Output: {self.process.stderr}")
 
     def stop(self):
         # This acts like ctrl+C
         self.process.send_signal(signal.SIGINT)
+        # print("Waiting for bpftrace monitor to stop.")
         self.process.wait()
 
 class BPFTraceStats(Monitor):
