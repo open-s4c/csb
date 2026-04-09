@@ -28,9 +28,9 @@ class BPFParserCounts(BPFParser):
         average = 0
         for values in df.itertuples():
             # print(values)
-            pid = values[0]
+            pid = int(values[0])
             count = values[1]
-            if PIDs and pid not in PIDs:
+            if PIDs and (pid not in PIDs):
                 continue
             average *= (num_values / (num_values + 1))
             average += count * (1 / (num_values + 1))

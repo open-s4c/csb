@@ -84,13 +84,13 @@ class BPFParserHistograms(BPFParser):
         cols = range(0, 60)  # TODO: align bm_visualize.py
         hist_list = [0]*60
         for values in df.itertuples():
-            pid = values[1]
+            pid = int(values[1])
             range_str = values[2]
             count = int(values[3])
 
             if count < 1:
                 continue
-            if PIDs and pid not in PIDs:
+            if PIDs and (pid not in PIDs):
                 continue
 
             range_max = BPFParserHelper.get_range_max(range_str)
