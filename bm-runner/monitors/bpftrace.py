@@ -3,6 +3,7 @@
 
 import os
 import subprocess
+import threading
 import signal
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -15,21 +16,34 @@ from utils.logger import bm_log, LogType
 from typing import Optional
 
 class BPFTraceCmd:
+    def continue_writing(self, stream, filename):
+        try:
+            with open(filename, "w") as f:
+                for line in stream:   # ← exits automatically on EOF
+                    f.write(line)
+        finally:
+            stream.close()  # optional, but clean
+
     def __init__(self, output_dir: str, ptype, output_file: str, program_str: str, cmd_args: list[str]):
         # begin_signal = 'BEGIN { printf("PROBE_READY"); }\n'
         self.fname = os.path.join(output_dir, output_file)
-        cmds = ["sudo", "bpftrace", "-o", self.fname, "-e"]
+        cmds = ["sudo", "bpftrace", "-e"]
         cmds.append(f"{program_str}")
         cmds.extend(cmd_args)
         cmd_str = " ".join(cmds)
         # print(f"Running command {cmd_str}")
         env = {"LANG": "en_US.UTF-8", "LC_ALL": "en_US.UTF-8"}
         bm_log(f"Running bpftrace with {ptype}")
-        self.process = subprocess.Popen(cmds, env=env, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE, preexec_fn=os.setpgrp, text=True)
-        while True:
-            line = self.process.stdout.readline()
-            print(f"bpftrace output: {line}")
-            if "Attached " in line and " probe" in line:
+        self.process = subprocess.Popen(cmds, env=env, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, preexec_fn=os.setpgrp, text=True, bufsize=1)
+        for line in self.process.stdout:
+            # print(f"bpftrace output: {line}")
+            if "Attach" in line and "probe" in line:
+                t = threading.Thread(
+                    target=self.continue_writing,
+                    args=(self.process.stdout, self.fname),
+                    daemon=True
+                )
+                t.start()
                 break
 
     def stop(self):
