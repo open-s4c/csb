@@ -44,7 +44,12 @@
         ]
       ]
     },
-    "core_count": 3
+    "core_count": 3,
+    "core_assignment_policy": {
+      "cpu_order": "desc",
+      "pack_group": "numa",
+      "one_cpu_per_core": true
+    }
   },
   "applications": [
     {
