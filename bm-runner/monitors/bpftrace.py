@@ -36,14 +36,14 @@ class BPFTraceCmd:
         env = {"LANG": "en_US.UTF-8", "LC_ALL": "en_US.UTF-8"}
         bm_log(f"Running bpftrace with {ptype}")
         self.process = subprocess.Popen(cmds, env=env, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, preexec_fn=os.setpgrp, text=True, bufsize=1)
+        self.out_thread = threading.Thread(
+            target=self.continue_writing,
+            args=(self.process.stdout, self.fname),
+            daemon=True
+        )
         for line in self.process.stdout:
             # print(f"bpftrace output: {line}")
             if "Attach" in line and "probe" in line:
-                self.out_thread = threading.Thread(
-                    target=self.continue_writing,
-                    args=(self.process.stdout, self.fname),
-                    daemon=True
-                )
                 self.out_thread.start()
                 break
 
