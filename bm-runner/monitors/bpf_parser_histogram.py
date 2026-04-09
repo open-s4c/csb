@@ -21,7 +21,7 @@ class BPFParserHistogram(BPFParser):
         try:
             f = open(filename, "r")
         except IOError:
-            return None
+            return pd.DataFrame([])
         with f:
             data = f.read()
             # Process each line
@@ -49,7 +49,7 @@ class BPFParserHistogram(BPFParser):
     
     @staticmethod
     def results_min_max_avg(df: pd.DataFrame, PIDs: list[int], csv_key: str) ->str:
-        if df == None:
+        if df.empty():
             return BPFParser.default_min_max_avg(csv_key)
         
         minimum = 2^62
@@ -80,7 +80,7 @@ class BPFParserHistogram(BPFParser):
 
     @staticmethod
     def results_histogram(df: pd.DataFrame, PIDs: list[int], csv_key: str) ->str:
-        if df == None:
+        if df.empty():
             return BPFParser.default_histogram(csv_key)
         
         result = ""
