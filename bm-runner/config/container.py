@@ -99,8 +99,10 @@ class ContainersConfig(dict):
 
     def get_cpu_pool(self) -> list[int]:
         """
-        Returns the set of CPUs that the benchmark is allowed to use.
+        Returns the list of CPUs that the benchmark is allowed to use.
         """
+        # we use set here, because we don't want duplicated items
+        # this is only used for collecting information.
         return list(set(self.cpus))
 
     def get_cpus(self, eu_idx: int) -> str:
