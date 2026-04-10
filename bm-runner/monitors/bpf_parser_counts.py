@@ -20,6 +20,8 @@ class BPFParserCounts(BPFParser):
             return pd.DataFrame([])
         with f:
             data = f.read()
+            if "ERROR:" in data or "Error attach" in data or "cannot attach" in data or "entry may not exist" in data:
+                return pd.DataFrame([])
             df = pd.read_csv(StringIO(data), sep=': ', header=None, names=['PID', 'Count'], engine='python')
             df['PID'] = df['PID'].map(BPFParserCounts.extract_pid)
             return df
