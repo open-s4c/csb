@@ -4,13 +4,13 @@
 import pandas as pd
 
 class BPFParser:
-    @staticmethod
-    def parse(filename) -> pd.DataFrame:
-        pass
+    # @staticmethod
+    # def parse(filename) -> pd.DataFrame:
+    #     pass
 
-    @staticmethod
-    def results_min_max_avg(df: pd.DataFrame, PIDs: list[int], csv_key: str) ->str:
-        pass
+    # @staticmethod
+    # def results_min_max_avg(df: pd.DataFrame, PIDs: list[int], csv_key: str) ->str:
+    #     pass
 
     @staticmethod
     def results_histogram(df: pd.DataFrame, PIDs: list[int], csv_key: str) ->str:
@@ -21,7 +21,7 @@ class BPFParser:
         result =  csv_key + "_min" + "=" + str(0) + ";"
         result += csv_key + "_avg" + "=" + str(0) + ";"
         result += csv_key + "_max" + "=" + str(0) + ";"
-        return
+        return result
 
     @staticmethod
     def default_histogram(csv_key: str) -> str:
