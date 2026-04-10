@@ -16,9 +16,12 @@ import bm_config
 from bm_executer import Executer
 from utils.logger import bm_log, LogType
 from utils.bm_builder import Builder
+from benchkit.shell.shell import shell_out
 
 
 class ScalabilityBenchmark(Benchmark):
+    common_info: dict = {}
+
     def __init__(
         self,
         csb_dir: PathType,
@@ -32,6 +35,19 @@ class ScalabilityBenchmark(Benchmark):
         )
         self.csb_dir = csb_dir
         self.multi_app = False
+        assert bm_config.g_config is not None
+        self.container_cfg = bm_config.g_config.get_container_config()
+        self.__set_common_info()
+
+    def __set_common_info(self):
+        kernel_info = shell_out(
+            "uname -a",
+            ignore_any_error_code=True,
+            print_file_shell_cmd=False,
+        )
+        kernel_info = kernel_info.strip()
+        self.common_info["kernel"] = kernel_info.replace("#", " ")
+        self.common_info["Allowed CPUs"] = self.container_cfg.get_cpu_pool()
 
     def prebuild_bench(self, **_kwargs):
         b = Builder()
@@ -64,7 +80,6 @@ class ScalabilityBenchmark(Benchmark):
     ):
         assert bm_config.g_config is not None
         applications = bm_config.g_config.get_apps()
-        container_cfg = bm_config.g_config.get_container_config()
         self.multi_app = len(applications) > 1
         if self.multi_app:
             # Determine if the multi-apps are really different,
@@ -84,14 +99,14 @@ class ScalabilityBenchmark(Benchmark):
                 LogType.INFO,
             )
 
-        port_start = container_cfg.port
+        port_start = self.container_cfg.port
         # assign an app per container, this is relevant when there are multiple apps
         apps = [applications[i % len(applications)] for i in range(container_cnt)]
         executer: Executer
         match execution_type:
             case ExecutionType.CONTAINER:
                 executer = Containers(
-                    config=container_cfg,
+                    config=self.container_cfg,
                     count=container_cnt,
                     home_dir=self.csb_dir,
                     apps=apps,
@@ -99,7 +114,7 @@ class ScalabilityBenchmark(Benchmark):
                 )
             case ExecutionType.NATIVE:
                 executer = Processes(
-                    config=container_cfg,
+                    config=self.container_cfg,
                     count=container_cnt,
                     home_dir=self.csb_dir,
                     apps=apps,
@@ -138,6 +153,7 @@ class ScalabilityBenchmark(Benchmark):
                 output = output[:-1]
             splitted_output = output.split(";")
             result_dict = {v[0]: v[1] for v in [x.split("=", maxsplit=1) for x in splitted_output]}
+            result_dict.update(self.common_info)
             dicts.append(result_dict)
 
         if self.multi_app:
