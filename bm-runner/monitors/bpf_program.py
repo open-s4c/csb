@@ -16,7 +16,7 @@ class BPFProgram:
         self.parser = parser
         self.dir = dir
         self.progname = name
-        self.args = None
+        self.args = []
         self.cpu = -1
         self.pid = -1
 
