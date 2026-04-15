@@ -8,6 +8,7 @@ from io import StringIO
 import matplotlib.pyplot as plt
 from monitors.monitor import Monitor
 from utils.process import BackgroundProcess
+from typing import Optional
 
 
 class SarNetStats(Monitor):
