@@ -7,6 +7,7 @@ import subprocess
 from monitors.monitor import Monitor
 from utils.logger import bm_log, LogType
 from utils.process import BackgroundProcess
+from typing import Optional
 
 
 class FlameGraph(Monitor):
