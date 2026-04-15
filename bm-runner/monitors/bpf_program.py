@@ -15,10 +15,20 @@ class BPFProgram:
     def __init__(self, parser, name, dir, args):
         self.parser = parser
         self.dir = dir
-        self.args = args[2:]
         self.progname = name
-        self.cpu = int(args[0])
-        self.pid = int(args[1])
+        self.args = None
+        self.cpu = -1
+        self.pid = -1
+
+        if len(args) >= 1:
+            self.cpu = int(args[0])
+
+        if len(args) >= 2:
+            self.pid = int(args[1])
+
+        if len(args) >= 3:
+            self.args = args[2:]
+
 
     def _filter_cpu(self, program:str) -> str:
         if self.cpu >= 0:
