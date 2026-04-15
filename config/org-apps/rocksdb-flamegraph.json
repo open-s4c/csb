@@ -3,7 +3,7 @@
     {
       "x": "container_cnt",
       "x_lbl": "#Containers",
-      "y": "ops",
+      "y": "readwhilewriting",
       "y_lbl": "Operations",
       "hue_lbl": "Executer",
       "hue": "execution_unit",

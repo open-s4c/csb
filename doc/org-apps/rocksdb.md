@@ -2,8 +2,11 @@
 
 First, run the following instructions:
 ```bash
+mkdir -p bm-external
+cd bm-external
 git clone https://github.com/facebook/rocksdb.git
-git submodule update --init --recusive
+cd rocksdb
+git submodule update --init --recursive
 git checkout v10.5.1 # A stable version with no compilation errors
 
 sudo dnf install -y gflags gflags-devel snappy snappy-devel
