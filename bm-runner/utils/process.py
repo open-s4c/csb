@@ -60,7 +60,7 @@ class BackgroundProcess:
             self.cmds = cmds
         else:
             cpus = ",".join([str(c) for c in pin])
-            cmd_prefix=["taskset", "--cpu-list", cpus]
+            cmd_prefix = ["taskset", "--cpu-list", cpus]
             self.cmds = cmd_prefix + cmds
 
         # ensure process exist

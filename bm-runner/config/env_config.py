@@ -27,6 +27,7 @@ class UniversalConfig(str, Enum):
     CSB_PIN_MONITORS = "CSB_PIN_MONITORS"
     CSB_RESULTS_GROUP = "CSB_RESULTS_GROUP"
 
+
 class EnvUniversalConfig:
     DEFAULT_ENV_CONFIG: dict[UniversalConfig, bool] = {
         UniversalConfig.CSB_NO_CLEAN_BENCH: False,

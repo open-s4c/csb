@@ -26,7 +26,7 @@ class SystemStats(Monitor):
             cmds=cmds,
             out_dir=output_dir,
             requires=["mpstat"],
-            pin = self.get_cpus(),
+            pin=self.get_cpus(),
         )
 
     def start(self):

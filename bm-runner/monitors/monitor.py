@@ -3,9 +3,9 @@
 
 from abc import abstractmethod
 from typing import Optional
-from config.env_config import EnvUniversalConfig,UniversalConfig
-from utils.logger import bm_log, LogType
+from config.env_config import EnvUniversalConfig, UniversalConfig
 import os
+
 
 class Monitor:
     def __init__(self, dir, args):
@@ -14,9 +14,10 @@ class Monitor:
 
     def get_cpus(self) -> Optional[list[int]]:
         if EnvUniversalConfig.is_on(UniversalConfig.CSB_PIN_MONITORS):
-            return [os.cpu_count() - 1]
-        else:
-            None
+            cpu_count = os.cpu_count()
+            if cpu_count is not None:
+                return [cpu_count - 1]
+        return None
 
     @abstractmethod
     def stop(self):
