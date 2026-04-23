@@ -154,3 +154,22 @@ def test_stats_no_ht(mock_read_info_no_ht):
 def test_lists_no_ht(mock_read_info_no_ht):
     topology = Topology()
     verify_lists(topology)
+
+
+# check distant policy behaves
+# as expected
+def test_distant(mock_read_info):
+    topology = Topology()
+    policy = CoreAssignPolicy(pack_group=PackGroup.DISTANT)
+    cpu_count = topology.get_cpu_count()
+    for count in 2, 40, 7, 310, cpu_count:
+        cpu_list = topology.select(count=count, policy=policy)
+        assert len(cpu_list) == count
+        assert cpu_list[0] == 0
+        assert cpu_list[count - 1] == cpu_count - 1
+        # take the distance between the first two
+        distance = cpu_list[1] - cpu_list[0]
+        # verify they are at equal distance +-1
+        for i in range(1, len(cpu_list)):
+            assert cpu_list[i] - cpu_list[i-1] in (distance-1, distance, distance+1)
+

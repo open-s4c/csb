@@ -12,11 +12,13 @@ class PackGroup(str, Enum):
     ----------
     PACKAGE: Use CPUs that belong to package/socket zero only.
     NUMA: Use CPUs that belong to NUMA/Node zero only.
+    DISTANT: Use CPUs at the possible maximum distant from each other.
     NO_PACK: CPUs crossing NUMA and package domains can be chosen.
     """
 
     PACKAGE = "package"
     NUMA = "numa"
+    DISTANT = "distant"
     NO_PACK = "none"
 
 

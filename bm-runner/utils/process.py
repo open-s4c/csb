@@ -41,7 +41,7 @@ class BackgroundProcess:
         requires: list[str]
             A list of required applications that must be available for the launch to succeed. Each application is checked for existence.
         """
-        assert len(cmds) > 1, "expected at least the process name"
+        assert len(cmds) > 0, "expected at least the process name"
         self.name = name
         self.efile_name = os.path.join(out_dir, f"{self.name}.err")
         if ofile_name is None:

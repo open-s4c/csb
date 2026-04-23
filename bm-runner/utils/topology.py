@@ -146,6 +146,12 @@ class Topology:
 
         return self.__choose(pre_selected, count=count)
 
+    def __distant(self, count:int) -> list[int]:
+        assert count > 1, "Invalid input"
+        cpus = self.get_cpu_count()
+        indices = [round(idx * (cpus-1)/(count -1)) for idx in range(count)]
+        return indices
+
     def select(
         self, count: int, policy: CoreAssignPolicy, pre_selected: Optional[list[int]] = None
     ) -> list[int]:
@@ -184,6 +190,8 @@ class Topology:
                 filter = Filter(self.PACKAGE, 0)
             case PackGroup.NUMA:
                 filter = Filter(self.NUMA, 0)
+            case PackGroup.DISTANT:
+                return self.__distant(count=count)
             case PackGroup.NO_PACK:
                 filter = None
             case _:
