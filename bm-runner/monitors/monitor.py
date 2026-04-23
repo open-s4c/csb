@@ -2,12 +2,16 @@
 # SPDX-License-Identifier: MIT
 
 from abc import abstractmethod
-
+from typing import Optional
+import os
 
 class Monitor:
     def __init__(self, dir, args):
         self.dir = dir
         self.args = args
+
+    def get_cpus(self) -> Optional[list[int]]:
+        return [os.cpu_count() - 1]
 
     @abstractmethod
     def stop(self):
