@@ -110,9 +110,9 @@ Adapters used to transform the output of an external benchmark into the format u
 CPU/Core assignment policy for execution units, i.e. containers and native processes.  
 |Field|Type|Optional|Default|Description|
 |---|---|---|---|---|
-|pack_group|[PackGroup](#packgroup)|:white_check_mark:|`none`|    Specifies the policy of CPU selection, whether in the same NUMA, same Package, or     can cross packages. |
-|cpu_order|[CpuOrder](#cpuorder)|:white_check_mark:|`asc`|    Specifies the assignment order, whether ascending to starting for CPU lowest index,     or descending starting from the highest CPU index. |
-|one_cpu_per_core|bool|:white_check_mark:|`False`|    Whether to use only one CPU from each Core. This is relevant to hyper-threading     when multiple CPUs share the same core. When set to true, from each core only |
+|pack_group|[PackGroup](#packgroup)|:white_check_mark:|`none`|    Specifies the policy of CPU selection, whether in the same NUMA, same Package,     can cross packages, or distant. |
+|cpu_order|[CpuOrder](#cpuorder)|:white_check_mark:|`asc`|    Specifies the assignment order, whether ascending to starting for CPU lowest index,     or descending starting from the highest CPU index.     This configuration is ignored if pack_group is distant. |
+|one_cpu_per_core|bool|:white_check_mark:|`False`|    Whether to use only one CPU from each Core. This is relevant to hyper-threading     when multiple CPUs share the same core. When set to true, from each core only     the first CPU is considered. |
 ## MonitorType
 Monitors are used to monitor performance. They can be used to analyze the behavior of the benchmarks.  <br/>Supported values:
 - `"mpstat"`:  Runs mpstat and generates related graphs.
@@ -144,6 +144,7 @@ Supported CPU orders.  <br/>Supported values:
 Supported groups for packing.  <br/>Supported values:
 - `"package"`:  Use CPUs that belong to package/socket zero only.
 - `"numa"`:  Use CPUs that belong to NUMA/Node zero only.
+- `"distant"`:  [Experimental-feature] Use CPUs at the maximum possible distant from each other.
 - `"none"`:  CPUs crossing NUMA and package domains can be chosen.
 ## Environment Variables
 CSB bm-runner has universal configuration that can overwrite default behavior and JSON config values. These are set via environment variables, and are read at runtime.  <br/>Supported values:
