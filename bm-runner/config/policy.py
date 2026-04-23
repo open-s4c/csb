@@ -12,7 +12,7 @@ class PackGroup(str, Enum):
     ----------
     PACKAGE: Use CPUs that belong to package/socket zero only.
     NUMA: Use CPUs that belong to NUMA/Node zero only.
-    DISTANT: Use CPUs at the possible maximum distant from each other.
+    DISTANT: [Experimental-feature] Use CPUs at the maximum possible distant from each other.
     NO_PACK: CPUs crossing NUMA and package domains can be chosen.
     """
 
@@ -49,15 +49,17 @@ class CoreAssignPolicy(dict):
         Parameters
         ----------
         pack_group: PackGroup
-            Specifies the policy of CPU selection, whether in the same NUMA, same Package, or
-            can cross packages.
+            Specifies the policy of CPU selection, whether in the same NUMA, same Package,
+            can cross packages, or distant.
         cpu_order: CpuOrder
             Specifies the assignment order, whether ascending to starting for CPU lowest index,
             or descending starting from the highest CPU index.
+            This configuration is ignored if pack_group is distant.
         one_cpu_per_core: bool
             Whether to use only one CPU from each Core. This is relevant to hyper-threading
             when multiple CPUs share the same core. When set to true, from each core only
             the first CPU is considered.
+            This configuration is ignored if pack_group is distant.
         """
         super().__init__(
             pack_group=pack_group, cpu_order=cpu_order, one_cpu_per_core=one_cpu_per_core

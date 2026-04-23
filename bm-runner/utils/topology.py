@@ -146,10 +146,10 @@ class Topology:
 
         return self.__choose(pre_selected, count=count)
 
-    def __distant(self, count:int) -> list[int]:
+    def __distant(self, count: int) -> list[int]:
         assert count > 1, "Invalid input"
         cpus = self.get_cpu_count()
-        indices = [round(idx * (cpus-1)/(count -1)) for idx in range(count)]
+        indices = [round(idx * (cpus - 1) / (count - 1)) for idx in range(count)]
         return indices
 
     def select(
@@ -191,7 +191,13 @@ class Topology:
             case PackGroup.NUMA:
                 filter = Filter(self.NUMA, 0)
             case PackGroup.DISTANT:
-                return self.__distant(count=count)
+                # distant policy only makes sense if the
+                # requested number of CPUs is greater than 1
+                # and less than the total number of CPUs
+                if count > 1 and count < self.get_cpu_count():
+                    return self.__distant(count=count)
+                # fallback on normal selection way
+                filter = None
             case PackGroup.NO_PACK:
                 filter = None
             case _:

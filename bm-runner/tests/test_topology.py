@@ -171,5 +171,4 @@ def test_distant(mock_read_info):
         distance = cpu_list[1] - cpu_list[0]
         # verify they are at equal distance +-1
         for i in range(1, len(cpu_list)):
-            assert cpu_list[i] - cpu_list[i-1] in (distance-1, distance, distance+1)
-
+            assert cpu_list[i] - cpu_list[i - 1] in (distance - 1, distance, distance + 1)
