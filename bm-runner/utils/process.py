@@ -21,6 +21,7 @@ class BackgroundProcess:
         cmds: list[str],
         wdir: Optional[str] = None,
         ofile_name: Optional[str] = None,
+        pin: Optional[list[int]] = None,
         requires: list[str] = [],
     ):
         """
@@ -38,6 +39,9 @@ class BackgroundProcess:
             The working directory where the process will be executed. If not provided, `out_dir` will be used as the working directory.
         ofile_name: Optional[str]
             The name of the file to save `stdout` to. If not provided, a given `name` with a `.log` extension will be used.
+        pin: Optional[list[int]]
+            Optional list of CPUs to assign to the process with taskset.
+            If None, the process will not be assigned specific CPUs.
         requires: list[str]
             A list of required applications that must be available for the launch to succeed. Each application is checked for existence.
         """
@@ -48,11 +52,17 @@ class BackgroundProcess:
             self.ofile_name = os.path.join(out_dir, f"{self.name}.log")
         else:
             self.ofile_name = os.path.join(out_dir, ofile_name)
-        self.cmds = cmds
         self.wdir = out_dir if wdir is None else wdir
         self.process: Optional[subprocess.Popen] = None
         self.ofile = None
         self.efile = None
+        if pin is None:
+            self.cmds = cmds
+        else:
+            cpus = ",".join([str(c) for c in pin])
+            cmd_prefix = ["taskset", "--cpu-list", cpus]
+            self.cmds = cmd_prefix + cmds
+
         # ensure process exist
         for tool in requires:
             ensure_exists(tool)
