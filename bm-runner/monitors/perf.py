@@ -15,7 +15,7 @@ class FlameGraph(Monitor):
 
     def __init__(self, output_dir: str, args: list[str] = ["-a"]):
         super().__init__(dir=output_dir, args=args)
-        cmds = ["sudo", "perf", "record", "-F", "99", "-g", "-e", "arm_spe/jitter=1/"]
+        cmds = ["sudo", "perf", "record", "--kcore", "-g", "-e", "cycles,arm_spe/jitter=1/"]
         cmds.extend(args)
         self.perf = BackgroundProcess(
             name="perf", out_dir=output_dir, cmds=cmds, requires=["perf"], pin=self.get_cpus()
