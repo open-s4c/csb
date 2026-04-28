@@ -29,5 +29,5 @@ sudo -v  # This will prompt for the sudo password and keep it cached
 
 for CONFIG in ${BENCHMARKS_CONFIGS[@]}; do
     echo "Running: $CONFIG"
-    scripts/fg-diff/run-single.sh "$CONFIG"
+    scripts/run-single.sh "$CONFIG"
 done

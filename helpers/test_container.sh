@@ -75,5 +75,5 @@ else
     -v /tmp/csb:/home/csb \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -it "${DOCKER_IMAGE}" \
-    bash -c "cd /home/csb && git config --global --add safe.directory /home/csb && scripts/fg-diff/run-single.sh config/${TEST}.json"
+    bash -c "cd /home/csb && git config --global --add safe.directory /home/csb && scripts/run-single.sh config/${TEST}.json"
 fi

@@ -49,5 +49,5 @@ info "running $TITLE on $CONFIG"
 # How to call:
 # $ ./run.sh path-to-directory   # to regenerate the plots.
 # $ ./run.sh                     # to run the benchmark.
-echo scripts/fg-diff/run-single.sh "$CONFIG" $CONTINUE_BM
-scripts/fg-diff/run-single.sh "$CONFIG" $CONTINUE_BM
+echo scripts/run-single.sh "$CONFIG" $CONTINUE_BM
+scripts/run-single.sh "$CONFIG" $CONTINUE_BM
