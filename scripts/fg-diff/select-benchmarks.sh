@@ -14,7 +14,7 @@ mkdir -p logs
 export CSB_NO_CLEAN_BENCH=1
 for i in $*; do
     fbase=$(basename $i .json)
-    ./scripts/fg-diff/run-single.sh $(realpath "$i") > ./logs/$fbase.stdout 2> ./logs/$fbase.stderr || true
+    ./scripts/run-single.sh $(realpath "$i") > ./logs/$fbase.stdout 2> ./logs/$fbase.stderr || true
 done
 
 source ./venv/bin/activate

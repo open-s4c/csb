@@ -35,11 +35,11 @@ jobs:
             -w /root/csb \
             --privileged \
             ${{ env.TEST_TAG }} \
-            bash -c "cd /home/csb && git config --global --add safe.directory /home/csb && scripts/fg-diff/run-single.sh config/${{ matrix.test }}.json"
+            bash -c "cd /home/csb && git config --global --add safe.directory /home/csb && scripts/run-single.sh config/${{ matrix.test }}.json"
 
         # FIXME: ideally, we should be copying the already prepared /venv, but
         # the command line below didn't work:
-        #            bash -c "cd /home/csb && cp -r /venv . && git config --global --add safe.directory /home/csb && scripts/fg-diff/run-single.sh config/${{ matrix.test }}.json"
+        #            bash -c "cd /home/csb && cp -r /venv . && git config --global --add safe.directory /home/csb && scripts/run-single.sh config/${{ matrix.test }}.json"
 
       - name: Fix artifact permissions
         if: always()

@@ -140,7 +140,7 @@ jobs:
           sudo apt-get install -y build-essential cmake libhiredis-dev
       - name: Run Benchmark ${{ matrix.benchmark }}
         run: |
-          ./scripts/fg-diff/run-single.sh config/${{ matrix.benchmark }}.json
+          ./scripts/run-single.sh config/${{ matrix.benchmark }}.json
       - name: Fix artifact permissions
         if: always()
         run: sudo chmod -R a+r results/
@@ -183,7 +183,7 @@ jobs:
           ${{ matrix.benchmark.build }}
       - name: Run Benchmark ${{ matrix.benchmark }}
         run: |
-          ./scripts/fg-diff/run-single.sh config/${{ matrix.benchmark.config }}.json
+          ./scripts/run-single.sh config/${{ matrix.benchmark.config }}.json
       - name: Fix artifact permissions
         if: always()
         run: sudo chmod -R a+r results/
