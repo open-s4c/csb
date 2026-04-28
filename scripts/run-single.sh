@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: MIT
 set -e
 
-SCRIPT_DIR="$(readlink -f $(dirname "$0")/../..)"
+SCRIPT_DIR="$(readlink -f $(dirname "$0")/..)"
 cd $SCRIPT_DIR
 
 if [ -z "$1" ]; then
