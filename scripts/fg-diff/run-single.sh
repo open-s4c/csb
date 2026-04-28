@@ -40,7 +40,9 @@ cd ${BM_DIR}
 
 info "running $TITLE on $CONFIG"
 
+FD_LIMIT=$(ulimit -H -n)
+info "Setting the open files limit to $FD_LIMIT"
 # set file limit to the max
-ulimit -n $(ulimit -H -n)
+ulimit -n $FD_LIMIT
 
 python3 main.py --title "$TITLE" --config "$CONFIG" $*
