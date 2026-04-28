@@ -40,4 +40,7 @@ cd ${BM_DIR}
 
 info "running $TITLE on $CONFIG"
 
+# set file limit to the max
+ulimit -n $(ulimit -H -n)
+
 python3 main.py --title "$TITLE" --config "$CONFIG" $*
