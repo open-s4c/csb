@@ -9,6 +9,21 @@ set -e
 #   scripts/run-all.sh "*sql*" # runs all with config matching *sql*
 #   scripts/run-all.sh "*sql*" bm_empty # run configs matching *sql* plus bm_empty
 
+sudo_awake()
+{
+        while :; do
+                sleep 60
+                sudo -v
+        done
+}
+
+terminate()
+{
+        pkill -SIGINT -P $$
+        trap - SIGINT
+        exit
+}
+
 # Configure the venv
 if [ ! -d venv ]; then
     ./scripts/prepare.sh
@@ -39,7 +54,9 @@ if [ ${ntests} -eq 0 ];then
 fi
 
 echo "We require sudo to run the benchmarks"
-sudo -v  # This will prompt for the sudo password and keep it cached
+sudo -v
+sudo_awake &
+trap terminate SIGINT ERR EXIT
 
 n=1
 for CONFIG in ${BENCHMARKS_CONFIGS[@]}; do
@@ -48,6 +65,6 @@ for CONFIG in ${BENCHMARKS_CONFIGS[@]}; do
     echo "${n}/${ntests} running: $CONFIG"
     echo "======================================================================================="
     echo
-    scripts/run-single.sh "$CONFIG"
+    scripts/run-single.sh "$CONFIG" || echo -e "=====\nERROR on $CONFIG\n====="
     n=$((n + 1))
 done
