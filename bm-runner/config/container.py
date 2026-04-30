@@ -37,6 +37,8 @@ class ContainersConfig(dict):
         ----------
         container_list: ListConfig = {"values": [[1]]}
             Specifies the number of containers to run.
+            If container_list is present, but empty, a list will be
+            auto-generated.
         one_cpu_per_core: bool = False,
         core_assignment_policy: CoreAssignPolicy = {"pack_group":"none", "cpu_order": "asc", "one_cpu_per_core": false}
             Configures the CPU assignment policy, i.e. which CPUs can be assigned to execution units (containers/native processes).
@@ -68,9 +70,11 @@ class ContainersConfig(dict):
         self.cpus: list[int]
         self.policy: CoreAssignPolicy
         self.topo = Topology()
-        self.container_list = ListConfig.from_dict(container_list).get_list()
+        self.container_list = ListConfig.from_dict(container_list).get_list(core_count)
         self.core_count = core_count
-        self.__set_cpus(policy=core_assignment_policy, core_affinity_offsets=core_affinity_offsets)
+        self.__set_cpus(
+            policy=core_assignment_policy, core_affinity_offsets=core_affinity_offsets
+        )
         self.image = image if image is not None else self.DEFAULT_IMG[get_os()]
         self.name = name
         self.port = port
@@ -84,7 +88,7 @@ class ContainersConfig(dict):
         pre_selected_cpus: Optional[list[int]] = (
             None
             if core_affinity_offsets is None
-            else ListConfig.from_dict(core_affinity_offsets).get_list()
+            else ListConfig.from_dict(core_affinity_offsets).get_list(self.core_count)
         )
         self.policy = CoreAssignPolicy.from_dict(policy)
         # Calculate the maximum number of CPUs needed.
@@ -120,11 +124,16 @@ class ContainersConfig(dict):
 
     def __pull_image(self):
         client = docker.from_env()
-        bm_log(f"Docker image {self.image} does not exist. Pulling it now...\n", LogType.INFO)
+        bm_log(
+            f"Docker image {self.image} does not exist. Pulling it now...\n",
+            LogType.INFO,
+        )
         try:
             client.images.pull(self.image)
         except Exception as e:
-            bm_log(f"Failed to pull image {self.image} with error {str(e)}", LogType.FATAL)
+            bm_log(
+                f"Failed to pull image {self.image} with error {str(e)}", LogType.FATAL
+            )
             sys.exit(1)
 
     def __ensure_img_exists(self):

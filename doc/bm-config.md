@@ -39,7 +39,7 @@ ContainersConfig represents the configuration for multiple containers. Represent
 <br/>***JSON key: "containers"***
 |Field|Type|Optional|Default|Description|
 |---|---|---|---|---|
-|container_list|[ListConfig](#listconfig)|:white_check_mark:|`{"values": [[1]]}`|    Specifies the number of containers to run. |
+|container_list|[ListConfig](#listconfig)|:white_check_mark:|`{"values": [[1]]}`|    Specifies the number of containers to run.     If container_list is present, but empty, a list will be     auto-generated. |
 |core_assignment_policy|[CoreAssignPolicy](#coreassignpolicy)|:white_check_mark:|`{"pack_group":"none", "cpu_order": "asc", "one_cpu_per_core": false}`|    Configures the CPU assignment policy, i.e. which CPUs can be assigned to execution units (containers/native processes).     Note that the policy is overwritten by `core_affinity_offsets`. If the users wish to use this configuration, they     should make sure not to specify `core_affinity_offsets`. |
 |core_affinity_offsets|[ListConfig](#listconfig)|:white_check_mark:|`core_count * [0, 1, 2, 3, ...]`|    Specifies the cores that should be assigned to the containers.     Note that the assignment of cores happens in ascending order by default.     This configuration overwrites `core_assignment_policy`. |
 |core_count|int|:white_check_mark:|`1`|    Number of cores to assign to each container. |
@@ -71,7 +71,7 @@ Plot configuration for benchmark results. Represented as a JSON array of objects
 |hue_lbl|str|:white_check_mark:|`{hue}`|    The label for the hue/groupby. If None, defaults to `{hue}`. |
 |title|str|:white_check_mark:|`{x_lbl} vs. {y_lbl}`|    The title of the plot. If None, defaults to `{x_lbl} vs. {y_lbl}`. |
 |shape|str|:white_check_mark:||    The shape/type of the plot (e.g., 'lineplot', 'barplot'). If None, defaults based on `type`. |
-|type|[PlotType](#plottype)|:white_check_mark:|`normal`|    The type of plot to be created, which determines default shape and other behaviors. |
+|type|[PlotType](#plottype)|:white_check_mark:|`PlotType.NORMAL`|    The type of plot to be created, which determines default shape and other behaviors. |
 
 ## NicsConfig
 NicsConfig configures the assignment of Network Interface Cards (NICs) or their Virtual Functions (VFs) to containers. Represented as a JSON object. 
@@ -95,7 +95,7 @@ Adapters used to transform the output of an external benchmark into the format u
 
 |Field|Type|Optional|Default|Description|
 |---|---|---|---|---|
-|values|list[Union[list[int], [RangeConfig](#rangeconfig)]]|:x:||    list of values each value an be either a list of integers, or `RangeConfig`     object.     JSON example `"values": [ [5, 6], {"min": 1, "step": 1, "max": 3 }, [12] ]}` |
+|values|list[Union[list[int], [RangeConfig](#rangeconfig)]]|:x:||    list of values each value an be either a list of integers or a `RangeConfig`     object.     If not specified, it will automatically fill based on the number of CPUs.     JSON example: `"values": [ [5, 6], {"min": 1, "step": 1, "max": 3 }, [12] ]` |
 |str_format|str|:white_check_mark:||    A formatting string. Used to convert the values into string.     JSON example: `"str_format": "127.0.0.{i}"`     with this string the values `i` is replaced by an integer from values     and the list become:     `["127.0.0.1", "127.0.0.2", "127.0.0.3", "127.0.0.5", "127.0.0.6", "127.0.0.12"]` |
 
 ## RangeConfig
@@ -110,8 +110,8 @@ Adapters used to transform the output of an external benchmark into the format u
 CPU/Core assignment policy for execution units, i.e. containers and native processes.  
 |Field|Type|Optional|Default|Description|
 |---|---|---|---|---|
-|pack_group|[PackGroup](#packgroup)|:white_check_mark:|`none`|    Specifies the policy of CPU selection, whether in the same NUMA, same Package,     can cross packages, or distant. |
-|cpu_order|[CpuOrder](#cpuorder)|:white_check_mark:|`asc`|    Specifies the assignment order, whether ascending to starting for CPU lowest index,     or descending starting from the highest CPU index.     This configuration is ignored if pack_group is distant. |
+|pack_group|[PackGroup](#packgroup)|:white_check_mark:|`PackGroup.NO_PACK`|    Specifies the policy of CPU selection, whether in the same NUMA, same Package,     can cross packages, or distant. |
+|cpu_order|[CpuOrder](#cpuorder)|:white_check_mark:|`CpuOrder.ASC`|    Specifies the assignment order, whether ascending to starting for CPU lowest index,     or descending starting from the highest CPU index.     This configuration is ignored if pack_group is distant. |
 |one_cpu_per_core|bool|:white_check_mark:|`False`|    Whether to use only one CPU from each Core. This is relevant to hyper-threading     when multiple CPUs share the same core. When set to true, from each core only     the first CPU is considered. |
 ## MonitorType
 Monitors are used to monitor performance. They can be used to analyze the behavior of the benchmarks.  <br/>Supported values:

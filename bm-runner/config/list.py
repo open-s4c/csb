@@ -1,6 +1,8 @@
 # Copyright (C) Huawei Technologies Co., Ltd. 2026. All rights reserved.
 # SPDX-License-Identifier: MIT
 
+import os
+
 from typing import Optional
 from typing import Union
 from utils.logger import bm_log, LogType
@@ -38,15 +40,18 @@ class RangeConfig(dict):
 
 class ListConfig(dict):
     def __init__(
-        self, values: list[Union[list[int], RangeConfig]], str_format: Optional[str] = None
+        self,
+        values: Optional[list[Union[list[int], RangeConfig]]],
+        str_format: Optional[str] = None,
     ):
         """
         Parameters
         ----------
-        values: list[Union[list[int], RangeConfig]]
-            list of values each value an be either a list of integers, or `RangeConfig`
+        values: Optional[list[Union[list[int], RangeConfig]]]
+            list of values each value an be either a list of integers or a `RangeConfig`
             object.
-            JSON example `"values": [ [5, 6], {"min": 1, "step": 1, "max": 3 }, [12] ]}`
+            If not specified, it will automatically fill based on the number of CPUs.
+            JSON example: `"values": [ [5, 6], {"min": 1, "step": 1, "max": 3 }, [12] ]`
         str_format: Optional[str]
             A formatting string. Used to convert the values into string.
             JSON example: `"str_format": "127.0.0.{i}"`
@@ -61,18 +66,50 @@ class ListConfig(dict):
 
     @classmethod
     def from_dict(cls, data: dict):
-        return cls(data["values"], data.get("str_format"))
+        return cls(data.get("values"), data.get("str_format"))
 
-    def get_list(self):
+    def get_list(self, core_count: int = 1):
         combined_lists = []
-        for cfg in self.vals:
-            if isinstance(cfg, list):
-                combined_lists.extend(cfg)
-            elif isinstance(cfg, dict):
-                range = RangeConfig.from_dict(cfg)
-                combined_lists.extend(range.get_list())
-            else:
-                bm_log(f"I cannot handle {type(cfg)}, skipping this item", LogType.ERROR)
+
+        if not self.vals:
+            cpu_count = os.cpu_count()
+            if not cpu_count:
+                cpu_count = 1
+
+            max_cpus = max(1, int(cpu_count / core_count))
+            step = None
+
+            if max_cpus > 8 and max_cpus % 8 == 0:
+                step = 8
+
+            if not step:
+                step = max_cpus
+
+            while (step > 1) and (max_cpus / step) < 4:
+                step = int(step / 2)
+
+            while (max_cpus / step) > 8:
+                step *= 2
+
+            for cpu in range(step, max_cpus + 1, step):
+                combined_lists.append(cpu)
+
+            combined_lists.append(1)
+            combined_lists.append(max_cpus)
+
+        else:
+            for cfg in self.vals:
+
+                if isinstance(cfg, list):
+                    combined_lists.extend(cfg)
+                elif isinstance(cfg, dict):
+                    rangecfg = RangeConfig.from_dict(cfg)
+                    combined_lists.extend(rangecfg.get_list())
+                else:
+                    bm_log(
+                        f"I cannot handle {type(cfg)}, skipping this item",
+                        LogType.ERROR,
+                    )
 
         # make sure there are no duplicated items
         unique_list = sorted(set(combined_lists))
