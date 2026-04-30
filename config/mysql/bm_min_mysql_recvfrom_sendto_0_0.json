@@ -49,18 +49,7 @@
     }
   },
   "containers": {
-    "container_list": {
-      "values": [
-        [
-          1
-        ],
-        {
-          "min": 5,
-          "step": 5,
-          "max": 30
-        }
-      ]
-    },
+    "container_list": {},
     "port": 8000,
     "core_count": 1
   },

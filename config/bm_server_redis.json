@@ -95,15 +95,7 @@
     }
   },
   "containers": {
-    "container_list": {
-      "values": [
-        [
-          1,
-          5,
-          10
-        ]
-      ]
-    },
+    "container_list": {},
     "name": "redis-like",
     "port": 8000
   },

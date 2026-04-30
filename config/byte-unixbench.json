@@ -22,26 +22,10 @@
     }
   ],
   "benchmark_config": {
-    "threads": {
-      "values": [
-        [
-          1
-        ]
-      ]
-    }
+    "threads": {}
   },
   "containers": {
-    "container_list": {
-      "values": [
-        [
-          1,
-          2,
-          4,
-          6,
-          8
-        ]
-      ]
-    },
+    "container_list": {},
     "core_count": 2
   },
   "applications": [

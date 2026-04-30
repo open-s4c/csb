@@ -25,25 +25,11 @@
     "noise": [
       10
     ],
-    "threads": {
-      "values": [
-        [
-          2
-        ]
-      ]
-    },
+    "threads": {},
     "duration": 1
   },
   "containers": {
-    "container_list": {
-      "values": [
-        [
-          1,
-          5,
-          10
-        ]
-      ]
-    },
+    "container_list": {},
     "core_count": 3,
     "core_assignment_policy": {
       "cpu_order": "desc",
