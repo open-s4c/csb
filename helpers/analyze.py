@@ -17,7 +17,7 @@ def find_csvs(folder_path:str):
 # algo_name
 # execution_type // group by
 
-def process(file:str):
+def process(file:str) -> list:
     tolerance = 0.1  # 10% tolerance
     results = []
     try:
@@ -50,16 +50,20 @@ def process(file:str):
                 'Drops at': drop_note
             })
 
-        final_df = pd.DataFrame(results)
-        md_table = final_df.to_markdown(index=False)
-        with open("results.md", "w") as f:
-            f.write(md_table)
+        return results
     except Exception as e:
         print(f"{e} on {file}")
+        return results
 
 if __name__ == "__main__":
     folder = "/home/lilith/workspace/csb/amd-results"
     files = find_csvs(folder)
+    all = []
     for f in files:
-        process(f)
-        break
+        res = process(f)
+        all.extend(res)
+
+    final_df = pd.DataFrame(all)
+    md_table = final_df.to_markdown(index=False)
+    with open("results.md", "w") as f:
+         f.write(md_table)
