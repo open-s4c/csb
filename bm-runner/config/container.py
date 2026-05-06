@@ -6,10 +6,12 @@ from config.list import ListConfig
 import docker
 import docker.errors
 import sys
+import math
 from utils.logger import bm_log, LogType
 from utils.platform import get_os, OperatingSystem
 from utils.topology import Topology
 from config.policy import CoreAssignPolicy
+from bm_utils import closest_divisor_10_percent
 
 
 class ContainersConfig(dict):
@@ -22,7 +24,7 @@ class ContainersConfig(dict):
 
     def __init__(
         self,
-        container_list: ListConfig = ListConfig(values=[[1]]),
+        container_list: Optional[ListConfig] = None,
         core_assignment_policy: CoreAssignPolicy = CoreAssignPolicy(),
         core_affinity_offsets: Optional[ListConfig] = None,
         core_count: int = 1,
@@ -68,8 +70,15 @@ class ContainersConfig(dict):
         self.cpus: list[int]
         self.policy: CoreAssignPolicy
         self.topo = Topology()
-        self.container_list = ListConfig.from_dict(container_list).get_list()
         self.core_count = core_count
+        if container_list is None:
+           max  = math.floor(self.topo.get_cpu_count() / self.core_count)
+           step = closest_divisor_10_percent(max)
+           self.container_list  = list(range(1, max+1, step))
+           bm_log(f"Identified the step: {step}", LogType.WARNING)
+        else:
+            self.container_list = ListConfig.from_dict(container_list).get_list()
+        bm_log(self.container_list, LogType.WARNING)
         self.__set_cpus(policy=core_assignment_policy, core_affinity_offsets=core_affinity_offsets)
         self.image = image if image is not None else self.DEFAULT_IMG[get_os()]
         self.name = name
