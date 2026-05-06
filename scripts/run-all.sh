@@ -49,14 +49,20 @@ fi
 ntests=${#BENCHMARKS_CONFIGS[@]}
 
 if [ ${ntests} -eq 0 ];then
-    echo "No tests to run."
+   echo "No tests to run."
    exit 1
 fi
 
 echo "We require sudo to run the benchmarks"
 sudo -v
-sudo_awake &
-trap terminate SIGINT ERR EXIT
+
+if [ -z "$ENSURE_SUDO_RIGHTS" ]; then
+    echo "[$0][INFO] run with `export ENSURE_SUDO_RIGHTS=ON` if you encounter sudo prompt between runs"
+else
+    echo "[$0][INFO] a process to run `sudo -v` every minute will be launched in the background"
+    sudo_awake &
+    trap terminate SIGINT ERR EXIT
+fi
 
 n=1
 for CONFIG in ${BENCHMARKS_CONFIGS[@]}; do
