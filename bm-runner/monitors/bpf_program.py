@@ -15,6 +15,7 @@ class BPFProgram:
     def __init__(self, parser, name, dir, args):
         self.parser = parser
         self.dir = dir
+        self.name = name
         self.progname = name
         self.args = []
         self.cpu = -1

@@ -33,12 +33,12 @@ class BPFParserHistograms(BPFParser):
                 # Check for PID line
                 pid_match = pid_pattern.fullmatch(line)
                 if pid_match:
-                    current_pid = pid_match.group(1)
+                    current_pid = int(pid_match.group(1))
                     continue
                 
                 # Check for range line
                 range_match = range_pattern.match(line)
-                if range_match and current_pid:
+                if range_match and current_pid is not None:
                     range_str = range_match.group(1)
                     count = int(range_match.group(2))
                     records.append({
@@ -53,29 +53,29 @@ class BPFParserHistograms(BPFParser):
         if df.empty:
             return BPFParser.default_min_max_avg(csv_key)
 
-        minimum = 2^62
+        minimum = float("inf")
         maximum = 0
         num_values = 0
-        average = 0
-        for values in df.itertuples():
-            # print(values)
-            pid = values[1]
-            range_str = values[2]
-            # print(range_str)
-            count = int(values[3])
+        weighted_total = 0
+        for pid, range_str, count in df[["pid", "range", "count"]].itertuples(index=False, name=None):
+            pid = int(pid)
+            count = int(count)
             if count < 1:
                 continue
             if PIDs and pid not in PIDs:
                 continue
-            average *= (num_values / (num_values + count))
             range_avg = BPFParserHelper.get_range_avg(range_str)
-            # print(range_avg)
-            average += range_avg * ((count * count) / (num_values + count))
+            weighted_total += range_avg * count
             num_values += count
             if range_avg < minimum:
                 minimum = range_avg
             if range_avg > maximum:
                 maximum = range_avg
+
+        if num_values == 0:
+            return BPFParser.default_min_max_avg(csv_key)
+
+        average = weighted_total / num_values
 
         if minimum > maximum:
             minimum = maximum
@@ -93,10 +93,9 @@ class BPFParserHistograms(BPFParser):
         result = ""
         cols = range(0, 60)  # TODO: align bm_visualize.py
         hist_list = [0]*60
-        for values in df.itertuples():
-            pid = int(values[1])
-            range_str = values[2]
-            count = int(values[3])
+        for pid, range_str, count in df[["pid", "range", "count"]].itertuples(index=False, name=None):
+            pid = int(pid)
+            count = int(count)
 
             if count < 1:
                 continue
@@ -129,4 +128,3 @@ class BPFParserHistograms(BPFParser):
         # print("Histograms result:")
         # print(result)
         return result
-

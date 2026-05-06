@@ -28,8 +28,6 @@ class BPFParserHelper:
             return 0
 
 
-        range_min = int(range_match.group(1))
-        mul_min = BPFParserHelper.symbol_to_factor(range_match.group(2))
         range_max = int(range_match.group(3))
         mul_max = BPFParserHelper.symbol_to_factor(range_match.group(4))
 
@@ -37,7 +35,7 @@ class BPFParserHelper:
 
 
     @staticmethod
-    def get_range_avg(range: str) -> int:
+    def get_range_avg(range: str) -> float:
         range_pattern = re.compile(r'\[([0-9]+)([A-Z]*), ([0-9]+)([A-Z]*)\)')
         range_match = range_pattern.match(range)
         if not range_match:
@@ -49,6 +47,8 @@ class BPFParserHelper:
         range_max = int(range_match.group(3))
         mul_max = BPFParserHelper.symbol_to_factor(range_match.group(4))
 
-        range_avg = range_min + (range_max - range_min)/2
+        range_min_value = range_min * mul_min
+        range_max_value = range_max * mul_max
+        range_avg = range_min_value + (range_max_value - range_min_value)/2
 
-        return range_avg*mul_max
+        return range_avg

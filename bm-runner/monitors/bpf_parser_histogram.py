@@ -52,23 +52,26 @@ class BPFParserHistogram(BPFParser):
         if df.empty:
             return BPFParser.default_min_max_avg(csv_key)
         
-        minimum = 2^62
+        minimum = float("inf")
         maximum = 0
         num_values = 0
-        average = 0
-        for values in df.itertuples():
-            range_str = values[1]
-            count = int(values[2])
+        weighted_total = 0
+        for range_str, count in df[["range", "count"]].itertuples(index=False, name=None):
+            count = int(count)
             if count < 1:
                 continue
-            average *= (num_values / (num_values + count))
             range_avg = BPFParserHelper.get_range_avg(range_str)
-            average += range_avg * ((count * count) / (num_values + count))
+            weighted_total += range_avg * count
             num_values += count
             if range_avg < minimum:
                 minimum = range_avg
             if range_avg > maximum:
                 maximum = range_avg
+
+        if num_values == 0:
+            return BPFParser.default_min_max_avg(csv_key)
+
+        average = weighted_total / num_values
 
         if minimum > maximum:
             minimum = maximum
@@ -86,9 +89,8 @@ class BPFParserHistogram(BPFParser):
         result = ""
         cols = range(0, 60)  # TODO: align bm_visualize.py
         hist_list = [0]*60
-        for values in df.itertuples():
-            range_str = values[1]
-            count = int(values[2])
+        for range_str, count in df[["range", "count"]].itertuples(index=False, name=None):
+            count = int(count)
 
             if count < 1:
                 continue

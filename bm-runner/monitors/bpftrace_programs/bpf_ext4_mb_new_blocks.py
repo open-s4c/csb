@@ -6,7 +6,7 @@ from monitors.bpf_parser_histograms import BPFParserHistograms
 
 class BPFExt4MbNewBLocks(BPFProgram):
     name = "ext4_mb_new_blocks"
-    parser = BPFParserHistograms
+    parser = BPFParserHistograms()
     program = """
 kprobe:ext4_mb_new_blocks 
 / __FILTER_CPU__ && __FILTER_PID__ /

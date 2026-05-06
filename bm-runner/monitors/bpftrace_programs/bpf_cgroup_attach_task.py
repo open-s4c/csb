@@ -6,7 +6,7 @@ from monitors.bpf_parser_histograms import BPFParserHistograms
 
 class BPFCGroupAttachTask(BPFProgram):
     name = "cgroup_attach_task"
-    parser = BPFParserHistograms
+    parser = BPFParserHistograms()
     program = """
 kprobe:cgroup_attach_task
 / __FILTER_CPU__ && __FILTER_PID__ /

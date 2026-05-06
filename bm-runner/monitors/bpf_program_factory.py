@@ -8,12 +8,12 @@ from utils.logger import bm_log, LogType
 from config.env_config import EnvUniversalConfig, UniversalConfig
 
 from monitors.bpf_program import BPFProgram
+from monitors.bpf_parser import BPFParser
 from monitors.bpftrace_programs import *
 
 class DummyBPFProgram(BPFProgram):
     def __init__(self, name: str):
-        super().__init__(dir="", args=[])
-        self.name = name
+        super().__init__(parser=BPFParser(), name=name, dir="", args=[])
 
     def get_program(self):
         bm_log(
@@ -24,7 +24,7 @@ class DummyBPFProgram(BPFProgram):
         )
         return ""
 
-    def collect_results(self) -> str:
+    def collect_results(self, *args, **kwargs) -> str:
         return ""
 
 class BPFProgramFactory:
@@ -32,14 +32,21 @@ class BPFProgramFactory:
 
     @staticmethod
     def get_classes():
-        # print(sys.modules)
-        for module in sys.modules:
-            if module.__contains__(".bpftrace_programs."):
-                for name, obj in inspect.getmembers(sys.modules[module], inspect.isclass):
-                    if inspect.isclass(obj) and obj.__module__.__contains__(".bpftrace_programs."):
-                        # print(f"Adding {obj.__name__} to bpf programs")
-                        BPFProgramFactory.progs.append(obj)
-        # print(BPFProgramFactory.progs)
+        progs = [BPFProgram]
+        for module_name, module in list(sys.modules.items()):
+            if module_name.__contains__(".bpftrace_programs."):
+                for name, obj in inspect.getmembers(module, inspect.isclass):
+                    if (
+                        inspect.isclass(obj)
+                        and issubclass(obj, BPFProgram)
+                        and obj is not BPFProgram
+                        and obj.__module__.__contains__(".bpftrace_programs.")
+                    ):
+                        progs.append(obj)
+        BPFProgramFactory.progs = sorted(
+            progs,
+            key=lambda prog: getattr(prog, "name", ""),
+        )
 
     @staticmethod
     def create(bpf_program_name: str, results_dir, args) -> BPFProgram:

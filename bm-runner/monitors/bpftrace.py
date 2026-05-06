@@ -58,8 +58,8 @@ class BPFTraceCmd:
             self.out_thread.join()
 
 class BPFTraceStats(Monitor):
-    programs: dict[str, (BPFProgram, BPFTraceCmd)] = {}
-    def __init__(self, output_dir: str, args: dict[list[str]]):
+    def __init__(self, output_dir: str, args: dict[str, list[str]]):
+        self.programs: dict[str, tuple[BPFProgram, Optional[BPFTraceCmd]]] = {}
         ensure_exists("bpftrace")
         for program_name in args:
             # ptype = BPFProgramType[programtype]

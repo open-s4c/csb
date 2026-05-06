@@ -22,6 +22,8 @@ class BPFParserCounts(BPFParser):
             data = f.read()
             if "ERROR:" in data or "Error attach" in data or "cannot attach" in data or "entry may not exist" in data:
                 return pd.DataFrame([])
+            if not data.strip():
+                return pd.DataFrame([])
             df = pd.read_csv(StringIO(data), sep=': ', header=None, names=['PID', 'Count'], engine='python')
             df['PID'] = df['PID'].map(BPFParserCounts.extract_pid)
             return df
@@ -31,14 +33,13 @@ class BPFParserCounts(BPFParser):
         if df.empty:
             return BPFParser.default_min_max_avg(csv_key)
         
-        minimum = 2^62
+        minimum = float("inf")
         maximum = 0
         num_values = 0
         average = 0
-        for values in df.itertuples():
-            # print(values)
-            pid = int(values[0])
-            count = values[1]
+        for pid, count in df[["PID", "Count"]].itertuples(index=False, name=None):
+            pid = int(pid)
+            count = int(count)
             if PIDs and (pid not in PIDs):
                 continue
             average *= (num_values / (num_values + 1))
@@ -49,6 +50,9 @@ class BPFParserCounts(BPFParser):
             if count > maximum:
                 maximum = count
         
+        if num_values == 0:
+            return BPFParser.default_min_max_avg(csv_key)
+
         if minimum > maximum:
             minimum = maximum
         result =  csv_key + "_min" + "=" + str(minimum) + ";"
