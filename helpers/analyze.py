@@ -3,12 +3,13 @@ import pandas as pd
 
 # collect all csvs in the given folder
 def find_csvs(folder_path:str):
-    files = []
-    for file_name in os.listdir(folder_path):
-        if file_name.endswith(".csv"):
-            file_path = os.path.join(folder_path, file_name)
-            files.append(file_path)
-    return files
+    csvs = []
+    for root, dirs, files  in os.walk(folder_path):
+        for file in files:
+            if file.endswith(".csv"):
+                file_path = os.path.join(root, file)
+                csvs.append(file_path)
+    return csvs
 
 # Allowed CPUs
 # kernel
@@ -24,7 +25,7 @@ def process(file:str) -> list:
         df = pd.read_csv(
             file, sep=";", comment="#", engine="python", on_bad_lines="error"
         )
-        grouped = df.groupby(['algo_name', 'execution_type', 'kernel', 'num_threads'])
+        grouped = df.groupby(['algo_name', 'execution_type', 'kernel', 'nb_threads'])
         for key, g in grouped:
             algo_name, execution_type, kernel, num_threads = key
 
@@ -56,7 +57,7 @@ def process(file:str) -> list:
         return results
 
 if __name__ == "__main__":
-    folder = "/home/lilith/workspace/csb/amd-results"
+    folder = "/home/lilith/workspace/csb/results-csv"
     files = find_csvs(folder)
     all = []
     for f in files:
@@ -65,5 +66,8 @@ if __name__ == "__main__":
 
     final_df = pd.DataFrame(all)
     md_table = final_df.to_markdown(index=False)
+    csv  = final_df.to_csv(index=False)
     with open("results.md", "w") as f:
          f.write(md_table)
+    with open("results.csv", "w") as f:
+         f.write(csv)
