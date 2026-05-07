@@ -93,17 +93,8 @@ class ContainersConfig(dict):
             count=max_cpu_count, policy=self.policy, pre_selected=pre_selected_cpus
         )
 
-    def __get_default_container_list(self) -> list[int]:
-        cpus_per_container = self.core_count
+    def __get_gen_list(self, max, cpus_per_container) -> list[int]:
         num_steps = 16
-        if self.policy.one_cpu_per_core:
-            # if hyper-threads are not allowed we define the max
-            # based on core count
-            max  = math.floor(self.topo.get_core_count() / cpus_per_container)
-        else:
-            # if hyper-threads are allowed we define it based on the CPU count
-            max  = math.floor(self.topo.get_cpu_count() / cpus_per_container)
-
         if max < num_steps:
             step = 1
         else:
@@ -117,6 +108,20 @@ class ContainersConfig(dict):
 
         bm_log(f"Defined container list with step={step}, cpus_per_contianer={cpus_per_container} to be {default_container_list}", LogType.INFO)
         return default_container_list
+
+    def __get_default_container_list(self) -> list[int]:
+        cpus_per_container = self.core_count
+        if self.policy.one_cpu_per_core:
+            # if hyper-threads are not allowed we define the max
+            # based on core count
+            max  = math.floor(self.topo.get_core_count() / cpus_per_container)
+        else:
+            # if hyper-threads are allowed we define it based on the CPU count
+            max  = math.floor(self.topo.get_cpu_count() / cpus_per_container)
+
+            return self.__get_gen_list(max=max, cpus_per_container=cpus_per_container)
+
+
 
     def get_container_cnt_list(self) -> list[int]:
         return self.container_list
