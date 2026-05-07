@@ -107,7 +107,7 @@ class ContainersConfig(dict):
         if max < num_steps:
             step = 1
         else:
-            step = max // num_steps
+            step = (max // num_steps) - 1
 
         default_container_list = list(range(1, max+1, step))
         bm_log(f"Defined container list with step={step}, cpus_per_contianer={cpus_per_container} to be {default_container_list}", LogType.INFO)
