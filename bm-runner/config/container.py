@@ -68,24 +68,17 @@ class ContainersConfig(dict):
             core_assignment_policy=core_assignment_policy,
         )
         self.cpus: list[int]
-        self.policy: CoreAssignPolicy
         self.topo = Topology()
         self.core_count = core_count
-        if container_list is None:
-           max  = math.floor(self.topo.get_cpu_count() / self.core_count)
-           step = closest_divisor_10_percent(max)
-           self.container_list  = list(range(1, max+1, step))
-           bm_log(f"Identified the step: {step}", LogType.WARNING)
-        else:
-            self.container_list = ListConfig.from_dict(container_list).get_list()
-        bm_log(self.container_list, LogType.WARNING)
-        self.__set_cpus(policy=core_assignment_policy, core_affinity_offsets=core_affinity_offsets)
+        self.policy = CoreAssignPolicy.from_dict(core_assignment_policy)
+        self.container_list = self.__get_default_container_list() if container_list is None else ListConfig.from_dict(container_list).get_list()
+        self.__set_cpus(core_affinity_offsets=core_affinity_offsets)
         self.image = image if image is not None else self.DEFAULT_IMG[get_os()]
         self.name = name
         self.port = port
         self.__ensure_img_exists()
 
-    def __set_cpus(self, policy, core_affinity_offsets):
+    def __set_cpus(self, core_affinity_offsets):
         """
         Selects which CPUs are allowed to be used according to the
         policy and core_affinity_offsets.
@@ -95,13 +88,27 @@ class ContainersConfig(dict):
             if core_affinity_offsets is None
             else ListConfig.from_dict(core_affinity_offsets).get_list()
         )
-        self.policy = CoreAssignPolicy.from_dict(policy)
         # Calculate the maximum number of CPUs needed.
         # max number of containers * cores per container
         max_cpu_count = max(self.container_list) * self.core_count
         self.cpus = self.topo.select(
             count=max_cpu_count, policy=self.policy, pre_selected=pre_selected_cpus
         )
+
+    def __get_default_container_list(self) -> list[int]:
+        cpus_per_container = self.core_count
+        if self.policy.one_cpu_per_core:
+            # if hyper-threads are not allowed we define the max
+            # based on core count
+            max  = math.floor(self.topo.get_core_count() / cpus_per_container)
+        else:
+            # if hyper-threads are allowed we define it based on the CPU count
+            max  = math.floor(self.topo.get_cpu_count() / cpus_per_container)
+        # define the step based on maximum number of containers
+        step = closest_divisor_10_percent(max)
+        default_container_list = list(range(1, max+1, step))
+        bm_log(f"Defined container list with step={step}, cpus_per_contianer={cpus_per_container} to be {default_container_list}", LogType.INFO)
+        return default_container_list
 
     def get_container_cnt_list(self) -> list[int]:
         return self.container_list
