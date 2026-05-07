@@ -111,7 +111,7 @@ class ContainersConfig(dict):
 
         default_container_list = list(range(0, max+1, step))
         assert default_container_list[0] == 0, "unexpected, given the range starts with zero"
-        default_container_list.insert(0, 1) # replace zero with 1
+        default_container_list[0] = 1 # replace zero with 1
 
         bm_log(f"Defined container list with step={step}, cpus_per_contianer={cpus_per_container} to be {default_container_list}", LogType.INFO)
         return default_container_list
