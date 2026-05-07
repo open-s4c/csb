@@ -93,7 +93,7 @@ class ContainersConfig(dict):
             count=max_cpu_count, policy=self.policy, pre_selected=pre_selected_cpus
         )
 
-    def __get_gen_list(self, max, cpus_per_container) -> list[int]:
+    def __gen_container_list(self, max, cpus_per_container) -> list[int]:
         num_steps = 16
         if max < num_steps:
             step = 1
@@ -118,10 +118,7 @@ class ContainersConfig(dict):
         else:
             # if hyper-threads are allowed we define it based on the CPU count
             max  = math.floor(self.topo.get_cpu_count() / cpus_per_container)
-
-            return self.__get_gen_list(max=max, cpus_per_container=cpus_per_container)
-
-
+        return self.__gen_container_list(max=max, cpus_per_container=cpus_per_container)
 
     def get_container_cnt_list(self) -> list[int]:
         return self.container_list
