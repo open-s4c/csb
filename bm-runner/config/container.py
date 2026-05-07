@@ -11,8 +11,6 @@ from utils.logger import bm_log, LogType
 from utils.platform import get_os, OperatingSystem
 from utils.topology import Topology
 from config.policy import CoreAssignPolicy
-from bm_utils import closest_divisor_10_percent
-
 
 class ContainersConfig(dict):
     CONFIG_KEY: str = "containers"
@@ -97,6 +95,7 @@ class ContainersConfig(dict):
 
     def __get_default_container_list(self) -> list[int]:
         cpus_per_container = self.core_count
+        num_steps = 16
         if self.policy.one_cpu_per_core:
             # if hyper-threads are not allowed we define the max
             # based on core count
@@ -104,8 +103,12 @@ class ContainersConfig(dict):
         else:
             # if hyper-threads are allowed we define it based on the CPU count
             max  = math.floor(self.topo.get_cpu_count() / cpus_per_container)
-        # define the step based on maximum number of containers
-        step = closest_divisor_10_percent(max)
+
+        if max < num_steps:
+            step = 1
+        else:
+            step = max / num_steps
+
         default_container_list = list(range(1, max+1, step))
         bm_log(f"Defined container list with step={step}, cpus_per_contianer={cpus_per_container} to be {default_container_list}", LogType.INFO)
         return default_container_list

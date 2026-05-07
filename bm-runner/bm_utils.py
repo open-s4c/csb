@@ -271,29 +271,3 @@ def is_process_running(name: str) -> bool:
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             pass
     return False
-
-
-def closest_divisor_10_percent(N):
-    target = N * 0.1  # 10% of N
-    closest_divisor = 1
-    min_diff = N  # Start with a big difference
-
-    # Only need to check divisors up to sqrt(N)
-    for i in range(1, int(N**0.5) + 1):
-        if N % i == 0:
-            # i is a divisor
-            j = N // i  # paired divisor
-
-            # Check i
-            diff_i = abs(i - target)
-            if diff_i < min_diff:
-                min_diff = diff_i
-                closest_divisor = i
-
-            # Check paired divisor j
-            diff_j = abs(j - target)
-            if diff_j < min_diff:
-                min_diff = diff_j
-                closest_divisor = j
-
-    return closest_divisor
