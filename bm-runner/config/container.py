@@ -105,12 +105,14 @@ class ContainersConfig(dict):
             """
             )
             self.container_list = self.__gen_container_list(max_num_containers)
+            # do not multiply by core count here, because that is already factored in
+            max_cpu_count = max(self.container_list)
         else:
             self.container_list = ListConfig.from_dict(container_list).get_list()
+            # Calculate the maximum number of CPUs needed.
+            # max number of containers * cores per container
+            max_cpu_count = max(self.container_list) * self.core_count
 
-        # Calculate the maximum number of CPUs needed.
-        # max number of containers * cores per container
-        max_cpu_count = max(self.container_list) * self.core_count
         self.cpus = self.topo.select(
             count=max_cpu_count, policy=self.policy, pre_selected=pre_selected_cpus
         )
