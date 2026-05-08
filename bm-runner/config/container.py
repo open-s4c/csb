@@ -70,27 +70,37 @@ class ContainersConfig(dict):
         self.topo = Topology()
         self.core_count = core_count
         self.policy = CoreAssignPolicy.from_dict(core_assignment_policy)
-        self.container_list = (
-            self.__get_default_container_list()
-            if container_list is None
-            else ListConfig.from_dict(container_list).get_list()
-        )
-        self.__set_cpus(core_affinity_offsets=core_affinity_offsets)
         self.image = image if image is not None else self.DEFAULT_IMG[get_os()]
         self.name = name
         self.port = port
+        # needs some of the previous fields to be set
+        self.__set_cpus_containers(core_affinity_offsets=core_affinity_offsets, container_list=container_list)
         self.__ensure_img_exists()
 
-    def __set_cpus(self, core_affinity_offsets):
-        """
-        Selects which CPUs are allowed to be used according to the
-        policy and core_affinity_offsets.
-        """
-        pre_selected_cpus: Optional[list[int]] = (
-            None
-            if core_affinity_offsets is None
-            else ListConfig.from_dict(core_affinity_offsets).get_list()
-        )
+    def __set_cpus_containers(self, core_affinity_offsets, container_list):
+        if core_affinity_offsets is None:
+            pre_selected_cpus = None
+            # determine m
+            num_avail_cpus = self.topo.get_core_count() if self.policy.one_cpu_per_core else self.topo.get_cpu_count()
+        else:
+            pre_selected_cpus = ListConfig.from_dict(core_affinity_offsets).get_list()
+            # if the user wants specific CPUs then we use what the user specified as the max
+            num_avail_cpus = len(pre_selected_cpus)
+
+        if container_list is None:
+            # if the user did not configure how many containers to run with
+            # we generate a list from 1 -> max to run with, where max will be the maximum
+            # number of containers we can run with without causing oversubscription
+            max_num_containers = num_avail_cpus // self.core_count
+            bm_log(f"""
+                   Maximum number of container we can use without causing oversubscription is {max_num_containers}.
+                   {self.core_count} CPUs will be used per container.
+                   {num_avail_cpus} CPUs are available in total.
+            """)
+            self.container_list = self.__gen_container_list(max=max_num_containers, cpus_per_container= self.core_count)
+        else:
+            self.container_list = ListConfig.from_dict(container_list).get_list()
+
         # Calculate the maximum number of CPUs needed.
         # max number of containers * cores per container
         max_cpu_count = max(self.container_list) * self.core_count
@@ -110,23 +120,7 @@ class ContainersConfig(dict):
         default_container_list.remove(0)
         if default_container_list[0] != 1:
             default_container_list.insert(0, 1)  # replace zero with 1
-
-        bm_log(
-            f"Defined container list with step={step}, cpus_per_contianer={cpus_per_container} to be {default_container_list}",
-            LogType.INFO,
-        )
         return default_container_list
-
-    def __get_default_container_list(self) -> list[int]:
-        cpus_per_container = self.core_count
-        if self.policy.one_cpu_per_core:
-            # if hyper-threads are not allowed we define the max
-            # based on core count
-            max = math.floor(self.topo.get_core_count() / cpus_per_container)
-        else:
-            # if hyper-threads are allowed we define it based on the CPU count
-            max = math.floor(self.topo.get_cpu_count() / cpus_per_container)
-        return self.__gen_container_list(max=max, cpus_per_container=cpus_per_container)
 
     def get_container_cnt_list(self) -> list[int]:
         return self.container_list
