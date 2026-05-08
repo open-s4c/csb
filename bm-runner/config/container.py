@@ -12,6 +12,7 @@ from utils.platform import get_os, OperatingSystem
 from utils.topology import Topology
 from config.policy import CoreAssignPolicy
 
+
 class ContainersConfig(dict):
     CONFIG_KEY: str = "containers"
     DEFAULT_IMG: dict[OperatingSystem, str] = {
@@ -69,7 +70,11 @@ class ContainersConfig(dict):
         self.topo = Topology()
         self.core_count = core_count
         self.policy = CoreAssignPolicy.from_dict(core_assignment_policy)
-        self.container_list = self.__get_default_container_list() if container_list is None else ListConfig.from_dict(container_list).get_list()
+        self.container_list = (
+            self.__get_default_container_list()
+            if container_list is None
+            else ListConfig.from_dict(container_list).get_list()
+        )
         self.__set_cpus(core_affinity_offsets=core_affinity_offsets)
         self.image = image if image is not None else self.DEFAULT_IMG[get_os()]
         self.name = name
@@ -98,15 +103,18 @@ class ContainersConfig(dict):
         if max < num_steps:
             step = 1
         else:
-            step = (max // num_steps)
+            step = max // num_steps
 
-        default_container_list = list(range(0, max+1, step))
+        default_container_list = list(range(0, max + 1, step))
         assert default_container_list[0] == 0, "unexpected, given the range starts with zero"
         default_container_list.remove(0)
         if default_container_list[0] != 1:
-            default_container_list.insert(0, 1) # replace zero with 1
+            default_container_list.insert(0, 1)  # replace zero with 1
 
-        bm_log(f"Defined container list with step={step}, cpus_per_contianer={cpus_per_container} to be {default_container_list}", LogType.INFO)
+        bm_log(
+            f"Defined container list with step={step}, cpus_per_contianer={cpus_per_container} to be {default_container_list}",
+            LogType.INFO,
+        )
         return default_container_list
 
     def __get_default_container_list(self) -> list[int]:
@@ -114,10 +122,10 @@ class ContainersConfig(dict):
         if self.policy.one_cpu_per_core:
             # if hyper-threads are not allowed we define the max
             # based on core count
-            max  = math.floor(self.topo.get_core_count() / cpus_per_container)
+            max = math.floor(self.topo.get_core_count() / cpus_per_container)
         else:
             # if hyper-threads are allowed we define it based on the CPU count
-            max  = math.floor(self.topo.get_cpu_count() / cpus_per_container)
+            max = math.floor(self.topo.get_cpu_count() / cpus_per_container)
         return self.__gen_container_list(max=max, cpus_per_container=cpus_per_container)
 
     def get_container_cnt_list(self) -> list[int]:
