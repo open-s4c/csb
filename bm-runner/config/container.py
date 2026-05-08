@@ -104,9 +104,7 @@ class ContainersConfig(dict):
                    {num_avail_cpus} CPUs are available in total.
             """
             )
-            self.container_list = self.__gen_container_list(
-                max=max_num_containers, cpus_per_container=self.core_count
-            )
+            self.container_list = self.__gen_container_list(max_num_containers)
         else:
             self.container_list = ListConfig.from_dict(container_list).get_list()
 
@@ -117,18 +115,26 @@ class ContainersConfig(dict):
             count=max_cpu_count, policy=self.policy, pre_selected=pre_selected_cpus
         )
 
-    def __gen_container_list(self, max, cpus_per_container) -> list[int]:
-        num_steps = 16
-        if max < num_steps:
+    def __gen_container_list(self, max_num_containers) -> list[int]:
+        NUM_STEPS = 16
+        if max_num_containers < NUM_STEPS:
             step = 1
+            max = max_num_containers
         else:
-            step = max // num_steps
+            # find the closest number to max_num_containers that is divisible by NUM_STEPS
+            # and does not exceed it
+            max = (max_num_containers // NUM_STEPS) * NUM_STEPS
+            step = max // NUM_STEPS
 
+        # we start range from zero and use max + 1, so that the last value will max
         default_container_list = list(range(0, max + 1, step))
         assert default_container_list[0] == 0, "unexpected, given the range starts with zero"
+        # we remove zero from the list
         default_container_list.remove(0)
+        # make sure first element of the list is one
         if default_container_list[0] != 1:
-            default_container_list.insert(0, 1)  # replace zero with 1
+            # insert don't overwrite
+            default_container_list.insert(0, 1)
         return default_container_list
 
     def get_container_cnt_list(self) -> list[int]:
