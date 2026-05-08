@@ -35,9 +35,9 @@ class ContainersConfig(dict):
         Represented as a JSON object.
         Parameters
         ----------
-        container_list: ListConfig = {"values": [[1]]}
-            Specifies the number of containers to run.
-        one_cpu_per_core: bool = False,
+        container_list: Optional[ListConfig] = dynamically computed.
+            Specifies the number of containers to run. When `container_list` is absent in the configuration,
+            the default value is dynamically computed based on the number of available CPUs/Cores on the target machine.
         core_assignment_policy: CoreAssignPolicy = {"pack_group":"none", "cpu_order": "asc", "one_cpu_per_core": false}
             Configures the CPU assignment policy, i.e. which CPUs can be assigned to execution units (containers/native processes).
             Note that the policy is overwritten by `core_affinity_offsets`. If the users wish to use this configuration, they
