@@ -6,7 +6,6 @@ from config.list import ListConfig
 import docker
 import docker.errors
 import sys
-import math
 from utils.logger import bm_log, LogType
 from utils.platform import get_os, OperatingSystem
 from utils.topology import Topology
@@ -74,14 +73,20 @@ class ContainersConfig(dict):
         self.name = name
         self.port = port
         # needs some of the previous fields to be set
-        self.__set_cpus_containers(core_affinity_offsets=core_affinity_offsets, container_list=container_list)
+        self.__set_cpus_containers(
+            core_affinity_offsets=core_affinity_offsets, container_list=container_list
+        )
         self.__ensure_img_exists()
 
     def __set_cpus_containers(self, core_affinity_offsets, container_list):
         if core_affinity_offsets is None:
             pre_selected_cpus = None
             # determine m
-            num_avail_cpus = self.topo.get_core_count() if self.policy.one_cpu_per_core else self.topo.get_cpu_count()
+            num_avail_cpus = (
+                self.topo.get_core_count()
+                if self.policy.one_cpu_per_core
+                else self.topo.get_cpu_count()
+            )
         else:
             pre_selected_cpus = ListConfig.from_dict(core_affinity_offsets).get_list()
             # if the user wants specific CPUs then we use what the user specified as the max
@@ -92,12 +97,16 @@ class ContainersConfig(dict):
             # we generate a list from 1 -> max to run with, where max will be the maximum
             # number of containers we can run with without causing oversubscription
             max_num_containers = num_avail_cpus // self.core_count
-            bm_log(f"""
+            bm_log(
+                f"""
                    Maximum number of container we can use without causing oversubscription is {max_num_containers}.
                    {self.core_count} CPUs will be used per container.
                    {num_avail_cpus} CPUs are available in total.
-            """)
-            self.container_list = self.__gen_container_list(max=max_num_containers, cpus_per_container= self.core_count)
+            """
+            )
+            self.container_list = self.__gen_container_list(
+                max=max_num_containers, cpus_per_container=self.core_count
+            )
         else:
             self.container_list = ListConfig.from_dict(container_list).get_list()
 
