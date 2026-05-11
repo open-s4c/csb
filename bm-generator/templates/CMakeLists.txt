@@ -36,13 +36,14 @@ file(MAKE_DIRECTORY "${CONFIG_DIR}/${SUBDIR}")
 set(HEADER_DIR "${CMAKE_SOURCE_DIR}/bench/targets")
 file(MAKE_DIRECTORY "${HEADER_DIR}/${SUBDIR}")
 
-# add specific template name targets developers then can generate for a specific
-# template instead of generating for all templates
+# Add a target per template the target should match the template name
 foreach(TEMPLATE ${TEMPLATES})
     get_filename_component(TEMPLATE_NAME ${TEMPLATE} NAME)
+    # add the template name target
     add_custom_target(${TEMPLATE_NAME})
-
+    # drop .in
     get_filename_component(TMP ${TEMPLATE} NAME_WLE)
+    # get .json/.h
     get_filename_component(EXTENSION ${TMP} LAST_EXT)
 
     # decide what to format based on template type.
@@ -103,9 +104,9 @@ foreach(HEADER ${HEADERS})
                                             ${TEMPLATE} > ${OUTPUT_FILE})
         # this target requires tmplr
         add_dependencies(${TARGET} ${TMPLR_TARGET})
-        # add to specific group target
+        # add to the specific template/group target
         add_dependencies(${GROUP_TARGET} ${TARGET})
-        # the main target require this target
+        # add to the global generation target
         add_dependencies(${SINGLE_BM_TARGET} ${GROUP_TARGET})
     endforeach()
 endforeach(HEADER)
