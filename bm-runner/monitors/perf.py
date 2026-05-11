@@ -8,19 +8,15 @@ import glob
 from monitors.monitor import Monitor
 from utils.logger import bm_log, LogType
 from utils.process import BackgroundProcess
-
+from config.env_config import EnvUniversalConfig, UniversalConfig
 
 class FlameGraph(Monitor):
     FG_PATH_ENV_VAR_NAME = "FLAMEGRAPH"
-    ARM_SPE_ENABLED_ENV_VAR_NAME = "CSB_ARM_SPE_ENABLE"
     ARM_SPE_PERIOD_ENV_VAR_NAME = "CSB_ARM_SPE_PERIOD"
     ARM_SPE_DEVICE_GLOB = "/sys/bus/event_source/devices/arm_spe*"
     ARM_SPE_MIN_INTERVAL_GLOB = "/sys/bus/event_source/devices/arm_spe*/caps/min_interval"
     ARM_SPE_FALLBACK_MIN_INTERVAL = 1024
     ARM_SPE_PERIOD_MULTIPLIER = 10
-
-    TRUE_STRINGS = [True, "true", "t", "yes", "y", "enable", "enabled", "on", "1"]
-    FALSE_STRINGS = [False, "false", "f", "no", "n", "disable", "disabled", "off", "0"]
 
     def __init__(self, output_dir: str, args: list[str] = ["-a"]):
         super().__init__(dir=output_dir, args=args)
@@ -56,25 +52,12 @@ class FlameGraph(Monitor):
         return events
 
     @classmethod
-    def to_boolean(cls, value: str) -> bool:
-        if value.lower() in cls.TRUE_STRINGS:
-            return True
-        if value.lower() in cls.FALSE_STRINGS:
-            return False
-        raise ValueError(f"Unknown boolean value '{value}'")
-
-    @classmethod
-    def get_bool_env(cls, *parts, **kwargs):
-        return cls.to_boolean(cls.get_env(*parts, **kwargs))
-
-    @classmethod
     def arm_spe_enabled_and_supported(cls) -> bool:
         return cls.arm_spe_enabled() and cls.arm_spe_supported()
 
     @classmethod
     def arm_spe_enabled(cls) -> bool:
-        arm_spe_enabled = cls.get_bool_env(cls.ARM_SPE_ENABLED_ENV_VAR_NAME)
-        return arm_spe_enabled
+        return EnvUniversalConfig.is_on(UniversalConfig.CSB_ARM_SPE)
 
     @classmethod
     def arm_spe_supported(cls) -> bool:
