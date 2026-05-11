@@ -9,7 +9,7 @@ import sys
 from utils.logger import bm_log, LogType
 from utils.platform import get_os, OperatingSystem
 from utils.topology import Topology
-from config.policy import CoreAssignPolicy
+from config.policy import CoreAssignPolicy, PackGroup
 
 
 class ContainersConfig(dict):
@@ -87,7 +87,6 @@ class ContainersConfig(dict):
                 if self.policy.one_cpu_per_core
                 else self.topo.get_cpu_count()
             )
-            bm_log(f"#CPUS: {self.topo.get_core_count()}, #Cores: {self.topo.get_cpu_count()}", LogType.FATAL)
         else:
             pre_selected_cpus = ListConfig.from_dict(core_affinity_offsets).get_list()
             # if the user wants specific CPUs then we use what the user specified as the max
@@ -108,6 +107,13 @@ class ContainersConfig(dict):
             self.container_list = self.__gen_container_list(max_num_containers)
             # do not multiply by core count here, because that is already factored in
             max_cpu_count = max(self.container_list)
+            if self.policy.pack_group !=  PackGroup.NO_PACK:
+                bm_log("""
+                       Expecting "pack_group": "none" in configuration, or
+                       absent "core_assignment_policy", when default "container_list"
+                       is dynamically computed. CPUs oversubscription might occur.
+                       """
+                       , LogType.ERROR)
         else:
             self.container_list = ListConfig.from_dict(container_list).get_list()
             # Calculate the maximum number of CPUs needed.
