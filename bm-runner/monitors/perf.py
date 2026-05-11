@@ -19,8 +19,8 @@ class FlameGraph(Monitor):
     ARM_SPE_FALLBACK_MIN_INTERVAL = 1024
     ARM_SPE_PERIOD_MULTIPLIER = 10
 
-    TRUE_STRINGS = [True, "true", "yes", "y", "enable", "enabled", "1"]
-    FALSE_STRINGS = [False, "false", "no", "n", "disable", "disabled", "0"]
+    TRUE_STRINGS = [True, "true", "t", "yes", "y", "enable", "enabled", "1"]
+    FALSE_STRINGS = [False, "false", "f", "no", "n", "disable", "disabled", "0"]
 
     def __init__(self, output_dir: str, args: list[str] = ["-a"]):
         super().__init__(dir=output_dir, args=args)
