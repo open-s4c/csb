@@ -37,7 +37,7 @@
   "containers": {
     "core_assignment_policy": {
       "cpu_order": "desc",
-      "pack_group": "numa",
+      "pack_group": "none",
       "one_cpu_per_core": true
     }
   },

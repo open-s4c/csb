@@ -107,6 +107,10 @@ class ContainersConfig(dict):
             self.container_list = self.__gen_container_list(max_num_containers)
             # do not multiply by core count here, because that is already factored in
             max_cpu_count = max(self.container_list)
+            # at the moment we don't respect the pack group policy when
+            # determining max #containers, hence when the policy is set to pack by
+            # e.g NUMA this can lead to oversubscription. For the time being
+            # we treat it as a misconfiguration.
             if self.policy.pack_group !=  PackGroup.NO_PACK:
                 bm_log("""
                        Expecting "pack_group": "none" in configuration, or
@@ -114,6 +118,8 @@ class ContainersConfig(dict):
                        is dynamically computed. CPUs oversubscription might occur.
                        """
                        , LogType.ERROR)
+                # we don't need to quit, the run can still be useful if the user
+                # does not want to interrupt it, and is ok with oversubscription.
         else:
             self.container_list = ListConfig.from_dict(container_list).get_list()
             # Calculate the maximum number of CPUs needed.
