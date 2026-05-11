@@ -35,6 +35,29 @@ file(MAKE_DIRECTORY "${CONFIG_DIR}/${SUBDIR}")
 # Output dir for header files
 set(HEADER_DIR "${CMAKE_SOURCE_DIR}/bench/targets")
 file(MAKE_DIRECTORY "${HEADER_DIR}/${SUBDIR}")
+
+# add specific template name targets developers then can generate for a specific
+# template instead of generating for all templates
+foreach(TEMPLATE ${TEMPLATES})
+    get_filename_component(TEMPLATE_NAME ${TEMPLATE} NAME)
+    add_custom_target(${TEMPLATE_NAME})
+
+    get_filename_component(TMP ${TEMPLATE} NAME_WLE)
+    get_filename_component(EXTENSION ${TMP} LAST_EXT)
+
+    # decide what to format based on template type.
+    if(EXTENSION STREQUAL ".json")
+        set(FMT_TARGET json-format-apply)
+    else()
+        set(FMT_TARGET clang-format-apply)
+    endif()
+    add_custom_command(
+        TARGET ${TEMPLATE_NAME}
+        POST_BUILD
+        COMMAND cmake --build "${CMAKE_BINARY_DIR}" --target ${FMT_TARGET}
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+endforeach(TEMPLATE)
+
 # For each header input we want to generate a JSON config files and a matching
 # header
 foreach(HEADER ${HEADERS})
@@ -42,6 +65,7 @@ foreach(HEADER ${HEADERS})
     get_filename_component(HEADER_NAME ${HEADER} NAME_WE)
 
     foreach(TEMPLATE ${TEMPLATES})
+        get_filename_component(GROUP_TARGET ${TEMPLATE} NAME)
         # get template name without .in extension
         get_filename_component(TEMPLATE_NAME ${TEMPLATE} NAME_WLE)
         # find the real extension .h or .json
@@ -79,8 +103,10 @@ foreach(HEADER ${HEADERS})
                                             ${TEMPLATE} > ${OUTPUT_FILE})
         # this target requires tmplr
         add_dependencies(${TARGET} ${TMPLR_TARGET})
+        # add to specific group target
+        add_dependencies(${GROUP_TARGET} ${TARGET})
         # the main target require this target
-        add_dependencies(${SINGLE_BM_TARGET} ${TARGET})
+        add_dependencies(${SINGLE_BM_TARGET} ${GROUP_TARGET})
     endforeach()
 endforeach(HEADER)
 
