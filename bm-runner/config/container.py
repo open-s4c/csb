@@ -111,13 +111,15 @@ class ContainersConfig(dict):
             # determining max #containers, hence when the policy is set to pack by
             # e.g NUMA this can lead to oversubscription. For the time being
             # we treat it as a misconfiguration.
-            if self.policy.pack_group !=  PackGroup.NO_PACK:
-                bm_log("""
+            if self.policy.pack_group != PackGroup.NO_PACK:
+                bm_log(
+                    """
                        Expecting "pack_group": "none" in configuration, or
                        absent "core_assignment_policy", when default "container_list"
                        is dynamically computed. CPUs oversubscription might occur.
-                       """
-                       , LogType.ERROR)
+                       """,
+                    LogType.ERROR,
+                )
                 # we don't need to quit, the run can still be useful if the user
                 # does not want to interrupt it, and is ok with oversubscription.
         else:

@@ -32,4 +32,3 @@ def test_gen_container_list_defaults():
             assert (
                 container_counts[0] == 1
             ), f"First element should be 1 for num_cores={num_cores}, cores_per_container={cores_per_container}"
-
