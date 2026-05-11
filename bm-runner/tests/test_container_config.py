@@ -9,7 +9,7 @@ def test_gen_container_list_defaults():
     num_steps = container_cfg.NUM_STEPS
 
     # alias private function
-    gen_list = container_cfg._ContainersConfig__gen_container_list  # type: ignore[attr-defined]
+    gen_list = getattr(container_cfg, "_ContainersConfig__gen_container_list")
 
     # Test: list length matches requested steps
     for steps in range(1, num_steps + 1):
