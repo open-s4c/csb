@@ -9,10 +9,11 @@ import sys
 from utils.logger import bm_log, LogType
 from utils.platform import get_os, OperatingSystem
 from utils.topology import Topology
-from config.policy import CoreAssignPolicy
+from config.policy import CoreAssignPolicy, PackGroup
 
 
 class ContainersConfig(dict):
+    NUM_STEPS: int = 16  # default number of steps to set default container_list
     CONFIG_KEY: str = "containers"
     DEFAULT_IMG: dict[OperatingSystem, str] = {
         OperatingSystem.openEuler: "hub.oepkgs.net/openeuler/openeuler",
@@ -22,7 +23,7 @@ class ContainersConfig(dict):
 
     def __init__(
         self,
-        container_list: ListConfig = ListConfig(values=[[1]]),
+        container_list: Optional[ListConfig] = None,
         core_assignment_policy: CoreAssignPolicy = CoreAssignPolicy(),
         core_affinity_offsets: Optional[ListConfig] = None,
         core_count: int = 1,
@@ -35,9 +36,9 @@ class ContainersConfig(dict):
         Represented as a JSON object.
         Parameters
         ----------
-        container_list: ListConfig = {"values": [[1]]}
-            Specifies the number of containers to run.
-        one_cpu_per_core: bool = False,
+        container_list: Optional[ListConfig] = dynamically computed.
+            Specifies the number of containers to run. When `container_list` is absent in the configuration,
+            the default value is dynamically computed based on the number of available CPUs/Cores on the target machine.
         core_assignment_policy: CoreAssignPolicy = {"pack_group":"none", "cpu_order": "asc", "one_cpu_per_core": false}
             Configures the CPU assignment policy, i.e. which CPUs can be assigned to execution units (containers/native processes).
             Note that the policy is overwritten by `core_affinity_offsets`. If the users wish to use this configuration, they
@@ -66,33 +67,96 @@ class ContainersConfig(dict):
             core_assignment_policy=core_assignment_policy,
         )
         self.cpus: list[int]
-        self.policy: CoreAssignPolicy
         self.topo = Topology()
-        self.container_list = ListConfig.from_dict(container_list).get_list()
         self.core_count = core_count
-        self.__set_cpus(policy=core_assignment_policy, core_affinity_offsets=core_affinity_offsets)
+        self.policy = CoreAssignPolicy.from_dict(core_assignment_policy)
         self.image = image if image is not None else self.DEFAULT_IMG[get_os()]
         self.name = name
         self.port = port
+        # needs some of the previous fields to be set
+        self.__set_cpus_containers(
+            core_affinity_offsets=core_affinity_offsets, container_list=container_list
+        )
         self.__ensure_img_exists()
 
-    def __set_cpus(self, policy, core_affinity_offsets):
+    def __set_cpus_containers(self, core_affinity_offsets, container_list):
         """
-        Selects which CPUs are allowed to be used according to the
-        policy and core_affinity_offsets.
+        Sets self.container_list and self.cpus
+
         """
-        pre_selected_cpus: Optional[list[int]] = (
-            None
-            if core_affinity_offsets is None
-            else ListConfig.from_dict(core_affinity_offsets).get_list()
-        )
-        self.policy = CoreAssignPolicy.from_dict(policy)
-        # Calculate the maximum number of CPUs needed.
-        # max number of containers * cores per container
-        max_cpu_count = max(self.container_list) * self.core_count
+        if core_affinity_offsets is None:
+            pre_selected_cpus = None
+            # we decide number of available CPUs based on the policy.
+            # we use number of cores if the policy requests one CPU per core.
+            num_avail_cpus = (
+                self.topo.get_core_count()
+                if self.policy.one_cpu_per_core
+                else self.topo.get_cpu_count()
+            )
+        else:
+            pre_selected_cpus = ListConfig.from_dict(core_affinity_offsets).get_list()
+            # if the user wants specific CPUs then we use the count of the specified CPUs.
+            num_avail_cpus = len(pre_selected_cpus)
+
+        if container_list is None:
+            # if the user did not configure how many containers to run
+            # we generate a list from 1 -> max, where max will be the maximum
+            # number of containers we can run with without causing oversubscription
+            max_num_containers = num_avail_cpus // self.core_count
+            bm_log(
+                f"""
+                   Maximum number of container we can use without causing oversubscription is {max_num_containers}.
+                   {self.core_count} CPUs will be used per container.
+                   {num_avail_cpus} CPUs are available in total.
+            """
+            )
+            self.container_list = self.__gen_container_list(max_num_containers)
+            max_cpu_count = max(self.container_list)
+            # at the moment we don't respect the pack group policy when
+            # determining max #containers, hence when the policy is set to pack by
+            # e.g NUMA this can lead to oversubscription. For the time being
+            # we treat it as a misconfiguration.
+            if self.policy.pack_group != PackGroup.NO_PACK:
+                bm_log(
+                    """
+                       Expecting "pack_group": "none" in configuration, or
+                       absent "core_assignment_policy", when default "container_list"
+                       is dynamically computed. CPUs oversubscription might occur.
+                       """,
+                    LogType.ERROR,
+                )
+                # we don't need to quit, the run can still be useful if the user
+                # does not want to interrupt it, and is ok with oversubscription.
+        else:
+            self.container_list = ListConfig.from_dict(container_list).get_list()
+            # Calculate the maximum number of CPUs needed.
+            # max number of containers * cores per container
+            max_cpu_count = max(self.container_list) * self.core_count
+
         self.cpus = self.topo.select(
             count=max_cpu_count, policy=self.policy, pre_selected=pre_selected_cpus
         )
+
+    def __gen_container_list(self, max_num_containers) -> list[int]:
+        if max_num_containers < self.NUM_STEPS:
+            step = 1
+            max = max_num_containers
+        else:
+            # find the closest number to max_num_containers that is divisible by NUM_STEPS
+            # and does not exceed it
+            max = (max_num_containers // self.NUM_STEPS) * self.NUM_STEPS
+            step = max // self.NUM_STEPS
+
+        # we start range from zero and use max + 1, so that the last value will max
+        default_container_list = list(range(0, max + 1, step))
+        assert default_container_list[0] == 0, "unexpected, given the range starts with zero"
+        # we remove zero from the list
+        default_container_list.remove(0)
+        # make sure first element of the list is one
+        if default_container_list[0] != 1:
+            # insert don't overwrite
+            default_container_list.insert(0, 1)
+        return default_container_list
 
     def get_container_cnt_list(self) -> list[int]:
         return self.container_list
