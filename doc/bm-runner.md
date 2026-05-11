@@ -152,6 +152,13 @@ cmake -S. -Bbuild -DCSB_BM_GENERATOR=ON
 cmake --build build --target zoom_out_single.json.in
 ```
 
+After generation is successful, users can run all generated benchmarks as follows:
+
+```bash
+scripts/run-all.sh *zoom_out*
+```
+
+
 __Note: make sure to run in the project root, and remove existing build folder before running__
 
 <!-- references -->
