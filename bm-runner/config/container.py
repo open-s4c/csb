@@ -87,6 +87,7 @@ class ContainersConfig(dict):
                 if self.policy.one_cpu_per_core
                 else self.topo.get_cpu_count()
             )
+            bm_log(f"#CPUS: {self.topo.get_core_count()}, #Cores: {self.topo.get_cpu_count()}", LogType.FATAL)
         else:
             pre_selected_cpus = ListConfig.from_dict(core_affinity_offsets).get_list()
             # if the user wants specific CPUs then we use what the user specified as the max
