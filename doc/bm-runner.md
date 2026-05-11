@@ -134,6 +134,26 @@ Each of these benchmarks have a JSON file under `config/` and an adapter under `
 For [unixbench][] and [will-it-scale][] we recommend users to clone these repos under a folder called `bm-external` inside
 `CSB` directory.
 
+## Generating Configuration Files in Bulk
+
+Users can generate a new set of configuration files by following these steps:
+
+- Edit or create a template in `bm-generator/templates/`.
+- Ensure the template name contains `single` and has the extension `.json.in`; the word `single` indicates that it generates one benchmark configuration per benchmark.
+- Set the `CSB_RESULTS_GROUP` environment variable to the folder name of the benchmarks group, typically matching the application name for which the benchmarks were generated.
+- Configure the project with the benchmark generator enabled using `-DCSB_BM_GENERATOR=ON`.
+- Build the project using the template file name you just edited or added as the build target.
+
+The following are the steps needed to generate after adding or editing `zoom_out_single.json.in`.
+
+```bash
+export CSB_RESULTS_GROUP=mysql
+cmake -S. -Bbuild -DCSB_BM_GENERATOR=ON
+cmake --build build --target zoom_out_single.json.in
+```
+
+__Note: make sure to run in the project root, and remove existing build folder before running__
+
 <!-- references -->
 [config]: doc/bm-config.md
 [bench]: doc/bench.md
