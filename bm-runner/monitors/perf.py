@@ -12,11 +12,15 @@ from utils.process import BackgroundProcess
 
 class FlameGraph(Monitor):
     FG_PATH_ENV_VAR_NAME = "FLAMEGRAPH"
+    ARM_SPE_ENABLED_ENV_VAR_NAME = "CSB_ARM_SPE_ENABLE"
     ARM_SPE_PERIOD_ENV_VAR_NAME = "CSB_ARM_SPE_PERIOD"
     ARM_SPE_DEVICE_GLOB = "/sys/bus/event_source/devices/arm_spe*"
     ARM_SPE_MIN_INTERVAL_GLOB = "/sys/bus/event_source/devices/arm_spe*/caps/min_interval"
     ARM_SPE_FALLBACK_MIN_INTERVAL = 1024
     ARM_SPE_PERIOD_MULTIPLIER = 10
+
+    TRUE_STRINGS = [True, "true", "yes", "y", "enable", "enabled", "1"]
+    FALSE_STRINGS = [False, "false", "no", "n", "disable", "disabled", "0"]
 
     def __init__(self, output_dir: str, args: list[str] = ["-a"]):
         super().__init__(dir=output_dir, args=args)
@@ -37,6 +41,8 @@ class FlameGraph(Monitor):
     @classmethod
     def perf_record_cmd(cls, args: list[str]) -> list[str]:
         cmds = ["sudo", "perf", "record", "-g"]
+        if not cls.arm_spe_enabled_and_supported():
+            cmds.extend(["-F", "99"])
         for event in cls.perf_events():
             cmds.extend(["-e", event])
         cmds.extend(args)
@@ -45,9 +51,30 @@ class FlameGraph(Monitor):
     @classmethod
     def perf_events(cls) -> list[str]:
         events = ["cycles"]
-        if cls.arm_spe_supported():
+        if cls.arm_spe_enabled_and_supported():
             events.append(cls.arm_spe_event())
         return events
+
+    @classmethod
+    def to_boolean(cls, value: str) -> bool:
+        if value.lower() in cls.TRUE_STRINGS:
+            return True
+        if value.lower() in cls.FALSE_STRINGS:
+            return False
+        raise ValueError(f"Unknown boolean value '{value}'")
+
+    @classmethod
+    def get_bool_env(cls, *parts, **kwargs):
+        return cls.to_boolean(cls.get_env(*parts, **kwargs))
+
+    @classmethod
+    def arm_spe_enabled_and_supported(cls) -> bool:
+        return cls.arm_spe_enabled() and cls.arm_spe_supported()
+
+    @classmethod
+    def arm_spe_enabled(cls) -> bool:
+        arm_spe_enabled = cls.get_bool_env(cls.ARM_SPE_ENABLED_ENV_VAR_NAME)
+        return arm_spe_enabled
 
     @classmethod
     def arm_spe_supported(cls) -> bool:
@@ -71,6 +98,7 @@ class FlameGraph(Monitor):
     def arm_spe_period(cls) -> int:
         env_period = os.getenv(cls.ARM_SPE_PERIOD_ENV_VAR_NAME)
         if env_period is not None:
+            period = 0
             try:
                 period = int(env_period)
             except ValueError:
