@@ -164,15 +164,23 @@ class Executer:
             self.cleanup()
 
     def collect_results(self) -> str:
-        stat_prefix = "".join([monitor.collect_results().strip() for monitor in self.monitors])
-        result = "".join(f"{stat_prefix}{eu.get_output()}" for eu in self.exec_units)
+        eu_outputs = [eu.get_output() for eu in self.exec_units]
+        pids = []
+        for eu_output in eu_outputs:
+            print(f"eu_output: {eu_output}\n")
+            items = dict(item.split('=') for item in eu_output.split(';') if item and "=" in item)
+            pid = items['pid']
+            pids.append(pid)
+        # pids = None
+        stat_prefix = "".join([monitor.collect_results(pids).strip() for monitor in self.monitors])
+        result = "".join(f"{stat_prefix}{eu_output}" for eu_output in eu_outputs)
         return result
 
     def signal_start(self):
-        bm_log(f"Waiting for {self.SLEEP_IN_SEC}, before giving the start signal")
-        time.sleep(self.SLEEP_IN_SEC)
         self.__call_plugins(ExecutionTime.PRE)
         self.__start_monitors()
+        bm_log(f"Waiting for {self.SLEEP_IN_SEC}, before giving the start signal")
+        time.sleep(self.SLEEP_IN_SEC)
         shell_out(
             f"touch {ExecutionUnit.START_FILE}",
             current_dir=self.home_dir,

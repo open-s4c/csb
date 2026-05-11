@@ -37,6 +37,7 @@ class MonitorType(str, Enum):
     PERF = "perf"
     REDIS_BENCHMARK = "redis_benchmark"
     SAR_NET = "sar_net"
+    BPFTRACE = "bpftrace"
 
 
 class BenchmarkConfig(dict):

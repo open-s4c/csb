@@ -6,6 +6,7 @@ from monitors.mpstat import SystemStats
 from monitors.redis_bench import RedisStats
 from monitors.perf import FlameGraph
 from monitors.sarnet import SarNetStats
+from monitors.bpftrace import BPFTraceStats
 from monitors.monitor import Monitor
 from utils.logger import bm_log, LogType
 import sys
@@ -49,6 +50,8 @@ class MonitorFactory:
                 return RedisStats(output_dir=results_dir, args=args)
             case MonitorType.SAR_NET:
                 return SarNetStats(output_dir=results_dir, args=args)
+            case MonitorType.BPFTRACE:
+                return BPFTraceStats(output_dir=results_dir, args=args)
             case _:
                 bm_log(f"Unsupported monitor type {monitor_type}", LogType.FATAL)
                 sys.exit(1)

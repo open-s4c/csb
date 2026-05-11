@@ -4,6 +4,7 @@
 import pandas as pd
 from pathlib import Path
 from monitors.monitor import Monitor
+from typing import Optional
 
 
 class RedisStats(Monitor):
@@ -18,7 +19,7 @@ class RedisStats(Monitor):
     def stop(self):
         pass
 
-    def collect_results(self) -> str:
+    def collect_results(self, pids: Optional[list[int]]) -> str:
         data = pd.read_csv(self.dir / self.fname)
         # OK/NOT OK: redis-benchmark provides the statistics like requests per seconds, avg. latency, etc. as a list for a number of requests. What we want to achieve here is to aggregate the lists per metric into a single number. It should be statistically meaningful to calculate average RPS and latency with mean, and min and max latencies with the corresponding functions (OK), but it is probably not right for p50/p95/p99 latencies (NOT OK).
         agg_data = data.agg(

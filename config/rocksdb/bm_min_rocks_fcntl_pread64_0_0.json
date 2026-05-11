@@ -23,6 +23,153 @@
     {
       "x": "container_cnt",
       "x_lbl": "#Containers",
+      "y": "sched_latency",
+      "y_lbl": "Schedule Latency (ns)",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "histogram",
+      "title": "Schedule Latency vs. #Containers",
+      "hist_bucket_min": 0,
+      "hist_bucket_max": 2,
+      "hist_bucket_factor": 2
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "sched_migrate",
+      "y_lbl": "Schedule Migration Count",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "min_max_avg",
+      "title": "Schedule Migration Count vs. #Containers"
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "vfs_read_latency",
+      "y_lbl": "VFS read latency (ns)",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "histogram",
+      "title": "VFS read latency vs. #Containers",
+      "hist_bucket_min": 0,
+      "hist_bucket_max": 2,
+      "hist_bucket_factor": 2
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "sched_domains_mutex",
+      "y_lbl": "Scheduler Domains Mutex Latency (ns)",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "histogram",
+      "title": "Scheduler Domains Mutex Latency vs. #Containers",
+      "hist_bucket_min": 0,
+      "hist_bucket_max": 2,
+      "hist_bucket_factor": 2
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "sched_fork_count",
+      "y_lbl": "Fork count",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "min_max_avg",
+      "title": "Fork count vs. #Containers"
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "block_req",
+      "y_lbl": "#Block requests",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "histogram",
+      "title": "#Block requests vs. #Containers",
+      "hist_bucket_min": 0,
+      "hist_bucket_max": 2,
+      "hist_bucket_factor": 2
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "cgroup_rstat_lock_cont",
+      "y_lbl": "#CGroup Rstat Lock Contention",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "min_max_avg",
+      "title": "#CGroup Rstat Lock Contention vs. #Containers"
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "cgroup_rstat_flush",
+      "y_lbl": "CGroup Rstat Flush Latency",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "histogram",
+      "title": "CGroup Rstat Flush Latency vs. #Containers",
+      "hist_bucket_min": 0,
+      "hist_bucket_max": 2,
+      "hist_bucket_factor": 2
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "cgroup_attach_task",
+      "y_lbl": "CGroup Attach Task Latency",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "histogram",
+      "title": "CGroup Attach Task Latency vs. #Containers",
+      "hist_bucket_min": 0,
+      "hist_bucket_max": 2,
+      "hist_bucket_factor": 2
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "cgroup_charge",
+      "y_lbl": "CGroup Charge Latency",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "histogram",
+      "title": "CGroup Charge Latency vs. #Containers",
+      "hist_bucket_min": 0,
+      "hist_bucket_max": 2,
+      "hist_bucket_factor": 2
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "cgroup_fork",
+      "y_lbl": "CGroup Fork Latency",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "histogram",
+      "title": "CGroup Fork Latency vs. #Containers",
+      "hist_bucket_min": 0,
+      "hist_bucket_max": 2,
+      "hist_bucket_factor": 2
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "cgroup_procs_write",
+      "y_lbl": "CGroup Procs Write Latency",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
+      "type": "histogram",
+      "title": "CGroup Procs Write Latency vs. #Containers",
+      "hist_bucket_min": 0,
+      "hist_bucket_max": 2,
+      "hist_bucket_factor": 2
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
       "y": "univ_succ_percent",
       "y_lbl": "Operations success percent",
       "hue_lbl": "Executer",
@@ -32,7 +179,7 @@
     }
   ],
   "benchmark_config": {
-    "duration": 60,
+    "duration": 30,
     "monitors": {
       "mpstat": [
         "-n",
@@ -45,7 +192,57 @@
       "perf": [
         "-C",
         "0"
-      ]
+      ],
+      "bpftrace": {
+        "sched_domains_mutex": [
+          "-1",
+          "-1"
+        ],
+        "sched_latency": [
+          "-1",
+          "-1"
+        ],
+        "sched_migrate_task": [
+          "-1",
+          "-1"
+        ],
+        "sched_fork": [
+          "-1",
+          "-1"
+        ],
+        "block_req": [
+          "-1",
+          "-1"
+        ],
+        "vfs_read_latency": [
+          "-1",
+          "-1"
+        ],
+        "cgroup_rstat_lock_cont": [
+          "-1",
+          "-1"
+        ],
+        "cgroup_rstat_flush": [
+          "-1",
+          "-1"
+        ],
+        "cgroup_attach_task": [
+          "-1",
+          "-1"
+        ],
+        "cgroup_fork": [
+          "-1",
+          "-1"
+        ],
+        "cgroup_charge": [
+          "-1",
+          "-1"
+        ],
+        "cgroup_procs_write": [
+          "-1",
+          "-1"
+        ]
+      }
     }
   },
   "containers": {
@@ -55,9 +252,9 @@
           1
         ],
         {
-          "min": 5,
-          "step": 5,
-          "max": 30
+          "min": 1,
+          "step": 8,
+          "max": 64
         }
       ]
     },

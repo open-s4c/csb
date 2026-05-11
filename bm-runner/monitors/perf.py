@@ -4,18 +4,26 @@
 import os
 import sys
 import subprocess
+import glob
 from monitors.monitor import Monitor
 from utils.logger import bm_log, LogType
 from utils.process import BackgroundProcess
+from typing import Optional
 
 
 class FlameGraph(Monitor):
     FG_PATH_ENV_VAR_NAME = "FLAMEGRAPH"
+    ARM_SPE_PERIOD_ENV_VAR_NAME = "CSB_ARM_SPE_PERIOD"
+    ARM_SPE_DEVICE_GLOB = "/sys/bus/event_source/devices/arm_spe*"
+    ARM_SPE_MIN_INTERVAL_GLOB = "/sys/bus/event_source/devices/arm_spe*/caps/min_interval"
+    ARM_SPE_FALLBACK_MIN_INTERVAL = 1024
+    ARM_SPE_PERIOD_MULTIPLIER = 10
 
     def __init__(self, output_dir: str, args: list[str] = ["-a"]):
         super().__init__(dir=output_dir, args=args)
-        cmds = ["sudo", "perf", "record", "-F", "99", "-g"]
-        cmds.extend(args)
+        if not self.arm_spe_supported():
+            bm_log("arm_spe PMU is not available; skipping arm_spe perf event.", LogType.INFO)
+        cmds = self.perf_record_cmd(args)
         self.perf = BackgroundProcess(
             name="perf", out_dir=output_dir, cmds=cmds, requires=["perf"], pin=self.get_cpus()
         )
@@ -27,11 +35,81 @@ class FlameGraph(Monitor):
             )
             sys.exit(1)
 
+    @classmethod
+    def perf_record_cmd(cls, args: list[str]) -> list[str]:
+        cmds = ["sudo", "perf", "record", "--kcore", "-g"]
+        for event in cls.perf_events():
+            cmds.extend(["-e", event])
+        cmds.extend(args)
+        return cmds
+
+    @classmethod
+    def perf_events(cls) -> list[str]:
+        events = ["cycles"]
+        if cls.arm_spe_supported():
+            events.append(cls.arm_spe_event())
+        return events
+
+    @classmethod
+    def arm_spe_supported(cls) -> bool:
+        for device in glob.glob(cls.ARM_SPE_DEVICE_GLOB):
+            if not os.path.isdir(device):
+                continue
+            try:
+                with open(os.path.join(device, "type"), "r") as type_file:
+                    int(type_file.read().strip(), 0)
+            except (OSError, ValueError):
+                continue
+            else:
+                return True
+        return False
+
+    @classmethod
+    def arm_spe_event(cls) -> str:
+        return f"arm_spe/jitter=1,period={cls.arm_spe_period()}/"
+
+    @classmethod
+    def arm_spe_period(cls) -> int:
+        env_period = os.getenv(cls.ARM_SPE_PERIOD_ENV_VAR_NAME)
+        if env_period is not None:
+            try:
+                period = int(env_period)
+            except ValueError:
+                bm_log(
+                    f"{cls.ARM_SPE_PERIOD_ENV_VAR_NAME} must be a positive integer.",
+                    LogType.FATAL,
+                )
+                sys.exit(1)
+            if period > 0:
+                return period
+            bm_log(
+                f"{cls.ARM_SPE_PERIOD_ENV_VAR_NAME} must be a positive integer.",
+                LogType.FATAL,
+            )
+            sys.exit(1)
+
+        return cls.arm_spe_min_interval() * cls.ARM_SPE_PERIOD_MULTIPLIER
+
+    @classmethod
+    def arm_spe_min_interval(cls) -> int:
+        intervals = []
+        for path in glob.glob(cls.ARM_SPE_MIN_INTERVAL_GLOB):
+            try:
+                with open(path, "r") as min_interval_file:
+                    interval = int(min_interval_file.read().strip(), 0)
+            except (OSError, ValueError):
+                continue
+            if interval > 0:
+                intervals.append(interval)
+        if intervals:
+            return max(intervals)
+        return cls.ARM_SPE_FALLBACK_MIN_INTERVAL
+
     def start(self):
         # Launch perf in the background
         self.perf.start()
 
-    def collect_results(self):
+    def collect_results(self, pids: Optional[list[int]]):
         return ""
 
     def __generate_flamegraph(self, errfile):

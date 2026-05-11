@@ -8,6 +8,7 @@ from io import StringIO
 import matplotlib.pyplot as plt
 from monitors.monitor import Monitor
 from utils.process import BackgroundProcess
+from typing import Optional
 
 
 class SarNetStats(Monitor):
@@ -25,7 +26,7 @@ class SarNetStats(Monitor):
     def start(self):
         self.sar.start()
 
-    def collect_results(self):
+    def collect_results(self, pids: Optional[list[int]]):
         proc = subprocess.run(
             [
                 "sadf",

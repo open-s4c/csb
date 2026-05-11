@@ -3,10 +3,10 @@
 
 include(ExternalProject)
 set(OPENS4C_URL "https://github.com/open-s4c")
-set(TMPLR_VERSION "1.4.2")
+set(TMPLR_VERSION "1.4.3")
 set(TMPLR_URL "${OPENS4C_URL}/tmplr/archive/refs/tags/v${TMPLR_VERSION}.tar.gz")
 set(TMPLR_SHA256
-    "7f19dd58ccea737d9156f02167e2aa631218937195b3fbafe3475683bf9d888f")
+    "8b98201053a199e6c7c05ed55973716560bdd76ff10f5e87370a933487dbd710")
 set(TMPLR_PROGRAM "${CMAKE_BINARY_DIR}/tmplr/tmplr")
 
 ExternalProject_Add(

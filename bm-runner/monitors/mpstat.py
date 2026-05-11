@@ -90,7 +90,7 @@ class SystemStats(Monitor):
             bm_log(f"Could not read mpstat output as JSON {e}")
             return None
 
-    def collect_results(self) -> str:
+    def collect_results(self, pids: Optional[list[int]]) -> str:
         if self.stat:
             data = self.__read_output()
             if data:
