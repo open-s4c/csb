@@ -13,6 +13,7 @@ from config.policy import CoreAssignPolicy, PackGroup
 
 
 class ContainersConfig(dict):
+    NUM_STEPS: int = 16  # default number of steps to set default container_list
     CONFIG_KEY: str = "containers"
     DEFAULT_IMG: dict[OperatingSystem, str] = {
         OperatingSystem.openEuler: "hub.oepkgs.net/openeuler/openeuler",
@@ -79,9 +80,14 @@ class ContainersConfig(dict):
         self.__ensure_img_exists()
 
     def __set_cpus_containers(self, core_affinity_offsets, container_list):
+        """
+        Sets self.container_list and self.cpus
+
+        """
         if core_affinity_offsets is None:
             pre_selected_cpus = None
-            # determine m
+            # we decide number of available CPUs based on the policy.
+            # we use number of cores if the policy requests one CPU per core.
             num_avail_cpus = (
                 self.topo.get_core_count()
                 if self.policy.one_cpu_per_core
@@ -89,12 +95,12 @@ class ContainersConfig(dict):
             )
         else:
             pre_selected_cpus = ListConfig.from_dict(core_affinity_offsets).get_list()
-            # if the user wants specific CPUs then we use what the user specified as the max
+            # if the user wants specific CPUs then we use the count of the specified CPUs.
             num_avail_cpus = len(pre_selected_cpus)
 
         if container_list is None:
-            # if the user did not configure how many containers to run with
-            # we generate a list from 1 -> max to run with, where max will be the maximum
+            # if the user did not configure how many containers to run
+            # we generate a list from 1 -> max, where max will be the maximum
             # number of containers we can run with without causing oversubscription
             max_num_containers = num_avail_cpus // self.core_count
             bm_log(
@@ -105,7 +111,6 @@ class ContainersConfig(dict):
             """
             )
             self.container_list = self.__gen_container_list(max_num_containers)
-            # do not multiply by core count here, because that is already factored in
             max_cpu_count = max(self.container_list)
             # at the moment we don't respect the pack group policy when
             # determining max #containers, hence when the policy is set to pack by
@@ -133,15 +138,14 @@ class ContainersConfig(dict):
         )
 
     def __gen_container_list(self, max_num_containers) -> list[int]:
-        NUM_STEPS = 16
-        if max_num_containers < NUM_STEPS:
+        if max_num_containers < self.NUM_STEPS:
             step = 1
             max = max_num_containers
         else:
             # find the closest number to max_num_containers that is divisible by NUM_STEPS
             # and does not exceed it
-            max = (max_num_containers // NUM_STEPS) * NUM_STEPS
-            step = max // NUM_STEPS
+            max = (max_num_containers // self.NUM_STEPS) * self.NUM_STEPS
+            step = max // self.NUM_STEPS
 
         # we start range from zero and use max + 1, so that the last value will max
         default_container_list = list(range(0, max + 1, step))
