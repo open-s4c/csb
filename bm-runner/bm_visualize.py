@@ -40,6 +40,7 @@ def plot_chart(
     plot: PlotConfig,
     df: DataFrame,
     out_fig_name,
+    add_points=False,
     **kwargs,
 ):
     args = dict(kwargs)
@@ -69,6 +70,18 @@ def plot_chart(
         y=plot.y,
         **args,
     )
+    if add_points:
+        sns.scatterplot(
+            x=plot.x,
+            y=plot.y,
+            hue=plot.hue,
+            markers=plot.hue,
+            data=df,
+            hue_order=sorted_gp,
+            palette=palette,
+            ax=chart,
+            legend=False,
+        )
 
     chart.set(xlabel=plot.x_lbl, ylabel=plot.y_lbl)
     chart.grid(True)
@@ -318,6 +331,8 @@ def create_plots(df, plots: list[PlotConfig], dir, info: str):
                 create_histogram_plot(df=df, plot=plot, dir=dir)
             case PlotType.LINEARITY:
                 create_linearity_plot(df=df, plot=plot, dir=dir)
+            case PlotType.MEAN:
+                create_mean_plot(df=df, plot=plot, dir=dir)
             case _:
                 bm_log(f"unsupported plot type: {plot.type} skipped!", LogType.WARNING)
 
@@ -360,6 +375,16 @@ def split_data_frame(df: DataFrame) -> dict:
             key = f"n={n}-t={t}"
             frames[key] = df[(df["nb_threads"] == t) & (df["noise"] == n)]
     return frames
+
+
+def create_mean_plot(df: DataFrame, plot: PlotConfig, dir):
+    plot_chart(
+        plot=plot,
+        df=df,
+        out_fig_name=f"{dir}/{plot.y}_mean",
+        add_points=True,
+        estimator="mean",
+    )
 
 
 def create_linearity_plot(df: DataFrame, plot: PlotConfig, dir):

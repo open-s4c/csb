@@ -17,6 +17,16 @@
       "y_lbl": "Throughput",
       "hue": "execution_type",
       "hue_lbl": "Execution Env",
+      "title": "Throughput mean vs. #Containers",
+      "type": "mean"
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "throughput_min",
+      "y_lbl": "Throughput",
+      "hue": "execution_type",
+      "hue_lbl": "Execution Env",
       "title": "Linearity vs. #Containers",
       "type": "linearity"
     }
@@ -38,7 +48,7 @@
     "core_assignment_policy": {
       "cpu_order": "desc",
       "pack_group": "none",
-      "one_cpu_per_core": true
+      "one_cpu_per_core": false
     }
   },
   "applications": [

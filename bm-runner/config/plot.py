@@ -12,6 +12,7 @@ class PlotType(str, Enum):
     Members
     ----------
     NORMAL: Plots according to the config no post processing of data.
+    MEAN: Plots the mean value of execution units' throughput (`y` value specified in plot config) per run.
     MIN_MAX_AVG: Experimental, Plots min, max and average time of operations.
     HISTOGRAM: Experimental, Plots the distribution of operations.
     SUCCESS_PERCENT: Experimental, Plots the percentage of successful operations.
@@ -19,6 +20,7 @@ class PlotType(str, Enum):
     """
 
     NORMAL = "normal"
+    MEAN = "mean"
     MIN_MAX_AVG = "min_max_avg"
     HISTOGRAM = "histogram"
     SUCCESS_PERCENT = "success_percent"
@@ -30,6 +32,7 @@ class PlotConfig(dict):
 
     DEFAULT_PLOT: dict[PlotType, str] = {
         PlotType.NORMAL: "lineplot",
+        PlotType.MEAN: "lineplot",
         PlotType.MIN_MAX_AVG: "barplot",
         PlotType.HISTOGRAM: "boxenplot",
         PlotType.SUCCESS_PERCENT: "barplot",
