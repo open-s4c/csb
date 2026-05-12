@@ -122,6 +122,7 @@ Monitors are used to monitor performance. They can be used to analyze the behavi
 ## PlotType
 Supported types of plots.  <br/>Supported values:
 - `"normal"`:  Plots according to the config no post processing of data.
+- `"mean"`:  Plots the mean value of execution units' throughput (`y` value specified in plot config) per run.
 - `"min_max_avg"`:  Experimental, Plots min, max and average time of operations.
 - `"histogram"`:  Experimental, Plots the distribution of operations.
 - `"success_percent"`:  Experimental, Plots the percentage of successful operations.

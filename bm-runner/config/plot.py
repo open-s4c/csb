@@ -12,7 +12,7 @@ class PlotType(str, Enum):
     Members
     ----------
     NORMAL: Plots according to the config no post processing of data.
-    MEAN: Plots the mean value of all execution units (throughput) per run.
+    MEAN: Plots the mean value of execution units' throughput (`y` value specified in plot config) per run.
     MIN_MAX_AVG: Experimental, Plots min, max and average time of operations.
     HISTOGRAM: Experimental, Plots the distribution of operations.
     SUCCESS_PERCENT: Experimental, Plots the percentage of successful operations.
