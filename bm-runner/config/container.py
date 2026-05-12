@@ -13,7 +13,8 @@ from config.policy import CoreAssignPolicy, PackGroup
 
 
 class ContainersConfig(dict):
-    NUM_STEPS: int = 16  # default number of steps to set default container_list
+    MIN_NUM_STEPS: int = 6  # default minimum number of steps to set default container_list
+    MAX_NUM_STEPS: int = 10  # default maximum number of steps to set default container_list
     CONFIG_KEY: str = "containers"
     DEFAULT_IMG: dict[OperatingSystem, str] = {
         OperatingSystem.openEuler: "hub.oepkgs.net/openeuler/openeuler",
@@ -138,16 +139,30 @@ class ContainersConfig(dict):
         )
 
     def __gen_container_list(self, max_num_containers) -> list[int]:
-        if max_num_containers < self.NUM_STEPS:
+        num_steps = int((self.MIN_NUM_STEPS + self.MAX_NUM_STEPS) / 2)
+        if num_steps < 1:
+            num_steps = 1
+        if max_num_containers < 1:
+            max_num_containers = 1
+        if max_num_containers < num_steps:
             step = 1
             max = max_num_containers
         else:
             # find the closest number to max_num_containers that is divisible by NUM_STEPS
             # and does not exceed it
-            max = (max_num_containers // self.NUM_STEPS) * self.NUM_STEPS
-            step = max // self.NUM_STEPS
+            max = (max_num_containers // num_steps) * num_steps
+            step = (max // num_steps)
+            if step < 1:
+                step = 1
+            while (max // step) > self.MAX_NUM_STEPS:
+                print(f"double step from {step} ({max // step})")
+                step = step * 2
+            while step > 1 and (max // step) < self.MIN_NUM_STEPS:
+                print("half step")
+                step = step / 2
 
         # we start range from zero and use max + 1, so that the last value will max
+        # Always add 1 and max_num_containers
         default_container_list = list(range(0, max + 1, step))
         assert default_container_list[0] == 0, "unexpected, given the range starts with zero"
         # we remove zero from the list
@@ -156,6 +171,9 @@ class ContainersConfig(dict):
         if default_container_list[0] != 1:
             # insert don't overwrite
             default_container_list.insert(0, 1)
+        if default_container_list[-1] != max_num_containers:
+            default_container_list.append(max_num_containers)
+
         return default_container_list
 
     def get_container_cnt_list(self) -> list[int]:
