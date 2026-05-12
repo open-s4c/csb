@@ -20,7 +20,7 @@ class FlameGraph(Monitor):
 
     def __init__(self, output_dir: str, args: list[str] = ["-a"]):
         super().__init__(dir=output_dir, args=args)
-        if not self.arm_spe_supported():
+        if self.arm_spe_enabled() and not self.arm_spe_supported():
             bm_log("arm_spe PMU is not available; skipping arm_spe perf event.", LogType.INFO)
         cmds = self.perf_record_cmd(args)
         self.perf = BackgroundProcess(
