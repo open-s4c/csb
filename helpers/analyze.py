@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os
 import pandas as pd
 
@@ -57,7 +58,7 @@ def process(file:str) -> list:
         return results
 
 if __name__ == "__main__":
-    folder = "/home/lilith/workspace/csb/results-csv"
+    folder = "/home/lilith/workspace/csb-analyze/results"
     files = find_csvs(folder)
     all = []
     for f in files:
