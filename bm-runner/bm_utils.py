@@ -272,7 +272,8 @@ def is_process_running(name: str) -> bool:
             pass
     return False
 
-def get_host_ip():
+
+def get_host_ip() -> str:
     # This creates a temporary socket connection to get the local IP
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
@@ -284,5 +285,3 @@ def get_host_ip():
     finally:
         s.close()
     return ip
-
-
