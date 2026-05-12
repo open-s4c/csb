@@ -32,7 +32,7 @@ class PlotConfig(dict):
 
     DEFAULT_PLOT: dict[PlotType, str] = {
         PlotType.NORMAL: "lineplot",
-        PlotType.MEAN : "lineplot",
+        PlotType.MEAN: "lineplot",
         PlotType.MIN_MAX_AVG: "barplot",
         PlotType.HISTOGRAM: "boxenplot",
         PlotType.SUCCESS_PERCENT: "barplot",

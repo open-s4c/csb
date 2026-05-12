@@ -40,7 +40,7 @@ def plot_chart(
     plot: PlotConfig,
     df: DataFrame,
     out_fig_name,
-    add_points = False,
+    add_points=False,
     **kwargs,
 ):
     args = dict(kwargs)
@@ -376,6 +376,7 @@ def split_data_frame(df: DataFrame) -> dict:
             frames[key] = df[(df["nb_threads"] == t) & (df["noise"] == n)]
     return frames
 
+
 def create_mean_plot(df: DataFrame, plot: PlotConfig, dir):
     plot_chart(
         plot=plot,
@@ -384,6 +385,7 @@ def create_mean_plot(df: DataFrame, plot: PlotConfig, dir):
         add_points=True,
         estimator="mean",
     )
+
 
 def create_linearity_plot(df: DataFrame, plot: PlotConfig, dir):
     count_col: str = plot.x  # e.g. container count
