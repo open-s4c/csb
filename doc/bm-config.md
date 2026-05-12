@@ -154,3 +154,4 @@ CSB bm-runner has universal configuration that can overwrite default behavior an
 - `"CSB_NO_BUILD_BENCH"`:  when set to `true`, it skips building *all* builtin benchmarks.
 - `"CSB_PIN_MONITORS"`:  When set to `true`, all monitors will be pinned to a specific CPU.
 - `"CSB_RESULTS_GROUP"`:  when set to <dir-name>, bm-runner dumps all results under results/<dir-name>.
+- `"CSB_ARM_SPE"`:  when set to `true`, it checks of availability of arm_spe perf event and captures these events.
