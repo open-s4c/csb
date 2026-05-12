@@ -15,9 +15,7 @@ class FlameGraph(Monitor):
     FG_PATH_ENV_VAR_NAME = "FLAMEGRAPH"
     ARM_SPE_PERIOD_ENV_VAR_NAME = "CSB_ARM_SPE_PERIOD"
     ARM_SPE_DEVICE_GLOB = "/sys/bus/event_source/devices/arm_spe*"
-    ARM_SPE_MIN_INTERVAL_GLOB = (
-        "/sys/bus/event_source/devices/arm_spe*/caps/min_interval"
-    )
+    ARM_SPE_MIN_INTERVAL_GLOB = "/sys/bus/event_source/devices/arm_spe*/caps/min_interval"
     ARM_SPE_FALLBACK_MIN_INTERVAL = 1024
     ARM_SPE_PERIOD_MULTIPLIER = 10
 
