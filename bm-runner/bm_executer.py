@@ -143,6 +143,7 @@ class Executer:
                         n_units=len(self.exec_units),
                         homedir=self.home_dir,
                         res_dir=eu.get_results_dir(),
+                        host_ip=bm_config.get_host_ip(),
                     )
                 )
                 if not ret:

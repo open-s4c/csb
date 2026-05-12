@@ -14,6 +14,7 @@ from config.benchmark import BenchmarkConfig
 import shutil
 from config.nics import NicsConfig
 from utils.logger import bm_log, LogType
+from bm_utils import get_host_ip
 
 
 class CampaignConfig:
@@ -50,6 +51,7 @@ class CampaignConfig:
         self.plots = self.__parse_plots()
         self.plugins = self.__parse_plugins()
         self.nics = self.__parse_nics()
+        self.host_ip = get_host_ip()
 
     def __load(self, filename: str):
         try:
@@ -67,6 +69,11 @@ class CampaignConfig:
         Returns the value associated with the given key if it exists.
         """
         return self.config.get(key)
+
+    def get_host_ip(self) -> str:
+        # at the moment this is auto-detected
+        # we can later allow specifying it in JSON
+        return self.host_ip
 
     def copy(self, des):
         shutil.copy(self.config_fname, des)

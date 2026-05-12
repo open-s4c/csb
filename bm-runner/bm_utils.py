@@ -271,3 +271,17 @@ def is_process_running(name: str) -> bool:
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             pass
     return False
+
+
+def get_host_ip() -> str:
+    # This creates a temporary socket connection to get the local IP
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        # The IP doesn't need to be reachable; just used to get the local IP
+        s.connect(("8.8.8.8", 80))
+        ip = s.getsockname()[0]
+    except Exception:
+        ip = "127.0.0.1"
+    finally:
+        s.close()
+    return ip

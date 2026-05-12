@@ -50,9 +50,9 @@ class Application(dict):
         args: Optional[str] = -t={threads} -n={noise} -d={duration} -s={initial_size}
             A string that represents the command line arguments of the application.
             It can contain place holders for dynamic values. Available place holders:
-            are `{threads}`, `{noise}`, `{duration}`, `{index}`, and `{initial_size}`.
+            are `{threads}`, `{noise}`, `{duration}`, `{index}`, `{initial_size}` and `{host_ip}`.
             They are replaced at runtime with the actual values: number of threads, number of nop instructions following an operation,
-            duration of the benchmark in seconds, the index of the execution unit in the current benchmarking run, and initial size of the data structure respectively.
+            duration of the benchmark in seconds, the index of the execution unit in the current benchmarking run, initial size of the data structure, and the host IP where CSB is running respectively.
             If any of the above is relevant for the external application they can be used in the args
             string. Otherwise they can be omitted.
         adapter: Optional[Adapter] = {}
@@ -116,11 +116,12 @@ class Application(dict):
         n_units: int,
         homedir: str,
         res_dir: str,
+        host_ip: str = "127.0.0.1",
     ) -> str:
         """
         Returns full command line for a single benchmark run.
         This command line is composed of:
-        application's command with arguments; the distribution of opperations; and plugins that run with the application.
+        application's command with arguments; the distribution of operations; and plugins that run with the application.
 
         This step also formats the command line, using variables such as `homedir`.
         """
@@ -140,6 +141,7 @@ class Application(dict):
             n_units=n_units,
             homedir=homedir,
             res_dir=res_dir,
+            host_ip=host_ip,
         )
         bm_log(f"generated command: {cmd}")
         return cmd
