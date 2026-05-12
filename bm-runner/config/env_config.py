@@ -36,6 +36,7 @@ class EnvUniversalConfig:
         UniversalConfig.CSB_NO_BUILD_BENCH: False,
         UniversalConfig.CSB_PIN_MONITORS: False,
         UniversalConfig.CSB_ANALYZE: True,
+        UniversalConfig.CSB_ARM_SPE: False,
     }
     TRUE_VALS: set[str] = {"true", "1", "yes", "on"}
 
