@@ -10,21 +10,31 @@ from utils.logger import bm_log, LogType
 from utils.process import BackgroundProcess
 from config.env_config import EnvUniversalConfig, UniversalConfig
 
+
 class FlameGraph(Monitor):
     FG_PATH_ENV_VAR_NAME = "FLAMEGRAPH"
     ARM_SPE_PERIOD_ENV_VAR_NAME = "CSB_ARM_SPE_PERIOD"
     ARM_SPE_DEVICE_GLOB = "/sys/bus/event_source/devices/arm_spe*"
-    ARM_SPE_MIN_INTERVAL_GLOB = "/sys/bus/event_source/devices/arm_spe*/caps/min_interval"
+    ARM_SPE_MIN_INTERVAL_GLOB = (
+        "/sys/bus/event_source/devices/arm_spe*/caps/min_interval"
+    )
     ARM_SPE_FALLBACK_MIN_INTERVAL = 1024
     ARM_SPE_PERIOD_MULTIPLIER = 10
 
     def __init__(self, output_dir: str, args: list[str] = ["-a"]):
         super().__init__(dir=output_dir, args=args)
         if self.arm_spe_enabled() and not self.arm_spe_supported():
-            bm_log("arm_spe PMU is not available; skipping arm_spe perf event.", LogType.WARNING)
+            bm_log(
+                "arm_spe PMU is not available; skipping arm_spe perf event.",
+                LogType.WARNING,
+            )
         cmds = self.perf_record_cmd(args)
         self.perf = BackgroundProcess(
-            name="perf", out_dir=output_dir, cmds=cmds, requires=["perf"], pin=self.get_cpus()
+            name="perf",
+            out_dir=output_dir,
+            cmds=cmds,
+            requires=["perf"],
+            pin=self.get_cpus(),
         )
         self.fg_path = os.getenv(self.FG_PATH_ENV_VAR_NAME)
         if self.fg_path is None:
