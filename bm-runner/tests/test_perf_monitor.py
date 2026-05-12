@@ -4,6 +4,7 @@
 from monitors.perf import FlameGraph
 from config.env_config import UniversalConfig
 
+
 def test_arm_spe_event_uses_env_period(monkeypatch):
     monkeypatch.setenv(FlameGraph.ARM_SPE_PERIOD_ENV_VAR_NAME, "20480")
 
