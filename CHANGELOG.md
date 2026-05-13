@@ -11,6 +11,10 @@ and this project partially comply with [Semantic Versioning](https://semver.org/
 
 - CPU assignment policy configuration feature.
 
+### Fixed
+
+- tests with O_DIRECT file access, by using aligned allocation for write buffer
+
 ## [0.2.1] - 2026-03-27
 
 ### Changed
