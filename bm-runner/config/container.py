@@ -151,15 +151,13 @@ class ContainersConfig(dict):
             # find the closest number to max_num_containers that is divisible by NUM_STEPS
             # and does not exceed it
             max = (max_num_containers // num_steps) * num_steps
-            step = (max // num_steps)
+            step = max // num_steps
             if step < 1:
                 step = 1
             while (max // step) > self.MAX_NUM_STEPS:
-                print(f"double step from {step} ({max // step})")
                 step = step * 2
             while step > 1 and (max // step) < self.MIN_NUM_STEPS:
-                print("half step")
-                step = step / 2
+                step = step // 2
 
         # we start range from zero and use max + 1, so that the last value will max
         # Always add 1 and max_num_containers

@@ -1,9 +1,9 @@
 # Copyright (C) Huawei Technologies Co., Ltd. 2026. All rights reserved.
 # SPDX-License-Identifier: MIT
 
-import sys
 from config.container import ContainersConfig
 from utils.logger import bm_log
+
 
 def test_gen_container_list_defaults():
     container_cfg = ContainersConfig()
@@ -27,17 +27,21 @@ def test_gen_container_list_defaults():
         bm_log(f"num_cores={num_cores} ({len(container_counts)} tests): {container_counts}")
         assert len(container_counts) >= min_steps, f"Failed for num_cores={num_cores}"
         assert len(container_counts) <= max_steps + 2, f"Failed for num_cores={num_cores}"
-        assert container_counts[0] == 1, f"First element should be 1 for num_cores={num_cores}: {container_counts}"
+        assert (
+            container_counts[0] == 1
+        ), f"First element should be 1 for num_cores={num_cores}: {container_counts}"
         assert (
             container_counts[-1] == num_cores
-        ), f"Last element should be num_cores={num_cores}, cores_per_container={cores_per_container}: {container_counts}"
+        ), f"Last element should be num_cores={num_cores}, container_list: {container_counts}"
     # Test: numbers less than number of steps
     cores_per_container_list = [1, 2, 3, 4, 7]
     for num_cores in common_core_counts:
         for cores_per_container in cores_per_container_list:
             max_containers = num_cores // cores_per_container
             container_counts = gen_list(max_containers)
-            bm_log(f"max_containers={max_containers} ({len(container_counts)} tests): {container_counts}")
+            bm_log(
+                f"max_containers={max_containers} ({len(container_counts)} tests): {container_counts}"
+            )
             assert (
                 container_counts[0] == 1
             ), f"First element should be 1 for num_cores={num_cores}, cores_per_container={cores_per_container}: {container_counts}"
