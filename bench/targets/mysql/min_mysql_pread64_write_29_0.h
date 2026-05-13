@@ -183,8 +183,9 @@ bm_target_reg(thread_ctx_t *ctx, size_t tid)
     assert(ctx->mmap_offsets_min_mysql_pread64_write_29_0_prog);
 
     // allocate and fill write buffer
-    ctx->writeBuffer_min_mysql_pread64_write_29_0_prog =
-        (char *)malloc(maxWriteBufferSize_min_mysql_pread64_write_29_0_prog);
+    // aligned to 4k block size of FS for O_DIRECT support
+    ctx->writeBuffer_min_mysql_pread64_write_29_0_prog = (char *)aligned_alloc(
+        4096, maxWriteBufferSize_min_mysql_pread64_write_29_0_prog);
 
     // connect IPv4
     struct sockaddr_in *saddr4_con = NULL;
