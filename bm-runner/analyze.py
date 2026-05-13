@@ -67,6 +67,37 @@ def process(file:str) -> list:
 
     return results
 
+def gen_compare_summary(df) -> str:
+    benchmarks = df['algo_name'].unique()
+    benchmarks.sort()
+    summary : list[str] = []
+    for bm in benchmarks:
+        # Filter the DataFrame to only this benchmark
+        bm_summary = f"## {bm}\n\n"
+        bm_df = df[df['algo_name'] == bm]
+
+        bm_summary += "| Kernel | Host | Type | Throughput Avg | Success Percent |\n"
+        bm_summary += "|--------|------|------|----------------|----------------|\n"
+        # Add a row per configuration
+        for _, row in bm_df.iterrows():
+            bm_summary += f"| {row['kernel']} | {row['hostname']} | {row['execution_type']} | {row['throughput_avg']:.2f} | {row['univ_succ_percent']:.1f} |\n"
+
+        # Determine the best throughput
+        max_throughput = bm_df['throughput_avg'].max()
+        best_rows = bm_df[bm_df['throughput_avg'] == max_throughput]
+
+        # List all rows that have the max throughput (there could be ties)
+        best_text = ", ".join(
+            f"{r['kernel']}/{r['hostname']}/{r['execution_type']}" for _, r in best_rows.iterrows()
+        )
+        bm_summary += f"\n**Best throughput:** {max_throughput:.2f} ({best_text})\n"
+
+        # Add this benchmark summary to the list
+        summary.append(bm_summary)
+
+    # Join all benchmark summaries into one string
+    return "\n".join(summary)
+
 if __name__ == "__main__":
     folder = "/home/lilith/workspace/csb-analyze"
     files = get_all_files_by_ext(folder)
@@ -77,9 +108,15 @@ if __name__ == "__main__":
         all.extend(res)
 
     final_df = pd.DataFrame(all)
+
     md_table = final_df.to_markdown(index=False)
+    per_bm = gen_compare_summary(final_df)
+
+
+
     csv  = final_df.to_csv(index=False)
     with open("results.md", "w") as f:
          f.write(md_table)
+         f.write(per_bm)
     with open("results.csv", "w") as f:
          f.write(csv)
