@@ -58,7 +58,7 @@ def process(file:str) -> list:
         return results
 
 if __name__ == "__main__":
-    folder = "/home/lilith/workspace/csb-analyze/results"
+    folder = "/home/lilith/workspace/csb-analyze"
     files = find_csvs(folder)
     all = []
     for f in files:
