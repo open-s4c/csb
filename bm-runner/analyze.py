@@ -4,6 +4,10 @@ import pandas as pd
 from utils.logger import bm_log, LogType
 import sys
 
+# TODO: maybe it is best to compare with container count
+# TODO: add compare to baseline
+# TODO: generate in linux fashion
+
 group_by_fields : list[str] = ['algo_name', 'execution_type', 'hostname', 'kernel', 'nb_threads']
 avg_fields: list[str] = ['univ_succ_percent', 'throughput_min']
 
