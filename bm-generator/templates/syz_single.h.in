@@ -167,7 +167,7 @@ static inline void bm_target_reg(thread_ctx_t *ctx, size_t tid) {
   // allocate and fill write buffer
   // aligned to 4k block size of FS for O_DIRECT support
   if(maxWriteBufferSize_NN_prog > 0) {
-    ctx->writeBuffer_NN_prog = (char *)aligned_alloc(4096, maxWriteBufferSize_NN_prog);
+    ctx->writeBuffer_NN_prog = (char *)aligned_alloc(maxWriteBufferSizeAlignment_NN_prog, maxWriteBufferSize_NN_prog);
   }
   else {
     ctx->writeBuffer_NN_prog = NULL;
