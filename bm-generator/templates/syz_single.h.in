@@ -7,6 +7,7 @@
 #include <CSB/bm_helper.h>
 #include <CSB/bm_network.h>
 #include <CSB/bm_target.h>
+#include <cstddef>
 #include <dirent.h>
 #include <endian.h>
 #include <errno.h>
@@ -165,7 +166,7 @@ static inline void bm_target_reg(thread_ctx_t *ctx, size_t tid) {
   assert(ctx->mmap_offsets_NN_prog);
 
   // allocate and fill write buffer
-  ctx->writeBuffer_NN_prog = (char *)malloc(maxWriteBufferSize_NN_prog);
+  ctx->writeBuffer_NN_prog = (char *)aligned_alloc(sizeof(max_align_t), maxWriteBufferSize_NN_prog);
 
   // connect IPv4
   struct sockaddr_in *saddr4_con = NULL;
