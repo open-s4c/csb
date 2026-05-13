@@ -183,8 +183,12 @@ bm_target_reg(thread_ctx_t *ctx, size_t tid)
 
     // allocate and fill write buffer
     // aligned to 4k block size of FS for O_DIRECT support
-    ctx->writeBuffer_min_rocks_write_fcntl_8_0_prog = (char *)aligned_alloc(
-        4096, maxWriteBufferSize_min_rocks_write_fcntl_8_0_prog);
+    if (maxWriteBufferSize_min_rocks_write_fcntl_8_0_prog > 0) {
+        ctx->writeBuffer_min_rocks_write_fcntl_8_0_prog = (char *)aligned_alloc(
+            4096, maxWriteBufferSize_min_rocks_write_fcntl_8_0_prog);
+    } else {
+        ctx->writeBuffer_min_rocks_write_fcntl_8_0_prog = NULL;
+    }
 
     // connect IPv4
     struct sockaddr_in *saddr4_con = NULL;
