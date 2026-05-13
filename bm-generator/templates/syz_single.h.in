@@ -173,6 +173,11 @@ static inline void bm_target_reg(thread_ctx_t *ctx, size_t tid) {
     ctx->writeBuffer_NN_prog = NULL;
   }
 
+  if(maxWriteBufferSize_NN_prog % maxWriteBufferSizeAlignment_NN_prog != 0) {
+    perror("write buffer is not a multiple of alignment.");
+    assert(0 && "write buffer is not a multiple of alignment.");
+  }
+
   // connect IPv4
   struct sockaddr_in *saddr4_con = NULL;
   if (bm_connect_addr_inited) {
