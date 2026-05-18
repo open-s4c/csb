@@ -184,7 +184,7 @@ bm_target_reg(thread_ctx_t *ctx, size_t tid)
 
     // allocate and fill write buffer
     ctx->writeBuffer_min_mysql_pwrite64_lseek_3_0_prog =
-        (char *)malloc(maxWriteBufferSize_min_mysql_pwrite64_lseek_3_0_prog);
+        (char *)aligned_alloc(4096, maxWriteBufferSize_min_mysql_pwrite64_lseek_3_0_prog);
 
     // connect IPv4
     struct sockaddr_in *saddr4_con = NULL;
