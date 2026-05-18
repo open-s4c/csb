@@ -59,43 +59,35 @@ def process(file:str) -> list:
 
     return results
 
-def gen_compare_summary(df) -> str:
+def generate_patch_measurement(df, bm_name):
+    bm_df = df[df['algo_name'] == bm_name]
+    subjects = bm_df['kernel'].unique()
+
+    table = bm_df.pivot_table(
+        index='container_cnt',
+        columns='kernel',
+        values='throughput_avg'
+    ).reset_index()
+
+    table = table[['container_cnt'] + list(subjects)]
+
+    md_table = table.to_markdown(index=False)
+    with open(f"{bm_name}.md", "w") as f:
+         f.write(md_table)
+
+def generate_comparison_plot(df, bm_name):
+    bm_df = df[df['algo_name'] == bm_name]
+    plot_cfg =  PlotConfig(hue="kernel", y="throughput_avg", x="container_cnt")
+    plot_chart(plot=plot_cfg, df=bm_df, out_fig_name=f"{bm_name}")
+
+
+def compare(df) -> str:
     benchmarks = df['algo_name'].unique()
     benchmarks.sort()
-    summary : list[str] = []
     # get all results mapped to a certain benchmark
     for bm in benchmarks:
-        # Filter the DataFrame to only this benchmark
-        bm_summary = f"## {bm}\n\n"
-        bm_df = df[df['algo_name'] == bm]
-
-        cfg =  PlotConfig(hue="kernel", y="throughput_avg", x="container_cnt")
-        plot_chart(cfg, bm_df, f"{bm}.png")
-        create_mean_plot(bm_df, cfg, dir=".")
-
-
-        bm_summary += "|container_cnt| Kernel | Host | Type | Throughput Avg | Success Percent |\n"
-        bm_summary += "|--------|--------|------|------|----------------|----------------|\n"
-        # Add a row per configuration
-        for _, row in bm_df.iterrows():
-            bm_summary += f"|{row['container_cnt']}| {row['kernel']} | {row['hostname']} | {row['execution_type']} | {row['throughput_avg']:.2f} | {row['univ_succ_percent']:.1f} |\n"
-
-        # # Determine the best throughput
-        # max_throughput = bm_df['throughput_avg'].max()
-        # best_rows = bm_df[bm_df['throughput_avg'] == max_throughput]
-
-        # # List all rows that have the max throughput (there could be ties)
-        # best_text = ", ".join(
-        #     f"{r['kernel']}/{r['hostname']}/{r['execution_type']}" for _, r in best_rows.iterrows()
-        # )
-        # bm_summary += f"\n**Best throughput:** {max_throughput:.2f} ({best_text})\n"
-
-        # Add this benchmark summary to the list
-        summary.append(bm_summary)
-
-
-    # Join all benchmark summaries into one string
-    return "\n".join(summary)
+        generate_patch_measurement(df, bm)
+        generate_comparison_plot(df, bm)
 
 if __name__ == "__main__":
     folder = "/home/lilith/workspace/csb-analyze"
@@ -107,13 +99,9 @@ if __name__ == "__main__":
         all.extend(res)
 
     final_df =  pd.concat(all, ignore_index=True)
-
     md_table = final_df.to_markdown(index=False)
 
-    per_bm = gen_compare_summary(final_df)
-
-
-
+    per_bm = compare(final_df)
     csv  = final_df.to_csv(index=False)
     with open("results.md", "w") as f:
          f.write(md_table)
