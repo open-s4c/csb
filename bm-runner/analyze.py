@@ -39,6 +39,12 @@ def get_all_files_by_ext(dir:str, extension:str = ".csv"):
 # algo_name
 # execution_type // group by
 
+def write_to_file(content, fname, dir):
+    os.makedirs(dir, exist_ok=True)
+    file_path = os.path.join(dir, fname)
+    with open(file_path, "w", encoding="utf-8") as f:
+        f.write(content)
+
 def process(file:str) -> list:
     tolerance = 0.1  # 10% tolerance
     results = []
@@ -64,7 +70,6 @@ def process(file:str) -> list:
 
 def generate_patch_measurement(df, bm_name):
     subjects = df['kernel'].unique()
-
     table = df.pivot_table(
         index='container_cnt',
         columns='kernel',
@@ -72,13 +77,21 @@ def generate_patch_measurement(df, bm_name):
     ).reset_index()
 
     table = table[['container_cnt'] + list(subjects)]
-
     md_table = table.to_markdown(index=False)
-    with open(f"{output_dir_name}/{bm_name}.md", "w") as f:
-         f.write(md_table)
+
+    md_info  = f"# {bm_name}\n"
+
+    write_to_file(dir=output_dir_name, fname=f"{bm_name}.md", content=md_info + md_table)
 
 def generate_comparison_plot(df, bm_name):
-    plot_cfg =  PlotConfig(hue="kernel", y="throughput_avg", x="container_cnt")
+    plot_cfg =  PlotConfig(
+        hue="kernel",
+        hue_lbl="Kernel",
+        y="throughput_avg",
+        y_lbl="Throughput Average",
+        x="container_cnt",
+        x_lbl="#Executions Units",
+    )
     plot_chart(plot=plot_cfg, df=df, out_fig_name=f"{output_dir_name}/{bm_name}")
 
 
@@ -106,14 +119,12 @@ if __name__ == "__main__":
 
     per_bm = compare(final_df)
     csv  = final_df.to_csv(index=False)
-    with open("results.md", "w") as f:
-         f.write(md_table)
-        # f.write(per_bm)
-    with open("results.csv", "w") as f:
-         f.write(csv)
+
+    write_to_file(dir=".", fname="results.md", content=md_table)
+    write_to_file(dir=".", fname="results.csv", content=csv)
 
     doc = document()
     _add_css_style(doc)
     dump_graphs_to_doc(output_dir_name, doc)
-    with open("results.html", "w") as f:
-        f.write(doc.render())
+    write_to_file(dir=".", fname="results.html", content=doc.render())
+
