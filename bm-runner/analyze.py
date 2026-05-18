@@ -4,9 +4,10 @@
 import os
 import pandas as pd
 from utils.logger import bm_log, LogType
-from bm_visualize import plot_chart, create_mean_plot
+from bm_visualize import plot_chart, dump_graphs_to_doc, create_mean_plot, _add_css_style
 from config.plot import PlotConfig, PlotType
 import sys
+from dominate import document
 
 # TODO: maybe it is best to compare with container count
 # TODO: add compare to baseline
@@ -14,6 +15,8 @@ import sys
 
 group_by_fields : list[str] = ['algo_name', 'execution_type', 'hostname', 'kernel', 'nb_threads']
 avg_fields: list[str] = ['univ_succ_percent', 'throughput_min']
+
+output_dir_name = "analysis-results"
 
 
 # collect all csvs in the given folder
@@ -60,10 +63,9 @@ def process(file:str) -> list:
     return results
 
 def generate_patch_measurement(df, bm_name):
-    bm_df = df[df['algo_name'] == bm_name]
-    subjects = bm_df['kernel'].unique()
+    subjects = df['kernel'].unique()
 
-    table = bm_df.pivot_table(
+    table = df.pivot_table(
         index='container_cnt',
         columns='kernel',
         values='throughput_avg'
@@ -72,13 +74,12 @@ def generate_patch_measurement(df, bm_name):
     table = table[['container_cnt'] + list(subjects)]
 
     md_table = table.to_markdown(index=False)
-    with open(f"{bm_name}.md", "w") as f:
+    with open(f"{output_dir_name}/{bm_name}.md", "w") as f:
          f.write(md_table)
 
 def generate_comparison_plot(df, bm_name):
-    bm_df = df[df['algo_name'] == bm_name]
     plot_cfg =  PlotConfig(hue="kernel", y="throughput_avg", x="container_cnt")
-    plot_chart(plot=plot_cfg, df=bm_df, out_fig_name=f"{bm_name}")
+    plot_chart(plot=plot_cfg, df=df, out_fig_name=f"{output_dir_name}/{bm_name}")
 
 
 def compare(df) -> str:
@@ -86,8 +87,10 @@ def compare(df) -> str:
     benchmarks.sort()
     # get all results mapped to a certain benchmark
     for bm in benchmarks:
-        generate_patch_measurement(df, bm)
-        generate_comparison_plot(df, bm)
+        bm_df = df[(df['algo_name'] == bm) &
+                   (df['execution_type'] == 'ExecutionType.CONTAINER')]
+        generate_patch_measurement(bm_df, bm)
+        generate_comparison_plot(bm_df, bm)
 
 if __name__ == "__main__":
     folder = "/home/lilith/workspace/csb-analyze"
@@ -108,3 +111,9 @@ if __name__ == "__main__":
         # f.write(per_bm)
     with open("results.csv", "w") as f:
          f.write(csv)
+
+    doc = document()
+    _add_css_style(doc)
+    dump_graphs_to_doc(output_dir_name, doc)
+    with open("results.html", "w") as f:
+        f.write(doc.render())
