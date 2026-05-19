@@ -14,7 +14,7 @@ import json
 from utils.logger import bm_log, LogType
 from benchkit.utils.types import PathType
 from utils.bm_builder import Builder
-
+import pandas as pd
 
 def resolve_path(path: PathType, use_in_container: bool = False) -> PathType:
     """
@@ -285,3 +285,32 @@ def get_host_ip() -> str:
     finally:
         s.close()
     return ip
+
+def write_to_file(content : str, fname :str, dir : str):
+    os.makedirs(dir, exist_ok=True)
+    file_path = os.path.join(dir, fname)
+    with open(file_path, "w", encoding="utf-8") as f:
+        f.write(content)
+
+
+def get_all_files_by_ext(dir:str, extension:str = ".csv"):
+    """
+    Returns all files under the given dir and subdirs, which have the given file extension.
+    """
+    filtered_files = []
+    for root, _, files  in os.walk(dir):
+        for file in files:
+            if file.endswith(extension):
+                abs_path = os.path.join(root, file)
+                filtered_files.append(abs_path)
+    return filtered_files
+
+def read_data_frame_from_csv(file:str) -> Optional[pd.DataFrame]:
+    try:
+        df = pd.read_csv(
+            file, sep=";", comment="#", engine="python", on_bad_lines="error"
+        )
+        return df
+    except Exception as e:
+        bm_log(f"{e} on {file}", LogType.ERROR)
+        return None
