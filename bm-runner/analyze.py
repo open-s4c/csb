@@ -12,7 +12,7 @@ from dominate import document
 from bm_utils import write_to_file, get_all_files_by_ext, read_data_frame_from_csv
 from datetime import datetime
 
-# TODO: maybe it is best to compare with container count
+
 # TODO: add compare to baseline
 # TODO: generate in linux fashion
 
@@ -20,10 +20,13 @@ BENCHMARK_FIELD     = 'algo_name'
 THROUGHPUT_FIELD    = 'throughput_min'
 COUNT_FIELD         = 'container_cnt'
 SUCCESS_FIELD       = 'univ_succ_percent'
-LINEARITY_FIELD     = 'linearity'
+COMPARISON_FIELD    = 'kernel'
+MEASUREMENT_FIELD   = 'throughput_avg' # auto-computed
+LINEARITY_FIELD     = 'linearity' # auto-computed
 
 
-group_by_fields : list[str] = [BENCHMARK_FIELD, 'execution_type', 'hostname', 'kernel', 'nb_threads']
+
+group_by_fields : list[str] = [BENCHMARK_FIELD, 'execution_type', 'hostname', COMPARISON_FIELD, 'nb_threads']
 
 
 output_dir_name = "analysis-results"
@@ -54,20 +57,20 @@ def process(file:str) -> list:
             per_run[col] = key_group[idx]
 
         min_container = per_run[COUNT_FIELD].min()
-        baseline = per_run.loc[per_run[COUNT_FIELD] == min_container, 'throughput_avg'].iloc[0]
+        baseline = per_run.loc[per_run[COUNT_FIELD] == min_container, MEASUREMENT_FIELD].iloc[0]
 
-        per_run[LINEARITY_FIELD] = per_run['throughput_avg']/baseline
+        per_run[LINEARITY_FIELD] = per_run[MEASUREMENT_FIELD]/baseline
         results.append(per_run)
 
 
     return results
 
 def generate_patch_measurement(df, bm_name):
-    subjects = df['kernel'].unique()
+    subjects = df[COMPARISON_FIELD].unique()
     table = df.pivot_table(
         index=COUNT_FIELD,
-        columns='kernel',
-        values='throughput_avg'
+        columns=COMPARISON_FIELD,
+        values=MEASUREMENT_FIELD
     ).reset_index()
 
     table = table[[COUNT_FIELD] + list(subjects)]
@@ -85,8 +88,9 @@ def generate_comparison_plot(df, bm_name, y='linearity', y_lbl='Linearity'):
         y_lbl=y_lbl,
         x=COUNT_FIELD,
         x_lbl="#Executions Units",
+        title=bm_name,
     )
-    plot_chart(plot=plot_cfg, df=df, out_fig_name=f"{output_dir_name}/{bm_name}")
+    plot_chart(plot=plot_cfg, df=df, out_fig_name=f"{output_dir_name}/{bm_name}-{y_lbl}")
 
 
 def compare(df) -> str:
@@ -97,7 +101,7 @@ def compare(df) -> str:
         bm_df = df[(df[BENCHMARK_FIELD] == bm) &
                    (df['execution_type'] == 'ExecutionType.CONTAINER')]
         generate_patch_measurement(bm_df, bm)
-        generate_comparison_plot(bm_df, bm, y="throughput_avg", y_lbl="Throughput Average")
+        generate_comparison_plot(bm_df, bm, y=MEASUREMENT_FIELD, y_lbl="Throughput Average")
         generate_comparison_plot(bm_df, bm, y="success_avg", y_lbl="Success Average (%)")
         generate_comparison_plot(bm_df, bm)
 
