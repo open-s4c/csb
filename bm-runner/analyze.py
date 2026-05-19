@@ -62,6 +62,11 @@ def process(file:str) -> list:
 
             for idx, col in enumerate(group_by_fields):
                 per_run[col] = key_group[idx]
+
+            min_container = per_run['container_cnt'].min()
+            baseline = per_run.loc[per_run['container_cnt'] == min_container, 'throughput_avg'].iloc[0]
+
+            per_run['linearity'] = per_run['throughput_avg']/baseline
             results.append(per_run)
     except Exception as e:
         bm_log(f"{e} on {file}", LogType.ERROR)
@@ -83,12 +88,12 @@ def generate_patch_measurement(df, bm_name):
 
     write_to_file(dir=output_dir_name, fname=f"{bm_name}.md", content=md_info + md_table)
 
-def generate_comparison_plot(df, bm_name):
+def generate_comparison_plot(df, bm_name, y='linearity', y_lbl='Linearity'):
     plot_cfg =  PlotConfig(
         hue="kernel",
         hue_lbl="Kernel",
-        y="throughput_avg",
-        y_lbl="Throughput Average",
+        y=y,
+        y_lbl=y_lbl,
         x="container_cnt",
         x_lbl="#Executions Units",
     )
@@ -103,6 +108,8 @@ def compare(df) -> str:
         bm_df = df[(df['algo_name'] == bm) &
                    (df['execution_type'] == 'ExecutionType.CONTAINER')]
         generate_patch_measurement(bm_df, bm)
+        generate_comparison_plot(bm_df, bm, y="throughput_avg", y_lbl="Throughput Average")
+        generate_comparison_plot(bm_df, bm, y="univ_succ_percent", y_lbl="Success Average (%)")
         generate_comparison_plot(bm_df, bm)
 
 if __name__ == "__main__":
