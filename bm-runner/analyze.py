@@ -10,6 +10,7 @@ from config.plot import PlotConfig, PlotType
 import sys
 from dominate import document
 from bm_utils import write_to_file, get_all_files_by_ext, read_data_frame_from_csv
+from datetime import datetime
 
 # TODO: maybe it is best to compare with container count
 # TODO: add compare to baseline
@@ -26,6 +27,13 @@ group_by_fields : list[str] = [BENCHMARK_FIELD, 'execution_type', 'hostname', 'k
 
 
 output_dir_name = "analysis-results"
+
+def create_output_dir() -> str:
+    now = datetime.now()
+    timestamp = now.strftime("%Y-%m-%d-%H-%M-%S")  # Format: YYYYMMDD_HHMMSS
+    dir = f"analysis-results-{timestamp}"
+    os.makedirs(dir, exist_ok=True)
+    return dir
 
 def process(file:str) -> list:
     tolerance = 0.1  # 10% tolerance
@@ -118,6 +126,7 @@ if __name__ == "__main__":
         help="Path(s) to folder(s) to process"
     )
     args = parser.parse_args()
+    output_dir_name = create_output_dir()
 
     # process
     files = get_files(args.folders)
@@ -133,11 +142,13 @@ if __name__ == "__main__":
     per_bm = compare(final_df)
     csv  = final_df.to_csv(index=False)
 
-    write_to_file(dir=".", fname="results.md", content=md_table)
-    write_to_file(dir=".", fname="results.csv", content=csv)
+    write_to_file(dir=output_dir_name, fname="results.md", content=md_table)
+    write_to_file(dir=output_dir_name, fname="results.csv", content=csv)
 
     doc = document()
     _add_css_style(doc)
     dump_graphs_to_doc(output_dir_name, doc)
-    write_to_file(dir=".", fname="results.html", content=doc.render())
+    write_to_file(dir=output_dir_name, fname="results.html", content=doc.render())
+    bm_log(f"Results written to {output_dir_name}", LogType.INFO)
+
 
