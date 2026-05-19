@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 import os
+import resource
 import sys
 import subprocess
 from bm_executer import Executer
@@ -12,6 +13,12 @@ from config.benchmark import ExecutionType
 from utils.logger import bm_log, LogType
 from bm_utils import resolve_path
 from config.container import ContainersConfig
+
+
+def preexec_process():
+    os.setpgrp()
+    (fd_soft, fd_hard) = resource.getrlimit(resource.RLIMIT_NOFILE)
+    resource.setrlimit(resource.RLIMIT_NOFILE, (fd_hard, fd_hard))
 
 
 class Process(ExecutionUnit):
@@ -39,7 +46,7 @@ class Process(ExecutionUnit):
                 shell=True,
                 stdout=outfile,
                 stderr=subprocess.DEVNULL,
-                preexec_fn=os.setpgrp,
+                preexec_fn=preexec_process,
                 cwd=self.home_dir,
             )
         bm_log(f"launched process {self.name} with {commands}")
