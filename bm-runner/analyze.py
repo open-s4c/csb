@@ -26,6 +26,7 @@ MEASUREMENT_FIELD   = 'throughput_avg' # auto-computed
 LINEARITY_FIELD     = 'linearity' # auto-computed
 
 
+linearity = ""
 
 group_by_fields : list[str] = [BENCHMARK_FIELD, EXEC_ENV_FIELD, 'hostname', COMPARISON_FIELD, 'nb_threads']
 
@@ -53,11 +54,11 @@ def process(file:str) -> list:
             success_avg=(SUCCESS_FIELD, 'mean')
         ).reset_index()  # container_cnt becomes a column
 
-
         for idx, col in enumerate(group_by_fields):
             per_run[col] = key_group[idx]
 
         min_container = per_run[COUNT_FIELD].min()
+        assert 'throughput_avg' == MEASUREMENT_FIELD
         baseline = per_run.loc[per_run[COUNT_FIELD] == min_container, MEASUREMENT_FIELD].iloc[0]
 
         per_run[LINEARITY_FIELD] = per_run[MEASUREMENT_FIELD]/baseline
@@ -95,6 +96,38 @@ def generate_comparison_plot(df, bm_name, y='linearity', y_lbl='Linearity', env=
     plot_chart(plot=plot_cfg, df=df, out_fig_name=f"{output_dir_name}/{bm_name}-{env}-{y_lbl}")
 
 
+def add_to_linearity_summary(df, bm, env, tolerance=0.1) -> str:
+    """
+    Summarize linearity of a benchmark across kernels.
+
+    Args:
+        df: DataFrame containing at least COUNT_FIELD, COMPARISON_FIELD, LINEARITY_FIELD
+        bm: Benchmark name
+        env: Execution environment
+        tolerance: Allowed deviation from perfect linearity (1.0)
+
+    Returns:
+        A one-line summary string.
+    """
+    summary_parts = []
+
+    for kernel, g in df.groupby(COMPARISON_FIELD):
+        g_sorted = g.sort_values(COUNT_FIELD)
+        baseline = g_sorted[LINEARITY_FIELD].iloc[0]
+        drops = g_sorted[g_sorted[LINEARITY_FIELD] < 1 - tolerance]
+
+        if drops.empty:
+            summary_parts.append(f"{kernel}: linear")
+        else:
+            first_drop_cnt = drops[COUNT_FIELD].iloc[0]
+            first_drop_val = drops[LINEARITY_FIELD].iloc[0]
+            summary_parts.append(
+                f"{kernel}: drops at {COUNT_FIELD}={first_drop_cnt} (linearity={first_drop_val:.2f})"
+            )
+
+    print(f"{bm} ({env}) -> " + "\n ".join(summary_parts))
+
+
 def compare(df) -> str:
     benchmarks = df[BENCHMARK_FIELD].unique()
     envs = df[EXEC_ENV_FIELD].unique()
@@ -112,7 +145,7 @@ def compare(df) -> str:
             generate_comparison_plot(bm_df, bm, y=MEASUREMENT_FIELD, y_lbl="Throughput Average", env=nice_env)
             generate_comparison_plot(bm_df, bm, y="success_avg", y_lbl="Success Average (%)", env=nice_env)
             generate_comparison_plot(bm_df, bm, env=nice_env)
-
+            add_to_linearity_summary(bm_df, bm, env=nice_env, tolerance=0.1)
 
 def get_files(folders):
     all_files = []
