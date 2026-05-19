@@ -11,6 +11,9 @@ and this project partially comply with [Semantic Versioning](https://semver.org/
 
 - CPU assignment policy configuration feature.
 
+### Fixes
+- Alignment for auto generated write buffer to support O_DIRECT writes in test cases
+
 ## [0.2.1] - 2026-03-27
 
 ### Changed
