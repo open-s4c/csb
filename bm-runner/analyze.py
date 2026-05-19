@@ -21,12 +21,13 @@ THROUGHPUT_FIELD    = 'throughput_min'
 COUNT_FIELD         = 'container_cnt'
 SUCCESS_FIELD       = 'univ_succ_percent'
 COMPARISON_FIELD    = 'kernel'
+EXEC_ENV_FIELD      = 'execution_type'
 MEASUREMENT_FIELD   = 'throughput_avg' # auto-computed
 LINEARITY_FIELD     = 'linearity' # auto-computed
 
 
 
-group_by_fields : list[str] = [BENCHMARK_FIELD, 'execution_type', 'hostname', COMPARISON_FIELD, 'nb_threads']
+group_by_fields : list[str] = [BENCHMARK_FIELD, EXEC_ENV_FIELD, 'hostname', COMPARISON_FIELD, 'nb_threads']
 
 
 output_dir_name = "analysis-results"
@@ -65,7 +66,7 @@ def process(file:str) -> list:
 
     return results
 
-def generate_patch_measurement(df, bm_name):
+def generate_patch_measurement(df, bm_name, env=""):
     subjects = df[COMPARISON_FIELD].unique()
     table = df.pivot_table(
         index=COUNT_FIELD,
@@ -77,10 +78,11 @@ def generate_patch_measurement(df, bm_name):
     md_table = table.to_markdown(index=False)
 
     md_info  = f"# {bm_name}\n"
+    md_info  += f"Execution environment: {env}\n"
 
-    write_to_file(dir=output_dir_name, fname=f"{bm_name}.md", content=md_info + md_table)
+    write_to_file(dir=output_dir_name, fname=f"{bm_name}-{env}.md", content=md_info + md_table)
 
-def generate_comparison_plot(df, bm_name, y='linearity', y_lbl='Linearity'):
+def generate_comparison_plot(df, bm_name, y='linearity', y_lbl='Linearity', env=""):
     plot_cfg =  PlotConfig(
         hue="kernel",
         hue_lbl="Kernel",
@@ -88,22 +90,28 @@ def generate_comparison_plot(df, bm_name, y='linearity', y_lbl='Linearity'):
         y_lbl=y_lbl,
         x=COUNT_FIELD,
         x_lbl="#Executions Units",
-        title=bm_name,
+        title=f"{bm_name}({env})",
     )
-    plot_chart(plot=plot_cfg, df=df, out_fig_name=f"{output_dir_name}/{bm_name}-{y_lbl}")
+    plot_chart(plot=plot_cfg, df=df, out_fig_name=f"{output_dir_name}/{bm_name}-{env}-{y_lbl}")
 
 
 def compare(df) -> str:
     benchmarks = df[BENCHMARK_FIELD].unique()
+    envs = df[EXEC_ENV_FIELD].unique()
     benchmarks.sort()
     # get all results mapped to a certain benchmark
     for bm in benchmarks:
-        bm_df = df[(df[BENCHMARK_FIELD] == bm) &
-                   (df['execution_type'] == 'ExecutionType.CONTAINER')]
-        generate_patch_measurement(bm_df, bm)
-        generate_comparison_plot(bm_df, bm, y=MEASUREMENT_FIELD, y_lbl="Throughput Average")
-        generate_comparison_plot(bm_df, bm, y="success_avg", y_lbl="Success Average (%)")
-        generate_comparison_plot(bm_df, bm)
+        for env in envs:
+            bm_df = df[(df[BENCHMARK_FIELD] == bm) &
+                    (df['execution_type'] == env)]
+            if env == 'ExecutionType.CONTAINER':
+                nice_env = "container"
+            else:
+                nice_env = "native"
+            generate_patch_measurement(bm_df, bm, env=nice_env)
+            generate_comparison_plot(bm_df, bm, y=MEASUREMENT_FIELD, y_lbl="Throughput Average", env=nice_env)
+            generate_comparison_plot(bm_df, bm, y="success_avg", y_lbl="Success Average (%)", env=nice_env)
+            generate_comparison_plot(bm_df, bm, env=nice_env)
 
 
 def get_files(folders):
