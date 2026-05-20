@@ -33,7 +33,6 @@ COMPARISON_FILED_PRETTY_NAME = {
 
 def to_pretty_name(ugly:str) -> str:
     v =  COMPARISON_FILED_PRETTY_NAME.get(ugly, ugly)
-    print(v)
     return v
 
 
@@ -106,7 +105,9 @@ def generate_patch_measurement(df, bm_name, env=""):
     # Inject improvement column between first two pretty-named columns
     if len(pretty_subjects) >= 2:
         first, second = pretty_subjects[:2]
-        table['diff_%'] = ((table[second] - table[first]) / table[first] * 100).round(6)
+        table['diff_%'] = ((table[second] - table[first]) / table[first] * 100)
+        table[second] = table[second].map(lambda x: f"{x:,.0f}")
+        table[first]  = table[first].map(lambda x: f"{x:,.0f}")
 
     # Convert to Markdown and write
     md_table = table.to_markdown(index=False, tablefmt="grid")
