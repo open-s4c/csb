@@ -13,8 +13,6 @@ from bm_utils import write_to_file, get_all_files_by_ext, read_data_frame_from_c
 from datetime import datetime
 
 
-# TODO: add compare to baseline
-# TODO: generate in linux fashion
 
 BENCHMARK_FIELD     = 'algo_name'
 THROUGHPUT_FIELD    = 'throughput_min'
@@ -116,15 +114,15 @@ def generate_patch_measurement(df, bm_name, env=""):
 
     write_to_file(dir=output_dir_name, fname=f"{bm_name}-{env}.txt", content=md_info + md_table)
 
-def generate_comparison_plot(df, bm_name, y='linearity', y_lbl='Linearity', env=""):
+def generate_comparison_plot(df, bm_name, y='linearity', y_lbl='Linearity', plot_type=PlotType.NORMAL, env=""):
     plot_cfg =  PlotConfig(
-        hue="kernel",
-        hue_lbl="Kernel",
+        hue=COMPARISON_FIELD,
         y=y,
         y_lbl=y_lbl,
         x=COUNT_FIELD,
         x_lbl="#Executions Units",
         title=f"{bm_name}({env})",
+        type=plot_type,
     )
     plot_chart(plot=plot_cfg, df=df, out_fig_name=f"{output_dir_name}/{bm_name}-{env}-{y_lbl}")
 
@@ -154,6 +152,7 @@ def compare(df) -> str:
     benchmarks = df[BENCHMARK_FIELD].unique()
     envs = df[EXEC_ENV_FIELD].unique()
     benchmarks.sort()
+    df[COMPARISON_FIELD] = df[COMPARISON_FIELD].map(lambda x: f"{to_pretty_name(x)}")
     Linearity_md = "# Linearity Summary\n"
     idx = 1
     # get all results mapped to a certain benchmark
@@ -167,7 +166,7 @@ def compare(df) -> str:
                 nice_env = "native"
             generate_patch_measurement(bm_df, bm, env=nice_env)
             generate_comparison_plot(bm_df, bm, y=MEASUREMENT_FIELD, y_lbl="Throughput Average", env=nice_env)
-            generate_comparison_plot(bm_df, bm, y="success_avg", y_lbl="Success Average (%)", env=nice_env)
+            generate_comparison_plot(bm_df, bm, y="success_avg", y_lbl="Success Average (%)", env=nice_env, plot_type=PlotType.SUCCESS_PERCENT)
             generate_comparison_plot(bm_df, bm, env=nice_env)
             Linearity_md+=add_to_linearity_summary(bm_df, bm, env=nice_env, idx=idx, tolerance=0.1)
         idx+=1
@@ -219,7 +218,7 @@ if __name__ == "__main__":
 
     doc = document()
     _add_css_style(doc)
-    dump_graphs_to_doc(output_dir_name, doc)
+    dump_graphs_to_doc(output_dir_name, doc, num_plot_in_row=3)
     write_to_file(dir=output_dir_name, fname="results.html", content=doc.render())
     bm_log(f"Results written to {output_dir_name}", LogType.INFO)
 
