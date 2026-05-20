@@ -41,6 +41,7 @@ def plot_chart(
     df: DataFrame,
     out_fig_name,
     add_points=False,
+    gen_pdf=False,
     **kwargs,
 ):
     args = dict(kwargs)
@@ -100,7 +101,8 @@ def plot_chart(
     fig.tight_layout()
     figure_name = f"{out_fig_name}_{time.perf_counter()}"
     fig.savefig(f"{figure_name}.png", transparent=False)
-    fig.savefig(f"{figure_name}.pdf", transparent=False)
+    if gen_pdf:
+        fig.savefig(f"{figure_name}.pdf", transparent=False)
     plt.close()
 
 
