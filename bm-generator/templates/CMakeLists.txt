@@ -93,7 +93,7 @@ foreach(HEADER ${HEADERS})
             set(OUTPUT_FILE
                 "${CONFIG_DIR}/${SUBDIR}/${PREFIX}${HEADER_NAME}.json")
         elseif(EXTENSION STREQUAL ".h")
-            set(TARGET ${HEADER_NAME}_h)
+            set(TARGET ${TEMPLATE_NAME}${HEADER_NAME}_h)
             set(TMPLR_PARAMS -DNCALLS="1" -DNNOPS="1" -DNN="${HEADER_NAME}")
             set(OUTPUT_FILE "${HEADER_DIR}/${SUBDIR}/${HEADER_NAME}.h")
         else()
