@@ -40,7 +40,10 @@ LINEARITY_FIELD     = 'linearity' # auto-computed
 COMPARISON_FILED_PRETTY_NAME = {
     'Linux localhost 6.6.0-138.0.0.119.oe2403sp3.x86_64  1 SMP Wed Feb  4 22:31:12 CST 2026 x86_64 x86_64 x86_64 GNU/Linux' : 'AMD 6.6.0',
     'Linux k920b 6.6.0ext4noprof  9 SMP Thu Apr  9 15:34:24 CEST 2026 aarch64 aarch64 aarch64 GNU/Linux': 'k920b 6.6.0',
-    'Linux localhost 7.1.0-rc1+  12 SMP PREEMPT_DYNAMIC Wed Apr 29 03:25:53 CST 2026 x86_64 x86_64 x86_64 GNU/Linux': 'AMD 7.1.0-rc1'
+    'Linux localhost 7.1.0-rc1+  12 SMP PREEMPT_DYNAMIC Wed Apr 29 03:25:53 CST 2026 x86_64 x86_64 x86_64 GNU/Linux': 'AMD 7.1.0-rc1',
+    'ExecutionType.CONTAINER': 'container',
+    'ExecutionType.NATIVE': 'native',
+    'container_cnt' : '#Instances'
 }
 
 def to_pretty_name(ugly:str) -> str:
@@ -53,6 +56,7 @@ linearity = ""
 group_by_fields : list[str] = [BENCHMARK_FIELD, EXEC_ENV_FIELD, 'hostname', COMPARISON_FIELD, 'nb_threads']
 
 
+# this is a global variable that will be overwritten
 output_dir_name = "analysis-results"
 
 def create_output_dir() -> str:
@@ -62,11 +66,36 @@ def create_output_dir() -> str:
     os.makedirs(dir, exist_ok=True)
     return dir
 
-def process(file:str) -> list:
-    tolerance = 0.1  # 10% tolerance
+def transform(file:str) -> list:
+    """
+    Processes a CSV file to compute per-run metrics.
+
+    Steps:
+    1. Reads the CSV into a DataFrame.
+    2. Groups by `group_by_fields`.
+    3. Aggregates throughput and success percent by mean per `COUNT_FIELD`.
+    4. Computes linearity relative to the minimum count of containers.
+
+    Parameters
+    ----------
+    file : str
+        Path to the CSV file to process.
+
+    Returns
+    -------
+    results : list of pd.DataFrame
+        Each element corresponds to a group defined by `group_by_fields`,
+        containing:
+            - COUNT_FIELD column (e.g., container count)
+            - throughput_avg (mean throughput)
+            - success_avg (mean success %)
+            - linearity relative to minimum container count
+    """
     results = []
+    # read the csv file as a dataframe
     df = read_data_frame_from_csv(file)
     if df is None:
+        # there has been an error
         return []
 
     grouped = df.groupby(group_by_fields)
@@ -81,19 +110,16 @@ def process(file:str) -> list:
 
         min_container = per_run[COUNT_FIELD].min()
         assert 'throughput_avg' == MEASUREMENT_FIELD
-        baseline = per_run.loc[per_run[COUNT_FIELD] == min_container, MEASUREMENT_FIELD].iloc[0]
 
+        # baseline is the throughput associated with the minimum count of containers (usually 1)
+        baseline = per_run.loc[per_run[COUNT_FIELD] == min_container, MEASUREMENT_FIELD].iloc[0]
+        # calc linearity
         per_run[LINEARITY_FIELD] = per_run[MEASUREMENT_FIELD]/baseline
         results.append(per_run)
-
-
     return results
 
 def generate_patch_measurement(df, bm_name, env=""):
     subjects = df[COMPARISON_FIELD].unique()
-
-    # Map original subjects to pretty names
-    pretty_mapping = {s: to_pretty_name(s) for s in subjects}
 
     # Pivot table
     table = df.pivot_table(
@@ -106,18 +132,15 @@ def generate_patch_measurement(df, bm_name, env=""):
     if isinstance(table.columns, pd.MultiIndex):
         table.columns = [col[1] if col[1] else col[0] for col in table.columns]
 
-    # Rename columns to pretty names immediately
-    table.rename(columns=pretty_mapping, inplace=True)
 
-    # Keep COUNT_FIELD + pretty columns
-    pretty_subjects = [pretty_mapping[s] for s in subjects]
-    table = table[[COUNT_FIELD] + pretty_subjects]
+    # Keep COUNT_FIELD
+    #table = table[[COUNT_FIELD] + subjects]
 
     # Inject improvement column between first two pretty-named columns
-    if len(pretty_subjects) >= 2:
+    if len(subjects) >= 2:
         # First, compute improvements vs the first column (numeric!)
-        first = pretty_subjects[0]
-        for col in pretty_subjects[1:]:
+        first = subjects[0]
+        for col in subjects[1:]:
             second = col
             # Convert columns to numeric before diff
             first_numeric  = pd.to_numeric(table[first], errors='coerce')
@@ -125,11 +148,11 @@ def generate_patch_measurement(df, bm_name, env=""):
             table[f'Improvement. ({second}) %'] = ((second_numeric - first_numeric) / first_numeric * 100).round(2)
 
         # Then format all original subject columns with commas
-        for col in pretty_subjects:
+        for col in subjects:
             table[col] = pd.to_numeric(table[col], errors='coerce').map(lambda x: f"{x:,.0f}" if pd.notna(x) else "")
 
         # Optional: format improvement columns as percentages
-        for col in pretty_subjects[1:]:
+        for col in subjects[1:]:
             diff_col = f'Improvement. ({col}) %'
             table[diff_col] = table[diff_col].map(lambda x: f"{x:.2f} %" if pd.notna(x) else "")
 
@@ -201,14 +224,14 @@ def compare(df) -> str:
 
     write_to_file(Linearity_md, "linearity.md", output_dir_name)
 
-def get_files(folders):
+def get_all_csvs(dirs:list[str]):
     all_files = []
-    for folder in folders:
-        if not os.path.isdir(folder):
-            bm_log(f"Skipping {folder}. It is not a valid directory.", LogType.ERROR)
+    for dir in dirs:
+        if not os.path.isdir(dir):
+            bm_log(f"Skipping {dir}. It is not a valid directory.", LogType.ERROR)
             continue
-        files = get_all_files_by_ext(folder)
-        bm_log(f"Found {len(files)} CSV in {folder}.")
+        files = get_all_files_by_ext(dir=dir, extension=".csv")
+        bm_log(f"Found {len(files)} CSV in {dir}.")
         all_files.extend(files)
     return all_files
 
@@ -228,11 +251,11 @@ if __name__ == "__main__":
     output_dir_name = create_output_dir()
 
     # process
-    files = get_files(args.folders)
+    files = get_all_csvs(args.folders)
     bm_log(f"Processing {len(files)} files", LogType.INFO)
     all = []
     for f in files:
-        res = process(f)
+        res = transform(f)
         all.extend(res)
 
     final_df =  pd.concat(all, ignore_index=True)
