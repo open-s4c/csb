@@ -12,6 +12,19 @@ from dominate import document
 from bm_utils import write_to_file, get_all_files_by_ext, read_data_frame_from_csv
 from datetime import datetime
 
+################################################################################################
+# Input: directories
+# Output: directory with many files
+#   - <benchmark-name>.txt - a text table comparing the benchmark throughput on different kernels
+#   - <benchmark-name>*.png - a png plot comparing the benchmark on different kernels
+#   - results.html - all comparison plots in one file
+#   - results.csv  - all results in one csv
+#   - results.md   - all results in one md
+#
+# Process: The script looks for available CSV recursively in all given directories
+#       the CSVs are expected to comply with the default output CSV of CSB
+#       The subject of comparison is the kernel
+################################################################################################
 
 
 BENCHMARK_FIELD     = 'algo_name'
