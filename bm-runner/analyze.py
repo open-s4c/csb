@@ -5,9 +5,8 @@ import os
 import argparse
 import pandas as pd
 from utils.logger import bm_log, LogType
-from bm_visualize import plot_chart, dump_graphs_to_doc, create_mean_plot, _add_css_style
+from bm_visualize import plot_chart, dump_graphs_to_doc, _add_css_style
 from config.plot import PlotConfig, PlotType
-import sys
 from dominate import document
 from bm_utils import write_to_file, get_all_files_by_ext, read_data_frame_from_csv
 from datetime import datetime
@@ -27,37 +26,44 @@ from datetime import datetime
 ################################################################################################
 
 
-BENCHMARK_FIELD     = 'algo_name'
-THROUGHPUT_FIELD    = 'throughput_min'
-COUNT_FIELD         = 'container_cnt'
-SUCCESS_FIELD       = 'univ_succ_percent'
-COMPARISON_FIELD    = 'kernel'
-EXEC_ENV_FIELD      = 'execution_type'
-MEASUREMENT_FIELD   = 'throughput_avg' # auto-computed
-LINEARITY_FIELD     = 'linearity' # auto-computed
+BENCHMARK_FIELD = "algo_name"
+THROUGHPUT_FIELD = "throughput_min"
+COUNT_FIELD = "container_cnt"
+SUCCESS_FIELD = "univ_succ_percent"
+COMPARISON_FIELD = "kernel"
+EXEC_ENV_FIELD = "execution_type"
+MEASUREMENT_FIELD = "throughput_avg"  # auto-computed
+LINEARITY_FIELD = "linearity"  # auto-computed
 
 
 COMPARISON_FILED_PRETTY_NAME = {
-    'Linux localhost 6.6.0-138.0.0.119.oe2403sp3.x86_64  1 SMP Wed Feb  4 22:31:12 CST 2026 x86_64 x86_64 x86_64 GNU/Linux' : 'AMD 6.6.0',
-    'Linux k920b 6.6.0ext4noprof  9 SMP Thu Apr  9 15:34:24 CEST 2026 aarch64 aarch64 aarch64 GNU/Linux': 'k920b 6.6.0',
-    'Linux localhost 7.1.0-rc1+  12 SMP PREEMPT_DYNAMIC Wed Apr 29 03:25:53 CST 2026 x86_64 x86_64 x86_64 GNU/Linux': 'AMD 7.1.0-rc1',
-    'ExecutionType.CONTAINER': 'container',
-    'ExecutionType.NATIVE': 'native',
-    'container_cnt' : '#Instances'
+    "Linux localhost 6.6.0-138.0.0.119.oe2403sp3.x86_64  1 SMP Wed Feb  4 22:31:12 CST 2026 x86_64 x86_64 x86_64 GNU/Linux": "AMD 6.6.0",
+    "Linux k920b 6.6.0ext4noprof  9 SMP Thu Apr  9 15:34:24 CEST 2026 aarch64 aarch64 aarch64 GNU/Linux": "k920b 6.6.0",
+    "Linux localhost 7.1.0-rc1+  12 SMP PREEMPT_DYNAMIC Wed Apr 29 03:25:53 CST 2026 x86_64 x86_64 x86_64 GNU/Linux": "AMD 7.1.0-rc1",
+    "ExecutionType.CONTAINER": "container",
+    "ExecutionType.NATIVE": "native",
+    "container_cnt": "#Instances",
 }
 
-def to_pretty_name(ugly:str) -> str:
-    v =  COMPARISON_FILED_PRETTY_NAME.get(ugly, ugly)
-    return v
-
-
-linearity = ""
-
-group_by_fields : list[str] = [BENCHMARK_FIELD, EXEC_ENV_FIELD, 'hostname', COMPARISON_FIELD, 'nb_threads']
+group_by_fields: list[str] = [
+    BENCHMARK_FIELD,
+    EXEC_ENV_FIELD,
+    "hostname",
+    COMPARISON_FIELD,
+    "nb_threads",
+]
 
 
 # this is a global variable that will be overwritten
 output_dir_name = "analysis-results"
+
+#########################################
+
+
+def to_pretty_name(ugly: str) -> str:
+    v = COMPARISON_FILED_PRETTY_NAME.get(ugly, ugly)
+    return v
+
 
 def create_output_dir() -> str:
     now = datetime.now()
@@ -66,7 +72,8 @@ def create_output_dir() -> str:
     os.makedirs(dir, exist_ok=True)
     return dir
 
-def transform(file:str) -> list:
+
+def transform(file: str) -> list:
     """
     Processes a CSV file to compute per-run metrics.
 
@@ -100,32 +107,33 @@ def transform(file:str) -> list:
 
     grouped = df.groupby(group_by_fields)
     for key_group, g in grouped:
-        per_run = g.groupby(COUNT_FIELD).agg(
-            throughput_avg=(THROUGHPUT_FIELD, 'mean'),
-            success_avg=(SUCCESS_FIELD, 'mean')
-        ).reset_index()  # container_cnt becomes a column
+        per_run = (
+            g.groupby(COUNT_FIELD)
+            .agg(throughput_avg=(THROUGHPUT_FIELD, "mean"), success_avg=(SUCCESS_FIELD, "mean"))
+            .reset_index()
+        )  # container_cnt becomes a column
 
+        key_group = key_group if isinstance(key_group, tuple) else (key_group,)
         for idx, col in enumerate(group_by_fields):
             per_run[col] = key_group[idx]
 
         min_container = per_run[COUNT_FIELD].min()
-        assert 'throughput_avg' == MEASUREMENT_FIELD
+        assert "throughput_avg" == MEASUREMENT_FIELD
 
         # baseline is the throughput associated with the minimum count of containers (usually 1)
         baseline = per_run.loc[per_run[COUNT_FIELD] == min_container, MEASUREMENT_FIELD].iloc[0]
         # calc linearity
-        per_run[LINEARITY_FIELD] = per_run[MEASUREMENT_FIELD]/baseline
+        per_run[LINEARITY_FIELD] = per_run[MEASUREMENT_FIELD] / baseline
         results.append(per_run)
     return results
+
 
 def generate_patch_measurement(df, bm_name, env=""):
     subjects = df[COMPARISON_FIELD].unique()
 
     # Pivot table
     table = df.pivot_table(
-        index=COUNT_FIELD,
-        columns=COMPARISON_FIELD,
-        values=MEASUREMENT_FIELD
+        index=COUNT_FIELD, columns=COMPARISON_FIELD, values=MEASUREMENT_FIELD
     ).reset_index()
 
     # Flatten MultiIndex if it exists (common with pivot_table)
@@ -136,27 +144,27 @@ def generate_patch_measurement(df, bm_name, env=""):
     if len(subjects) >= 2:
         # First, compute improvements vs the first column (numeric!)
         first = subjects[0]
-        first_numeric  = pd.to_numeric(table[first], errors='coerce')
+        first_numeric = pd.to_numeric(table[first], errors="coerce")
         for col in subjects[1:]:
             second = col
-            second_numeric = pd.to_numeric(table[second], errors='coerce')
-            table[f'Improvement. ({second}) %'] = ((second_numeric - first_numeric) / first_numeric * 100).round(2)
-
-        # Then format all original subject columns with commas
-        for col in subjects:
-            table[col] = pd.to_numeric(table[col], errors='coerce').map(lambda x: f"{x:,.0f}" if pd.notna(x) else "")
-
+            second_numeric = pd.to_numeric(table[second], errors="coerce")
+            table[f"Improvement. ({second}) %"] = (
+                (second_numeric - first_numeric) / first_numeric * 100
+            ).round(2)
 
     table.rename(columns={COUNT_FIELD: to_pretty_name(COUNT_FIELD)}, inplace=True)
     # Convert to Markdown and write
     md_table = table.to_markdown(index=False, tablefmt="grid")
-    md_info  = f"- {bm_name}\n"
-    md_info  += f"- Execution environment: {env}\n"
+    md_info = f"- {bm_name}\n"
+    md_info += f"- Execution environment: {env}\n"
 
     write_to_file(dir=output_dir_name, fname=f"{bm_name}-{env}.txt", content=md_info + md_table)
 
-def generate_comparison_plot(df, bm_name, y='linearity', y_lbl='Linearity', plot_type=PlotType.NORMAL, env=""):
-    plot_cfg =  PlotConfig(
+
+def generate_comparison_plot(
+    df, bm_name, y="linearity", y_lbl="Linearity", plot_type=PlotType.NORMAL, env=""
+):
+    plot_cfg = PlotConfig(
         hue=COMPARISON_FIELD,
         y=y,
         y_lbl=y_lbl,
@@ -171,25 +179,24 @@ def generate_comparison_plot(df, bm_name, y='linearity', y_lbl='Linearity', plot
 def add_to_linearity_summary(df, bm, env, idx, tolerance=0.1) -> str:
     summary = f"## {idx}. {bm} ({env})\n"
     summary += f"|{COMPARISON_FIELD} | Linear | Drops at|\n"
-    summary += f"|--- |--- |---|\n"
+    summary += "|--- |--- |---|\n"
 
     for kernel, g in df.groupby(COMPARISON_FIELD):
         g_sorted = g.sort_values(COUNT_FIELD)
-        baseline = g_sorted[LINEARITY_FIELD].iloc[0]
         drops = g_sorted[g_sorted[LINEARITY_FIELD] < 1 - tolerance]
-        summary += f'|{to_pretty_name(kernel)}|'
+        summary += f"|{to_pretty_name(kernel)}|"
 
         if drops.empty:
-            summary += f'✔️|-|\n'
+            summary += "✔️|-|\n"
         else:
             first_drop_cnt = drops[COUNT_FIELD].iloc[0]
             first_drop_val = drops[LINEARITY_FIELD].iloc[0]
-            summary += f'❌|{first_drop_cnt} (linearity={first_drop_val:.2f})|\n'
+            summary += f"❌|{first_drop_cnt} (linearity={first_drop_val:.2f})|\n"
 
     return summary
 
 
-def compare(df) -> str:
+def compare(df):
     benchmarks = df[BENCHMARK_FIELD].unique()
     envs = df[EXEC_ENV_FIELD].unique()
     benchmarks.sort()
@@ -199,22 +206,33 @@ def compare(df) -> str:
     # get all results mapped to a certain benchmark
     for bm in benchmarks:
         for env in envs:
-            bm_df = df[(df[BENCHMARK_FIELD] == bm) &
-                    (df['execution_type'] == env)]
-            if env == 'ExecutionType.CONTAINER':
+            bm_df = df[(df[BENCHMARK_FIELD] == bm) & (df["execution_type"] == env)]
+            if env == "ExecutionType.CONTAINER":
                 nice_env = "container"
             else:
                 nice_env = "native"
             generate_patch_measurement(bm_df, bm, env=nice_env)
-            generate_comparison_plot(bm_df, bm, y=MEASUREMENT_FIELD, y_lbl="Throughput Average", env=nice_env)
-            generate_comparison_plot(bm_df, bm, y="success_avg", y_lbl="Success Average (%)", env=nice_env, plot_type=PlotType.SUCCESS_PERCENT)
+            generate_comparison_plot(
+                bm_df, bm, y=MEASUREMENT_FIELD, y_lbl="Throughput Average", env=nice_env
+            )
+            generate_comparison_plot(
+                bm_df,
+                bm,
+                y="success_avg",
+                y_lbl="Success Average (%)",
+                env=nice_env,
+                plot_type=PlotType.SUCCESS_PERCENT,
+            )
             generate_comparison_plot(bm_df, bm, env=nice_env)
-            Linearity_md+=add_to_linearity_summary(bm_df, bm, env=nice_env, idx=idx, tolerance=0.1)
-        idx+=1
+            Linearity_md += add_to_linearity_summary(
+                bm_df, bm, env=nice_env, idx=idx, tolerance=0.1
+            )
+        idx += 1
 
     write_to_file(Linearity_md, "linearity.md", output_dir_name)
 
-def get_all_csvs(dirs:list[str]):
+
+def get_all_csvs(dirs: list[str]):
     all_files = []
     for dir in dirs:
         if not os.path.isdir(dir):
@@ -227,16 +245,12 @@ def get_all_csvs(dirs:list[str]):
 
 
 if __name__ == "__main__":
-    """
-    """
-    parser = argparse.ArgumentParser(
-        description="Process one or more folders."
-    )
+    """ """
+    parser = argparse.ArgumentParser(description="Process one or more folders.")
     parser.add_argument(
-        "folders",
-        nargs="+",  # One or more arguments
-        help="Path(s) to folder(s) to process"
+        "folders", nargs="+", help="Path(s) to folder(s) to process"  # One or more arguments
     )
+
     args = parser.parse_args()
     output_dir_name = create_output_dir()
 
@@ -248,11 +262,11 @@ if __name__ == "__main__":
         res = transform(f)
         all.extend(res)
 
-    final_df =  pd.concat(all, ignore_index=True)
+    final_df = pd.concat(all, ignore_index=True)
     md_table = final_df.to_markdown(index=False)
 
     per_bm = compare(final_df)
-    csv  = final_df.to_csv(index=False)
+    csv = final_df.to_csv(index=False)
 
     write_to_file(dir=output_dir_name, fname="results.md", content=md_table)
     write_to_file(dir=output_dir_name, fname="results.csv", content=csv)
@@ -262,5 +276,3 @@ if __name__ == "__main__":
     dump_graphs_to_doc(output_dir_name, doc, num_plot_in_row=3)
     write_to_file(dir=output_dir_name, fname="results.html", content=doc.render())
     bm_log(f"Results written to {output_dir_name}", LogType.INFO)
-
-
