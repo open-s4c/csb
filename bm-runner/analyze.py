@@ -132,18 +132,13 @@ def generate_patch_measurement(df, bm_name, env=""):
     if isinstance(table.columns, pd.MultiIndex):
         table.columns = [col[1] if col[1] else col[0] for col in table.columns]
 
-
-    # Keep COUNT_FIELD
-    #table = table[[COUNT_FIELD] + subjects]
-
     # Inject improvement column between first two pretty-named columns
     if len(subjects) >= 2:
         # First, compute improvements vs the first column (numeric!)
         first = subjects[0]
+        first_numeric  = pd.to_numeric(table[first], errors='coerce')
         for col in subjects[1:]:
             second = col
-            # Convert columns to numeric before diff
-            first_numeric  = pd.to_numeric(table[first], errors='coerce')
             second_numeric = pd.to_numeric(table[second], errors='coerce')
             table[f'Improvement. ({second}) %'] = ((second_numeric - first_numeric) / first_numeric * 100).round(2)
 
@@ -151,13 +146,8 @@ def generate_patch_measurement(df, bm_name, env=""):
         for col in subjects:
             table[col] = pd.to_numeric(table[col], errors='coerce').map(lambda x: f"{x:,.0f}" if pd.notna(x) else "")
 
-        # Optional: format improvement columns as percentages
-        for col in subjects[1:]:
-            diff_col = f'Improvement. ({col}) %'
-            table[diff_col] = table[diff_col].map(lambda x: f"{x:.2f} %" if pd.notna(x) else "")
 
-
-
+    table.rename(columns={COUNT_FIELD: to_pretty_name(COUNT_FIELD)}, inplace=True)
     # Convert to Markdown and write
     md_table = table.to_markdown(index=False, tablefmt="grid")
     md_info  = f"- {bm_name}\n"
