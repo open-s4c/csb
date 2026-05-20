@@ -27,7 +27,7 @@ LINEARITY_FIELD     = 'linearity' # auto-computed
 
 
 COMPARISON_FILED_PRETTY_NAME = {
-    'Linux localhost 6.6.0-138.0.0.119.oe2403sp3.x86_64  1 SMP Wed Feb  4 22:31:12 CST 2026 x86_64 x86_64 x86_64 GNU/Linux' : 'AMD 6.6.0 138',
+    'Linux localhost 6.6.0-138.0.0.119.oe2403sp3.x86_64  1 SMP Wed Feb  4 22:31:12 CST 2026 x86_64 x86_64 x86_64 GNU/Linux' : 'AMD 6.6.0',
     'Linux k920b 6.6.0ext4noprof  9 SMP Thu Apr  9 15:34:24 CEST 2026 aarch64 aarch64 aarch64 GNU/Linux': 'k920b 6.6.0'
 }
 
@@ -130,18 +130,6 @@ def generate_comparison_plot(df, bm_name, y='linearity', y_lbl='Linearity', env=
 
 
 def add_to_linearity_summary(df, bm, env, idx, tolerance=0.1) -> str:
-    """
-    Summarize linearity of a benchmark across kernels.
-
-    Args:
-        df: DataFrame containing at least COUNT_FIELD, COMPARISON_FIELD, LINEARITY_FIELD
-        bm: Benchmark name
-        env: Execution environment
-        tolerance: Allowed deviation from perfect linearity (1.0)
-
-    Returns:
-        A one-line summary string.
-    """
     summary = f"## {idx}. {bm} ({env})\n"
     summary += f"|{COMPARISON_FIELD} | Linear | Drops at|\n"
     summary += f"|--- |--- |---|\n"
@@ -150,7 +138,7 @@ def add_to_linearity_summary(df, bm, env, idx, tolerance=0.1) -> str:
         g_sorted = g.sort_values(COUNT_FIELD)
         baseline = g_sorted[LINEARITY_FIELD].iloc[0]
         drops = g_sorted[g_sorted[LINEARITY_FIELD] < 1 - tolerance]
-        summary += f'|{kernel}|'
+        summary += f'|{to_pretty_name(kernel)}|'
 
         if drops.empty:
             summary += f'✔️|-|\n'
