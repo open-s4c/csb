@@ -26,13 +26,13 @@ LINEARITY_FIELD     = 'linearity' # auto-computed
 
 COMPARISON_FILED_PRETTY_NAME = {
     'Linux localhost 6.6.0-138.0.0.119.oe2403sp3.x86_64  1 SMP Wed Feb  4 22:31:12 CST 2026 x86_64 x86_64 x86_64 GNU/Linux' : 'AMD 6.6.0',
-    'Linux k920b 6.6.0ext4noprof  9 SMP Thu Apr  9 15:34:24 CEST 2026 aarch64 aarch64 aarch64 GNU/Linux': 'k920b 6.6.0'
+    'Linux k920b 6.6.0ext4noprof  9 SMP Thu Apr  9 15:34:24 CEST 2026 aarch64 aarch64 aarch64 GNU/Linux': 'k920b 6.6.0',
+    'Linux localhost 7.1.0-rc1+  12 SMP PREEMPT_DYNAMIC Wed Apr 29 03:25:53 CST 2026 x86_64 x86_64 x86_64 GNU/Linux': 'AMD 7.1.0-rc1'
 }
 
 def to_pretty_name(ugly:str) -> str:
     v =  COMPARISON_FILED_PRETTY_NAME.get(ugly, ugly)
     return v
-
 
 
 linearity = ""
@@ -102,10 +102,25 @@ def generate_patch_measurement(df, bm_name, env=""):
 
     # Inject improvement column between first two pretty-named columns
     if len(pretty_subjects) >= 2:
-        first, second = pretty_subjects[:2]
-        table['diff_%'] = ((table[second] - table[first]) / table[first] * 100)
-        table[second] = table[second].map(lambda x: f"{x:,.0f}")
-        table[first]  = table[first].map(lambda x: f"{x:,.0f}")
+        # First, compute improvements vs the first column (numeric!)
+        first = pretty_subjects[0]
+        for col in pretty_subjects[1:]:
+            second = col
+            # Convert columns to numeric before diff
+            first_numeric  = pd.to_numeric(table[first], errors='coerce')
+            second_numeric = pd.to_numeric(table[second], errors='coerce')
+            table[f'Improvement. ({second}) %'] = ((second_numeric - first_numeric) / first_numeric * 100).round(2)
+
+        # Then format all original subject columns with commas
+        for col in pretty_subjects:
+            table[col] = pd.to_numeric(table[col], errors='coerce').map(lambda x: f"{x:,.0f}" if pd.notna(x) else "")
+
+        # Optional: format improvement columns as percentages
+        for col in pretty_subjects[1:]:
+            diff_col = f'Improvement. ({col}) %'
+            table[diff_col] = table[diff_col].map(lambda x: f"{x:.2f} %" if pd.notna(x) else "")
+
+
 
     # Convert to Markdown and write
     md_table = table.to_markdown(index=False, tablefmt="grid")
