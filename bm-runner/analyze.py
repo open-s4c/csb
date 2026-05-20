@@ -26,6 +26,18 @@ MEASUREMENT_FIELD   = 'throughput_avg' # auto-computed
 LINEARITY_FIELD     = 'linearity' # auto-computed
 
 
+COMPARISON_FILED_PRETTY_NAME = {
+    'Linux localhost 6.6.0-138.0.0.119.oe2403sp3.x86_64  1 SMP Wed Feb  4 22:31:12 CST 2026 x86_64 x86_64 x86_64 GNU/Linux' : 'AMD 6.6.0 138',
+    'Linux k920b 6.6.0ext4noprof  9 SMP Thu Apr  9 15:34:24 CEST 2026 aarch64 aarch64 aarch64 GNU/Linux': 'k920b 6.6.0'
+}
+
+def to_pretty_name(ugly:str) -> str:
+    v =  COMPARISON_FILED_PRETTY_NAME.get(ugly, ugly)
+    print(v)
+    return v
+
+
+
 linearity = ""
 
 group_by_fields : list[str] = [BENCHMARK_FIELD, EXEC_ENV_FIELD, 'hostname', COMPARISON_FIELD, 'nb_threads']
@@ -69,19 +81,39 @@ def process(file:str) -> list:
 
 def generate_patch_measurement(df, bm_name, env=""):
     subjects = df[COMPARISON_FIELD].unique()
+
+    # Map original subjects to pretty names
+    pretty_mapping = {s: to_pretty_name(s) for s in subjects}
+
+    # Pivot table
     table = df.pivot_table(
         index=COUNT_FIELD,
         columns=COMPARISON_FIELD,
         values=MEASUREMENT_FIELD
     ).reset_index()
 
-    table = table[[COUNT_FIELD] + list(subjects)]
-    md_table = table.to_markdown(index=False)
+    # Flatten MultiIndex if it exists (common with pivot_table)
+    if isinstance(table.columns, pd.MultiIndex):
+        table.columns = [col[1] if col[1] else col[0] for col in table.columns]
 
-    md_info  = f"# {bm_name}\n"
-    md_info  += f"Execution environment: {env}\n"
+    # Rename columns to pretty names immediately
+    table.rename(columns=pretty_mapping, inplace=True)
 
-    write_to_file(dir=output_dir_name, fname=f"{bm_name}-{env}.md", content=md_info + md_table)
+    # Keep COUNT_FIELD + pretty columns
+    pretty_subjects = [pretty_mapping[s] for s in subjects]
+    table = table[[COUNT_FIELD] + pretty_subjects]
+
+    # Inject improvement column between first two pretty-named columns
+    if len(pretty_subjects) >= 2:
+        first, second = pretty_subjects[:2]
+        table['diff_%'] = ((table[second] - table[first]) / table[first] * 100).round(6)
+
+    # Convert to Markdown and write
+    md_table = table.to_markdown(index=False, tablefmt="grid")
+    md_info  = f"- {bm_name}\n"
+    md_info  += f"- Execution environment: {env}\n"
+
+    write_to_file(dir=output_dir_name, fname=f"{bm_name}-{env}.txt", content=md_info + md_table)
 
 def generate_comparison_plot(df, bm_name, y='linearity', y_lbl='Linearity', env=""):
     plot_cfg =  PlotConfig(
@@ -96,7 +128,7 @@ def generate_comparison_plot(df, bm_name, y='linearity', y_lbl='Linearity', env=
     plot_chart(plot=plot_cfg, df=df, out_fig_name=f"{output_dir_name}/{bm_name}-{env}-{y_lbl}")
 
 
-def add_to_linearity_summary(df, bm, env, tolerance=0.1) -> str:
+def add_to_linearity_summary(df, bm, env, idx, tolerance=0.1) -> str:
     """
     Summarize linearity of a benchmark across kernels.
 
@@ -109,29 +141,32 @@ def add_to_linearity_summary(df, bm, env, tolerance=0.1) -> str:
     Returns:
         A one-line summary string.
     """
-    summary_parts = []
+    summary = f"## {idx}. {bm} ({env})\n"
+    summary += f"|{COMPARISON_FIELD} | Linear | Drops at|\n"
+    summary += f"|--- |--- |---|\n"
 
     for kernel, g in df.groupby(COMPARISON_FIELD):
         g_sorted = g.sort_values(COUNT_FIELD)
         baseline = g_sorted[LINEARITY_FIELD].iloc[0]
         drops = g_sorted[g_sorted[LINEARITY_FIELD] < 1 - tolerance]
+        summary += f'|{kernel}|'
 
         if drops.empty:
-            summary_parts.append(f"{kernel}: linear")
+            summary += f'✔️|-|\n'
         else:
             first_drop_cnt = drops[COUNT_FIELD].iloc[0]
             first_drop_val = drops[LINEARITY_FIELD].iloc[0]
-            summary_parts.append(
-                f"{kernel}: drops at {COUNT_FIELD}={first_drop_cnt} (linearity={first_drop_val:.2f})"
-            )
+            summary += f'❌|{first_drop_cnt} (linearity={first_drop_val:.2f})|\n'
 
-    print(f"{bm} ({env}) -> " + "\n ".join(summary_parts))
+    return summary
 
 
 def compare(df) -> str:
     benchmarks = df[BENCHMARK_FIELD].unique()
     envs = df[EXEC_ENV_FIELD].unique()
     benchmarks.sort()
+    Linearity_md = "# Linearity Summary\n"
+    idx = 1
     # get all results mapped to a certain benchmark
     for bm in benchmarks:
         for env in envs:
@@ -145,7 +180,10 @@ def compare(df) -> str:
             generate_comparison_plot(bm_df, bm, y=MEASUREMENT_FIELD, y_lbl="Throughput Average", env=nice_env)
             generate_comparison_plot(bm_df, bm, y="success_avg", y_lbl="Success Average (%)", env=nice_env)
             generate_comparison_plot(bm_df, bm, env=nice_env)
-            add_to_linearity_summary(bm_df, bm, env=nice_env, tolerance=0.1)
+            Linearity_md+=add_to_linearity_summary(bm_df, bm, env=nice_env, idx=idx, tolerance=0.1)
+        idx+=1
+
+    write_to_file(Linearity_md, "linearity.md", output_dir_name)
 
 def get_files(folders):
     all_files = []
