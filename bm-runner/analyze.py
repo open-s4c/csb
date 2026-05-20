@@ -61,8 +61,7 @@ output_dir_name = "analysis-results"
 
 
 def to_pretty_name(ugly: str) -> str:
-    v = COMPARISON_FILED_PRETTY_NAME.get(ugly, ugly)
-    return v
+    return COMPARISON_FILED_PRETTY_NAME.get(ugly, ugly)
 
 
 def create_output_dir() -> str:
@@ -196,7 +195,7 @@ def add_to_linearity_summary(df, bm, env, idx, tolerance=0.1) -> str:
     return summary
 
 
-def compare(df):
+def generate_comparison_reports(df):
     benchmarks = df[BENCHMARK_FIELD].unique()
     envs = df[EXEC_ENV_FIELD].unique()
     benchmarks.sort()
@@ -206,11 +205,8 @@ def compare(df):
     # get all results mapped to a certain benchmark
     for bm in benchmarks:
         for env in envs:
-            bm_df = df[(df[BENCHMARK_FIELD] == bm) & (df["execution_type"] == env)]
-            if env == "ExecutionType.CONTAINER":
-                nice_env = "container"
-            else:
-                nice_env = "native"
+            bm_df = df[(df[BENCHMARK_FIELD] == bm) & (df[EXEC_ENV_FIELD] == env)]
+            nice_env = to_pretty_name(env)
             generate_patch_measurement(bm_df, bm, env=nice_env)
             generate_comparison_plot(
                 bm_df, bm, y=MEASUREMENT_FIELD, y_lbl="Throughput Average", env=nice_env
@@ -265,7 +261,7 @@ if __name__ == "__main__":
     final_df = pd.concat(all, ignore_index=True)
     md_table = final_df.to_markdown(index=False)
 
-    per_bm = compare(final_df)
+    per_bm = generate_comparison_reports(final_df)
     csv = final_df.to_csv(index=False)
 
     write_to_file(dir=output_dir_name, fname="results.md", content=md_table)
