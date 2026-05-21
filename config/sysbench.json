@@ -1,0 +1,60 @@
+{
+  "plots": [
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "sql_statistics.queries_performed.read",
+      "y_lbl": "Read Throughput",
+      "hue_lbl": "Executer",
+      "hue": "execution_type",
+      "shape": "lineplot",
+      "type": "mean",
+      "title": "Sysbench MySQL read vs. #container"
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "sql_statistics.queries_performed.write",
+      "y_lbl": "Write Throughput",
+      "hue_lbl": "Executer",
+      "hue": "execution_type",
+      "shape": "lineplot",
+      "type": "mean",
+      "title": "Sysbench MySQL write vs. #container"
+    },
+    {
+      "x": "container_cnt",
+      "x_lbl": "#Containers",
+      "y": "threads_fairness.events",
+      "y_lbl": "Events Throughput",
+      "hue_lbl": "Executer",
+      "hue": "execution_type",
+      "shape": "lineplot",
+      "type": "mean",
+      "title": "Sysbench MySQL events vs. #container"
+    }
+  ],
+  "benchmark_config": {
+    "duration": 3,
+    "threads": {
+      "values": [
+        [
+          1
+        ]
+      ]
+    }
+  },
+  "containers": {
+    "core_count": 1
+  },
+  "applications": [
+    {
+      "name": "sysbench",
+      "path": "bm-external/sysbench/bin",
+      "args": "--mysql-host={host_ip} --mysql-port=3306 --mysql-db=sbtest --mysql-user=sbtest --mysql-password='Password@123' --threads={threads} --tables=3 --table-size=10000 --time={duration} oltp_read_write run",
+      "adapter": {
+        "name": "sysbench-adapter.py"
+      }
+    }
+  ]
+}
